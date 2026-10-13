@@ -1,11 +1,6 @@
 name: C0 Cloudflare Workers AI A-B
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c0/START_CLOUDFLARE_ONCE.md
   workflow_dispatch:
 
 permissions:
