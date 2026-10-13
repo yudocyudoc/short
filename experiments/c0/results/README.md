@@ -1,11 +1,20 @@
-# Registro de resultados C0
+# C0 — Registro de resultados
 
-**Pruebas deterministas:** completadas y correctas en GitHub Actions, https://github.com/yudocyudoc/short/actions/runs/38477449642. Son controles de referencia, no resultados de una IA.
+## Primera inferencia A/B: 2026-10-13
 
-**Inferencias A/B:** bloqueadas por política de Copilot. Se intentó un primer llamado A, sin respuesta. Las otras cinco llamadas no se realizaron. Ver [registro del intento](attempt-2026-10-13.md) y https://github.com/yudocyudoc/short/actions/runs/38477259600.
+**Completada con éxito:** Cloudflare Workers AI, dos respuestas GLM-4.7-Flash, [workflow #38480082589](https://github.com/yudocyudoc/short/actions/runs/38480082589).
 
-No se calcularon puntuaciones C1–C8 ni hay comparación de desempeño entre A y B.
+- [Evaluación con rúbrica preregistrada](cf-2026-10-13-evaluation.md): A = **11/16**, B = **11/16**.
+- [Uso de tokens y estimación de precio](cf-2026-10-13-usage.json): 3,647 tokens y 78.3359 neuronas; US$0.0008609 estimados antes de franquicia.
+- [Respuesta original A](cf-2026-10-13-run-1-A.md).
+- [Artefacto ZIP original, incluidas ambas respuestas y datos del proveedor](https://github.com/yudocyudoc/short/actions/runs/38480082589/artifacts/11856993172).
 
-Cuando se disponga de proveedor autorizado, por corrida documentar: `run_id`, `arm`, `model`, `model_version`, `provider`, `temperature`, `max_tokens`, `date_utc`, `order`, `prompt_hashes`, `raw_output_path`, `scores_C1_C8`, `critical_errors`, `notes`.
+Ambos modelos aciertan el límite de 18 bebidas, pero ambos declaran sin evidencia que el inventario termina en 0 y que las solicitudes no entregadas siguen pendientes. **No se observó mejora por agregar la gramática en este único smoke test.**
 
-Guardar la salida sin ediciones, la puntuación por separado y cualquier desviación respecto del protocolo.
+## Incidencias anteriores
+
+- [Primer intento Cloudflare: token incorrecto](cloudflare-auth-2026-10-13.md).
+- [Intentos Copilot: bloqueos de política](copilot-retry-2026-10-13.md).
+- [Primera prueba fallida Copilot](attempt-2026-10-13.md).
+
+**Los siete controles deterministas pasaron**, pero no se confunden con desempeño de IA. No se han ejecutado las tres repeticiones por brazo previstas en el protocolo para después del smoke test.
