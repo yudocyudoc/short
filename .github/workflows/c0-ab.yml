@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           C0_MODEL: auto
           C0_RUN_ORDER: A,B
-          C0_MAX_AI_CREDITS: '1'
+          C0_MAX_AI_CREDITS: '30'
         run: python3 scripts/run_c0_ab.py
       - name: Preserve raw outputs and metadata
         if: always()
