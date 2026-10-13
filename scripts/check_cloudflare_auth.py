@@ -10,6 +10,11 @@ from urllib.error import HTTPError, URLError
 token=os.getenv("CLOUDFLARE_API_TOKEN","").strip()
 account=os.getenv("CLOUDFLARE_ACCOUNT_ID","").strip()
 print("has_token:",bool(token))
+print("token_has_whitespace:",any(c.isspace() for c in token))
+print("token_has_outer_quotes:", token[:1] in ("'", '"') or token[-1:] in ("'", '"'))
+print("token_has_bearer_prefix:",token.lower().startswith("bearer "))
+print("token_equals_account_id:",bool(token) and token == account)
+print("token_has_placeholder_brackets:","<" in token or ">" in token)
 print("has_account_id:",bool(account))
 print("account_id_format_valid:",bool(re.fullmatch(r"[0-9a-fA-F]{32}",account)))
 if not token:
@@ -23,7 +28,13 @@ def status(url):
             return {"http":response.status,"active":body.get("result",{}).get("status")=="active",
                     "success":body.get("success",False)}
     except HTTPError as e:
-        return {"http":e.code,"active":False,"success":False}
+        try:
+            data=json.loads(e.read().decode("utf-8","replace"))
+            errors=data.get("errors",[])
+            sanitized=[{"code":i.get("code"),"message":str(i.get("message","")).replace(token,"***").replace(account,"***")[:160]} for i in errors[:3]]
+        except Exception:
+            sanitized=[]
+        return {"http":e.code,"active":False,"success":False,"errors":sanitized}
     except (URLError, ValueError, TimeoutError) as e:
         return {"network_error":e.__class__.__name__,"active":False,"success":False}
 
