@@ -7,9 +7,9 @@ Repositorio de pruebas breves y verificables para estudiar si una IA puede const
 **[C0 — Cafetería mínima](experiments/c0/README.md)** compara dos brazos (sin/con gramática sistémica) sobre un mismo escenario.
 
 **Estado al 2026-10-13:**
-- ✅ Pruebas deterministas de la referencia C0 ejecutadas en GitHub Actions: https://github.com/yudocyudoc/short/actions/runs/38477449642
-- ⛔ Comparativa A/B no ejecutada: el proveedor rechazó la primera inferencia Copilot CLI (`Access denied by policy settings`): https://github.com/yudocyudoc/short/actions/runs/38477259600
-- El ejecutor instalado usa Copilot CLI como aproximación experimental; **no es el motor previo SD-AI**.
-- Véase [registro de intento](experiments/c0/results/attempt-2026-10-13.md).
+- ✅ Los siete controles de balance y el chequeo sintáctico de ambos runners pasaron en [GitHub Actions](https://github.com/yudocyudoc/short/actions/runs/38478172497).
+- ⛔ Las solicitudes Copilot CLI fueron rechazadas por política de acceso, incluso después de activar Copilot Free y cambiar a selección automática. Ver [diagnóstico](experiments/c0/results/copilot-retry-2026-10-13.md).
+- 🔧 **[Cloudflare Workers AI listo para configurar](experiments/c0/CLOUDFLARE_SETUP.md)**: dos llamadas máximas (A/B), modelo GLM-4.7-Flash, control por tokens, registro de respuestas y estimación de costos. Falta configurar secretos y ejecutar.
+- Ninguna inferencia de modelo se ha completado; **todavía no existen puntuaciones A/B**.
 
-> La capacidad de identificar restricciones aritméticas no demuestra que la IA pueda descubrir mecanismos causales reales. Primero evaluamos coherencia estructural y después, si procede, dinámicas y decisiones.
+> Identificar restricciones aritméticas no demuestra que la IA pueda descubrir mecanismos causales reales. Primero evaluamos coherencia estructural y sólo después dinámica y decisiones.
