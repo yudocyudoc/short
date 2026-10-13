@@ -1,7 +1,9 @@
 # Short — CEI / SD-AI
 
-Repositorio experimental para evaluar si una IA puede construir **modelos de dinámica de sistemas mínimos y coherentes** a partir de descripciones de negocios y restricciones fundamentales.
+Repositorio de pruebas breves y verificables para estudiar si una IA puede construir modelos estructurales de **dinámica de sistemas (SD)**, distinguiendo balances y restricciones de mecanismos hipotéticos.
 
-**Estado:** repositorio inicializado. El primer experimento, **C0 — Cafetería mínima**, se prepara en una rama de revisión. No se presupone que el agente pueda inferir mecanismos reales sin evidencia.
+## Experimento inicial
 
-Principio: primero estructura, balances, límites y supuestos; después, cuando hagan falta, hipótesis, parámetros y simulación.
+**[C0 — Cafetería mínima](experiments/c0/README.md)**: dos brazos (sin/con gramática sistémica), un mismo escenario, referencia de evaluación independiente y criterios predefinidos. **Especificación escrita; ejecuciones todavía pendientes.**
+
+> La capacidad de identificar restricciones aritméticas no demuestra que la IA pueda descubrir mecanismos causales reales. Primero evaluamos coherencia estructural y sólo después intentaremos dinámica y decisiones.
