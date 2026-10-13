@@ -1,6 +1,11 @@
 name: C0 SD-AI A-B smoke and runs
 
 on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - '.github/workflows/c0-ab.yml'
   workflow_dispatch:
 
 permissions:
@@ -21,7 +26,9 @@ jobs:
       - name: Run isolated A/B inference
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          C0_MODEL: gpt-4.1
+          C0_MODEL: auto
+          C0_RUN_ORDER: A,B
+          C0_MAX_AI_CREDITS: '1'
         run: python3 scripts/run_c0_ab.py
       - name: Preserve raw outputs and metadata
         if: always()
