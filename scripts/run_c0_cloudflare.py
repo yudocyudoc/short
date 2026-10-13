@@ -74,7 +74,7 @@ for i, arm in enumerate(ORDER, 1):
     )
     request = Request(
         url,
-        data=json.dumps({"prompt": prompt, "max_completion_tokens": MAX_TOKENS, "temperature": 0.1}).encode("utf-8"),
+        data=json.dumps({"messages": [{"role": "user", "content": prompt}], "max_completion_tokens": MAX_TOKENS, "temperature": 0.1, "chat_template_kwargs": {"enable_thinking": False}}).encode("utf-8"),
         headers={"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"},
         method="POST",
     )
