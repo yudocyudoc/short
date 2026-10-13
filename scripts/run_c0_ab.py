@@ -17,13 +17,16 @@ ROOT=Path(__file__).resolve().parents[1]
 C0=ROOT/"experiments"/"c0"
 OUT=ROOT/"c0-run-output"
 OUT.mkdir(exist_ok=True)
-MODEL=os.getenv("C0_MODEL","gpt-4.1")
-ORDER=["A","B","B","A","A","B"]
+MODEL=os.getenv("C0_MODEL","auto")
+CREDIT_LIMIT=os.getenv("C0_MAX_AI_CREDITS","1")
+ORDER=[x.strip().upper() for x in os.getenv("C0_RUN_ORDER","A,B").split(",") if x.strip()]
+if not ORDER or any(x not in {"A","B"} for x in ORDER):
+    raise ValueError("Invalid C0_RUN_ORDER")
 scenario=(C0/"scenario.md").read_text()
 common=(C0/"prompts"/"common.md").read_text()
 arms={a:(C0/"prompts"/("arm-"+a.lower()+".md")).read_text() for a in ("A","B")}
 
-metadata={"date_utc":datetime.now(timezone.utc).isoformat(),"model_requested":MODEL,
+metadata={"date_utc":datetime.now(timezone.utc).isoformat(),"model_requested":MODEL,"max_ai_credits_per_response":CREDIT_LIMIT,
           "runner":"GitHub Copilot CLI (NOT original SD-AI motor)","order":ORDER,
           "context":"fresh CLI per call; no tools; only three source docs",
           "temperature":"Copilot CLI default, not explicitly controlled",
@@ -38,7 +41,7 @@ for i,arm in enumerate(ORDER,1):
         env=os.environ.copy()
         # Copilot cannot use repository tools: CLI -p noninteractive without allow-tool.
         try:
-            result=subprocess.run(["copilot","-p",prompt,"-s","--no-ask-user","--model",MODEL],
+            result=subprocess.run(["copilot","-p",prompt,"-s","--no-ask-user","--model",MODEL,f"--max-ai-credits={CREDIT_LIMIT}"],
                 cwd=directory,env=env,text=True,capture_output=True,timeout=180)
         except Exception as ex:
             result=None
