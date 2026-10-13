@@ -15,7 +15,8 @@ Modelo: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/
 2. En `https://github.com/yudocyudoc/short/settings/secrets/actions`, crear **dos Repository secrets**:
    - `CLOUDFLARE_ACCOUNT_ID` = identificador de cuenta.
    - `CLOUDFLARE_API_TOKEN` = token de Workers AI.
-3. Abrir `https://github.com/yudocyudoc/short/actions/workflows/c0-cloudflare.yml` → **Run workflow**, seleccionando `experiment/c0-cafeteria`.
+3. Revisar el [PR #1](https://github.com/yudocyudoc/short/pull/1) y **fusionarlo a `main`** cuando se apruebe; GitHub sólo habilita `workflow_dispatch` si el archivo del workflow ya existe en la rama predeterminada.
+4. Abrir `https://github.com/yudocyudoc/short/actions/workflows/c0-cloudflare.yml` → **Run workflow**, seleccionando `main`.
 
 **Límites programados:** dos inferencias como máximo (A y B), `@cf/zai-org/glm-4.7-flash` fijado, máximo 2400 tokens de terminación por inferencia, ejecución manual, ninguna llamada extra por reintento automático.
 
