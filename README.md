@@ -1,15 +1,15 @@
 # Short — CEI / SD-AI
 
-Repositorio de pruebas breves y verificables para estudiar si una IA puede construir modelos estructurales de **dinámica de sistemas**, distinguiendo balances y restricciones de mecanismos hipotéticos.
+Repositorio de pruebas pequeñas para investigar si una IA puede construir modelos estructurales de dinámica de sistemas distinguiendo balances, restricciones, stocks y flujos de causalidad hipotética.
 
-## Experimento C0
+## C0 — Cafetería mínima
 
-**[C0 — Cafetería mínima](experiments/c0/README.md)** compara dos brazos (sin/con gramática sistémica) sobre un mismo escenario.
+[Descripción y protocolo](experiments/c0/README.md). Primera ejecución A/B con **Cloudflare Workers AI GLM-4.7-Flash**, 2026-10-13.
 
-**Estado al 2026-10-13:**
-- ✅ Los siete controles de balance y el chequeo sintáctico de ambos runners pasaron en [GitHub Actions](https://github.com/yudocyudoc/short/actions/runs/38478172497).
-- ⛔ Las solicitudes Copilot CLI fueron rechazadas por política de acceso, incluso después de activar Copilot Free y cambiar a selección automática. Ver [diagnóstico](experiments/c0/results/copilot-retry-2026-10-13.md).
-- 🔧 **[Cloudflare Workers AI listo para configurar](experiments/c0/CLOUDFLARE_SETUP.md)**: dos llamadas máximas (A/B), modelo GLM-4.7-Flash, control por tokens, registro de respuestas y estimación de costos. Falta configurar secretos y ejecutar.
-- Ninguna inferencia de modelo se ha completado; **todavía no existen puntuaciones A/B**.
+- **2/2 inferencias correctas técnicamente**, [GitHub Actions #38480082589](https://github.com/yudocyudoc/short/actions/runs/38480082589).
+- **Evaluación estructural:** A = **11/16**, B = **11/16**, según [rúbrica original](experiments/c0/results/cf-2026-10-13-evaluation.md).
+- **Hallazgo:** las dos respuestas reconocieron el máximo de 18 bebidas, pero confundieron esa cota con producción efectiva y asumieron resultados no observados: inventario agotado y solicitudes necesariamente pendientes.
+- **Costo estimado:** US$0.0008609 antes de franquicia, 78.3359 neuronas y 3,647 tokens combinados.
+- [Resultados, respuesta y artefacto completo](experiments/c0/results/README.md).
 
-> Identificar restricciones aritméticas no demuestra que la IA pueda descubrir mecanismos causales reales. Primero evaluamos coherencia estructural y sólo después dinámica y decisiones.
+**Límite:** una ejecución por brazo no demuestra mejora ni fracaso general de la gramática; este ejecutor Cloudflare no es el motor previo SD-AI.
