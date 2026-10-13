@@ -1,11 +1,6 @@
 name: C0 SD-AI A-B smoke and runs
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - '.github/workflows/c0-ab.yml'
   workflow_dispatch:
 
 permissions:
