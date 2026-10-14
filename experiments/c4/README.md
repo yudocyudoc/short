@@ -1,6 +1,6 @@
 # C4 — Constructor SD con verificación y una revisión acotada
 
-**Diseño registrado antes de inferencia:** 2026-10-13. **Estado inicial:** pendiente de prueba.
+**Diseño registrado antes de inferencia:** 2026-10-13. **Estado:** ejecutado. [Informe de resultados](results/c4-2026-10-13-report.md): primera 6/10, revisión 6/10, REJECT.
 
 ## Hipótesis acotada
 
