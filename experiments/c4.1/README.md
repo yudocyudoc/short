@@ -1,6 +1,6 @@
 # C4.1 — DeepSeek R1 Distill Qwen 32B: generación de JSON
 
-**Diseño previo:** 2026-10-13. **Estado inicial:** pendiente de ejecución.
+**Diseño previo:** 2026-10-13. **Estado:** ejecutado y evaluado. [Informe C4.1](results/c41-2026-10-13-report.md).
 
 ## Objetivo
 Comprobar si `@cf/deepseek-ai/deepseek-r1-distill-qwen-32b` genera un objeto JSON directamente utilizable en el mismo problema C4. Distinguir **sintaxis JSON**, **esquema tipado** y **fidelidad de modelo SD**.
