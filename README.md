@@ -30,3 +30,11 @@ La IA podría proponer diagramas, pero la **contabilidad de estados y transicion
 ## C3 — Grafo tipado y verificador independiente
 
 [Experimento](experiments/c3/README.md) · [Informe completo](experiments/c3/results/c3-2026-10-13-report.md). **15 pruebas del validador OK**. Dos respuestas de GLM: **REJECT 0/10** en la regla original de JSON puro; análisis exploratorio que quita sólo el cerco Markdown: **A 4/10, B 5/10**, ambos rechazados por stocks/transiciones inconsistentes. C3 costó US$0.0006235 estimados antes de la cuota diaria. No se alteraron datos ni se otorgó crédito a las IA por correcciones de código.
+
+## C4 — Construir, verificar y revisar una vez
+
+[Protocolo](experiments/c4/README.md) · [Informe de resultados](experiments/c4/results/c4-2026-10-13-report.md) · [GitHub Actions](https://github.com/yudocyudoc/short/actions/runs/38499957498).
+
+Validador estructural con **20 pruebas positivas/negativas aprobadas**. Misma GLM-4.7-Flash: **6/10 primera propuesta → 6/10 tras una revisión**. **REJECT_AFTER_ONE_REPAIR**. La revisión agravó el anclaje al mundo observado: corrigió un saldo de inventario que era verdadero para que concordara con un consumo equivocado. Sin automatización adicional de inferencias.
+
+C4 consumió 4,042 tokens y 55.7884 neuronas; costo estimado US$0.00061324 antes de franquicia. Nada de esto demuestra modelación SD autónoma validada en datos reales.
