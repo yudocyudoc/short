@@ -46,3 +46,11 @@ C4 consumió 4,042 tokens y 55.7884 neuronas; costo estimado US$0.00061324 antes
 Se probó `@cf/deepseek-ai/deepseek-r1-distill-qwen-32b` con prompting normal y JSON Mode nativo. En ambas respuestas, `response` incluyó razonamiento `<think>...</think>` y un bloque JSON Markdown: **0/10 en contrato estricto de salida completa**. El diagnóstico posterior aisló JSON final válido: **6/10 en estructura SD** en ambos modos, porque faltó el flujo material `inventory → consumed`. Esta inspección no reemplaza el resultado original.
 
 Costos C4.1: **4,601 tokens**, **1,060.4033 neuronas**, ~**US$0.01166407** estimados antes de franquicia gratuita.
+
+## C4.2 — Separación estricta de razonamiento y cobertura de stocks
+
+[Protocolo](experiments/c4.2/README.md) · [Informe de adjudicación](experiments/c4.2/results/c42-2026-10-13-report.md) · [GitHub Actions](https://github.com/yudocyudoc/short/actions/runs/38511091953).
+
+Mismo DeepSeek R1 Distill Qwen 32B y mismo escenario C4.1. A = contrato anterior, **9/10, REJECT** (stock pendiente 5 vs flujos que implican 8). B = mismo contrato más reglas de cobertura por stock, **10/10 + P11 PASS, ACCEPT**. Separación de `<think>…</think>` y JSON verificada; originales conservados sin reparación. **40 pruebas del verificador PASSED.**
+
+Consumo C4.2: **5,113 tokens, 1,124.9833 neuronas, US$0.01237448 estimados** antes de franquicia. **N=1 por brazo**, señal adaptativa prometedora, no capacidad causal/generalizable demostrada.
