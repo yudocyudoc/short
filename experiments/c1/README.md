@@ -1,6 +1,6 @@
 # C1 — Cotas, estados observados y destinos de solicitudes
 
-**Diseño:** 2026-10-13 · **Estado:** congelado antes de la ejecución. C1 es una continuación acotada de C0: usa el mismo proveedor y modelo y los mismos principios de comparación A/B.
+**Diseño:** 2026-10-13 · **Estado:** ejecutado y evaluado tras preregistro. C1 es una continuación acotada de C0: usa el mismo proveedor y modelo y los mismos principios de comparación A/B. [Resultados](results/README.md).
 
 ## Pregunta
 
