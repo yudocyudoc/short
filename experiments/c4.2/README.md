@@ -1,6 +1,6 @@
 # C4.2 — DeepSeek: transporte de razonamiento + cobertura exhaustiva de stocks
 
-**Estado:** preregistro ANTES de cualquier inferencia de C4.2. **Fecha:** 2026-10-13 (México).
+**Estado:** ejecutado y evaluado; diseño preregistrado antes de inferencia. **Fecha:** 2026-10-13 (México). [Ver resultados](results/c42-2026-10-13-report.md).
 
 ## Pregunta
 ¿Exigir explícitamente, dentro del prompt, que **cada variación de stock se justifique con flujos tipados** permite que DeepSeek-R1-Distill-Qwen-32B produzca un grafo completo sin convertir la coherencia interna en sustituto de evidencia observada?
