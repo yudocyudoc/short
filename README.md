@@ -26,3 +26,7 @@ La IA podría proponer diagramas, pero la **contabilidad de estados y transicion
 ## C2 — Reglas formales de SD
 
 [Experimento](experiments/c2/README.md) · [Evaluación](experiments/c2/results/c2-2026-10-13-evaluation.md): **A 4/16**, **B 6/16**, ninguna variante aceptable. Las reglas formales mejoraron un saldo de inventario, pero B todavía ubicó mal rechazos y calculó mal pendientes. **No hay prueba robusta de modelado SD autónomo.**
+
+## C3 — Grafo tipado y verificador independiente
+
+[Experimento](experiments/c3/README.md) · [Informe completo](experiments/c3/results/c3-2026-10-13-report.md). **15 pruebas del validador OK**. Dos respuestas de GLM: **REJECT 0/10** en la regla original de JSON puro; análisis exploratorio que quita sólo el cerco Markdown: **A 4/10, B 5/10**, ambos rechazados por stocks/transiciones inconsistentes. C3 costó US$0.0006235 estimados antes de la cuota diaria. No se alteraron datos ni se otorgó crédito a las IA por correcciones de código.
