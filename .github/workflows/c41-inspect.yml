@@ -1,11 +1,6 @@
 name: C4.1 inspect DeepSeek outputs (no inference)
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c4.1/INSPECT_RUN.md
   workflow_dispatch:
 
 permissions:
