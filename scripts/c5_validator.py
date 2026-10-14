@@ -113,7 +113,7 @@ def validate(obj,facts):
     total=sum(stockmap[s]["final"] for s in physical if s in stockmap)
     check("T8_TOTAL_CONSERVATION",len(stockmap)==len(wanted)
           and total==facts["physical_initial"]+facts["physical_inflow"]-facts["physical_outflow"]
-          and total==67,
+          and len([s for s in physical if s in stockmap])==len(physical),
           "Total physical copies must conserve external acquisitions and retirements")
     s=facts["served_reservations"];loan=facts["loan_count"]
     loan_key=("available_copies","loaned_copies","copy","copy")
