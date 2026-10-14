@@ -1,6 +1,6 @@
 # C2 — Reglas formales de SD frente a gramática descriptiva
 
-**Fecha de diseño:** 2026-10-13. **Estado:** diseño registrado antes de generar las dos respuestas.
+**Fecha de diseño:** 2026-10-13. **Estado:** experimento ejecutado; diseño y referencia registrados antes de generar respuestas. [Resultados](results/README.md).
 
 ## Pregunta
 
