@@ -1,11 +1,6 @@
 name: C3 posthoc formatting diagnostic (no inference)
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c3/TRIGGER_POSTHOC.md
   workflow_dispatch:
 
 permissions:
