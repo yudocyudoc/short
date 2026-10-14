@@ -108,8 +108,9 @@ def validate(payload, facts):
     check("G5_REQUEST_TOTALS",
           received == facts["requests_total"] and rejected == facts["rejected_before_acceptance"]
           and accepted == expected_accepted and canceled == facts["canceled_after_acceptance"]
-          and fulfilled == facts["prepared_delivered"] and
-          received == accepted + rejected,
+          and fulfilled == facts["prepared_delivered"]
+          and all(v is not None for v in (received, accepted, rejected))
+          and received == accepted + rejected,
           "Request period totals or submitted partition conflict with observations")
     pending_expected = facts["initial_pending"] + expected_accepted - facts["canceled_after_acceptance"] - facts["prepared_delivered"]
     check("G6_PENDING_BALANCE",
