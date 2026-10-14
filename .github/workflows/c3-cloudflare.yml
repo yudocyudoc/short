@@ -1,11 +1,6 @@
 name: C3 typed SD graph A-B
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c3/FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
