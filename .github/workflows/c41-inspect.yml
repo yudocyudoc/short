@@ -48,7 +48,7 @@ jobs:
                   "tail_status":tail_result.get("status") if tail_result else None,
                   "raw_prefix":original[:130],"raw_suffix":original[-130:]
               }
-              summary[mode]=detail
+              if tail_result:\n                  detail["failed_gates"]=[g["id"] for g in tail_result["gates"] if not g["pass"]]\n                  detail["failed_explanations"]={g["id"]:g["reason"] for g in tail_result["gates"] if not g["pass"]}\n                  import json as _json\n                  import re as _re\n                  match=_re.fullmatch(r"\\s*\\x60\\x60\\x60(?:json)?\\s*\\n(.*?)\\n\\x60\\x60\\x60\\s*",tail,_re.S|_re.I)\n                  if match:\n                      try:\n                          obj=_json.loads(match.group(1))\n                          detail["stock_summary"]=obj.get("stocks")\n                          detail["flow_summary"]=[(x.get("from"),x.get("to"),x.get("total"),x.get("unit")) for x in obj.get("flows",[])]\n                      except ValueError: pass\n              summary[mode]=detail
               print(mode,json.dumps(detail,ensure_ascii=False))
           Path("c41-inspection.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2))
           PY
