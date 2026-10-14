@@ -1,4 +1,4 @@
-name: C4.1 inspect DeepSeek raw outputs (no inference)
+name: C4.1 inspect DeepSeek outputs (no inference)
 
 on:
   push:
@@ -20,39 +20,36 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch original C4.1 inference artifacts
+      - name: Retrieve saved outputs from prior run
         run: gh run download 38510170508 --repo yudocyudoc/short --name c41-deepseek-json-test --dir original
-      - name: Inspect reasoning boundaries and possible final JSON only
+      - name: Inspect JSON payload after reasoning (diagnostic only)
         run: |
           python3 - <<'PY'
-          import json,re
+          import json,sys
           from pathlib import Path
-          import sys
           sys.path.insert(0,"scripts")
-          from c4_validator import validate_raw
+          from c4_validator import validate_raw,load_transport
           facts=json.loads(Path("experiments/c4/evaluation/facts.json").read_text())
           summary={}
           for mode in ("prompt_only","json_mode"):
-              original=Path(f"original/{mode}-raw.txt").read_text(encoding="utf-8")
-              think_open=original.count("<think>")
-              think_close=original.count("</think>")
-              tail=original.split("</think>",1)[-1] if think_close else ""
-              tail_result=validate_raw(tail,facts) if think_close else None
-              detail={
-                  "chars":len(original), "think_open":think_open,"think_close":think_close,
-                  "has_final_after_think":bool(tail.strip()),
-                  "tail_first_chars":tail.strip()[:280] if think_close else "",
-                  "tail_last_chars":tail.strip()[-280:] if think_close else "",
-                  "tail_transport":tail_result.get("transport",{}).get("format") if tail_result else None,
-                  "tail_score":tail_result.get("score") if tail_result else None,
-                  "tail_status":tail_result.get("status") if tail_result else None,
-                  "raw_prefix":original[:130],"raw_suffix":original[-130:]
-              }
-              if tail_result:\n                  detail["failed_gates"]=[g["id"] for g in tail_result["gates"] if not g["pass"]]\n                  detail["failed_explanations"]={g["id"]:g["reason"] for g in tail_result["gates"] if not g["pass"]}\n                  import json as _json\n                  import re as _re\n                  match=_re.fullmatch(r"\\s*\\x60\\x60\\x60(?:json)?\\s*\\n(.*?)\\n\\x60\\x60\\x60\\s*",tail,_re.S|_re.I)\n                  if match:\n                      try:\n                          obj=_json.loads(match.group(1))\n                          detail["stock_summary"]=obj.get("stocks")\n                          detail["flow_summary"]=[(x.get("from"),x.get("to"),x.get("total"),x.get("unit")) for x in obj.get("flows",[])]\n                      except ValueError: pass\n              summary[mode]=detail
-              print(mode,json.dumps(detail,ensure_ascii=False))
+              raw=Path("original/"+mode+"-raw.txt").read_text(encoding="utf-8")
+              sections=raw.split("</think>",1)
+              tail=sections[-1] if len(sections)==2 else ""
+              details={"open_think":raw.count("<think>"),"close_think":raw.count("</think>"),"has_tail":bool(tail.strip())}
+              if tail.strip():
+                  outcome=validate_raw(tail,facts)
+                  obj,transport=load_transport(tail)
+                  details["tail_format"]=transport["format"]
+                  details["tail_score"]=outcome["score"]
+                  details["failed"]=[{"id":g["id"],"reason":g["reason"]} for g in outcome["gates"] if not g["pass"]]
+                  if isinstance(obj,dict):
+                      details["stocks"]=obj.get("stocks")
+                      details["flows"]=[{"from":t.get("from"),"to":t.get("to"),"total":t.get("total"),"unit":t.get("unit")} for t in obj.get("flows",[]) if isinstance(t,dict)]
+              summary[mode]=details
+              print(mode,json.dumps(details,ensure_ascii=False))
           Path("c41-inspection.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: c41-posthoc-inspection
+          name: c41-deepseek-posthoc
           path: c41-inspection.json
