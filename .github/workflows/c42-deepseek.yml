@@ -1,11 +1,6 @@
 name: C4.2 DeepSeek stock-flow coverage A-B
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c4.2/FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
