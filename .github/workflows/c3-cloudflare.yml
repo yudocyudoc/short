@@ -20,7 +20,7 @@ jobs:
       - name: Verify validator and inference syntax
         run: python3 -m py_compile scripts/c3_validator.py scripts/run_c3_cloudflare.py
       - name: Verify validator against gold and negative controls
-        run: python3 -m unittest tests/test_c3_validator.py -v
+        run: python3 -m unittest discover -s tests -p test_c3_validator.py -v
       - name: Run one A-B pair, validate separately, preserve failures
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
