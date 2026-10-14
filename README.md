@@ -38,3 +38,11 @@ La IA podría proponer diagramas, pero la **contabilidad de estados y transicion
 Validador estructural con **20 pruebas positivas/negativas aprobadas**. Misma GLM-4.7-Flash: **6/10 primera propuesta → 6/10 tras una revisión**. **REJECT_AFTER_ONE_REPAIR**. La revisión agravó el anclaje al mundo observado: corrigió un saldo de inventario que era verdadero para que concordara con un consumo equivocado. Sin automatización adicional de inferencias.
 
 C4 consumió 4,042 tokens y 55.7884 neuronas; costo estimado US$0.00061324 antes de franquicia. Nada de esto demuestra modelación SD autónoma validada en datos reales.
+
+## C4.1 — DeepSeek-R1-32B y JSON Mode
+
+[Protocolo](experiments/c4.1/README.md) · [Informe](experiments/c4.1/results/c41-2026-10-13-report.md) · [Run original](https://github.com/yudocyudoc/short/actions/runs/38510170508).
+
+Se probó `@cf/deepseek-ai/deepseek-r1-distill-qwen-32b` con prompting normal y JSON Mode nativo. En ambas respuestas, `response` incluyó razonamiento `<think>...</think>` y un bloque JSON Markdown: **0/10 en contrato estricto de salida completa**. El diagnóstico posterior aisló JSON final válido: **6/10 en estructura SD** en ambos modos, porque faltó el flujo material `inventory → consumed`. Esta inspección no reemplaza el resultado original.
+
+Costos C4.1: **4,601 tokens**, **1,060.4033 neuronas**, ~**US$0.01166407** estimados antes de franquicia gratuita.
