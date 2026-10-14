@@ -1,0 +1,58 @@
+name: C4.1 inspect DeepSeek raw outputs (no inference)
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - experiments/c4.1/INSPECT_RUN.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch original C4.1 inference artifacts
+        run: gh run download 38510170508 --repo yudocyudoc/short --name c41-deepseek-json-test --dir original
+      - name: Inspect reasoning boundaries and possible final JSON only
+        run: |
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          import sys
+          sys.path.insert(0,"scripts")
+          from c4_validator import validate_raw
+          facts=json.loads(Path("experiments/c4/evaluation/facts.json").read_text())
+          summary={}
+          for mode in ("prompt_only","json_mode"):
+              original=Path(f"original/{mode}-raw.txt").read_text(encoding="utf-8")
+              think_open=original.count("<think>")
+              think_close=original.count("</think>")
+              tail=original.split("</think>",1)[-1] if think_close else ""
+              tail_result=validate_raw(tail,facts) if think_close else None
+              detail={
+                  "chars":len(original), "think_open":think_open,"think_close":think_close,
+                  "has_final_after_think":bool(tail.strip()),
+                  "tail_first_chars":tail.strip()[:280] if think_close else "",
+                  "tail_last_chars":tail.strip()[-280:] if think_close else "",
+                  "tail_transport":tail_result.get("transport",{}).get("format") if tail_result else None,
+                  "tail_score":tail_result.get("score") if tail_result else None,
+                  "tail_status":tail_result.get("status") if tail_result else None,
+                  "raw_prefix":original[:130],"raw_suffix":original[-130:]
+              }
+              summary[mode]=detail
+              print(mode,json.dumps(detail,ensure_ascii=False))
+          Path("c41-inspection.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c41-posthoc-inspection
+          path: c41-inspection.json
