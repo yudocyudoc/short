@@ -11,11 +11,9 @@ from urllib.error import HTTPError,URLError
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
-from c42_transport import separate
-from c42_validator import evaluate
+from c5_validator import validate_provider
 
-C4=ROOT/"experiments"/"c4"
-C42=ROOT/"experiments"/"c4.2"
+C5=ROOT/"experiments"/"c5"
 OUT=ROOT/"c5-cloudflare-results"
 OUT.mkdir(exist_ok=True)
 ACCOUNT=os.getenv("CLOUDFLARE_ACCOUNT_ID","").strip()
@@ -86,7 +84,7 @@ def call(arm,prompt):
         (OUT/f"{arm}-reasoning.txt").write_text(reasoning,encoding="utf-8")
     if obj is not None:
         (OUT/f"{arm}-parsed-final.json").write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
-    evaluated=evaluate(obj,facts)
+
     if not transport["ok"]:
         evaluated["status"]="FORMAT_REJECT"
     (OUT/f"{arm}-certificate.json").write_text(json.dumps({
