@@ -1,11 +1,6 @@
 name: C2 Cloudflare Workers AI SD rules
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c2/FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
