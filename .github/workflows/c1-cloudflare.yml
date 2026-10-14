@@ -1,11 +1,6 @@
 name: C1 Cloudflare Workers AI A-B
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c1/TRIGGER_FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
