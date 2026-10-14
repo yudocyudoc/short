@@ -54,3 +54,11 @@ Costos C4.1: **4,601 tokens**, **1,060.4033 neuronas**, ~**US$0.01166407** estim
 Mismo DeepSeek R1 Distill Qwen 32B y mismo escenario C4.1. A = contrato anterior, **9/10, REJECT** (stock pendiente 5 vs flujos que implican 8). B = mismo contrato más reglas de cobertura por stock, **10/10 + P11 PASS, ACCEPT**. Separación de `<think>…</think>` y JSON verificada; originales conservados sin reparación. **40 pruebas del verificador PASSED.**
 
 Consumo C4.2: **5,113 tokens, 1,124.9833 neuronas, US$0.01237448 estimados** antes de franquicia. **N=1 por brazo**, señal adaptativa prometedora, no capacidad causal/generalizable demostrada.
+
+## C5 — Biblioteca de préstamos: prueba de transferencia
+
+[Diseño](experiments/c5/README.md) · [Evaluación](experiments/c5/results/c5-2026-10-13-report.md) · [Run](https://github.com/yudocyudoc/short/actions/runs/38513883900).
+
+**Resultado:** A **11/11 ACCEPT**, B **11/11 ACCEPT**, más certificados de conservación para cuatro stocks y nueve aristas. Se mantuvo **literalmente** la regla adicional de C4.2 y se cambió de cafetería a biblioteca con circulación de ejemplares, reparaciones y reservas. 37 tests del verificador pasaron antes de inferir. C5 costó US$0.01896963 estimados antes de franquicia, 6,360 tokens.
+
+Es una señal de transferencia dentro de un vocabulario controlado, no prueba de mayor precisión de B que A, predicción o causalidad real.
