@@ -1,11 +1,6 @@
 name: C5 library transfer with unchanged SD grammar
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/c5/FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
