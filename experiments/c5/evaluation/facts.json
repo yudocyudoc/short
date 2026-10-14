@@ -1,0 +1,85 @@
+{
+  "system": "library_week",
+  "stock_initial": {
+    "available_copies": 40,
+    "loaned_copies": 18,
+    "repair_copies": 4,
+    "pending_reservations": 5
+  },
+  "stock_unit": {
+    "available_copies": "copy",
+    "loaned_copies": "copy",
+    "repair_copies": "copy",
+    "pending_reservations": "reservation"
+  },
+  "observed_flows": [
+    {
+      "from": "external",
+      "to": "available_copies",
+      "entity": "copy",
+      "unit": "copy",
+      "total": 6
+    },
+    {
+      "from": "available_copies",
+      "to": "loaned_copies",
+      "entity": "copy",
+      "unit": "copy",
+      "total": 21
+    },
+    {
+      "from": "loaned_copies",
+      "to": "available_copies",
+      "entity": "copy",
+      "unit": "copy",
+      "total": 14
+    },
+    {
+      "from": "available_copies",
+      "to": "repair_copies",
+      "entity": "copy",
+      "unit": "copy",
+      "total": 3
+    },
+    {
+      "from": "repair_copies",
+      "to": "available_copies",
+      "entity": "copy",
+      "unit": "copy",
+      "total": 2
+    },
+    {
+      "from": "repair_copies",
+      "to": "retired",
+      "entity": "copy",
+      "unit": "copy",
+      "total": 1
+    },
+    {
+      "from": "external",
+      "to": "pending_reservations",
+      "entity": "reservation",
+      "unit": "reservation",
+      "total": 17
+    },
+    {
+      "from": "pending_reservations",
+      "to": "served",
+      "entity": "reservation",
+      "unit": "reservation",
+      "total": 12
+    },
+    {
+      "from": "pending_reservations",
+      "to": "canceled",
+      "entity": "reservation",
+      "unit": "reservation",
+      "total": 3
+    }
+  ],
+  "physical_initial": 62,
+  "physical_inflow": 6,
+  "physical_outflow": 1,
+  "loan_count": 21,
+  "served_reservations": 12
+}
