@@ -1,0 +1,50 @@
+name: C4.2 inspect preserved JSON and certificates (no AI)
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - experiments/c4.2/INSPECT_RUN.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read exact original C4.2 artifacts
+        run: gh run download 38511091953 --repo yudocyudoc/short --name c42-deepseek-stock-flow --dir original
+      - name: Summarize stocks, edges, and per-stock certificate
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          out={}
+          for arm in ("A","B"):
+              data=json.loads(Path(f"original/{arm}-parsed-final.json").read_text())
+              certificate=json.loads(Path(f"original/{arm}-certificate.json").read_text())
+              p11=certificate["verification"]["p11"]
+              out[arm]={
+                "stocks":data["stocks"],"flows":[
+                    {"from":t["from"],"to":t["to"],"entity":t["entity"],"total":t["total"],"unit":t["unit"]}
+                    for t in data["flows"]],
+                "capacity":data["capacity"],
+                "failing_gates":[{"id":t["id"],"reason":t["reason"]}
+                                 for t in certificate["verification"]["c4_gates"] if not t["pass"]],
+                "p11_pass":p11["pass"],"p11_certificates":p11["certificates"],
+              }
+              print("ARM",arm,json.dumps(out[arm],ensure_ascii=False))
+          Path("c42-inspection.json").write_text(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c42-inspection-no-inference
+          path: c42-inspection.json
