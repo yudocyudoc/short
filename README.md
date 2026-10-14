@@ -21,3 +21,8 @@ Cuatro inferencias: **7,819 tokens**, **172.012 neuronas**, estimación **US$0.0
 ## Siguiente hipótesis
 
 La IA podría proponer diagramas, pero la **contabilidad de estados y transiciones requiere validación independiente**. En vez de seguir modificando prompts, introducir un validador determinista mínimo de balances antes de escalar a mecanismos y retroalimentaciones.
+
+
+## C2 — Reglas formales de SD
+
+[Experimento](experiments/c2/README.md) · [Evaluación](experiments/c2/results/c2-2026-10-13-evaluation.md): **A 4/16**, **B 6/16**, ninguna variante aceptable. Las reglas formales mejoraron un saldo de inventario, pero B todavía ubicó mal rechazos y calculó mal pendientes. **No hay prueba robusta de modelado SD autónomo.**
