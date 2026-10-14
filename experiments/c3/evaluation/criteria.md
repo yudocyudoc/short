@@ -15,7 +15,7 @@ Cada puerta vale 1 punto (0–10). Una salida será **aceptada únicamente con 1
 7. `G7_MATERIAL_BALANCE`: consumo de insumos correcto; stock final = inicial + reposición − material consumido − otros usos.
 8. `G8_CAPACITY`: horizonte, capacidad por hora, cota de máquina, cota de insumos, cota conjunta y preparado observado coherentes.
 9. `G9_CROSS_DOMAIN`: cumplimiento acopla una bebida preparada con una solicitud completada, sin material transformado creado de la nada; no existe stock de bebidas terminadas.
-10. `G10_EPISTEMIC`: no declara retroalimentaciones observadas y reconoce al menos una incertidumbre; no extrapola demanda fisiológica ni inventa nuevos hechos.
+10. `G10_EPISTEMIC`: no declara retroalimentaciones observadas y reconoce al menos una incertidumbre. **Sólo se verifican etiquetas tipadas y presencia de incertidumbres**; el código no puede verificar la verdad semántica de texto libre ni descubrir una invención fisiológica dentro de una frase.
 
 **Regla de comparación:** informar conteo de puertas por brazo, rechazo/aceptación y diferencia B−A. Dos respuestas solamente = humo experimental, no evidencia estadística. Si el esquema falla al parsear, todas las otras puertas se puntúan cero (sin tentativa de reparación). Si una puerta detecta error no cubierto, registrar como hallazgo sin modificar la rúbrica 0.1.
 
