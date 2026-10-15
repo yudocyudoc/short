@@ -1,13 +1,6 @@
 name: IGC0 manual Cloudflare Worker deploy
 
 on:
-  pull_request:
-    types:
-      - synchronize
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - 'experiments/igc0/authorizations/M01-R2-DEPLOY-ONCE.md'
   workflow_dispatch:
     inputs:
       confirm_deploy:
@@ -25,8 +18,7 @@ concurrency:
 
 jobs:
   deploy:
-    # One-shot, same-repo PR authorization event; manual dispatch keeps its own confirmation.
-    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.confirm_deploy == true) || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'experiment/igc0-m01-r2-llama') }}
+    if: ${{ inputs.confirm_deploy == true }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
