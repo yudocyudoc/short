@@ -1,0 +1,16 @@
+{
+  "IG_accept": false,
+  "actual_inferences": 1,
+  "cloudflare_worker_url": "https://igc0-review-lab.oulipo.workers.dev",
+  "experiment": "IGC0_M01_IG_LLAMA_R2",
+  "github_run_id": "38707062946-1",
+  "has_oracle": false,
+  "input_sha256": "3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df",
+  "max_inferences": 1,
+  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "projection_permitted": false,
+  "prompt_sha256": "83cc4a64dcfa41eaeca864efe0917020e1b31409ac704d68cac0491f759f8ea8",
+  "review_status": "DISABLED_SINGLE_CALL_R2",
+  "source_commit": "e2041aa36b22c3a04145d8f201c9acfce28860d7",
+  "status": "IG_REJECT"
+}

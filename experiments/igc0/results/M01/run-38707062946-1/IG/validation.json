@@ -1,0 +1,45 @@
+{
+  "accepted": false,
+  "graph_sha256": "6bbbf55a31736c95564328f542136cf9708f90b81811a9893f4a6fb0b851f7b4",
+  "issues": [
+    {
+      "code": "MISSING_DOMAIN_STOCK",
+      "detail": "Represent order, material and money accumulations; unknown initial can be null",
+      "where": "stocks"
+    },
+    {
+      "code": "UNIT_MISMATCH",
+      "detail": "Pipe rate entity must equal stock entity",
+      "where": "ventas_presencial"
+    },
+    {
+      "code": "CROSS_DOMAIN_STOCK_FLOW",
+      "detail": "A pipe cannot directly transfer food into money",
+      "where": "ventas_presencial"
+    },
+    {
+      "code": "UNIT_MISMATCH",
+      "detail": "Pipe rate entity must equal stock entity",
+      "where": "ventas_delivery"
+    },
+    {
+      "code": "CROSS_DOMAIN_STOCK_FLOW",
+      "detail": "A pipe cannot directly transfer food into money",
+      "where": "ventas_delivery"
+    },
+    {
+      "code": "PRIOR_CROSS_DOMAIN_STOCK_FLOW",
+      "detail": "Cannot conserve meal from stock 'inventario' directly into money stock 'caja'",
+      "where": "ventas_presencial"
+    },
+    {
+      "code": "PRIOR_CROSS_DOMAIN_STOCK_FLOW",
+      "detail": "Cannot conserve meal from stock 'inventario' directly into money stock 'cuentas_por_cobrar'",
+      "where": "ventas_delivery"
+    }
+  ],
+  "pipe_count": 3,
+  "represented_mechanisms": 0,
+  "stock_count": 3,
+  "validator": "IGC0_GRAPH_GATE_V3"
+}
