@@ -16,3 +16,10 @@ La rama `experiment/igc0-m01-r2-llama` y PR #3 deben coincidir.
 El commit con mensaje `infer(igc0): authorize one-shot M01-R2 Llama call` dispara un solo workflow; `GITHUB_RUN_ATTEMPT != 1` bloquea reejecuciones facturables.
 
 **No se autoriza** ninguna segunda ejecución ni ampliar el alcance.
+
+## Reintento seguro tras preflight bloqueado
+- Primer workflow: https://github.com/yudocyudoc/short/actions/runs/38706948350
+- Falló antes de ejecutar el paso de inferencia: la variable `IGC_WORKER_URL` estaba vacía en el contexto de PR.
+- `Run M01-R2 IG` quedó `skipped`, **0 llamadas al modelo**.
+- Se sustituyó por URL pública fija verificada en el despliegue y una comprobación `GET /health` previa sin inferencia.
+- Esta actualización autoriza ejecutar **la misma y única llamada pendiente**, no otra llamada adicional.
