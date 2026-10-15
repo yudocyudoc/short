@@ -67,3 +67,13 @@ El `.mmd` es sólo una vista del grafo tipado. La parte «G» consiste en **prop
 3. El grafo base es ingeniería predefinida: debe compararse con un LLM real y una línea base convencional, **no contabilizarse como éxito de IGC**.
 4. La discrepancia observada contra el prototipo SD agregado es grande (por ejemplo >46 mil MXN en caja M06; M01 se redujo a 701.4 MXN tras eliminar un doble cobro del propio motor); un motor que compila no basta para proyectar decisiones.
 5. Ningún resultado de este paquete constituye todavía una validación de IGC ni una predicción comercial.
+
+
+## DeepSeek IGC-0 / M01: dos intentos registrados
+
+- [v1: informe](runs/M01_RESULT.md) y [respuesta original](https://github.com/yudocyudoc/short/actions/runs/38682204680): JSON válido; el validador de fuentes aceptó un grafo inválido en semántica SD (tres stocks, cuatro pipes, cero contrastes). Auditoría posterior rechazó nueve incumplimientos de procedencia, dimensiones y contraste.
+- [Contrato v2](prompts/igc_v2.md), [protocolo previo](runs/M01_V2_PROTOCOL.md) e [informe v2](runs/M01_V2_RESULT.md): 36 tests previos PASS; una sola llamada DeepSeek, JSON final incompleto (`FORMAT_REJECT`). La auditoría v2 **no pudo evaluar semántica** porque no existía un objeto JSON completo.
+- [Respuesta v2 y diagnósticos](https://github.com/yudocyudoc/short/actions/runs/38683795266/artifacts/11949761238); [inspección no-inferencial](https://github.com/yudocyudoc/short/actions/runs/38684049858).
+- Nuevo auditor `src/semantic_audit_v2.py` y 17 pruebas de regresión `tests/test_semantic_audit_v2.py`; no se reemplazan los resultados de v1.
+
+**No hay validación IGC completa aún.** Las inferencias están manuales, no se abrió el oráculo y el simulador agregado sigue no calibrado. Un siguiente experimento podría separar construcción de grafo y contraste en fases pequeñas, con contratos y trazabilidad, sin asumir que M01 fue comprendido.
