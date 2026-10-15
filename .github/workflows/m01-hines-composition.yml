@@ -1,0 +1,57 @@
+name: M01 — Hines reference composition (no inference)
+
+on:
+  pull_request:
+    branches:
+      - experiment/hines-pysd-parity
+    paths:
+      - 'experiments/hines-pysd/**'
+      - '.github/workflows/m01-hines-composition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structural-assembly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run molecule and M01 unit/structure tests (no external calls)
+        run: |
+          python -m unittest discover -s experiments/hines-pysd -p 'test_*.py' -v
+      - name: Prepare the original public M01 packet, without oracle
+        run: |
+          python experiments/igc0/analyst/src/prepare.py \
+            --public-zip experiments/igc0/analyst/inputs/IGC0_8_mundos_analista.zip \
+            --out /tmp/m01-public-prepared
+      - name: Verify original-molecule interfaces and M01 evidence against frozen hash
+        run: |
+          python experiments/hines-pysd/compose_m01.py \
+            --input /tmp/m01-public-prepared/inputs/M01.json \
+            --out experiments/hines-pysd/output/m01_hines_composition.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('experiments/hines-pysd/output/m01_hines_composition.json').read_text())
+          assert r['structure_gate']['status']=='PASS'
+          assert r['simulation_gate']['status']=='BLOCKED_NOT_IDENTIFIED'
+          assert r['llm_calls']==0 and r['pysd_cafeteria_runs']==0
+          assert r['cohort_screen']['windows']==42
+          assert r['reference_bindings']['kitchen_nominal_orders_per_hour']['value']==16
+          assert r['reference_bindings']['dispatch_nominal_orders_per_hour']['value']==15
+          assert r['reference_bindings']['opening_raw_inventory_meals_equivalent']['value']==92
+          print('M01_HINES_GATE_PASS_WITH_EXPLICIT_SIMULATION_BLOCK')
+          PY
+      - name: Preserve exact public-derived diagnostic output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m01-hines-structural-composition
+          path: experiments/hines-pysd/output/
+          if-no-files-found: warn
+          retention-days: 90
