@@ -1,0 +1,80 @@
+name: IGC0 DeepSeek M01 blind analyst
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - experiments/igc0/analyst/runs/M01_FIRST_RUN.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  igc0-m01:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    defaults:
+      run:
+        working-directory: experiments/igc0/analyst
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile only analyst public code
+        run: python -m compileall -q src/
+      - name: Run blind analyst tests without inference
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Verify public ZIP and prepare eight inputs
+        run: python src/prepare.py --public-zip inputs/IGC0_8_mundos_analista.zip --out output
+      - name: Assert M01 source manifest and public evidence count
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path('output/input_manifest.json').read_text())
+          assert manifest['blind'] is True and manifest['no_oracle_loaded'] is True
+          assert len(manifest['cases'])==8
+          by={x['case_id']:x for x in manifest['cases']}
+          assert set(by)=={f'M{i:02}' for i in range(1,9)}
+          assert by['M01']['pos_rows']==42 and by['M01']['ledger_rows']==14
+          packet=json.loads(Path('output/inputs/M01.json').read_text())
+          assert packet['case_id']=='M01'
+          assert packet['epistemic']['counterfactual_without_model']=='DESCONOCIDO'
+          print('M01_PUBLIC_INPUT_VERIFIED', by['M01']['input_sha256'])
+          PY
+      - name: DeepSeek R1 blind analyst M01 (exactly one API call, no retries)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo 'Missing Cloudflare account secret'; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Missing Cloudflare API token secret'; exit 1; }
+          python src/run_llm.py --inputs output/inputs --out output/llm --case M01
+      - name: Summarize validator and model provenance (no oracle)
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('output/llm/M01')
+          for name in ('usage.json','validation.json'):
+              file=path/name
+              if file.exists():
+                  payload=json.loads(file.read_text())
+                  print('IGC0_M01_'+name, json.dumps(payload,ensure_ascii=False))
+              else:
+                  print('IGC0_M01_'+name+'_MISSING')
+          PY
+      - name: Preserve M01 raw response and evidence (no hidden oracle)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc0-m01-deepseek-first
+          path: |
+            experiments/igc0/analyst/output/input_manifest.json
+            experiments/igc0/analyst/output/inputs/M01.json
+            experiments/igc0/analyst/output/llm/M01/
+          retention-days: 90
+          if-no-files-found: warn
