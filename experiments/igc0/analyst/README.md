@@ -77,3 +77,12 @@ El `.mmd` es sólo una vista del grafo tipado. La parte «G» consiste en **prop
 - Nuevo auditor `src/semantic_audit_v2.py` y 17 pruebas de regresión `tests/test_semantic_audit_v2.py`; no se reemplazan los resultados de v1.
 
 **No hay validación IGC completa aún.** Las inferencias están manuales, no se abrió el oráculo y el simulador agregado sigue no calibrado. Un siguiente experimento podría separar construcción de grafo y contraste en fases pequeñas, con contratos y trazabilidad, sin asumir que M01 fue comprendido.
+
+
+## M01 v3 — I/G → compuerta → C (ejecutado)
+
+- [Protocolo previo](runs/M01_IGC_SPLIT_PROTOCOL.md); [informe verificado](runs/M01_SPLIT_RESULT.md).
+- Nuevo runner `src/run_split_igc.py`: I/G (identificar/graficar) solicita exclusivamente el grafo, `src/igc_split_gate.py` audita dimensiones, fuentes, tipos y conexiones. **C sólo puede ejecutarse cuando el grafo sea aceptado**; entonces se le entrega ese grafo con hash, y el contrato C es separado.
+- [GitHub Actions](https://github.com/yudocyudoc/short/actions/runs/38684669725): **60 pruebas del analista PASS**, una llamada real a DeepSeek, salida I/G JSON parseable pero **REJECT** por falta de stock de pedidos y enlace informativo a un nodo inexistente. Etapa C **correctamente no ejecutada**.
+- [Originales y diagnóstico del grafo](https://github.com/yudocyudoc/short/actions/runs/38684669725/artifacts/11949757660); [inspección sin IA adicional](https://github.com/yudocyudoc/short/actions/runs/38684843230).
+- **Resultado de investigación:** la separación/gating funciona; la capacidad IGC de identificar/graficar sigue sin demostrarse. No se hicieron proyecciones ni se abrió el oráculo. El workflow de inferencia quedó **manual-only**.
