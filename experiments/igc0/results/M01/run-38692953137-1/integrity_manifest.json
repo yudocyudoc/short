@@ -1,0 +1,25 @@
+{
+  "source_run_url": "https://github.com/yudocyudoc/short/actions/runs/38692953137",
+  "source_artifact_id": 11953011170,
+  "model": "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+  "input_sha256": "3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df",
+  "prompt_sha256": "83cc4a64dcfa41eaeca864efe0917020e1b31409ac704d68cac0491f759f8ea8",
+  "reference_source_commit": "2d4c686f6c79fc5cb30bcad05ddc1106cb4db25e",
+  "result": "FORMAT_REJECT",
+  "transport": "OK",
+  "real_model_calls": 1,
+  "review_calls": 0,
+  "oracles_included": false,
+  "scenario_predictions": false,
+  "immutable_file_hashes": {
+    "IG/raw_response.txt": "2c10f16ed6ae2a77c7a95b77ca8c4a32664e6644033cd6e218d9e17eac7deb2c",
+    "IG/reasoning.txt": "0d87d71c3766ab1de8d2296a63786557afe62a2e829ae1a337a5e7d31c59bc30",
+    "IG/request.json": "89c0eec1e8721514cd753ea76d9904cbbbffe4db198bf7d716923ca4256447b4",
+    "IG/transport.json": "6f98930d5b71840ec18a6d2e206c0a5788b47cb3279f95a333ea6359a4b13ea7",
+    "IG/validation.json": "741f3c9aadc37bfe5cbc78b74085c507db8d79f72fd0ab52241e800b989c172b",
+    "IG/worker_response.json": "49a5d80e709843227264f14ceec9730dd4339927f2694b3580176f0d56893182",
+    "input.json": "63a064f580814903862fcc8a10a0247ca6fb09eb97c2c77223f8fc40a9850f92",
+    "prompt.md": "83cc4a64dcfa41eaeca864efe0917020e1b31409ac704d68cac0491f759f8ea8",
+    "summary.json": "547d19f62eed5d15fa2b0b982b4affdc81b13be2374fc66903fcd8cb30438b51"
+  }
+}

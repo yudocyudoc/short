@@ -1,0 +1,21 @@
+{
+  "accepted": false,
+  "packet_sha256": "3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df",
+  "prompt_sha256": "83cc4a64dcfa41eaeca864efe0917020e1b31409ac704d68cac0491f759f8ea8",
+  "request_id": "igc0-38692953137-1-ig",
+  "request_sha256": "7a782761c2fee02df3f511d3bf7fd831427d6b53d57e6c03a9a9aa873aa2273c",
+  "response_format": "invalid_json",
+  "response_sha256": "c9e2f52f31bda5b268c3158b1eb7b3c7ab48dfcb5ce18b69eca4b45eacc48ce3",
+  "retry_count": 0,
+  "stage": "IG",
+  "transport_status": "OK",
+  "usage": {
+    "completion_tokens": 2128,
+    "neurons": 1774.4010096417785,
+    "prompt_tokens": 18377,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 20505
+  }
+}
