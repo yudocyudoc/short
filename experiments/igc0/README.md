@@ -57,3 +57,15 @@ El código y los ocho paquetes públicos se incorporaron después al repositorio
 - CI: `.github/workflows/igc0-public.yml` valida ambos módulos.
 
 Las salidas de ingeniería se generan con código y **no se atribuyen al LLM**. No se incluyen los archivos del oráculo ni los resultados ocultos.
+
+
+## Bootstrap GitHub ↔ Cloudflare, 2026-10-14
+
+Se añadió una **estructura lista para revisión, sin desplegar**: [Worker y setup](worker/README.md), [contratos de transporte y feedback](docs/GITHUB_CLOUDFLARE_BOOTSTRAP.md), `worker/src/index.mjs` y `analyst/src/cloudflare_bridge.py`. La inferencia se limita al M01 sintético; los tests no hacen llamadas a DeepSeek.
+
+Se incorporaron tres GitHub Actions con responsabilidades separadas:
+- `igc0-worker-ci.yml`: pruebas locales en cada modificación; sin secretos Cloudflare.
+- `igc0-worker-deploy.yml`: despliegue **manual** con Wrangler, requiere confirmación y token con permiso de edición de Workers.
+- `igc0-worker-audit.yml`: ejecución **manual** con máximo dos inferencias (I/G y una revisión si el grafo es JSON válido pero rechazado), artefactos, rama de resultados y PR para evaluación externa.
+
+**Pendiente para ejecutar:** nuevo secreto GitHub `IGC_WORKER_API_KEY` (Worker `IGC_API_KEY`), variable `IGC_WORKER_URL` tras el despliegue, permiso de despliegue del token Cloudflare y, si se desea abrir PR automáticamente, permisos de `GITHUB_TOKEN`. No hay Workers ni resultados nuevos creados en Cloudflare por este bootstrap.
