@@ -48,6 +48,16 @@ El reporte calcula solo la **presión de aceptación contra capacidad nominal de
 
 No hay parámetros M01 imputados artificialmente, ni simulación contrafactual, ni comparación contra el mundo sintético secreto, ni uso del LLM.
 
+## Resultado efectivo — 2026-10-15
+
+La ejecución [Actions #38824913038](https://github.com/yudocyudoc/short/actions/runs/38824913038) aprobó **19 pruebas** y validó el paquete público. El resultado completo con hash por archivo quedó conservado en [PR #8 — auditoría M01](https://github.com/yudocyudoc/short/pull/8), mediante un archivado independiente sin reejecución ([Actions #38825023972](https://github.com/yudocyudoc/short/actions/runs/38825023972)).
+
+- Contrato y dimensiones: **PASS**. Tres moléculas candidatas, una alternativa no compuesta, seis estados y siete tasas revisadas.
+- Ventanas: 42. Total de aceptaciones por cohorte: 789; total de completados en ventanas de servicio: 780. **No** son categorías intercambiables.
+- Un único evento de presión nominal superior a cocina de referencia: **día 2 / pico, 34 aceptaciones frente a 32 de capacidad nominal en dos horas**, fuente `POS:D02:pico`. No constituye una medición de saturación.
+- Ocho puertos pendientes. `simulation_gate=BLOCKED_NOT_IDENTIFIED`; **cero proyecciones e inferencias**.
+- La composición no fue ejecutada en PySD como un modelo calibrado; sí descansó en la paridad de los cuatro modelos originales ya comprobada en PR #5/#6.
+
 ## Reproducción y auditoría
 
 ```bash
