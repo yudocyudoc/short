@@ -58,7 +58,7 @@ export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
     if (request.method === "GET" && path === "/health") {
-      return response({ service: "igc0-review-lab", contract: CONTRACT, status: "ok", inference_enabled: false });
+      return response({ service: "igc0-review-lab", contract: CONTRACT, status: "ok", requires_authorization: true });
     }
     if (path !== "/v1/infer") return response({ error: "NOT_FOUND" }, 404);
     if (request.method !== "POST") return response({ error: "METHOD_NOT_ALLOWED" }, 405);
