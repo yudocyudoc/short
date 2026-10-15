@@ -1,0 +1,84 @@
+name: IGC0 Cloudflare deployment readiness (no deploy)
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - '.github/workflows/igc0-worker-preflight.yml'
+      - 'experiments/igc0/worker/wrangler.jsonc'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
+      IGC_WORKER_URL: ${{ vars.IGC_WORKER_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect deployment readiness without modifying Cloudflare
+        run: |
+          python - <<'PY'
+          import json,os,urllib.request,urllib.error
+          from pathlib import Path
+
+          account=os.environ.get('CLOUDFLARE_ACCOUNT_ID','').strip()
+          token=os.environ.get('CLOUDFLARE_API_TOKEN','').strip()
+          worker_key=os.environ.get('IGC_WORKER_API_KEY','')
+          worker_url=os.environ.get('IGC_WORKER_URL','').strip()
+          result={
+            'mode':'read_only_preflight',
+            'worker_deployed':None,
+            'account_id_configured':len(account)==32,
+            'cloudflare_token_configured':bool(token),
+            'worker_secret_configured':len(worker_key)>=24,
+            'worker_url_configured':worker_url.startswith('https://'),
+            'cloudflare_token_valid':None,
+            'deployment_scope_verified':False,
+            'deployment_attempted':False,
+            'workers_ai_calls':0
+          }
+          if result['account_id_configured'] and token:
+            request=urllib.request.Request(
+              f'https://api.cloudflare.com/client/v4/accounts/{account}/tokens/verify',
+              headers={'Authorization':'Bearer '+token,'Accept':'application/json'})
+            try:
+              with urllib.request.urlopen(request,timeout=12) as response:
+                data=json.load(response)
+              result['cloudflare_token_valid']=bool(
+                data.get('success') and data.get('result',{}).get('status')=='active')
+            except (urllib.error.HTTPError,urllib.error.URLError,TimeoutError,ValueError):
+              result['cloudflare_token_valid']=False
+
+          result['ready_to_attempt_deploy']=all((
+            result['account_id_configured'],
+            result['cloudflare_token_configured'],
+            result['worker_secret_configured'],
+            result['cloudflare_token_valid'] is True))
+          result['next_step']=('Check deployment permission in Cloudflare dashboard then run manual deploy'
+                               if result['ready_to_attempt_deploy'] else
+                               'Configure missing/invalid credentials before manual deploy')
+          Path('igc0-preflight.json').write_text(json.dumps(result,indent=2)+'\n')
+          print('IGC0_PREFLIGHT',json.dumps(result,sort_keys=True))
+          PY
+      - name: Publish non-secret status summary
+        run: |
+          {
+            echo '### IGC0 Worker deploy readiness (no deploy performed)'
+            echo '```json'
+            cat igc0-preflight.json
+            echo '```'
+            echo 'A valid token does not establish deploy scope (new Worker needs Workers product Admin).'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: igc0-worker-preflight
+          path: igc0-preflight.json
+          retention-days: 30
