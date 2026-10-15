@@ -1,6 +1,6 @@
 # IGC-0 — M01-R2 Llama, preparation and gate (2026-10-15)
 
-**Status:** PREPARED / NOT DEPLOYED / NO R2 INFERENCE EXECUTED.
+**Status:** WORKER DEPLOYED (version `4ac1bd77-ea85-4f51-aae9-fab8b564606a`) / NO R2 INFERENCE EXECUTED.
 
 ## R1 diagnosis (source: PR #2 / run 38692953137-1)
 
@@ -24,7 +24,7 @@
 
 1. Confirm Worker JS syntax and its offline tests, then Python analyst unit tests; prepare the public input.
 2. Review branch diff and verify no oracle/model-generator material is sent to the LLM.
-3. Explicitly authorize **deployment** separately using the existing manual Worker deploy workflow on `experiment/igc0-m01-r2-llama`.
+3. **Completed 2026-10-15:** authorized Worker deployment, confirmed by Wrangler at https://github.com/yudocyudoc/short/actions/runs/38706537956. The temporary one-shot trigger was removed; manual-only deployment is restored.
 4. Once deployment and the protected endpoint are checked, explicitly authorize the **single inference** using `igc0-worker-audit.yml`, branch `experiment/igc0-m01-r2-llama`, input `confirm_inference=RUN_M01_R2_IG_ONCE`.
 5. Archive and review the complete GitHub Actions artifact; workflow does not automatically push a PR because earlier GitHub workflow permissions made that archival route fail.
 6. Judge separately: (a) transport/form, (b) graph gate, (c) actual SD structural quality and evidential honesty. An IG graph accepted by code is **not** verified ground truth.
