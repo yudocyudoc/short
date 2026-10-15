@@ -1,11 +1,6 @@
 name: IGC0 M01 DeepSeek second attempt v2
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/igc0/analyst/runs/M01_V2_FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
