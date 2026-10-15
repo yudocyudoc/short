@@ -46,7 +46,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: experiments/igc0/worker
-          wranglerVersion: '4.136.3'
+          wranglerVersion: '4'
           command: deploy
           secrets: |
             IGC_API_KEY
