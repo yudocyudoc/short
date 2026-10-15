@@ -1,0 +1,11 @@
+{
+  "files": {
+    "m01_hines_composition.json": "c8d2f980483657a20cc778a282cb82468dbc5cb41eb50171de91fcf719709ba5"
+  },
+  "inferences": 0,
+  "pysd_cafeteria_runs": 0,
+  "source_artifact_id": 12014183084,
+  "source_artifact_zip_sha256": "39dc62ff8cde03362861786948d4c2f0b780201dc7b275aace4eaeb2cd2ad82d",
+  "source_head_sha": "45a9c2a1aab7e805c9c95be28fbd3f344f6dcb47",
+  "source_workflow_run": 38824913038
+}

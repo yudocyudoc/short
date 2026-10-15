@@ -1,0 +1,819 @@
+{
+  "alternative_module": [
+    {
+      "bindings": {},
+      "caveats": [
+        "Alternative to backlog_shipping, not an extra flow stacked on it"
+      ],
+      "file": "invbakl.mdl",
+      "id": "inventory_level_alternative",
+      "role": "alternate_dispatch_policy",
+      "status": "NOT_COMPOSED_ALTERNATIVE",
+      "units": "orders"
+    }
+  ],
+  "case_id": "M01",
+  "case_origin": "MUNDO_SINTÉTICO; no observaciones empresariales reales",
+  "cohort_rows": [
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.4,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.375,
+      "arrival_window": "valle_am",
+      "day": 1,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 12,
+      "observed_service_window_completed_orders": 12,
+      "sha256": "9adaaf7af582f573482139c6d41782107a3b31f753db548e8f8ec44207d77f39",
+      "source_id": "POS:D01:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.5,
+      "arrival_window": "pico",
+      "day": 1,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 16,
+      "observed_service_window_completed_orders": 16,
+      "sha256": "489fa89db4d7a5a1398aa50087f6c6864aafe179e777c1a6419f427b3b20db9b",
+      "source_id": "POS:D01:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.6875,
+      "arrival_window": "valle_pm",
+      "day": 1,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 22,
+      "observed_service_window_completed_orders": 21,
+      "sha256": "9fe367afb14d5c604a0c9a75d608a39cae847063b42ef8be43ccb06402f8ae20",
+      "source_id": "POS:D01:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.6875,
+      "arrival_window": "valle_am",
+      "day": 2,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 22,
+      "observed_service_window_completed_orders": 20,
+      "sha256": "fdb7f01b52882bd0efd238c54ca07a83116d82f7541e9e7308b9b640b7654f2f",
+      "source_id": "POS:D02:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": true,
+      "arrival_pressure_vs_nominal_dispatch_reference": 1.1333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 1.0625,
+      "arrival_window": "pico",
+      "day": 2,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 34,
+      "observed_service_window_completed_orders": 32,
+      "sha256": "a48cab30521b27adb14d908988b0af20fb1712b69872248b710fc2b846b7d616",
+      "source_id": "POS:D02:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.3333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.3125,
+      "arrival_window": "valle_pm",
+      "day": 2,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 10,
+      "observed_service_window_completed_orders": 14,
+      "sha256": "2fac32e9a3a7be5f7f780db5ea7a53de045358db89e80f8744271fa0683e500a",
+      "source_id": "POS:D02:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.3,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.28125,
+      "arrival_window": "valle_am",
+      "day": 3,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 9,
+      "observed_service_window_completed_orders": 8,
+      "sha256": "613685a923363abde0888a2fd76f7d9a14e77fb2bebb19dc99053f51b62c8c8c",
+      "source_id": "POS:D03:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.6875,
+      "arrival_window": "pico",
+      "day": 3,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 22,
+      "observed_service_window_completed_orders": 23,
+      "sha256": "2e115f472e6f11b0512565c41d6e5b95b0c84697e3de60aed275ce0f429d8a6d",
+      "source_id": "POS:D03:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.5625,
+      "arrival_window": "valle_pm",
+      "day": 3,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 18,
+      "observed_service_window_completed_orders": 18,
+      "sha256": "06b1f20cd0ad9bc2878824e1d4675042ff593926ddef3c2e1e6ac02187281712",
+      "source_id": "POS:D03:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.43333333333333335,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.40625,
+      "arrival_window": "valle_am",
+      "day": 4,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 13,
+      "observed_service_window_completed_orders": 13,
+      "sha256": "9f56c977201274c3872351848dfce521acdcbcfd13244f584d70b0583839232f",
+      "source_id": "POS:D04:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.8333333333333334,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.78125,
+      "arrival_window": "pico",
+      "day": 4,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 25,
+      "observed_service_window_completed_orders": 25,
+      "sha256": "45042af724516655a75915ed84ec48aa157b4d4d822c1ce8652e0301767f966e",
+      "source_id": "POS:D04:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6666666666666666,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.625,
+      "arrival_window": "valle_pm",
+      "day": 4,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 20,
+      "observed_service_window_completed_orders": 18,
+      "sha256": "1a8d743a3bf152b15083a4b67d42a832fa589a12874a09bf584361bc25aaf62b",
+      "source_id": "POS:D04:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.3,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.28125,
+      "arrival_window": "valle_am",
+      "day": 5,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 9,
+      "observed_service_window_completed_orders": 9,
+      "sha256": "1f4ca0148f42b72dcdb3dffb38247b1c0759c1b4a9b3c6a7c196ce10621183c3",
+      "source_id": "POS:D05:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.6875,
+      "arrival_window": "pico",
+      "day": 5,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 22,
+      "observed_service_window_completed_orders": 22,
+      "sha256": "1cee47f677174273d9825de035610ccc23382b4fdef6fc54c85581e3eef0c080",
+      "source_id": "POS:D05:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.53125,
+      "arrival_window": "valle_pm",
+      "day": 5,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 17,
+      "observed_service_window_completed_orders": 17,
+      "sha256": "7929d40f4f702d4fd54206eafc7c84942ca3c99d1159714190f3bc25a0f3d83e",
+      "source_id": "POS:D05:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.71875,
+      "arrival_window": "valle_am",
+      "day": 6,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 23,
+      "observed_service_window_completed_orders": 22,
+      "sha256": "be00dd38a8b45f14ca5c15d15939c4c9bbe21783cd440bb575df92b93a3406e7",
+      "source_id": "POS:D06:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.59375,
+      "arrival_window": "pico",
+      "day": 6,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 19,
+      "observed_service_window_completed_orders": 20,
+      "sha256": "91d6f1944c0d3c77f1c8428c6e1af589e0fa28775083a075733ef082cd64fca0",
+      "source_id": "POS:D06:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.4666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.4375,
+      "arrival_window": "valle_pm",
+      "day": 6,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 14,
+      "observed_service_window_completed_orders": 13,
+      "sha256": "40f657d928d1d2f8e78e97dbcce5a438bb6f91c64f733649e8b7ee8cce396814",
+      "source_id": "POS:D06:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.4666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.4375,
+      "arrival_window": "valle_am",
+      "day": 7,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 14,
+      "observed_service_window_completed_orders": 13,
+      "sha256": "51138a0427e7619fe16c770e7d759d033b7ab0cd0ace3c340166da6bf7ef53c4",
+      "source_id": "POS:D07:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.8,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.75,
+      "arrival_window": "pico",
+      "day": 7,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 24,
+      "observed_service_window_completed_orders": 23,
+      "sha256": "eb8e3a7d39499216da297239ee9b2832eafa311bf55f3c1f1b0ee3092ef4abf7",
+      "source_id": "POS:D07:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.5,
+      "arrival_window": "valle_pm",
+      "day": 7,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 16,
+      "observed_service_window_completed_orders": 17,
+      "sha256": "6c50276c087c4fb7bd418f0b1e068793f1d55d6ecbe41930d3bc3e0a71720e82",
+      "source_id": "POS:D07:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.71875,
+      "arrival_window": "valle_am",
+      "day": 8,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 23,
+      "observed_service_window_completed_orders": 23,
+      "sha256": "a8ab9ccf90372d0d862f77bcb8bb8496b2b25ff2d28d6d35375cb73b7d453d3c",
+      "source_id": "POS:D08:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.9666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.90625,
+      "arrival_window": "pico",
+      "day": 8,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 29,
+      "observed_service_window_completed_orders": 27,
+      "sha256": "59bf99229984de31c382d4417f8569bf7db30d96f4a52274ab16418c4a1b0915",
+      "source_id": "POS:D08:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.65625,
+      "arrival_window": "valle_pm",
+      "day": 8,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 21,
+      "observed_service_window_completed_orders": 23,
+      "sha256": "7d418b6e736cf7c3db0f5730113183b3897a02fa2cc8e4132d98261190886e6c",
+      "source_id": "POS:D08:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.53125,
+      "arrival_window": "valle_am",
+      "day": 9,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 17,
+      "observed_service_window_completed_orders": 17,
+      "sha256": "d95e3c007ab3b9964fbe0d16317c340210193a10602b5d0fc7f1474a7cc67db0",
+      "source_id": "POS:D09:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.9,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.84375,
+      "arrival_window": "pico",
+      "day": 9,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 27,
+      "observed_service_window_completed_orders": 26,
+      "sha256": "55918b7d2bac623b0e0b4b35faf1410995b019da07a9e079dd94c50ae872f1dd",
+      "source_id": "POS:D09:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.3,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.28125,
+      "arrival_window": "valle_pm",
+      "day": 9,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 9,
+      "observed_service_window_completed_orders": 9,
+      "sha256": "38050615830deaec286ead53197bef97e15261d0777e8a8dcfe7c59a1c5b1217",
+      "source_id": "POS:D09:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.53125,
+      "arrival_window": "valle_am",
+      "day": 10,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 17,
+      "observed_service_window_completed_orders": 17,
+      "sha256": "bcc9c7a99ba343dcd443da27f446adb8183355882b63b93d3e7ccf6f842c8696",
+      "source_id": "POS:D10:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 1.0666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 1.0,
+      "arrival_window": "pico",
+      "day": 10,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 32,
+      "observed_service_window_completed_orders": 31,
+      "sha256": "e4982a2ca76911320768ceeefe2140a200333ed26508c3d7b9811945927d3e04",
+      "source_id": "POS:D10:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.4666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.4375,
+      "arrival_window": "valle_pm",
+      "day": 10,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 14,
+      "observed_service_window_completed_orders": 14,
+      "sha256": "c1fc1582970f8e7893b0e64f06474d3333a9442ade71e0ca1821ecdba1c54446",
+      "source_id": "POS:D10:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.5625,
+      "arrival_window": "valle_am",
+      "day": 11,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 18,
+      "observed_service_window_completed_orders": 18,
+      "sha256": "14df518ac37a0c6f76e73c61ed90722c78b5d2efe796c16c96d0c121951ce0c3",
+      "source_id": "POS:D11:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6666666666666666,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.625,
+      "arrival_window": "pico",
+      "day": 11,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 20,
+      "observed_service_window_completed_orders": 20,
+      "sha256": "03a32c318bacf4b8aaf482dfe2b668bb13d30586ed6c2f8d9146f82bb56a5335",
+      "source_id": "POS:D11:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5333333333333333,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.5,
+      "arrival_window": "valle_pm",
+      "day": 11,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 16,
+      "observed_service_window_completed_orders": 16,
+      "sha256": "08e2197e03dbda6bc2e73cea89c6c2fb413f9e06ceab3b6b6f94e392a4802fec",
+      "source_id": "POS:D11:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6666666666666666,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.625,
+      "arrival_window": "valle_am",
+      "day": 12,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 20,
+      "observed_service_window_completed_orders": 19,
+      "sha256": "253d05a9933ab17c68f3488c475e98191b626e2f19668f831f5dc94debc0119b",
+      "source_id": "POS:D12:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.65625,
+      "arrival_window": "pico",
+      "day": 12,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 21,
+      "observed_service_window_completed_orders": 21,
+      "sha256": "a78fc865d79d41a0f8d9a5563ec42181291bf403d012daa2240ba26b689d2afe",
+      "source_id": "POS:D12:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.6,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.5625,
+      "arrival_window": "valle_pm",
+      "day": 12,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 18,
+      "observed_service_window_completed_orders": 17,
+      "sha256": "b20108a1a43d29a1ea0200fa849b38c2c1c5f37a12f274c630a79870a10d94e3",
+      "source_id": "POS:D12:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.5666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.53125,
+      "arrival_window": "valle_am",
+      "day": 13,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 17,
+      "observed_service_window_completed_orders": 16,
+      "sha256": "9f451144a910cd2bd3e6ede17d87451067acca49b6fd87a3f76bf71b58105eff",
+      "source_id": "POS:D13:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.71875,
+      "arrival_window": "pico",
+      "day": 13,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 23,
+      "observed_service_window_completed_orders": 22,
+      "sha256": "f327aa131d9c0952207bde740161f6a929781a88a889bdf318c0fe952d037fa7",
+      "source_id": "POS:D13:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.43333333333333335,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.40625,
+      "arrival_window": "valle_pm",
+      "day": 13,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 13,
+      "observed_service_window_completed_orders": 15,
+      "sha256": "2809e2c64ca2046f3c0f26e650edf39bdca48654c888ce020f0acaa1afa232f5",
+      "source_id": "POS:D13:valle_pm"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7666666666666667,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.71875,
+      "arrival_window": "valle_am",
+      "day": 14,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 23,
+      "observed_service_window_completed_orders": 23,
+      "sha256": "754bd9547609838d78268a422d95d09217d9ae2f09eb5cd1a2a1656e007bb0d3",
+      "source_id": "POS:D14:valle_am"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.7,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.65625,
+      "arrival_window": "pico",
+      "day": 14,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 21,
+      "observed_service_window_completed_orders": 21,
+      "sha256": "96cd2a91e2fc43a78065f2588d84f5b8f4fdf4bcc3649e09c182134be779c619",
+      "source_id": "POS:D14:pico"
+    },
+    {
+      "arrival_count_above_nominal_kitchen_reference": false,
+      "arrival_pressure_vs_nominal_dispatch_reference": 0.3,
+      "arrival_pressure_vs_nominal_kitchen_reference": 0.28125,
+      "arrival_window": "valle_pm",
+      "day": 14,
+      "interpretation": "Intake pressure only. No direct measurement of production, pickup, or actual saturation.",
+      "nominal_reference_dispatch_orders_per_window": 30,
+      "nominal_reference_kitchen_orders_per_window": 32,
+      "observed_accepted_orders_arrival_cohort": 9,
+      "observed_service_window_completed_orders": 9,
+      "sha256": "7322c407ce03b8f91ae8a4b420ead6fbb4affa5a73648823329fd339215eeb91",
+      "source_id": "POS:D14:valle_pm"
+    }
+  ],
+  "cohort_screen": {
+    "arrival_windows_above_nominal_kitchen_reference": 1,
+    "maximum_accepted_orders_in_one_arrival_window": 34,
+    "total_accepted_orders": 789,
+    "total_service_window_completions": 780,
+    "windows": 42
+  },
+  "experiment": "M01_HINES_STRUCTURAL_COMPOSITION_V1",
+  "hines_sha256": {
+    "CapUtil.mdl": "13e2ee6309a19815505e930530bfc25337049ad43aa00d2f775a7d27eb636993",
+    "delay.mdl": "94a0330a7590c72d12123762ad1cb18d3d658a8013f576f490f9d0d453340c07",
+    "invbakf.mdl": "19837f1a191ec0614bddfe95cb15b714d956f6c42e9ad69f8aca336f5ecb6d53",
+    "invbakl.mdl": "b203173a5872dd9635dd41dd06cabff2160f822654897ba1a3cc8122552d2322"
+  },
+  "llm_calls": 0,
+  "methodological_warnings": [
+    "Hines Inventory in invbakf.mdl is finished order units, not raw meals_equivalent.",
+    "A shared Shipping event closes an order commitment and removes a prepared order; do not interpret the sum of two ledgers as a single conserved pool.",
+    "Kitchen reference 16 orders/hour and dispatch reference 15 orders/hour are calibrated nominal capacities, not measured virtual effective throughput.",
+    "The CapUtil lookup reaches 1.15 of nominal at high demand; nominal capacity is not a strict hard ceiling.",
+    "Arrival-cohort completions and service-window completions are different temporal groupings.",
+    "Supplier nominal lead of 1 day does not establish exponential delay required by delay.mdl.",
+    "No hidden generator, oracle, or aggregate exploratory SD model was read.",
+    "This is a structural assembly and observation screen, not an executable cafeteria model."
+  ],
+  "observed_initial_state": {
+    "cash": {
+      "evidence_type": "OBSERVADO",
+      "sha256": "c439d25bf3d736251261464dfcbc3f25e797c13c6def8f8968ae0b6e57dde242",
+      "source_id": "OPENING:REGISTER:v0.1",
+      "unit": "MXN",
+      "value": 4600
+    },
+    "raw_ingredient_inventory": {
+      "evidence_type": "OBSERVADO",
+      "sha256": "8e40a62811af49b0caf6034bc0887ad974de1a7af178e0762dda5a3fabffc89e",
+      "source_id": "OPENING:REGISTER:v0.1",
+      "unit": "meals_equivalent",
+      "value": 92
+    }
+  },
+  "originals_verified_in": "https://github.com/yudocyudoc/short/actions/runs/38808748143",
+  "public_input_sha256": "3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df",
+  "pysd_cafeteria_runs": 0,
+  "reference_bindings": {
+    "dispatch_nominal_orders_per_hour": {
+      "evidence_type": "CALIBRADO",
+      "sha256": "dca3c7e2d9da007c5d200ad497f9472b06324b8153ba166b98407e81c66e0f6b",
+      "source_id": "REF:ENGINEERING:v0.1",
+      "unit": "orders/hour",
+      "value": 15
+    },
+    "kitchen_nominal_orders_per_hour": {
+      "evidence_type": "CALIBRADO",
+      "sha256": "4142a3f8da28dc40dd5ff177a81df227055a429d5c2480188176597f596ec4c3",
+      "source_id": "REF:ENGINEERING:v0.1",
+      "unit": "orders/hour",
+      "value": 16
+    },
+    "opening_cash_mxn": {
+      "evidence_type": "OBSERVADO",
+      "sha256": "c439d25bf3d736251261464dfcbc3f25e797c13c6def8f8968ae0b6e57dde242",
+      "source_id": "OPENING:REGISTER:v0.1",
+      "unit": "MXN",
+      "value": 4600
+    },
+    "opening_raw_inventory_meals_equivalent": {
+      "evidence_type": "OBSERVADO",
+      "sha256": "8e40a62811af49b0caf6034bc0887ad974de1a7af178e0762dda5a3fabffc89e",
+      "source_id": "OPENING:REGISTER:v0.1",
+      "unit": "meals_equivalent",
+      "value": 92
+    },
+    "supplier_nominal_lead_days": {
+      "evidence_type": "OBSERVADO",
+      "sha256": "1ae247c1bea0afce380f2d5652525270e98bea75f68a0393f1c9d5a8bfcd4352",
+      "source_id": "OPENING:REGISTER:v0.1",
+      "unit": "days",
+      "value": 1
+    },
+    "window_hours": {
+      "evidence_type": "CALIBRADO",
+      "sha256": "8a59ac38ec22f752a8d4b8f1af48df25254075e33b9184c70bbf97116f34cd4e",
+      "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+      "unit": "hours",
+      "value": 2
+    }
+  },
+  "selected_modules": [
+    {
+      "bindings": {
+        "Backlog": "uncompleted_accepted_orders",
+        "Inventory": "prepared_orders_waiting_dispatch",
+        "Orders": "accepted_orders_per_hour",
+        "Producing": "kitchen_completed_orders_per_hour",
+        "Shipping": "dispatched_orders_per_hour"
+      },
+      "caveats": [
+        "Does not represent ingredient inventory in meals_equivalent",
+        "Cancellation flow missing from original molecule; adding it would be an explicit extension",
+        "Observed cohort completion is not identical to event-time shipping"
+      ],
+      "file": "invbakf.mdl",
+      "id": "backlog_shipping",
+      "role": "orders_and_ready_items",
+      "status": "REFERENCE_STRUCTURE_CANDIDATE",
+      "units": "orders"
+    },
+    {
+      "bindings": {
+        "Indicated Utilization": "desired_orders_per_hour_div_nominal_kitchen_capacity",
+        "Production": "kitchen_completed_orders_per_hour",
+        "Utilization": "kitchen_utilization_dimensionless"
+      },
+      "caveats": [
+        "16 orders/hour is CALIBRADO nominal reference, not measured virtual capacity",
+        "Lookup may exceed 100 percent; do not clamp to nominal capacity",
+        "Actual order-level queue and completion times are absent"
+      ],
+      "file": "CapUtil.mdl",
+      "id": "kitchen_capacity",
+      "role": "shared_kitchen_reference",
+      "status": "REFERENCE_STRUCTURE_CANDIDATE",
+      "units": "orders/hour"
+    },
+    {
+      "bindings": {
+        "Material": "ingredients_in_transit_meals_equivalent",
+        "Material flowing in": "supplier_orders_meals_equivalent_per_day",
+        "Material flowing out": "supplier_receipts_meals_equivalent_per_day"
+      },
+      "caveats": [
+        "M01 1-day supplier lead is nominal; first-order exponential delay is not the same as fixed transit time",
+        "In-transit opening stock and daily receipts are unobserved",
+        "Do not assign initial material=200 from original generic example"
+      ],
+      "file": "delay.mdl",
+      "id": "supplier_pipeline",
+      "role": "ingredient_supply_pipeline",
+      "status": "HYPOTHESIS_NOT_EQUATED_WITH_FIXED_LEAD",
+      "units": "meals_equivalent"
+    }
+  ],
+  "simulation_gate": {
+    "blocked_by": [
+      "coupling kitchen orders to raw ingredients",
+      "identify actual kitchen rate/bottleneck",
+      "identify actual dispatch bottleneck",
+      "calibrate initial pending accepted orders",
+      "calibrate prepared inventory",
+      "reconstruct ingredients supply trajectory",
+      "simulate cash/receivables without accounting reconstruction",
+      "treat supplier nominal one-day lead as first-order delay"
+    ],
+    "calibrated_forecasts": "FORBIDDEN",
+    "counterfactuals": "FORBIDDEN",
+    "reason": "Composition interfaces are typed, but actual transition rates and boundary conversions are not identified.",
+    "status": "BLOCKED_NOT_IDENTIFIED"
+  },
+  "structure_gate": {
+    "rates_checked": 7,
+    "selected_molecules": [
+      "backlog_shipping",
+      "kitchen_capacity",
+      "supplier_pipeline"
+    ],
+    "states_checked": 6,
+    "status": "PASS",
+    "unresolved_ports": 8
+  },
+  "unresolved": [
+    {
+      "blocks": "coupling kitchen orders to raw ingredients",
+      "id": "meals_per_order",
+      "status": "UNIDENTIFIED"
+    },
+    {
+      "blocks": "identify actual kitchen rate/bottleneck",
+      "id": "observed_kitchen_completions",
+      "status": "UNOBSERVED_EVENT_TIMES"
+    },
+    {
+      "blocks": "identify actual dispatch bottleneck",
+      "id": "observed_dispatch_pickups",
+      "status": "UNOBSERVED_EVENT_TIMES"
+    },
+    {
+      "blocks": "calibrate initial pending accepted orders",
+      "id": "initial_backlog",
+      "status": "UNOBSERVED"
+    },
+    {
+      "blocks": "calibrate prepared inventory",
+      "id": "initial_prepared_orders",
+      "status": "UNOBSERVED"
+    },
+    {
+      "blocks": "reconstruct ingredients supply trajectory",
+      "id": "supplier_receipts",
+      "status": "UNOBSERVED"
+    },
+    {
+      "blocks": "simulate cash/receivables without accounting reconstruction",
+      "id": "finance_rate_drivers",
+      "status": "UNSPECIFIED"
+    },
+    {
+      "blocks": "treat supplier nominal one-day lead as first-order delay",
+      "id": "delay_distribution",
+      "status": "UNSPECIFIED"
+    }
+  ]
+}
