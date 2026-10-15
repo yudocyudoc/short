@@ -5,3 +5,7 @@ The first immutable original run is [38682204680](https://github.com/yudocyudoc/
 Inspect only existing saved `proposed_model.json`, `validation.json`, and the public M01 packet. No access to the held-out oracle, no Cloudflare credentials, no additional inference, and no changes to the original prompt/verdict.
 
 This follow-up is **exploratory after seeing model acceptance with zero contrasts**. It cannot be used to retroactively change the preregistered acceptance rule.
+
+## Second inspection (post hoc)
+
+Run the added domain/unit/citation/contrast checks against the exact same frozen JSON. These safeguards were introduced after the first-run result and do not overwrite its original technical verdict. No new LLM calls.
