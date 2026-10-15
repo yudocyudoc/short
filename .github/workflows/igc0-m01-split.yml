@@ -1,0 +1,90 @@
+name: IGC0 M01 split I-G then C (DeepSeek)
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - experiments/igc0/analyst/runs/M01_SPLIT_FIRST_RUN.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  m01-split:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    defaults:
+      run:
+        working-directory: experiments/igc0/analyst
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile public-only IGC stages
+        run: python -m compileall -q src/
+      - name: Run pre-inference gate tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Verify public package and prepare M01
+        run: python src/prepare.py --public-zip inputs/IGC0_8_mundos_analista.zip --out output
+      - name: Verify exact public M01 input and frozen prompts
+        run: |
+          python - <<'PY'
+          import json,sys,hashlib
+          from pathlib import Path
+          sys.path.insert(0,'src')
+          from prepare import sha
+          p=json.loads(Path('output/inputs/M01.json').read_text())
+          assert len(p['pos_by_arrival_cohort'])==42
+          assert len(p['daily_stocks'])==14
+          assert p['case_id']=='M01'
+          assert p['epistemic']['counterfactual_without_model']=='DESCONOCIDO'
+          assert sha(p)=='3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df'
+          for name in ('ig_graph_v3.md','ig_contrast_v3.md'):
+              s=Path('prompts/'+name).read_text()
+              print('IGC0_SPLIT_PROMPT_HASH',name,hashlib.sha256(s.encode()).hexdigest())
+          print('IGC0_SPLIT_INPUT_HASH',sha(p))
+          PY
+      - name: DeepSeek IG then conditional C, at most two calls
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing account secret"; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing token secret"; exit 1; }
+          python src/run_split_igc.py \
+            --inputs output/inputs \
+            --out output/split_v3 \
+            --case M01 \
+            --ig-prompt prompts/ig_graph_v3.md \
+            --contrast-prompt prompts/ig_contrast_v3.md
+      - name: Record gated inference verdict, without claiming scientific success
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('output/split_v3/M01')
+          for name in ('summary.json','IG/graph_validation.json','IG/usage.json',
+                       'C/contrast_validation.json','C/usage.json'):
+              path=root/name
+              if path.exists():
+                  data=json.loads(path.read_text())
+                  if name=='C/contrast_validation.json':
+                      data={k:v for k,v in data.items() if k not in ('base_validator','semantic_v2')}
+                  print('IGC0_SPLIT',name,json.dumps(data,ensure_ascii=False)[:15000])
+              else:
+                  print('IGC0_SPLIT',name,'NOT_CREATED_OR_GATE_BLOCKED')
+          PY
+      - name: Preserve public evidence, all provider outputs, diagrams and gates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc0-m01-split-v3
+          path: |
+            experiments/igc0/analyst/output/input_manifest.json
+            experiments/igc0/analyst/output/inputs/M01.json
+            experiments/igc0/analyst/output/split_v3/M01/
+          if-no-files-found: warn
+          retention-days: 90
