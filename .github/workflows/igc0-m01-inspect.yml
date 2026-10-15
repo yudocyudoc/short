@@ -62,8 +62,16 @@ jobs:
           out.write_text(json.dumps(details,ensure_ascii=False,indent=2)+'\n')
           print('IGC0_M01_DIAGNOSTIC',json.dumps(details,ensure_ascii=False))
           PY
+      - name: Apply independent semantic audit to the frozen first model
+        run: |
+          python experiments/igc0/analyst/src/semantic_audit.py \\
+            --model original/llm/M01/proposed_model.json \\
+            --packet original/inputs/M01.json \\
+            --out m01-posthoc-semantic-audit.json
       - uses: actions/upload-artifact@v4
         with:
           name: igc0-m01-diagnostic-no-inference
-          path: m01-posthoc-diagnostic.json
+          path: |
+            m01-posthoc-diagnostic.json
+            m01-posthoc-semantic-audit.json
           retention-days: 90
