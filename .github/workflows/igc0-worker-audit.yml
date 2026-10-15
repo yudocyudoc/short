@@ -62,14 +62,29 @@ jobs:
             --out experiments/igc0/analyst/output
       - name: Check Worker URL and protected endpoint credential
         env:
-          IGC_WORKER_URL: ${{ vars.IGC_WORKER_URL }}
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
           IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
         run: |
           case "$IGC_WORKER_URL" in https://*) ;; *) echo "Set IGC_WORKER_URL repository variable with HTTPS Worker URL"; exit 1;; esac
           test ${#IGC_WORKER_API_KEY} -ge 24 || { echo "Missing IGC_WORKER_API_KEY secret"; exit 1; }
+      - name: Verify deployed Worker health without inferencing
+        env:
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          url=os.environ["IGC_WORKER_URL"]+"/health"
+          req=urllib.request.Request(url, headers={"User-Agent":"IGC0-GitHub-Audit/1.0"})
+          with urllib.request.urlopen(req,timeout=20) as response:
+              assert response.status == 200
+              data=json.load(response)
+          assert data.get("service") == "igc0-review-lab", data
+          assert data.get("contract") == "igc0.worker.v1", data
+          print("WORKER_HEALTH_OK", data.get("service"), data.get("contract"))
+          PY
       - name: Run M01-R2 IG (exactly one inference, zero retries)
         env:
-          IGC_WORKER_URL: ${{ vars.IGC_WORKER_URL }}
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
           IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
         run: |
           python experiments/igc0/analyst/src/cloudflare_bridge.py \
