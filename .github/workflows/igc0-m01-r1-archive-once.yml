@@ -1,0 +1,90 @@
+name: IGC0 M01-R1 archive preserved artifact (no AI)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/igc0-authorizations/M01-R1-ARCHIVE-20261015.md'
+
+# One-time, no inference, archive of original run 38692953137.
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download only original immutable M01-R1 artifact
+        run: |
+          gh run download 38692953137 --repo yudocyudoc/short \
+            --name igc0-worker-audit-38692953137-1 --dir raw-artifact
+      - name: Validate expected outcome and create source provenance manifest
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,shutil
+          source=Path('raw-artifact')
+          target=Path('experiments/igc0/results/M01/run-38692953137-1')
+          assert not target.exists(), 'Refuse to overwrite existing audit run'
+          summary=json.loads((source/'summary.json').read_text())
+          transport=json.loads((source/'IG/transport.json').read_text())
+          validation=json.loads((source/'IG/validation.json').read_text())
+          assert summary['github_run_id']=='38692953137-1'
+          assert summary['status']=='IG_FORMAT_OR_TRANSPORT_REJECT'
+          assert summary['actual_inferences']==1
+          assert summary['review_status']=='SKIPPED_UNPARSEABLE'
+          assert transport['transport_status']=='OK'
+          assert transport['response_format']=='invalid_json'
+          assert not validation['accepted']
+          assert summary['input_sha256']=='3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df'
+          files=sorted(p for p in source.rglob('*') if p.is_file())
+          assert len(files)==9,(len(files),[str(x) for x in files])
+          for p in files:
+              dest=target/p.relative_to(source)
+              dest.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copyfile(p,dest)
+          contents={str(p.relative_to(source)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
+          audit={'source_run_url':'https://github.com/yudocyudoc/short/actions/runs/38692953137',
+                 'source_artifact_id':11953011170,
+                 'model':summary['model'],
+                 'input_sha256':summary['input_sha256'],
+                 'prompt_sha256':summary['prompt_sha256'],
+                 'reference_source_commit':summary['source_commit'],
+                 'result':'FORMAT_REJECT',
+                 'transport':'OK',
+                 'real_model_calls':1,
+                 'review_calls':0,
+                 'oracles_included':False,
+                 'scenario_predictions':False,
+                 'immutable_file_hashes':contents}
+          (target/'integrity_manifest.json').write_text(json.dumps(audit,indent=2,ensure_ascii=False)+'\n')
+          print('ARCHIVE_VALIDATED',json.dumps({'files':len(files),'run':'38692953137-1','calls':1,
+                                                'relative_path':str(target)}))
+          PY
+      - name: Commit to isolated audit branch based on current main
+        run: |
+          set -euo pipefail
+          RESULT="experiments/igc0/results/M01/run-38692953137-1"
+          BRANCH="igc0/audit-38692953137-1"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -- "$RESULT"
+          git commit -m "results(igc0): archive original M01-R1 JSON format failure"
+          git push origin "HEAD:refs/heads/$BRANCH"
+          echo "RESULT_BRANCH=$BRANCH" >> "$GITHUB_ENV"
+      - name: Submit results only PR for independent review
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr create --base main --head "$RESULT_BRANCH" \
+            --title "audit(igc0): M01-R1 original response and rejection" \
+            --body "Exactly one DeepSeek call. Transport OK, final JSON incomplete; REVIEW skipped. Includes original raw response, model reasoning, prompt, input, validator, usage and source hashes. No oracle. No model re-run. Do not merge without independent review." \
+            || echo "PR creation permission not available; branch and GitHub Actions artifact remain."
