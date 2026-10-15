@@ -1,11 +1,6 @@
 name: IGC0 inspect M01 v2 raw transport (no AI)
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/igc0/analyst/runs/M01_V2_INSPECT.md
   workflow_dispatch:
 
 permissions:
