@@ -1,0 +1,484 @@
+time,variable,independent_euler,pysd,absolute_error,within_tolerance
+0.0,Production,500000.0,500000.0,0.0,True
+0.0,Utilization,1.0,1.0,0.0,True
+0.0,Indicated Utilization,1.0,1.0,0.0,True
+0.0625,Production,500000.0,500000.0,0.0,True
+0.0625,Utilization,1.0,1.0,0.0,True
+0.0625,Indicated Utilization,1.0,1.0,0.0,True
+0.125,Production,500000.0,500000.0,0.0,True
+0.125,Utilization,1.0,1.0,0.0,True
+0.125,Indicated Utilization,1.0,1.0,0.0,True
+0.1875,Production,500000.0,500000.0,0.0,True
+0.1875,Utilization,1.0,1.0,0.0,True
+0.1875,Indicated Utilization,1.0,1.0,0.0,True
+0.25,Production,500000.0,500000.0,0.0,True
+0.25,Utilization,1.0,1.0,0.0,True
+0.25,Indicated Utilization,1.0,1.0,0.0,True
+0.3125,Production,500000.0,500000.0,0.0,True
+0.3125,Utilization,1.0,1.0,0.0,True
+0.3125,Indicated Utilization,1.0,1.0,0.0,True
+0.375,Production,500000.0,500000.0,0.0,True
+0.375,Utilization,1.0,1.0,0.0,True
+0.375,Indicated Utilization,1.0,1.0,0.0,True
+0.4375,Production,500000.0,500000.0,0.0,True
+0.4375,Utilization,1.0,1.0,0.0,True
+0.4375,Indicated Utilization,1.0,1.0,0.0,True
+0.5,Production,500000.0,500000.0,0.0,True
+0.5,Utilization,1.0,1.0,0.0,True
+0.5,Indicated Utilization,1.0,1.0,0.0,True
+0.5625,Production,500000.0,500000.0,0.0,True
+0.5625,Utilization,1.0,1.0,0.0,True
+0.5625,Indicated Utilization,1.0,1.0,0.0,True
+0.625,Production,500000.0,500000.0,0.0,True
+0.625,Utilization,1.0,1.0,0.0,True
+0.625,Indicated Utilization,1.0,1.0,0.0,True
+0.6875,Production,500000.0,500000.0,0.0,True
+0.6875,Utilization,1.0,1.0,0.0,True
+0.6875,Indicated Utilization,1.0,1.0,0.0,True
+0.75,Production,500000.0,500000.0,0.0,True
+0.75,Utilization,1.0,1.0,0.0,True
+0.75,Indicated Utilization,1.0,1.0,0.0,True
+0.8125,Production,500000.0,500000.0,0.0,True
+0.8125,Utilization,1.0,1.0,0.0,True
+0.8125,Indicated Utilization,1.0,1.0,0.0,True
+0.875,Production,500000.0,500000.0,0.0,True
+0.875,Utilization,1.0,1.0,0.0,True
+0.875,Indicated Utilization,1.0,1.0,0.0,True
+0.9375,Production,500000.0,500000.0,0.0,True
+0.9375,Utilization,1.0,1.0,0.0,True
+0.9375,Indicated Utilization,1.0,1.0,0.0,True
+1.0,Production,500000.0,500000.0,0.0,True
+1.0,Utilization,1.0,1.0,0.0,True
+1.0,Indicated Utilization,1.0,1.0,0.0,True
+1.0625,Production,500000.0,500000.0,0.0,True
+1.0625,Utilization,1.0,1.0,0.0,True
+1.0625,Indicated Utilization,1.0,1.0,0.0,True
+1.125,Production,500000.0,500000.0,0.0,True
+1.125,Utilization,1.0,1.0,0.0,True
+1.125,Indicated Utilization,1.0,1.0,0.0,True
+1.1875,Production,500000.0,500000.0,0.0,True
+1.1875,Utilization,1.0,1.0,0.0,True
+1.1875,Indicated Utilization,1.0,1.0,0.0,True
+1.25,Production,500000.0,500000.0,0.0,True
+1.25,Utilization,1.0,1.0,0.0,True
+1.25,Indicated Utilization,1.0,1.0,0.0,True
+1.3125,Production,500000.0,500000.0,0.0,True
+1.3125,Utilization,1.0,1.0,0.0,True
+1.3125,Indicated Utilization,1.0,1.0,0.0,True
+1.375,Production,500000.0,500000.0,0.0,True
+1.375,Utilization,1.0,1.0,0.0,True
+1.375,Indicated Utilization,1.0,1.0,0.0,True
+1.4375,Production,500000.0,500000.0,0.0,True
+1.4375,Utilization,1.0,1.0,0.0,True
+1.4375,Indicated Utilization,1.0,1.0,0.0,True
+1.5,Production,500000.0,500000.0,0.0,True
+1.5,Utilization,1.0,1.0,0.0,True
+1.5,Indicated Utilization,1.0,1.0,0.0,True
+1.5625,Production,500000.0,500000.0,0.0,True
+1.5625,Utilization,1.0,1.0,0.0,True
+1.5625,Indicated Utilization,1.0,1.0,0.0,True
+1.625,Production,500000.0,500000.0,0.0,True
+1.625,Utilization,1.0,1.0,0.0,True
+1.625,Indicated Utilization,1.0,1.0,0.0,True
+1.6875,Production,500000.0,500000.0,0.0,True
+1.6875,Utilization,1.0,1.0,0.0,True
+1.6875,Indicated Utilization,1.0,1.0,0.0,True
+1.75,Production,500000.0,500000.0,0.0,True
+1.75,Utilization,1.0,1.0,0.0,True
+1.75,Indicated Utilization,1.0,1.0,0.0,True
+1.8125,Production,500000.0,500000.0,0.0,True
+1.8125,Utilization,1.0,1.0,0.0,True
+1.8125,Indicated Utilization,1.0,1.0,0.0,True
+1.875,Production,500000.0,500000.0,0.0,True
+1.875,Utilization,1.0,1.0,0.0,True
+1.875,Indicated Utilization,1.0,1.0,0.0,True
+1.9375,Production,500000.0,500000.0,0.0,True
+1.9375,Utilization,1.0,1.0,0.0,True
+1.9375,Indicated Utilization,1.0,1.0,0.0,True
+2.0,Production,500000.0,500000.0,0.0,True
+2.0,Utilization,1.0,1.0,0.0,True
+2.0,Indicated Utilization,1.0,1.0,0.0,True
+2.0625,Production,500000.0,500000.0,0.0,True
+2.0625,Utilization,1.0,1.0,0.0,True
+2.0625,Indicated Utilization,1.0,1.0,0.0,True
+2.125,Production,500000.0,500000.0,0.0,True
+2.125,Utilization,1.0,1.0,0.0,True
+2.125,Indicated Utilization,1.0,1.0,0.0,True
+2.1875,Production,500000.0,500000.0,0.0,True
+2.1875,Utilization,1.0,1.0,0.0,True
+2.1875,Indicated Utilization,1.0,1.0,0.0,True
+2.25,Production,500000.0,500000.0,0.0,True
+2.25,Utilization,1.0,1.0,0.0,True
+2.25,Indicated Utilization,1.0,1.0,0.0,True
+2.3125,Production,500000.0,500000.0,0.0,True
+2.3125,Utilization,1.0,1.0,0.0,True
+2.3125,Indicated Utilization,1.0,1.0,0.0,True
+2.375,Production,500000.0,500000.0,0.0,True
+2.375,Utilization,1.0,1.0,0.0,True
+2.375,Indicated Utilization,1.0,1.0,0.0,True
+2.4375,Production,500000.0,500000.0,0.0,True
+2.4375,Utilization,1.0,1.0,0.0,True
+2.4375,Indicated Utilization,1.0,1.0,0.0,True
+2.5,Production,500000.0,500000.0,0.0,True
+2.5,Utilization,1.0,1.0,0.0,True
+2.5,Indicated Utilization,1.0,1.0,0.0,True
+2.5625,Production,500000.0,500000.0,0.0,True
+2.5625,Utilization,1.0,1.0,0.0,True
+2.5625,Indicated Utilization,1.0,1.0,0.0,True
+2.625,Production,500000.0,500000.0,0.0,True
+2.625,Utilization,1.0,1.0,0.0,True
+2.625,Indicated Utilization,1.0,1.0,0.0,True
+2.6875,Production,500000.0,500000.0,0.0,True
+2.6875,Utilization,1.0,1.0,0.0,True
+2.6875,Indicated Utilization,1.0,1.0,0.0,True
+2.75,Production,500000.0,500000.0,0.0,True
+2.75,Utilization,1.0,1.0,0.0,True
+2.75,Indicated Utilization,1.0,1.0,0.0,True
+2.8125,Production,500000.0,500000.0,0.0,True
+2.8125,Utilization,1.0,1.0,0.0,True
+2.8125,Indicated Utilization,1.0,1.0,0.0,True
+2.875,Production,500000.0,500000.0,0.0,True
+2.875,Utilization,1.0,1.0,0.0,True
+2.875,Indicated Utilization,1.0,1.0,0.0,True
+2.9375,Production,500000.0,500000.0,0.0,True
+2.9375,Utilization,1.0,1.0,0.0,True
+2.9375,Indicated Utilization,1.0,1.0,0.0,True
+3.0,Production,500000.0,500000.0,0.0,True
+3.0,Utilization,1.0,1.0,0.0,True
+3.0,Indicated Utilization,1.0,1.0,0.0,True
+3.0625,Production,500000.0,500000.0,0.0,True
+3.0625,Utilization,1.0,1.0,0.0,True
+3.0625,Indicated Utilization,1.0,1.0,0.0,True
+3.125,Production,500000.0,500000.0,0.0,True
+3.125,Utilization,1.0,1.0,0.0,True
+3.125,Indicated Utilization,1.0,1.0,0.0,True
+3.1875,Production,500000.0,500000.0,0.0,True
+3.1875,Utilization,1.0,1.0,0.0,True
+3.1875,Indicated Utilization,1.0,1.0,0.0,True
+3.25,Production,500000.0,500000.0,0.0,True
+3.25,Utilization,1.0,1.0,0.0,True
+3.25,Indicated Utilization,1.0,1.0,0.0,True
+3.3125,Production,500000.0,500000.0,0.0,True
+3.3125,Utilization,1.0,1.0,0.0,True
+3.3125,Indicated Utilization,1.0,1.0,0.0,True
+3.375,Production,500000.0,500000.0,0.0,True
+3.375,Utilization,1.0,1.0,0.0,True
+3.375,Indicated Utilization,1.0,1.0,0.0,True
+3.4375,Production,500000.0,500000.0,0.0,True
+3.4375,Utilization,1.0,1.0,0.0,True
+3.4375,Indicated Utilization,1.0,1.0,0.0,True
+3.5,Production,500000.0,500000.0,0.0,True
+3.5,Utilization,1.0,1.0,0.0,True
+3.5,Indicated Utilization,1.0,1.0,0.0,True
+3.5625,Production,500000.0,500000.0,0.0,True
+3.5625,Utilization,1.0,1.0,0.0,True
+3.5625,Indicated Utilization,1.0,1.0,0.0,True
+3.625,Production,500000.0,500000.0,0.0,True
+3.625,Utilization,1.0,1.0,0.0,True
+3.625,Indicated Utilization,1.0,1.0,0.0,True
+3.6875,Production,500000.0,500000.0,0.0,True
+3.6875,Utilization,1.0,1.0,0.0,True
+3.6875,Indicated Utilization,1.0,1.0,0.0,True
+3.75,Production,500000.0,500000.0,0.0,True
+3.75,Utilization,1.0,1.0,0.0,True
+3.75,Indicated Utilization,1.0,1.0,0.0,True
+3.8125,Production,500000.0,500000.0,0.0,True
+3.8125,Utilization,1.0,1.0,0.0,True
+3.8125,Indicated Utilization,1.0,1.0,0.0,True
+3.875,Production,500000.0,500000.0,0.0,True
+3.875,Utilization,1.0,1.0,0.0,True
+3.875,Indicated Utilization,1.0,1.0,0.0,True
+3.9375,Production,500000.0,500000.0,0.0,True
+3.9375,Utilization,1.0,1.0,0.0,True
+3.9375,Indicated Utilization,1.0,1.0,0.0,True
+4.0,Production,500000.0,500000.0,0.0,True
+4.0,Utilization,1.0,1.0,0.0,True
+4.0,Indicated Utilization,1.0,1.0,0.0,True
+4.0625,Production,500000.0,500000.0,0.0,True
+4.0625,Utilization,1.0,1.0,0.0,True
+4.0625,Indicated Utilization,1.0,1.0,0.0,True
+4.125,Production,500000.0,500000.0,0.0,True
+4.125,Utilization,1.0,1.0,0.0,True
+4.125,Indicated Utilization,1.0,1.0,0.0,True
+4.1875,Production,500000.0,500000.0,0.0,True
+4.1875,Utilization,1.0,1.0,0.0,True
+4.1875,Indicated Utilization,1.0,1.0,0.0,True
+4.25,Production,500000.0,500000.0,0.0,True
+4.25,Utilization,1.0,1.0,0.0,True
+4.25,Indicated Utilization,1.0,1.0,0.0,True
+4.3125,Production,500000.0,500000.0,0.0,True
+4.3125,Utilization,1.0,1.0,0.0,True
+4.3125,Indicated Utilization,1.0,1.0,0.0,True
+4.375,Production,500000.0,500000.0,0.0,True
+4.375,Utilization,1.0,1.0,0.0,True
+4.375,Indicated Utilization,1.0,1.0,0.0,True
+4.4375,Production,500000.0,500000.0,0.0,True
+4.4375,Utilization,1.0,1.0,0.0,True
+4.4375,Indicated Utilization,1.0,1.0,0.0,True
+4.5,Production,500000.0,500000.0,0.0,True
+4.5,Utilization,1.0,1.0,0.0,True
+4.5,Indicated Utilization,1.0,1.0,0.0,True
+4.5625,Production,500000.0,500000.0,0.0,True
+4.5625,Utilization,1.0,1.0,0.0,True
+4.5625,Indicated Utilization,1.0,1.0,0.0,True
+4.625,Production,500000.0,500000.0,0.0,True
+4.625,Utilization,1.0,1.0,0.0,True
+4.625,Indicated Utilization,1.0,1.0,0.0,True
+4.6875,Production,500000.0,500000.0,0.0,True
+4.6875,Utilization,1.0,1.0,0.0,True
+4.6875,Indicated Utilization,1.0,1.0,0.0,True
+4.75,Production,500000.0,500000.0,0.0,True
+4.75,Utilization,1.0,1.0,0.0,True
+4.75,Indicated Utilization,1.0,1.0,0.0,True
+4.8125,Production,500000.0,500000.0,0.0,True
+4.8125,Utilization,1.0,1.0,0.0,True
+4.8125,Indicated Utilization,1.0,1.0,0.0,True
+4.875,Production,500000.0,500000.0,0.0,True
+4.875,Utilization,1.0,1.0,0.0,True
+4.875,Indicated Utilization,1.0,1.0,0.0,True
+4.9375,Production,500000.0,500000.0,0.0,True
+4.9375,Utilization,1.0,1.0,0.0,True
+4.9375,Indicated Utilization,1.0,1.0,0.0,True
+5.0,Production,500000.0,500000.0,0.0,True
+5.0,Utilization,1.0,1.0,0.0,True
+5.0,Indicated Utilization,1.0,1.0,0.0,True
+5.0625,Production,500000.0,500000.0,0.0,True
+5.0625,Utilization,1.0,1.0,0.0,True
+5.0625,Indicated Utilization,1.0,1.0,0.0,True
+5.125,Production,500000.0,500000.0,0.0,True
+5.125,Utilization,1.0,1.0,0.0,True
+5.125,Indicated Utilization,1.0,1.0,0.0,True
+5.1875,Production,500000.0,500000.0,0.0,True
+5.1875,Utilization,1.0,1.0,0.0,True
+5.1875,Indicated Utilization,1.0,1.0,0.0,True
+5.25,Production,500000.0,500000.0,0.0,True
+5.25,Utilization,1.0,1.0,0.0,True
+5.25,Indicated Utilization,1.0,1.0,0.0,True
+5.3125,Production,500000.0,500000.0,0.0,True
+5.3125,Utilization,1.0,1.0,0.0,True
+5.3125,Indicated Utilization,1.0,1.0,0.0,True
+5.375,Production,500000.0,500000.0,0.0,True
+5.375,Utilization,1.0,1.0,0.0,True
+5.375,Indicated Utilization,1.0,1.0,0.0,True
+5.4375,Production,500000.0,500000.0,0.0,True
+5.4375,Utilization,1.0,1.0,0.0,True
+5.4375,Indicated Utilization,1.0,1.0,0.0,True
+5.5,Production,500000.0,500000.0,0.0,True
+5.5,Utilization,1.0,1.0,0.0,True
+5.5,Indicated Utilization,1.0,1.0,0.0,True
+5.5625,Production,500000.0,500000.0,0.0,True
+5.5625,Utilization,1.0,1.0,0.0,True
+5.5625,Indicated Utilization,1.0,1.0,0.0,True
+5.625,Production,500000.0,500000.0,0.0,True
+5.625,Utilization,1.0,1.0,0.0,True
+5.625,Indicated Utilization,1.0,1.0,0.0,True
+5.6875,Production,500000.0,500000.0,0.0,True
+5.6875,Utilization,1.0,1.0,0.0,True
+5.6875,Indicated Utilization,1.0,1.0,0.0,True
+5.75,Production,500000.0,500000.0,0.0,True
+5.75,Utilization,1.0,1.0,0.0,True
+5.75,Indicated Utilization,1.0,1.0,0.0,True
+5.8125,Production,500000.0,500000.0,0.0,True
+5.8125,Utilization,1.0,1.0,0.0,True
+5.8125,Indicated Utilization,1.0,1.0,0.0,True
+5.875,Production,500000.0,500000.0,0.0,True
+5.875,Utilization,1.0,1.0,0.0,True
+5.875,Indicated Utilization,1.0,1.0,0.0,True
+5.9375,Production,500000.0,500000.0,0.0,True
+5.9375,Utilization,1.0,1.0,0.0,True
+5.9375,Indicated Utilization,1.0,1.0,0.0,True
+6.0,Production,500000.0,500000.0,0.0,True
+6.0,Utilization,1.0,1.0,0.0,True
+6.0,Indicated Utilization,1.0,1.0,0.0,True
+6.0625,Production,500000.0,500000.0,0.0,True
+6.0625,Utilization,1.0,1.0,0.0,True
+6.0625,Indicated Utilization,1.0,1.0,0.0,True
+6.125,Production,500000.0,500000.0,0.0,True
+6.125,Utilization,1.0,1.0,0.0,True
+6.125,Indicated Utilization,1.0,1.0,0.0,True
+6.1875,Production,500000.0,500000.0,0.0,True
+6.1875,Utilization,1.0,1.0,0.0,True
+6.1875,Indicated Utilization,1.0,1.0,0.0,True
+6.25,Production,500000.0,500000.0,0.0,True
+6.25,Utilization,1.0,1.0,0.0,True
+6.25,Indicated Utilization,1.0,1.0,0.0,True
+6.3125,Production,500000.0,500000.0,0.0,True
+6.3125,Utilization,1.0,1.0,0.0,True
+6.3125,Indicated Utilization,1.0,1.0,0.0,True
+6.375,Production,500000.0,500000.0,0.0,True
+6.375,Utilization,1.0,1.0,0.0,True
+6.375,Indicated Utilization,1.0,1.0,0.0,True
+6.4375,Production,500000.0,500000.0,0.0,True
+6.4375,Utilization,1.0,1.0,0.0,True
+6.4375,Indicated Utilization,1.0,1.0,0.0,True
+6.5,Production,500000.0,500000.0,0.0,True
+6.5,Utilization,1.0,1.0,0.0,True
+6.5,Indicated Utilization,1.0,1.0,0.0,True
+6.5625,Production,500000.0,500000.0,0.0,True
+6.5625,Utilization,1.0,1.0,0.0,True
+6.5625,Indicated Utilization,1.0,1.0,0.0,True
+6.625,Production,500000.0,500000.0,0.0,True
+6.625,Utilization,1.0,1.0,0.0,True
+6.625,Indicated Utilization,1.0,1.0,0.0,True
+6.6875,Production,500000.0,500000.0,0.0,True
+6.6875,Utilization,1.0,1.0,0.0,True
+6.6875,Indicated Utilization,1.0,1.0,0.0,True
+6.75,Production,500000.0,500000.0,0.0,True
+6.75,Utilization,1.0,1.0,0.0,True
+6.75,Indicated Utilization,1.0,1.0,0.0,True
+6.8125,Production,500000.0,500000.0,0.0,True
+6.8125,Utilization,1.0,1.0,0.0,True
+6.8125,Indicated Utilization,1.0,1.0,0.0,True
+6.875,Production,500000.0,500000.0,0.0,True
+6.875,Utilization,1.0,1.0,0.0,True
+6.875,Indicated Utilization,1.0,1.0,0.0,True
+6.9375,Production,500000.0,500000.0,0.0,True
+6.9375,Utilization,1.0,1.0,0.0,True
+6.9375,Indicated Utilization,1.0,1.0,0.0,True
+7.0,Production,500000.0,500000.0,0.0,True
+7.0,Utilization,1.0,1.0,0.0,True
+7.0,Indicated Utilization,1.0,1.0,0.0,True
+7.0625,Production,500000.0,500000.0,0.0,True
+7.0625,Utilization,1.0,1.0,0.0,True
+7.0625,Indicated Utilization,1.0,1.0,0.0,True
+7.125,Production,500000.0,500000.0,0.0,True
+7.125,Utilization,1.0,1.0,0.0,True
+7.125,Indicated Utilization,1.0,1.0,0.0,True
+7.1875,Production,500000.0,500000.0,0.0,True
+7.1875,Utilization,1.0,1.0,0.0,True
+7.1875,Indicated Utilization,1.0,1.0,0.0,True
+7.25,Production,500000.0,500000.0,0.0,True
+7.25,Utilization,1.0,1.0,0.0,True
+7.25,Indicated Utilization,1.0,1.0,0.0,True
+7.3125,Production,500000.0,500000.0,0.0,True
+7.3125,Utilization,1.0,1.0,0.0,True
+7.3125,Indicated Utilization,1.0,1.0,0.0,True
+7.375,Production,500000.0,500000.0,0.0,True
+7.375,Utilization,1.0,1.0,0.0,True
+7.375,Indicated Utilization,1.0,1.0,0.0,True
+7.4375,Production,500000.0,500000.0,0.0,True
+7.4375,Utilization,1.0,1.0,0.0,True
+7.4375,Indicated Utilization,1.0,1.0,0.0,True
+7.5,Production,500000.0,500000.0,0.0,True
+7.5,Utilization,1.0,1.0,0.0,True
+7.5,Indicated Utilization,1.0,1.0,0.0,True
+7.5625,Production,500000.0,500000.0,0.0,True
+7.5625,Utilization,1.0,1.0,0.0,True
+7.5625,Indicated Utilization,1.0,1.0,0.0,True
+7.625,Production,500000.0,500000.0,0.0,True
+7.625,Utilization,1.0,1.0,0.0,True
+7.625,Indicated Utilization,1.0,1.0,0.0,True
+7.6875,Production,500000.0,500000.0,0.0,True
+7.6875,Utilization,1.0,1.0,0.0,True
+7.6875,Indicated Utilization,1.0,1.0,0.0,True
+7.75,Production,500000.0,500000.0,0.0,True
+7.75,Utilization,1.0,1.0,0.0,True
+7.75,Indicated Utilization,1.0,1.0,0.0,True
+7.8125,Production,500000.0,500000.0,0.0,True
+7.8125,Utilization,1.0,1.0,0.0,True
+7.8125,Indicated Utilization,1.0,1.0,0.0,True
+7.875,Production,500000.0,500000.0,0.0,True
+7.875,Utilization,1.0,1.0,0.0,True
+7.875,Indicated Utilization,1.0,1.0,0.0,True
+7.9375,Production,500000.0,500000.0,0.0,True
+7.9375,Utilization,1.0,1.0,0.0,True
+7.9375,Indicated Utilization,1.0,1.0,0.0,True
+8.0,Production,500000.0,500000.0,0.0,True
+8.0,Utilization,1.0,1.0,0.0,True
+8.0,Indicated Utilization,1.0,1.0,0.0,True
+8.0625,Production,500000.0,500000.0,0.0,True
+8.0625,Utilization,1.0,1.0,0.0,True
+8.0625,Indicated Utilization,1.0,1.0,0.0,True
+8.125,Production,500000.0,500000.0,0.0,True
+8.125,Utilization,1.0,1.0,0.0,True
+8.125,Indicated Utilization,1.0,1.0,0.0,True
+8.1875,Production,500000.0,500000.0,0.0,True
+8.1875,Utilization,1.0,1.0,0.0,True
+8.1875,Indicated Utilization,1.0,1.0,0.0,True
+8.25,Production,500000.0,500000.0,0.0,True
+8.25,Utilization,1.0,1.0,0.0,True
+8.25,Indicated Utilization,1.0,1.0,0.0,True
+8.3125,Production,500000.0,500000.0,0.0,True
+8.3125,Utilization,1.0,1.0,0.0,True
+8.3125,Indicated Utilization,1.0,1.0,0.0,True
+8.375,Production,500000.0,500000.0,0.0,True
+8.375,Utilization,1.0,1.0,0.0,True
+8.375,Indicated Utilization,1.0,1.0,0.0,True
+8.4375,Production,500000.0,500000.0,0.0,True
+8.4375,Utilization,1.0,1.0,0.0,True
+8.4375,Indicated Utilization,1.0,1.0,0.0,True
+8.5,Production,500000.0,500000.0,0.0,True
+8.5,Utilization,1.0,1.0,0.0,True
+8.5,Indicated Utilization,1.0,1.0,0.0,True
+8.5625,Production,500000.0,500000.0,0.0,True
+8.5625,Utilization,1.0,1.0,0.0,True
+8.5625,Indicated Utilization,1.0,1.0,0.0,True
+8.625,Production,500000.0,500000.0,0.0,True
+8.625,Utilization,1.0,1.0,0.0,True
+8.625,Indicated Utilization,1.0,1.0,0.0,True
+8.6875,Production,500000.0,500000.0,0.0,True
+8.6875,Utilization,1.0,1.0,0.0,True
+8.6875,Indicated Utilization,1.0,1.0,0.0,True
+8.75,Production,500000.0,500000.0,0.0,True
+8.75,Utilization,1.0,1.0,0.0,True
+8.75,Indicated Utilization,1.0,1.0,0.0,True
+8.8125,Production,500000.0,500000.0,0.0,True
+8.8125,Utilization,1.0,1.0,0.0,True
+8.8125,Indicated Utilization,1.0,1.0,0.0,True
+8.875,Production,500000.0,500000.0,0.0,True
+8.875,Utilization,1.0,1.0,0.0,True
+8.875,Indicated Utilization,1.0,1.0,0.0,True
+8.9375,Production,500000.0,500000.0,0.0,True
+8.9375,Utilization,1.0,1.0,0.0,True
+8.9375,Indicated Utilization,1.0,1.0,0.0,True
+9.0,Production,500000.0,500000.0,0.0,True
+9.0,Utilization,1.0,1.0,0.0,True
+9.0,Indicated Utilization,1.0,1.0,0.0,True
+9.0625,Production,500000.0,500000.0,0.0,True
+9.0625,Utilization,1.0,1.0,0.0,True
+9.0625,Indicated Utilization,1.0,1.0,0.0,True
+9.125,Production,500000.0,500000.0,0.0,True
+9.125,Utilization,1.0,1.0,0.0,True
+9.125,Indicated Utilization,1.0,1.0,0.0,True
+9.1875,Production,500000.0,500000.0,0.0,True
+9.1875,Utilization,1.0,1.0,0.0,True
+9.1875,Indicated Utilization,1.0,1.0,0.0,True
+9.25,Production,500000.0,500000.0,0.0,True
+9.25,Utilization,1.0,1.0,0.0,True
+9.25,Indicated Utilization,1.0,1.0,0.0,True
+9.3125,Production,500000.0,500000.0,0.0,True
+9.3125,Utilization,1.0,1.0,0.0,True
+9.3125,Indicated Utilization,1.0,1.0,0.0,True
+9.375,Production,500000.0,500000.0,0.0,True
+9.375,Utilization,1.0,1.0,0.0,True
+9.375,Indicated Utilization,1.0,1.0,0.0,True
+9.4375,Production,500000.0,500000.0,0.0,True
+9.4375,Utilization,1.0,1.0,0.0,True
+9.4375,Indicated Utilization,1.0,1.0,0.0,True
+9.5,Production,500000.0,500000.0,0.0,True
+9.5,Utilization,1.0,1.0,0.0,True
+9.5,Indicated Utilization,1.0,1.0,0.0,True
+9.5625,Production,500000.0,500000.0,0.0,True
+9.5625,Utilization,1.0,1.0,0.0,True
+9.5625,Indicated Utilization,1.0,1.0,0.0,True
+9.625,Production,500000.0,500000.0,0.0,True
+9.625,Utilization,1.0,1.0,0.0,True
+9.625,Indicated Utilization,1.0,1.0,0.0,True
+9.6875,Production,500000.0,500000.0,0.0,True
+9.6875,Utilization,1.0,1.0,0.0,True
+9.6875,Indicated Utilization,1.0,1.0,0.0,True
+9.75,Production,500000.0,500000.0,0.0,True
+9.75,Utilization,1.0,1.0,0.0,True
+9.75,Indicated Utilization,1.0,1.0,0.0,True
+9.8125,Production,500000.0,500000.0,0.0,True
+9.8125,Utilization,1.0,1.0,0.0,True
+9.8125,Indicated Utilization,1.0,1.0,0.0,True
+9.875,Production,500000.0,500000.0,0.0,True
+9.875,Utilization,1.0,1.0,0.0,True
+9.875,Indicated Utilization,1.0,1.0,0.0,True
+9.9375,Production,500000.0,500000.0,0.0,True
+9.9375,Utilization,1.0,1.0,0.0,True
+9.9375,Indicated Utilization,1.0,1.0,0.0,True
+10.0,Production,500000.0,500000.0,0.0,True
+10.0,Utilization,1.0,1.0,0.0,True
+10.0,Indicated Utilization,1.0,1.0,0.0,True

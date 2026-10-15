@@ -1,0 +1,19 @@
+{
+  "experiment_head_commit": "2fd139b5ef9f9235a9d476e913c82ba398bb6322",
+  "files": {
+    "CapUtil_diff.csv": "5ad0e25b91f447c2e879b84f068293b9e602b2d7c2a27f3472f968c7de6cb2ee",
+    "CapUtil_pysd.csv": "b23dc49d2f7a1c696ff8674af8c3351b8495e25ab5e4dc39a0cccf388af90607",
+    "delay_diff.csv": "41776a2fe730ca5ff4bc87a59cc43eef6d11515c6d576f9bc99f9b27e011e473",
+    "delay_pysd.csv": "c6cf340d630618dda9f4726ea3f4de138fddecaebac2199d4d869a915c6c9702",
+    "invbakf_diff.csv": "5fd261d3f218e4f43e79594f2bd8273aadcea5cc053bfeca9aa0e49c949b3947",
+    "invbakf_pysd.csv": "68c4e545a1be12aee0da36e6e084c29a1e5038dc1f8d401d9a295006da23724a",
+    "invbakl_diff.csv": "158542e74b0f5c54ee4012f5c7cbd4b6b5e42f5b48326e5e374178bfac98fc3a",
+    "invbakl_pysd.csv": "6c101ff6ac7032600f825ece6189f20d87931cf3e1de69366dea8292bcd406eb",
+    "parity_report.json": "e918cf8e6e05f19e33932e8f265fdc81cc14c8d1ff10c213a5aee825e22f01de",
+    "source_manifest.json": "399176651dc5ee5f0a85fa7eaba16509738a0e5be017fddb202258f92cde426f"
+  },
+  "originals_redistributed": false,
+  "source_artifact_id": 12007940754,
+  "source_artifact_zip_sha256": "e8b57813c1f9ad0c68b0f47104484cce236a82eabf49ef3c38f5991b4518655f",
+  "source_run": "https://github.com/yudocyudoc/short/actions/runs/38808748143"
+}

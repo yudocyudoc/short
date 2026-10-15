@@ -1,0 +1,124 @@
+time,variable,independent_euler,pysd,absolute_error,within_tolerance
+0.0,Material,200.0,200.0,0.0,True
+0.0,Material flowing in,100.0,100.0,0.0,True
+0.0,Material flowing out,100.0,100.0,0.0,True
+0.125,Material,200.0,200.0,0.0,True
+0.125,Material flowing in,100.0,100.0,0.0,True
+0.125,Material flowing out,100.0,100.0,0.0,True
+0.25,Material,200.0,200.0,0.0,True
+0.25,Material flowing in,100.0,100.0,0.0,True
+0.25,Material flowing out,100.0,100.0,0.0,True
+0.375,Material,200.0,200.0,0.0,True
+0.375,Material flowing in,100.0,100.0,0.0,True
+0.375,Material flowing out,100.0,100.0,0.0,True
+0.5,Material,200.0,200.0,0.0,True
+0.5,Material flowing in,100.0,100.0,0.0,True
+0.5,Material flowing out,100.0,100.0,0.0,True
+0.625,Material,200.0,200.0,0.0,True
+0.625,Material flowing in,100.0,100.0,0.0,True
+0.625,Material flowing out,100.0,100.0,0.0,True
+0.75,Material,200.0,200.0,0.0,True
+0.75,Material flowing in,100.0,100.0,0.0,True
+0.75,Material flowing out,100.0,100.0,0.0,True
+0.875,Material,200.0,200.0,0.0,True
+0.875,Material flowing in,100.0,100.0,0.0,True
+0.875,Material flowing out,100.0,100.0,0.0,True
+1.0,Material,200.0,200.0,0.0,True
+1.0,Material flowing in,100.0,100.0,0.0,True
+1.0,Material flowing out,100.0,100.0,0.0,True
+1.125,Material,200.0,200.0,0.0,True
+1.125,Material flowing in,100.0,100.0,0.0,True
+1.125,Material flowing out,100.0,100.0,0.0,True
+1.25,Material,200.0,200.0,0.0,True
+1.25,Material flowing in,100.0,100.0,0.0,True
+1.25,Material flowing out,100.0,100.0,0.0,True
+1.375,Material,200.0,200.0,0.0,True
+1.375,Material flowing in,100.0,100.0,0.0,True
+1.375,Material flowing out,100.0,100.0,0.0,True
+1.5,Material,200.0,200.0,0.0,True
+1.5,Material flowing in,100.0,100.0,0.0,True
+1.5,Material flowing out,100.0,100.0,0.0,True
+1.625,Material,200.0,200.0,0.0,True
+1.625,Material flowing in,100.0,100.0,0.0,True
+1.625,Material flowing out,100.0,100.0,0.0,True
+1.75,Material,200.0,200.0,0.0,True
+1.75,Material flowing in,100.0,100.0,0.0,True
+1.75,Material flowing out,100.0,100.0,0.0,True
+1.875,Material,200.0,200.0,0.0,True
+1.875,Material flowing in,100.0,100.0,0.0,True
+1.875,Material flowing out,100.0,100.0,0.0,True
+2.0,Material,200.0,200.0,0.0,True
+2.0,Material flowing in,100.0,100.0,0.0,True
+2.0,Material flowing out,100.0,100.0,0.0,True
+2.125,Material,200.0,200.0,0.0,True
+2.125,Material flowing in,100.0,100.0,0.0,True
+2.125,Material flowing out,100.0,100.0,0.0,True
+2.25,Material,200.0,200.0,0.0,True
+2.25,Material flowing in,100.0,100.0,0.0,True
+2.25,Material flowing out,100.0,100.0,0.0,True
+2.375,Material,200.0,200.0,0.0,True
+2.375,Material flowing in,100.0,100.0,0.0,True
+2.375,Material flowing out,100.0,100.0,0.0,True
+2.5,Material,200.0,200.0,0.0,True
+2.5,Material flowing in,100.0,100.0,0.0,True
+2.5,Material flowing out,100.0,100.0,0.0,True
+2.625,Material,200.0,200.0,0.0,True
+2.625,Material flowing in,100.0,100.0,0.0,True
+2.625,Material flowing out,100.0,100.0,0.0,True
+2.75,Material,200.0,200.0,0.0,True
+2.75,Material flowing in,100.0,100.0,0.0,True
+2.75,Material flowing out,100.0,100.0,0.0,True
+2.875,Material,200.0,200.0,0.0,True
+2.875,Material flowing in,100.0,100.0,0.0,True
+2.875,Material flowing out,100.0,100.0,0.0,True
+3.0,Material,200.0,200.0,0.0,True
+3.0,Material flowing in,100.0,100.0,0.0,True
+3.0,Material flowing out,100.0,100.0,0.0,True
+3.125,Material,200.0,200.0,0.0,True
+3.125,Material flowing in,100.0,100.0,0.0,True
+3.125,Material flowing out,100.0,100.0,0.0,True
+3.25,Material,200.0,200.0,0.0,True
+3.25,Material flowing in,100.0,100.0,0.0,True
+3.25,Material flowing out,100.0,100.0,0.0,True
+3.375,Material,200.0,200.0,0.0,True
+3.375,Material flowing in,100.0,100.0,0.0,True
+3.375,Material flowing out,100.0,100.0,0.0,True
+3.5,Material,200.0,200.0,0.0,True
+3.5,Material flowing in,100.0,100.0,0.0,True
+3.5,Material flowing out,100.0,100.0,0.0,True
+3.625,Material,200.0,200.0,0.0,True
+3.625,Material flowing in,100.0,100.0,0.0,True
+3.625,Material flowing out,100.0,100.0,0.0,True
+3.75,Material,200.0,200.0,0.0,True
+3.75,Material flowing in,100.0,100.0,0.0,True
+3.75,Material flowing out,100.0,100.0,0.0,True
+3.875,Material,200.0,200.0,0.0,True
+3.875,Material flowing in,100.0,100.0,0.0,True
+3.875,Material flowing out,100.0,100.0,0.0,True
+4.0,Material,200.0,200.0,0.0,True
+4.0,Material flowing in,100.0,100.0,0.0,True
+4.0,Material flowing out,100.0,100.0,0.0,True
+4.125,Material,200.0,200.0,0.0,True
+4.125,Material flowing in,100.0,100.0,0.0,True
+4.125,Material flowing out,100.0,100.0,0.0,True
+4.25,Material,200.0,200.0,0.0,True
+4.25,Material flowing in,100.0,100.0,0.0,True
+4.25,Material flowing out,100.0,100.0,0.0,True
+4.375,Material,200.0,200.0,0.0,True
+4.375,Material flowing in,100.0,100.0,0.0,True
+4.375,Material flowing out,100.0,100.0,0.0,True
+4.5,Material,200.0,200.0,0.0,True
+4.5,Material flowing in,100.0,100.0,0.0,True
+4.5,Material flowing out,100.0,100.0,0.0,True
+4.625,Material,200.0,200.0,0.0,True
+4.625,Material flowing in,100.0,100.0,0.0,True
+4.625,Material flowing out,100.0,100.0,0.0,True
+4.75,Material,200.0,200.0,0.0,True
+4.75,Material flowing in,100.0,100.0,0.0,True
+4.75,Material flowing out,100.0,100.0,0.0,True
+4.875,Material,200.0,200.0,0.0,True
+4.875,Material flowing in,100.0,100.0,0.0,True
+4.875,Material flowing out,100.0,100.0,0.0,True
+5.0,Material,200.0,200.0,0.0,True
+5.0,Material flowing in,100.0,100.0,0.0,True
+5.0,Material flowing out,100.0,100.0,0.0,True
