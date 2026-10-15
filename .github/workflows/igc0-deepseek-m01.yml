@@ -1,11 +1,6 @@
 name: IGC0 DeepSeek M01 blind analyst
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/igc0/analyst/runs/M01_FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
