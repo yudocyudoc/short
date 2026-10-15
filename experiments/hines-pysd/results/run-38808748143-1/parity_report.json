@@ -1,0 +1,68 @@
+{
+  "engine": "pysd",
+  "pysd_version": "3.14.3",
+  "python_version": "3.11.17",
+  "source": "verified original publisher .mdl",
+  "baseline": "independent Euler with source-extracted lookup tables",
+  "abs_tol": 1e-06,
+  "rel_tol": 1e-08,
+  "models": {
+    "delay.mdl": {
+      "status": "PASS",
+      "independent_steps": 41,
+      "pysd_steps": 41,
+      "num_errors": 0,
+      "max_absolute_error": 0.0,
+      "first_errors": [],
+      "compared_variables": [
+        "Material",
+        "Material flowing in",
+        "Material flowing out"
+      ]
+    },
+    "CapUtil.mdl": {
+      "status": "PASS",
+      "independent_steps": 161,
+      "pysd_steps": 161,
+      "num_errors": 0,
+      "max_absolute_error": 0.0,
+      "first_errors": [],
+      "compared_variables": [
+        "Production",
+        "Utilization",
+        "Indicated Utilization"
+      ]
+    },
+    "invbakf.mdl": {
+      "status": "PASS",
+      "independent_steps": 49,
+      "pysd_steps": 49,
+      "num_errors": 0,
+      "max_absolute_error": 0.0,
+      "first_errors": [],
+      "compared_variables": [
+        "Inventory",
+        "Backlog",
+        "Orders",
+        "Producing",
+        "Shipping"
+      ]
+    },
+    "invbakl.mdl": {
+      "status": "PASS",
+      "independent_steps": 721,
+      "pysd_steps": 721,
+      "num_errors": 0,
+      "max_absolute_error": 1.4210854715202004e-14,
+      "first_errors": [],
+      "compared_variables": [
+        "Inventory",
+        "Backlog",
+        "Orders",
+        "Producing",
+        "Shipping"
+      ]
+    }
+  },
+  "overall": "PASS"
+}

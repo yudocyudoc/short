@@ -1,0 +1,34 @@
+{
+  "provenance": "Vensim official publisher download checked against user's Drive originals",
+  "source_copies_committed": false,
+  "files": {
+    "delay.mdl": {
+      "status": "VERIFIED",
+      "url": "https://vensim.com/documentation/Models/Molecules/delay.mdl",
+      "sha256": "94a0330a7590c72d12123762ad1cb18d3d658a8013f576f490f9d0d453340c07",
+      "bytes": 2555,
+      "drive_file_id": "1pgi8-WuxadBqtPfebjcQdeVH7sLvmqV5"
+    },
+    "CapUtil.mdl": {
+      "status": "VERIFIED",
+      "url": "https://vensim.com/documentation/Models/Molecules/CapUtil.mdl",
+      "sha256": "13e2ee6309a19815505e930530bfc25337049ad43aa00d2f775a7d27eb636993",
+      "bytes": 2983,
+      "drive_file_id": "1zWQxyw69DAgdbAIHBmUDkkcUNyyGD5lC"
+    },
+    "invbakf.mdl": {
+      "status": "VERIFIED",
+      "url": "https://vensim.com/documentation/Models/Molecules/invbakf.mdl",
+      "sha256": "19837f1a191ec0614bddfe95cb15b714d956f6c42e9ad69f8aca336f5ecb6d53",
+      "bytes": 5040,
+      "drive_file_id": "1yxdWB4u84JEiTRG6nAIf8Xo_F_Y8xtMh"
+    },
+    "invbakl.mdl": {
+      "status": "VERIFIED",
+      "url": "https://vensim.com/documentation/Models/Molecules/invbakl.mdl",
+      "sha256": "b203173a5872dd9635dd41dd06cabff2160f822654897ba1a3cc8122552d2322",
+      "bytes": 4629,
+      "drive_file_id": "1e8Mdc3ZhcuC-MfMahHs7MKyUhhKKr6JO"
+    }
+  }
+}
