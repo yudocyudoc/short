@@ -1,0 +1,49 @@
+name: Hines molecules — PySD original-file parity
+
+on:
+  pull_request:
+    branches: [experiment/c0-cafeteria]
+    paths:
+      - 'experiments/hines-pysd/**'
+      - '.github/workflows/hines-pysd-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: experiments/hines-pysd/requirements.txt
+      - name: Install independent SD engine (PySD 3.14.3)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r experiments/hines-pysd/requirements.txt
+          python -c "import pysd; print('PySD version:', pysd.__version__)"
+      - name: Offline regressions before external downloads
+        run: python -m unittest discover -s experiments/hines-pysd -p 'test_*.py' -v
+      - name: Retrieve original Vensim files and verify SHA-256, no redistribution
+        run: |
+          python experiments/hines-pysd/fetch_sources.py \
+            --dest /tmp/hines-originals \
+            --out experiments/hines-pysd/output
+      - name: Run original files with PySD and compare all time-series points
+        run: |
+          python experiments/hines-pysd/run_pysd.py \
+            --sources /tmp/hines-originals \
+            --out experiments/hines-pysd/output
+      - name: Preserve audit evidence, including failures, not the original models
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hines-pysd-parity
+          path: experiments/hines-pysd/output/
+          if-no-files-found: warn
+          retention-days: 90

@@ -1,0 +1,173 @@
+{
+  "model_provenance": {
+    "delay.mdl": {
+      "drive_file_id": "1pgi8-WuxadBqtPfebjcQdeVH7sLvmqV5",
+      "source_sha256": "94a0330a7590c72d12123762ad1cb18d3d658a8013f576f490f9d0d453340c07",
+      "source_bytes": 2555
+    },
+    "CapUtil.mdl": {
+      "drive_file_id": "1zWQxyw69DAgdbAIHBmUDkkcUNyyGD5lC",
+      "source_sha256": "13e2ee6309a19815505e930530bfc25337049ad43aa00d2f775a7d27eb636993",
+      "source_bytes": 2983
+    },
+    "invbakf.mdl": {
+      "drive_file_id": "1yxdWB4u84JEiTRG6nAIf8Xo_F_Y8xtMh",
+      "source_sha256": "19837f1a191ec0614bddfe95cb15b714d956f6c42e9ad69f8aca336f5ecb6d53",
+      "source_bytes": 5040
+    },
+    "invbakl.mdl": {
+      "drive_file_id": "1e8Mdc3ZhcuC-MfMahHs7MKyUhhKKr6JO",
+      "source_sha256": "b203173a5872dd9635dd41dd06cabff2160f822654897ba1a3cc8122552d2322",
+      "source_bytes": 4629
+    }
+  },
+  "models": {
+    "delay.mdl": {
+      "dt": 0.125,
+      "start": 0,
+      "stop": 5,
+      "tau": 2,
+      "input": 100
+    },
+    "CapUtil.mdl": {
+      "dt": 0.0625,
+      "start": 0,
+      "stop": 10,
+      "capacity": 500000,
+      "desired": 500000,
+      "lookup": [
+        [
+          0,
+          0
+        ],
+        [
+          0.164706,
+          0.234875
+        ],
+        [
+          0.357647,
+          0.491103
+        ],
+        [
+          0.578824,
+          0.711744
+        ],
+        [
+          0.785882,
+          0.86121
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1.20941,
+          1.09609
+        ],
+        [
+          1.4,
+          1.15
+        ],
+        [
+          1.5,
+          1.15
+        ]
+      ]
+    },
+    "invbakf.mdl": {
+      "dt": 0.125,
+      "start": 0,
+      "stop": 6,
+      "orders": 1000,
+      "production": 1000,
+      "initial_inventory": 1000,
+      "tau": 2,
+      "min_ship": 0.5,
+      "lookup": [
+        [
+          0,
+          0
+        ],
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.621176,
+          0.604982
+        ],
+        [
+          0.72,
+          0.683274
+        ],
+        [
+          0.818824,
+          0.768683
+        ],
+        [
+          0.921176,
+          0.846975
+        ],
+        [
+          1,
+          0.911032
+        ],
+        [
+          1.11176,
+          0.975089
+        ],
+        [
+          1.2,
+          1
+        ],
+        [
+          1.5,
+          1
+        ]
+      ]
+    },
+    "invbakl.mdl": {
+      "dt": 0.125,
+      "start": 0,
+      "stop": 90,
+      "orders": 100,
+      "production": 10,
+      "initial_inventory": 100,
+      "tau": 2,
+      "lookup": [
+        [
+          0,
+          0
+        ],
+        [
+          0.185567,
+          0.0578947
+        ],
+        [
+          0.345361,
+          0.166447
+        ],
+        [
+          0.407216,
+          0.311184
+        ],
+        [
+          0.582474,
+          0.738158
+        ],
+        [
+          0.737113,
+          0.926316
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1.98969,
+          1.04211
+        ]
+      ]
+    }
+  }
+}
