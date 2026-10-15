@@ -27,12 +27,17 @@ jobs:
           def call(req):
               try:
                   with urllib.request.urlopen(req, timeout=16) as response:
-                      return response.status, json.load(response)
+                      return response.status, response.headers.get("Content-Type",""), response.read()
               except urllib.error.HTTPError as e:
-                  return e.code, json.load(e)
+                  return e.code, e.headers.get("Content-Type",""), e.read()
 
-          healthy, body=call(urllib.request.Request(base+'/health'))
-          assert healthy==200, (healthy,body)
+          healthy, health_type, health_raw=call(urllib.request.Request(base+'/health'))
+          safe_excerpt=health_raw[:180].decode('utf-8','replace').replace('\\n',' ')
+          print('IGC0_HEALTH_HTTP',json.dumps({
+              'status':healthy,'content_type':health_type,'body_bytes':len(health_raw),
+              'body_prefix':safe_excerpt},ensure_ascii=False),flush=True)
+          assert healthy==200, (healthy,health_type)
+          body=json.loads(health_raw)
           assert body.get('service')=='igc0-review-lab',body
           assert body.get('contract')=='igc0.worker.v1',body
 
@@ -42,16 +47,17 @@ jobs:
               'messages':[{'role':'system','content':'test'},
                           {'role':'user','content':'test'}]
           }).encode()
-          rejected, error=call(urllib.request.Request(
+          rejected, error_type, error_raw=call(urllib.request.Request(
               base+'/v1/infer', data=malformed, method='POST',
               headers={'Content-Type':'application/json'}))
-          assert rejected==401,(rejected,error)
+          assert rejected==401,(rejected,error_type)
+          error=json.loads(error_raw)
           assert error.get('error')=='UNAUTHORIZED',error
 
-          rejected_bad, error_bad=call(urllib.request.Request(
+          rejected_bad, error_bad_type, error_bad_raw=call(urllib.request.Request(
               base+'/v1/infer', data=malformed, method='POST',
               headers={'Content-Type':'application/json','Authorization':'Bearer deliberately-invalid'}))
-          assert rejected_bad==401,(rejected_bad,error_bad)
+          assert rejected_bad==401,(rejected_bad,error_bad_type)
 
           print('IGC0_LIVE_SMOKE',
              json.dumps({'health_status':healthy,'service':body.get('service'),
