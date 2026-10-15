@@ -1,0 +1,226 @@
+{
+  "schema_version": "hines.m01.composition.v0.1",
+  "purpose": "Map verified Hines SD molecules to public M01 observations without importing hidden generator/oracle or claiming causal identification",
+  "execution_status": "STRUCTURE_ONLY_NO_M01_SIMULATION",
+  "original_source_manifest": "experiments/hines-pysd/specifications_extracted.json",
+  "public_evidence_source": "experiments/igc0/analyst/inputs/IGC0_8_mundos_analista.zip",
+  "anchored_case": "M01",
+  "expected_public_input_sha256": "3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df",
+  "molecules": [
+    {
+      "id": "backlog_shipping",
+      "file": "invbakf.mdl",
+      "role": "orders_and_ready_items",
+      "status": "REFERENCE_STRUCTURE_CANDIDATE",
+      "bindings": {
+        "Backlog": "uncompleted_accepted_orders",
+        "Inventory": "prepared_orders_waiting_dispatch",
+        "Orders": "accepted_orders_per_hour",
+        "Producing": "kitchen_completed_orders_per_hour",
+        "Shipping": "dispatched_orders_per_hour"
+      },
+      "units": "orders",
+      "caveats": [
+        "Does not represent ingredient inventory in meals_equivalent",
+        "Cancellation flow missing from original molecule; adding it would be an explicit extension",
+        "Observed cohort completion is not identical to event-time shipping"
+      ]
+    },
+    {
+      "id": "kitchen_capacity",
+      "file": "CapUtil.mdl",
+      "role": "shared_kitchen_reference",
+      "status": "REFERENCE_STRUCTURE_CANDIDATE",
+      "bindings": {
+        "Production": "kitchen_completed_orders_per_hour",
+        "Utilization": "kitchen_utilization_dimensionless",
+        "Indicated Utilization": "desired_orders_per_hour_div_nominal_kitchen_capacity"
+      },
+      "units": "orders/hour",
+      "caveats": [
+        "16 orders/hour is CALIBRADO nominal reference, not measured virtual capacity",
+        "Lookup may exceed 100 percent; do not clamp to nominal capacity",
+        "Actual order-level queue and completion times are absent"
+      ]
+    },
+    {
+      "id": "supplier_pipeline",
+      "file": "delay.mdl",
+      "role": "ingredient_supply_pipeline",
+      "status": "HYPOTHESIS_NOT_EQUATED_WITH_FIXED_LEAD",
+      "bindings": {
+        "Material": "ingredients_in_transit_meals_equivalent",
+        "Material flowing in": "supplier_orders_meals_equivalent_per_day",
+        "Material flowing out": "supplier_receipts_meals_equivalent_per_day"
+      },
+      "units": "meals_equivalent",
+      "caveats": [
+        "M01 1-day supplier lead is nominal; first-order exponential delay is not the same as fixed transit time",
+        "In-transit opening stock and daily receipts are unobserved",
+        "Do not assign initial material=200 from original generic example"
+      ]
+    },
+    {
+      "id": "inventory_level_alternative",
+      "file": "invbakl.mdl",
+      "role": "alternate_dispatch_policy",
+      "status": "NOT_COMPOSED_ALTERNATIVE",
+      "bindings": {},
+      "units": "orders",
+      "caveats": [
+        "Alternative to backlog_shipping, not an extra flow stacked on it"
+      ]
+    }
+  ],
+  "states": [
+    {
+      "id": "uncompleted_accepted_orders",
+      "unit": "orders",
+      "initial_status": "UNKNOWN",
+      "module": "backlog_shipping"
+    },
+    {
+      "id": "prepared_orders_waiting_dispatch",
+      "unit": "orders",
+      "initial_status": "UNKNOWN",
+      "module": "backlog_shipping"
+    },
+    {
+      "id": "raw_ingredient_inventory",
+      "unit": "meals_equivalent",
+      "initial_status": "OBSERVED_OPENING",
+      "module": "contextual_stock"
+    },
+    {
+      "id": "ingredients_in_transit_meals_equivalent",
+      "unit": "meals_equivalent",
+      "initial_status": "UNKNOWN",
+      "module": "supplier_pipeline"
+    },
+    {
+      "id": "receivables",
+      "unit": "MXN",
+      "initial_status": "UNKNOWN",
+      "module": "financial_boundary_only"
+    },
+    {
+      "id": "cash",
+      "unit": "MXN",
+      "initial_status": "OBSERVED_OPENING",
+      "module": "financial_boundary_only"
+    }
+  ],
+  "rates": [
+    {
+      "id": "accepted_orders_per_hour",
+      "unit": "orders/hour",
+      "into": [
+        "uncompleted_accepted_orders"
+      ],
+      "out_of": []
+    },
+    {
+      "id": "kitchen_completed_orders_per_hour",
+      "unit": "orders/hour",
+      "into": [
+        "prepared_orders_waiting_dispatch"
+      ],
+      "out_of": []
+    },
+    {
+      "id": "dispatched_orders_per_hour",
+      "unit": "orders/hour",
+      "into": [],
+      "out_of": [
+        "uncompleted_accepted_orders",
+        "prepared_orders_waiting_dispatch"
+      ]
+    },
+    {
+      "id": "canceled_orders_per_hour",
+      "unit": "orders/hour",
+      "into": [],
+      "out_of": [
+        "uncompleted_accepted_orders"
+      ],
+      "status": "EXPLICIT_EXTENSION_REQUIRED"
+    },
+    {
+      "id": "supplier_orders_meals_equivalent_per_day",
+      "unit": "meals_equivalent/day",
+      "into": [
+        "ingredients_in_transit_meals_equivalent"
+      ],
+      "out_of": []
+    },
+    {
+      "id": "supplier_receipts_meals_equivalent_per_day",
+      "unit": "meals_equivalent/day",
+      "into": [
+        "raw_ingredient_inventory"
+      ],
+      "out_of": [
+        "ingredients_in_transit_meals_equivalent"
+      ]
+    },
+    {
+      "id": "kitchen_ingredient_consumption_meals_equivalent_per_day",
+      "unit": "meals_equivalent/day",
+      "into": [],
+      "out_of": [
+        "raw_ingredient_inventory"
+      ],
+      "status": "REQUIRES_MEALS_PER_ORDER"
+    }
+  ],
+  "reference_binding_paths": {
+    "kitchen_nominal_orders_per_hour": "operating_reference.reference.kitchen_capacity_per_hour",
+    "dispatch_nominal_orders_per_hour": "operating_reference.reference.dispatch_capacity_reference_per_hour",
+    "window_hours": "operating_reference.windows.0.hours",
+    "opening_raw_inventory_meals_equivalent": "operating_reference.initial_conditions.inventory_meals",
+    "opening_cash_mxn": "operating_reference.initial_conditions.cash_mxn",
+    "supplier_nominal_lead_days": "operating_reference.initial_conditions.supplier_nominal_lead_days"
+  },
+  "uncertainties": [
+    {
+      "id": "meals_per_order",
+      "status": "UNIDENTIFIED",
+      "blocks": "coupling kitchen orders to raw ingredients"
+    },
+    {
+      "id": "observed_kitchen_completions",
+      "status": "UNOBSERVED_EVENT_TIMES",
+      "blocks": "identify actual kitchen rate/bottleneck"
+    },
+    {
+      "id": "observed_dispatch_pickups",
+      "status": "UNOBSERVED_EVENT_TIMES",
+      "blocks": "identify actual dispatch bottleneck"
+    },
+    {
+      "id": "initial_backlog",
+      "status": "UNOBSERVED",
+      "blocks": "calibrate initial pending accepted orders"
+    },
+    {
+      "id": "initial_prepared_orders",
+      "status": "UNOBSERVED",
+      "blocks": "calibrate prepared inventory"
+    },
+    {
+      "id": "supplier_receipts",
+      "status": "UNOBSERVED",
+      "blocks": "reconstruct ingredients supply trajectory"
+    },
+    {
+      "id": "finance_rate_drivers",
+      "status": "UNSPECIFIED",
+      "blocks": "simulate cash/receivables without accounting reconstruction"
+    },
+    {
+      "id": "delay_distribution",
+      "status": "UNSPECIFIED",
+      "blocks": "treat supplier nominal one-day lead as first-order delay"
+    }
+  ]
+}
