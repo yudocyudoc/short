@@ -1,6 +1,11 @@
 name: IGC0 manual Cloudflare Worker deploy
 
 on:
+  push:
+    branches:
+      - experiment/igc0-m01-r2-llama
+    paths:
+      - experiments/igc0/authorizations/M01-R2-DEPLOY-ONCE.md
   workflow_dispatch:
     inputs:
       confirm_deploy:
@@ -18,7 +23,8 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ inputs.confirm_deploy == true }}
+    # A one-time, user-authorized push deploy on the exact R2 authorization commit.
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.confirm_deploy == true) || (github.event_name == 'push' && github.ref == 'refs/heads/experiment/igc0-m01-r2-llama' && github.event.head_commit.message == 'deploy(igc0): authorize one-shot R2 worker rollout') }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
