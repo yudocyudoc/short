@@ -101,3 +101,18 @@ No se tiene en esta conexión una acción para editar GitHub Actions secrets ni 
 ## Separación de credenciales, actualización 2026-10-14
 
 El usuario confirmó en captura que el token actual llamado `Workers AI` concede sólo **Account → Workers AI → Read/Edit** y recursos `All accounts`. Ése es el token para invocar el modelo, **no** para desplegar código. No ampliar su alcance: crear **otro** token `IGC0 Worker Deploy` para Wrangler, preferiblemente desde la plantilla oficial **Edit Cloudflare Workers** y limitado a la cuenta deseada. El workflow `igc0-worker-deploy.yml` y el preflight utilizan ahora el secreto nuevo `CLOUDFLARE_DEPLOY_TOKEN` en lugar de `CLOUDFLARE_API_TOKEN`. La ejecución experimental vía REST previa permanece sin cambios. El preflight histórico #38688147098 validó únicamente el token anterior; se requiere nueva comprobación después de configurar el de despliegue.
+
+
+## Despliegue y verificación final (2026-10-15 UTC)
+
+**¡Desplegado y comprobado!** Este apartado supersede el estado inicial de «no desplegado» más arriba, conservado como registro de la preparación histórica.
+
+- [Despliegue manual #38691612368](https://github.com/yudocyudoc/short/actions/runs/38691612368) desde `main` con el código congelado en `a25e2e42343c8f544fe7d37b1b5477a49b4f396a`.
+- Worker creado: `igc0-review-lab` · URL: `https://igc0-review-lab.oulipo.workers.dev`.
+- Wrangler 4.151.0 creó el secret binding `IGC_API_KEY` y desplegó correctamente el binding de Workers AI.
+- [Prueba pública #38692026022](https://github.com/yudocyudoc/short/actions/runs/38692026022): GET `/health` = 200; POST `/v1/infer` sin bearer o con bearer incorrecto = 401.
+- [Prueba de secreto real #38692244343](https://github.com/yudocyudoc/short/actions/runs/38692244343): POST autenticado con **contrato deliberadamente inválido** = 422 `INVALID_IGC_CONTRACT`. Esto comprueba que el secreto compartido funciona sin invocar Workers AI.
+- Se corrigió `analyst/src/cloudflare_bridge.py` para enviar `User-Agent: IGC0-GitHub-Audit/1.0`. El `User-Agent` predeterminado de Python-urllib provocaba un 403 de Cloudflare `error code: 1010`, independiente de la autenticación del Worker.
+- **Workers AI / DeepSeek: cero llamadas en todas las comprobaciones posteriores al despliegue.** No se ha ejecutado M01-R1.
+
+El workflow [`igc0-worker-audit.yml` en `main`](https://github.com/yudocyudoc/short/blob/main/.github/workflows/igc0-worker-audit.yml) se instaló como lanzador **exclusivamente manual**, opción predeterminada `DO_NOT_RUN`; fija el commit probado del analista `2d4c686f6c79fc5cb30bcad05ddc1106cb4db25e`, usa la URL verificada y requiere cambiar deliberadamente a `RUN_M01_ONE_REVIEW` para permitir máximo dos llamadas. No se activó esta opción. La publicación automática del PR de resultados aún no se ha comprobado con una corrida real.
