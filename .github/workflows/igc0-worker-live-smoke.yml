@@ -19,6 +19,7 @@ jobs:
       - name: Check health and reject unauthenticated inference
         env:
           IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
+          IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
         run: |
           python - <<'PY'
           import json, os, urllib.request, urllib.error
@@ -59,8 +60,26 @@ jobs:
               headers={'Content-Type':'application/json','Authorization':'Bearer deliberately-invalid','User-Agent':'IGC0-GitHub-Audit/1.0'}))
           assert rejected_bad==401,(rejected_bad,error_bad_type)
 
+          secret=os.getenv('IGC_WORKER_API_KEY','')
+          assert len(secret)>=24, 'IGC_WORKER_API_KEY missing from GitHub Actions'
+          invalid_body=json.dumps({
+              'schema_version':'igc0.worker.v1','case_id':'INVALID_CASE',
+              'stage':'IG','request_id':'public-smoke-002',
+              'messages':[{'role':'system','content':'test'},
+                          {'role':'user','content':'test'}]
+          }).encode()
+          authenticated_invalid, authenticated_type, authenticated_raw=call(
+              urllib.request.Request(
+                  base+'/v1/infer',data=invalid_body,method='POST',
+                  headers={'Content-Type':'application/json',
+                           'User-Agent':'IGC0-GitHub-Audit/1.0',
+                           'Authorization':'Bearer '+secret}))
+          assert authenticated_invalid==422,(authenticated_invalid,authenticated_type)
+          assert json.loads(authenticated_raw).get('error')=='INVALID_IGC_CONTRACT'
+
           print('IGC0_LIVE_SMOKE',
              json.dumps({'health_status':healthy,'service':body.get('service'),
                          'missing_key_http_status':rejected,'wrong_key_http_status':rejected_bad,
+                         'valid_secret_invalid_contract_http_status':authenticated_invalid,
                          'workers_ai_calls':0,'deploy_performed':False},sort_keys=True))
           PY
