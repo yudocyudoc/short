@@ -5,11 +5,80 @@
  * - Exactly one Workers AI invocation per accepted POST.
  * - GitHub Actions owns source manifests, deterministic validation and audit PRs.
  */
-export const MODEL = "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b";
+export const MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 export const MAX_REQUEST_BYTES = 240_000;
 export const CONTRACT = "igc0.worker.v1";
-const STAGES = new Set(["IG", "REVIEW", "C"]);
+const STAGES = new Set(["IG"]); // M01-R2: no revision/contrast call at this endpoint
 const ALLOWED_ROLES = new Set(["system", "user", "assistant"]);
+
+// Output contract is a formatting aid, NOT the epistemic or dimensional validator.
+export const GENERATION = Object.freeze({ temperature: 0.1, max_tokens: 4500, stream: false });
+const ref = {
+  type: "object", additionalProperties: false,
+  properties: { source_id: { type: "string" }, sha256: { type: "string" } },
+  required: ["source_id", "sha256"],
+};
+const refs = { type: "array", items: ref };
+const stock = {
+  type: "object", additionalProperties: false,
+  properties: {
+    id: { type: "string" }, unit: { type: "string" },
+    initial: { type: ["number", "null"] },
+    initial_label: { type: "string", enum: ["OBSERVADO", "CALIBRADO", "INFERIDO", "HIPÓTESIS", "DESCONOCIDO"] },
+    initial_refs: refs,
+  },
+  required: ["id", "unit", "initial", "initial_label", "initial_refs"],
+};
+const pipe = {
+  type: "object", additionalProperties: false,
+  properties: {
+    id: { type: "string" }, from: { type: "string" }, to: { type: "string" },
+    unit_per_time: { type: "string" },
+    capacity_source: { anyOf: [ref, { type: "null" }] },
+    mechanism: { type: "string" }, evidence_refs: refs,
+    epistemic: { type: "string", enum: ["OBSERVADO", "CALIBRADO", "INFERIDO", "HIPÓTESIS", "DESCONOCIDO"] },
+  },
+  required: ["id", "from", "to", "unit_per_time", "capacity_source", "mechanism", "evidence_refs", "epistemic"],
+};
+export const GRAPH_SCHEMA = {
+  type: "object", additionalProperties: false,
+  properties: {
+    case_id: { type: "string", enum: ["M01"] },
+    stocks: { type: "array", items: stock, minItems: 1 },
+    pipes: { type: "array", items: pipe, minItems: 1 },
+    informational_links: {
+      type: "array", items: {
+        type: "object", additionalProperties: false,
+        properties: { from: { type: "string" }, to: { type: "string" },
+          type: { type: "string", enum: ["information"] }, why: { type: "string" } },
+        required: ["from", "to", "type", "why"],
+      },
+    },
+    boundary: {
+      type: "object", additionalProperties: false,
+      properties: { inside: { type: "array", items: { type: "string" } },
+        outside: { type: "array", items: { type: "string" } },
+        possible_omissions: { type: "array", items: { type: "string" } } },
+      required: ["inside", "outside", "possible_omissions"],
+    },
+    mechanism_checks: {
+      type: "array", minItems: 4, maxItems: 4,
+      items: {
+        type: "object", additionalProperties: false,
+        properties: {
+          role: { type: "string", enum: ["shared_kitchen", "order_backlog", "delivery_dispatch", "payout_delay"] },
+          status: { type: "string", enum: ["unknown", "hypothesis", "represented"] },
+          linked_ids: { type: "array", items: { type: "string" } },
+          evidence_refs: refs, explanation: { type: "string" },
+        },
+        required: ["role", "status", "linked_ids", "evidence_refs", "explanation"],
+      },
+    },
+    unknowns: { type: "array", items: { type: "string" }, minItems: 1 },
+  },
+  required: ["case_id", "stocks", "pipes", "informational_links", "boundary", "mechanism_checks", "unknowns"],
+};
+
 
 function response(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -87,9 +156,8 @@ export default {
     try {
       const result = await env.AI.run(MODEL, {
         messages: body.messages,
-        temperature: 0.1,
-        max_tokens: 4500,
-        stream: false,
+        ...GENERATION,
+        response_format: { type: "json_schema", json_schema: GRAPH_SCHEMA },
       });
       return response({
         schema_version: CONTRACT,
@@ -97,6 +165,7 @@ export default {
         stage: body.stage,
         request_id: body.request_id,
         model: MODEL,
+        inference_config: { ...GENERATION, response_format_type: "json_schema", schema_version: "IGC0_GRAPH_V3" },
         provider_result: result,
       });
     } catch {
