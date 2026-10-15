@@ -1,13 +1,6 @@
 name: IGC0 M01-R2 Llama single IG inference (manual)
 
 on:
-  pull_request:
-    types:
-      - synchronize
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/igc0/authorizations/M01-R2-INFER-ONCE.md
   workflow_dispatch:
     inputs:
       confirm_inference:
@@ -28,30 +21,17 @@ concurrency:
 
 jobs:
   infer:
-    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_M01_R2_IG_ONCE' && github.ref == 'refs/heads/experiment/igc0-m01-r2-llama') || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'experiment/igc0-m01-r2-llama' && github.event.pull_request.head.sha != '' && github.event.pull_request.number == 3 && github.run_attempt == 1) }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_M01_R2_IG_ONCE' && github.ref == 'refs/heads/experiment/igc0-m01-r2-llama' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - name: Verify one-shot authorization and prohibit reruns
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          HEAD_REF: ${{ github.head_ref }}
-          EXPECTED_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Confirm manual authorization and prohibit reruns
         run: |
           test "$GITHUB_RUN_ATTEMPT" = "1" || { echo "Reruns cannot bill another call."; exit 1; }
-          test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT" || { echo "SHA mismatch"; exit 1; }
-          if [ "$EVENT_NAME" = "pull_request" ]; then
-            test "$HEAD_REF" = "experiment/igc0-m01-r2-llama" || exit 1
-            test "$(git log -1 --format=%s)" = "infer(igc0): authorize one-shot M01-R2 Llama call" || {
-              echo "Inference authorization commit mismatch"; exit 1;
-            }
-            test -f experiments/igc0/authorizations/M01-R2-INFER-ONCE.md || exit 1
-          else
-            test "$GITHUB_REF_NAME" = "experiment/igc0-m01-r2-llama" || exit 1
-          fi
+          test "$GITHUB_REF_NAME" = "experiment/igc0-m01-r2-llama" || exit 1
       - name: Verify public evidence, Worker, and preregistered Python validators
         run: |
           node --check experiments/igc0/worker/src/index.mjs
