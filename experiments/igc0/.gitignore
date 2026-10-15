@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+analyst/output/
+aggregate/output/runs/

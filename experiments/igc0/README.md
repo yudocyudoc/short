@@ -44,4 +44,16 @@ Durante el desarrollo se detectó y corrigió un doble cargo de ingredientes en 
 
 **Siguiente compuerta:** ejecutar un único caso público de IGC con un LLM externo, congelar respuesta JSON y fuentes, validar el grafo, contrastar frente a reglas de referencia y sólo luego verificar proyectabilidad con un SD agregado calibrado. El modelo no recibirá código del generador, decisiones ocultas ni el oráculo.
 
-Los ZIP del prototipo fueron generados en la conversación y todavía **no son archivos versionados en este repositorio**. Esta nota es el registro de estado y evita afirmar que GitHub contiene un ejecutor completo no comprometido.
+El código y los ocho paquetes públicos se incorporaron después al repositorio. El oráculo reservado permanece fuera. Los ZIP originales también siguen como adjuntos de conversación. Esta nota es el registro de estado y evita afirmar que GitHub contiene un ejecutor completo no comprometido.
+
+
+## Código versionado y pruebas automáticas
+
+- [Analista público y runner LLM](analyst/) (incluye ZIP público para ejecución reproducible).
+- [Simulador discreto de prueba y generador](generator/) (sin configuraciones ni verdad oculta).
+- [Ocho paquetes públicos](public/) accesibles individualmente.
+- [Simulador SD agregado experimental](aggregate/) (**no calibrado**, sin decisiones automáticas).
+- [Instrucciones reproducibles](docs/UPLOAD_NOTES.md).
+- CI: `.github/workflows/igc0-public.yml` valida ambos módulos.
+
+Las salidas de ingeniería se generan con código y **no se atribuyen al LLM**. No se incluyen los archivos del oráculo ni los resultados ocultos.

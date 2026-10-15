@@ -1,0 +1,70 @@
+{
+  "compare_policy_from_unvalidated_engine": false,
+  "fit_against_observed_open_full": [
+    {
+      "case_id": "M01",
+      "closing_cash_abs_error_mxn": 701.4,
+      "closing_inventory_abs_error": 0.0,
+      "closing_receivables_abs_error_mxn": 0.0,
+      "delivery_service_abs_error": 3.0,
+      "presencial_service_abs_error": 6.0
+    },
+    {
+      "case_id": "M02",
+      "closing_cash_abs_error_mxn": 11857.2,
+      "closing_inventory_abs_error": 29.0,
+      "closing_receivables_abs_error_mxn": 2272.4,
+      "delivery_service_abs_error": 112.0,
+      "presencial_service_abs_error": 87.0
+    },
+    {
+      "case_id": "M03",
+      "closing_cash_abs_error_mxn": 7235.6,
+      "closing_inventory_abs_error": 0.0,
+      "closing_receivables_abs_error_mxn": 0.0,
+      "delivery_service_abs_error": 67.0,
+      "presencial_service_abs_error": 7.0
+    },
+    {
+      "case_id": "M04",
+      "closing_cash_abs_error_mxn": 7971.0,
+      "closing_inventory_abs_error": 12.0,
+      "closing_receivables_abs_error_mxn": 0.0,
+      "delivery_service_abs_error": 15.0,
+      "presencial_service_abs_error": 24.0
+    },
+    {
+      "case_id": "M05",
+      "closing_cash_abs_error_mxn": 437.4,
+      "closing_inventory_abs_error": 0.0,
+      "closing_receivables_abs_error_mxn": 0.0,
+      "delivery_service_abs_error": 3.0,
+      "presencial_service_abs_error": 3.0
+    },
+    {
+      "case_id": "M06",
+      "closing_cash_abs_error_mxn": 46384.4,
+      "closing_inventory_abs_error": 127.0,
+      "closing_receivables_abs_error_mxn": 2371.2,
+      "delivery_service_abs_error": 282.0,
+      "presencial_service_abs_error": 415.0
+    },
+    {
+      "case_id": "M07",
+      "closing_cash_abs_error_mxn": 5162.6,
+      "closing_inventory_abs_error": 0.0,
+      "closing_receivables_abs_error_mxn": 889.2,
+      "delivery_service_abs_error": 61.0,
+      "presencial_service_abs_error": 4.0
+    },
+    {
+      "case_id": "M08",
+      "closing_cash_abs_error_mxn": 7235.6,
+      "closing_inventory_abs_error": 0.0,
+      "closing_receivables_abs_error_mxn": 0.0,
+      "delivery_service_abs_error": 67.0,
+      "presencial_service_abs_error": 7.0
+    }
+  ],
+  "status": "NOT_VALIDATED_FOR_POLICY_CHOICES"
+}
