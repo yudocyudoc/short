@@ -62,7 +62,8 @@ def submit_worker(url, secret, request_body):
     req = Request(url.rstrip("/") + "/v1/infer",
         data=json.dumps(request_body, ensure_ascii=False, separators=(",", ":")).encode("utf-8"),
         headers={"Authorization": "Bearer " + secret,
-                 "Content-Type": "application/json"},
+                 "Content-Type": "application/json",
+                 "User-Agent": "IGC0-GitHub-Audit/1.0"},
         method="POST")
     with urlopen(req, timeout=240) as conn:
         data=json.load(conn)
