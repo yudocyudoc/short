@@ -29,9 +29,9 @@ def sample_graph(p):
         "stocks":[
             {"id":"pending","unit":"orders","initial":None,"initial_label":"DESCONOCIDO","initial_refs":[]},
             {"id":"ingredients","unit":"meals_equivalent","initial":ini["inventory_meals"]["value"],
-             "initial_label":"CALIBRADO","initial_refs":[ref("inventory_meals")]},
+             "initial_label":"OBSERVADO","initial_refs":[ref("inventory_meals")]},
             {"id":"cash","unit":"MXN","initial":ini["cash_mxn"]["value"],
-             "initial_label":"CALIBRADO","initial_refs":[ref("cash_mxn")]},
+             "initial_label":"OBSERVADO","initial_refs":[ref("cash_mxn")]},
         ],
         "pipes":[
             {"id":"admit_orders","from":"external_requests","to":"pending",
@@ -112,7 +112,7 @@ class TestIGC0Split(unittest.TestCase):
     def test_initial_without_source(self):
         self.graph_bad(lambda g:g["stocks"][1].update(initial_refs=[]),"UNSUPPORTED_INITIAL")
     def test_reference_not_observed(self):
-        self.graph_bad(lambda g:g["stocks"][1].update(initial_label="OBSERVADO"),"INITIAL_SOURCE_KIND")
+        self.graph_bad(lambda g:g["stocks"][1].update(initial_label="CALIBRADO"),"INITIAL_SOURCE_KIND")
     def test_unknown_initial_cannot_be_zero(self):
         self.graph_bad(lambda g:g["stocks"][0].update(initial=0),"UNKNOWN_INITIAL_ASSIGNED")
     def test_information_link_dangling(self):
