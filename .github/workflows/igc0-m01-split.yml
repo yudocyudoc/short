@@ -1,11 +1,6 @@
 name: IGC0 M01 split I-G then C (DeepSeek)
 
 on:
-  push:
-    branches:
-      - experiment/c0-cafeteria
-    paths:
-      - experiments/igc0/analyst/runs/M01_SPLIT_FIRST_RUN.md
   workflow_dispatch:
 
 permissions:
