@@ -1,0 +1,56 @@
+name: IGC0 inspect M01 v2 raw transport (no AI)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download first M01 v2 artifact without inference
+        run: gh run download 38683795266 --repo yudocyudoc/short --name igc0-m01-deepseek-v2 --dir original
+      - name: Analyze response boundaries only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,re
+          base=Path('original/llm_v2/M01')
+          raw=base/'raw_response.txt'
+          if raw.exists():
+              t=raw.read_text(encoding='utf-8')
+              sections=t.split('</think>',1)
+              trailing=sections[1].strip() if len(sections)==2 else ''
+              detail={
+                  'raw_chars':len(t),
+                  'think_opens':t.count('<think>'),
+                  'think_closes':t.count('</think>'),
+                  'has_post_think_content':bool(trailing),
+                  'post_think_chars':len(trailing),
+                  'final_ends_with_json_brace':t.rstrip().endswith('}'),
+                  'final_ends_with_fence':t.rstrip().endswith('```'),
+                  'ends_during_think':t.count('<think>')>t.count('</think>'),
+                  'fences_count':t.count('```'),
+              }
+          else:
+              detail={'raw_text_present':False,'native_object_present':(base/'raw_response.json').exists()}
+          usage=json.loads((base/'usage.json').read_text(encoding='utf-8'))
+          provider=json.loads((base/'adjudication_v2.json').read_text(encoding='utf-8'))
+          detail['usage']=usage.get('usage',{})
+          detail['transport']=usage.get('transport_kind')
+          detail['original_validator_accepted']=provider['original_validator_accepted']
+          detail['v2_semantic_accepted']=provider['v2_semantic_accepted']
+          Path('m01-v2-transport-diagnostic.json').write_text(json.dumps(detail,indent=2,ensure_ascii=False)+'\n')
+          print('IGC0_M01_V2_TRANSPORT',json.dumps(detail,ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: igc0-m01-v2-transport-diagnostic
+          path: m01-v2-transport-diagnostic.json

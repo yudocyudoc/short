@@ -1,0 +1,32 @@
+name: C5 library transfer with unchanged SD grammar
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile transport, validator and runner
+        run: python3 -m py_compile scripts/c42_transport.py scripts/c5_validator.py scripts/run_c5_deepseek.py
+      - name: Check existing R1 transport controls
+        run: python3 -m unittest discover -s tests -p test_c42.py -v
+      - name: Check C5 transfer validator gold and negative controls
+        run: python3 -m unittest discover -s tests -p test_c5_validator.py -v
+      - name: DeepSeek baseline A and unchanged-grammar B (two calls maximum)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python3 scripts/run_c5_deepseek.py
+      - name: Preserve untouched outputs, separated reasoning and balance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c5-library-transfer-results
+          path: c5-cloudflare-results/
+          if-no-files-found: warn

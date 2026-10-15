@@ -1,0 +1,26 @@
+name: C3 posthoc formatting diagnostic (no inference)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  evaluate-existing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve untouched C3 model artifact from run 38493093296
+        run: gh run download 38493093296 --repo yudocyudoc/short --name c3-typed-graph-results --dir original
+      - name: Evaluate existing A and B without new AI calls
+        run: python3 scripts/c3_posthoc_fence_diagnostic.py original c3-posthoc-results
+      - name: Preserve posthoc independent diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3-posthoc-formatting-diagnostic
+          path: c3-posthoc-results/

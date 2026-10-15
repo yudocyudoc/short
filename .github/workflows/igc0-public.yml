@@ -1,0 +1,20 @@
+name: IGC0 public analyst tests
+on:
+  push:
+    paths:
+      - 'experiments/igc0/**'
+      - '.github/workflows/igc0-public.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile Python components
+        run: python -m compileall -q experiments/igc0/analyst/src experiments/igc0/generator/src experiments/igc0/aggregate/src
+      - name: Validate public discrete-event generator and packets
+        run: python -m unittest discover -s experiments/igc0/generator/tests -p 'test_*.py' -v
+      - name: Validate analyst evidence, pipes and accounting
+        run: python -m unittest discover -s experiments/igc0/analyst/tests -p 'test_*.py' -v

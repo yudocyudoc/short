@@ -1,0 +1,24 @@
+name: C0 Cloudflare token diagnostic
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - experiments/c0/TRIGGER_TOKEN_CHECK.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify token scope and account ID format (no inference)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python3 scripts/check_cloudflare_auth.py

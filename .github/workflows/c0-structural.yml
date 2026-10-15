@@ -1,0 +1,23 @@
+name: C0 deterministic checks
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - tests/**
+      - .github/workflows/c0-structural.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structural:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Python syntax of Cloudflare runner
+        run: python3 -m py_compile scripts/run_c0_cloudflare.py scripts/run_c0_ab.py
+      - name: Validate C0 physical constraints
+        run: python3 -m unittest discover -s tests -v

@@ -1,0 +1,37 @@
+name: C4 inspect existing outputs (no inference)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download existing C4 model outputs
+        run: gh run download 38499957498 --repo yudocyudoc/short --name c4-build-verify-revise --dir original
+      - name: Compare raw initial and revision
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,sys
+          sys.path.insert(0,"scripts")
+          from c4_validator import load_transport
+          for stage in ("first","revision"):
+              raw=Path(f"original/{stage}_raw.txt").read_text()
+              obj,trans=load_transport(raw)
+              print("STAGE",stage,"SHA256",hashlib.sha256(raw.encode()).hexdigest(),"TRANSPORT",trans)
+              print(json.dumps(obj,ensure_ascii=False,indent=2))
+              report=json.loads(Path(f"original/{stage}_validation.json").read_text())
+              print("SCORE",report["score"],"FAILED",[(x["id"],x["reason"]) for x in report["gates"] if not x["pass"]])
+          a,_=load_transport(Path("original/first_raw.txt").read_text())
+          b,_=load_transport(Path("original/revision_raw.txt").read_text())
+          print("OBJECTS_IDENTICAL",a==b)
+          PY

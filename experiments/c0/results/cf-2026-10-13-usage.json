@@ -1,0 +1,12 @@
+{
+  "run_id":38480082589,
+  "run_url":"https://github.com/yudocyudoc/short/actions/runs/38480082589",
+  "model":"@cf/zai-org/glm-4.7-flash",
+  "temperature":0.1,
+  "completion_limit":2400,
+  "status":"success",
+  "A":{"input_tokens":731,"output_tokens":880,"total_tokens":1611,"neurons":36.0525,"estimated_usd_before_free_allowance":0.0003962},
+  "B":{"input_tokens":1030,"output_tokens":1006,"total_tokens":2036,"neurons":42.2834,"estimated_usd_before_free_allowance":0.0004647},
+  "total":{"tokens":3647,"neurons":78.3359,"estimated_usd_before_free_allowance":0.0008609},
+  "note":"Estimated cost is not an invoice. Original unedited responses and provider metrics are stored as a GitHub Actions artifact."
+}

@@ -1,0 +1,30 @@
+name: C4.1 DeepSeek JSON format comparison
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deepseek-c41:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile runner and validator
+        run: python3 -m py_compile scripts/run_c41_deepseek.py scripts/c4_validator.py
+      - name: Verify unchanged C4 deterministic validator
+        run: python3 -m unittest discover -s tests -p test_c4_validator.py -v
+      - name: DeepSeek prompt only then JSON Mode (max 2 calls)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python3 scripts/run_c41_deepseek.py
+      - name: Preserve unmodified provider outputs and validation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c41-deepseek-json-test
+          path: c4.1-cloudflare-results/
+          if-no-files-found: warn

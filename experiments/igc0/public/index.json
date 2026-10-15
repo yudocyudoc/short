@@ -1,0 +1,39 @@
+{
+  "case_order_has_no_semantic_meaning": true,
+  "cases": [
+    {
+      "case_id": "M01",
+      "packet_sha256": "68b26b596b93f7a5574f61a94f1e2927588d907c5f6a4a876bafe381b952376a"
+    },
+    {
+      "case_id": "M02",
+      "packet_sha256": "a4619976340c5eeb29ec9a9374b9d6d7846f5c8da6b3876a4f5cef5099de749c"
+    },
+    {
+      "case_id": "M03",
+      "packet_sha256": "8d706e201def62c7b8e09ffd594b8a368493528c0606ad1109262fd26915b696"
+    },
+    {
+      "case_id": "M04",
+      "packet_sha256": "e50aec5f3764c4eb5836895f24bb08859c3185fa4ce26c6cffe565de111a9f64"
+    },
+    {
+      "case_id": "M05",
+      "packet_sha256": "ebb8cd7f126bc58a2bc905fa992cc925df33b5294f404344d5de0c18b64b53c9"
+    },
+    {
+      "case_id": "M06",
+      "packet_sha256": "9309a57f0156a86c8be78a81715d68f6065ff5e779e41aa50a9677f7cfc4dfec"
+    },
+    {
+      "case_id": "M07",
+      "packet_sha256": "a9209698d2cda96eea11070090f4f720e03df04a805c29733f5a03e9c58ec884"
+    },
+    {
+      "case_id": "M08",
+      "packet_sha256": "6cd7f3c18497e56a6cb1482793a6034d8720b2b954181034968166f7306fd814"
+    }
+  ],
+  "contains_ground_truth": false,
+  "experiment": "IGC-0"
+}

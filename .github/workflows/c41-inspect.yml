@@ -1,0 +1,50 @@
+name: C4.1 inspect DeepSeek outputs (no inference)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve saved outputs from prior run
+        run: gh run download 38510170508 --repo yudocyudoc/short --name c41-deepseek-json-test --dir original
+      - name: Inspect JSON payload after reasoning (diagnostic only)
+        run: |
+          python3 - <<'PY'
+          import json,sys
+          from pathlib import Path
+          sys.path.insert(0,"scripts")
+          from c4_validator import validate_raw,load_transport
+          facts=json.loads(Path("experiments/c4/evaluation/facts.json").read_text())
+          summary={}
+          for mode in ("prompt_only","json_mode"):
+              raw=Path("original/"+mode+"-raw.txt").read_text(encoding="utf-8")
+              sections=raw.split("</think>",1)
+              tail=sections[-1] if len(sections)==2 else ""
+              details={"open_think":raw.count("<think>"),"close_think":raw.count("</think>"),"has_tail":bool(tail.strip())}
+              if tail.strip():
+                  outcome=validate_raw(tail,facts)
+                  obj,transport=load_transport(tail)
+                  details["tail_format"]=transport["format"]
+                  details["tail_score"]=outcome["score"]
+                  details["failed"]=[{"id":g["id"],"reason":g["reason"]} for g in outcome["gates"] if not g["pass"]]
+                  if isinstance(obj,dict):
+                      details["stocks"]=obj.get("stocks")
+                      details["flows"]=[{"from":t.get("from"),"to":t.get("to"),"total":t.get("total"),"unit":t.get("unit")} for t in obj.get("flows",[]) if isinstance(t,dict)]
+              summary[mode]=details
+              print(mode,json.dumps(details,ensure_ascii=False))
+          Path("c41-inspection.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c41-deepseek-posthoc
+          path: c41-inspection.json

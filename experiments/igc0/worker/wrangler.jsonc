@@ -1,0 +1,10 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
+  "name": "igc0-review-lab",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-10-14",
+  "workers_dev": true,
+  "ai": {
+    "binding": "AI"
+  }
+}

@@ -1,0 +1,2040 @@
+{
+  "analysis_task": "Construir grafo SD mínimo; distinguir ideal de virtual; contrastar y proponer acción en 14 días; abstenerse cuando mecanismos no identificables",
+  "case_id": "M01",
+  "data_origin": "MUNDO_SINTÉTICO; no observaciones empresariales reales",
+  "evidence": {
+    "daily_stock_finance_snapshots": [
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "e9dd06c385e2618b03f40a49e5caf2b49428dcfe9348aeb369138f1e5230d5d8",
+        "source_id": "LEDGER:D01",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 2039.0,
+          "day": 1,
+          "inventory_end": 43,
+          "receivables_end_mxn": 2272.4
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "2ee0d348c23c7747e09eb5b96c7b18dae71de4bd466caaa2744a79aa1679a9b4",
+        "source_id": "LEDGER:D02",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 6927.4,
+          "day": 2,
+          "inventory_end": 59,
+          "receivables_end_mxn": 2568.8
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "436444f8ea1e04f8e269f975d8424494825e5eccd32da6231a4232d8d97eef02",
+        "source_id": "LEDGER:D03",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 6392.2,
+          "day": 3,
+          "inventory_end": 10,
+          "receivables_end_mxn": 2568.8
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "0728e28cd8bc6d0f6c19177e1ed6346658f26c8e08409ba9b95036035e4d1510",
+        "source_id": "LEDGER:D04",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 10377.0,
+          "day": 4,
+          "inventory_end": 69,
+          "receivables_end_mxn": 2568.8
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "2ed83ae7b4e5312b23f69bad7d2c2e0ac6f2c08a047c21f81488c71bd38965b2",
+        "source_id": "LEDGER:D05",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 10976.8,
+          "day": 5,
+          "inventory_end": 21,
+          "receivables_end_mxn": 1877.2
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "ff8db2fd8e9310b79567dc0bf72ae26e8f0baca91fcdc8ca0ce62b6b50320564",
+        "source_id": "LEDGER:D06",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 14666.0,
+          "day": 6,
+          "inventory_end": 70,
+          "receivables_end_mxn": 2173.6
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "74deae4731c38dd2c10591295bb30de208fb0b5cf9871c407c0906da0fd1d9c2",
+        "source_id": "LEDGER:D07",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 14697.6,
+          "day": 7,
+          "inventory_end": 17,
+          "receivables_end_mxn": 2371.2
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "211a6a166f149ddf8b39aaef7564e8c748e555aa515382390c0157f41e31d904",
+        "source_id": "LEDGER:D08",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 20782.8,
+          "day": 8,
+          "inventory_end": 52,
+          "receivables_end_mxn": 2371.2
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "a28cdbc1d28b9b54c78f0925a0223feb1329a65cd7206f8789604c57b8ef3cd5",
+        "source_id": "LEDGER:D09",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 21251.0,
+          "day": 9,
+          "inventory_end": 0,
+          "receivables_end_mxn": 1679.6
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "7707f9ae293788e07d44d2b539f29bd1fe6940eaae5de23baae5e5b85b2ea665",
+        "source_id": "LEDGER:D10",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 25195.6,
+          "day": 10,
+          "inventory_end": 63,
+          "receivables_end_mxn": 2470.0
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "84cf1660303e0785f2376beb0cb67a55b4dc228871e4bed4fbd66ee23905afb6",
+        "source_id": "LEDGER:D11",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 26290.6,
+          "day": 11,
+          "inventory_end": 9,
+          "receivables_end_mxn": 1679.6
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "74dbf87a1e879fa233167d59190b15fe66f7d92f13bb085b5e73848c1955517c",
+        "source_id": "LEDGER:D12",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 29764.2,
+          "day": 12,
+          "inventory_end": 68,
+          "receivables_end_mxn": 2371.2
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "169b64e55b2315afa586908a1a895623d6928ba0254033f64abb53bd166ab7b2",
+        "source_id": "LEDGER:D13",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 30058.4,
+          "day": 13,
+          "inventory_end": 15,
+          "receivables_end_mxn": 2272.4
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "196445f7b94e0e8f945b8c88e9efd63ff75a7ef6405b892e40194b4f25c3ff47",
+        "source_id": "LEDGER:D14",
+        "units": {
+          "cash_end_mxn": "MXN",
+          "day": "day_index",
+          "inventory_end": "meals_equivalent",
+          "receivables_end_mxn": "MXN"
+        },
+        "values": {
+          "cash_end_mxn": 33644.8,
+          "day": 14,
+          "inventory_end": 72,
+          "receivables_end_mxn": 2371.2
+        }
+      }
+    ],
+    "operating_notes": [],
+    "pos_by_arrival_cohort": [
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "9adaaf7af582f573482139c6d41782107a3b31f753db548e8f8ec44207d77f39",
+        "source_id": "POS:D01:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 1,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 5,
+          "presencial_attempted": 5,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 5,
+          "presencial_service_window_completed": 5,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "489fa89db4d7a5a1398aa50087f6c6864aafe179e777c1a6419f427b3b20db9b",
+        "source_id": "POS:D01:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 1,
+          "delivery_accepted": 5,
+          "delivery_attempted": 5,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 5,
+          "delivery_service_window_completed": 5,
+          "presencial_accepted": 11,
+          "presencial_attempted": 11,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 11,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "9fe367afb14d5c604a0c9a75d608a39cae847063b42ef8be43ccb06402f8ae20",
+        "source_id": "POS:D01:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 1,
+          "delivery_accepted": 12,
+          "delivery_attempted": 12,
+          "delivery_canceled": 1,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 11,
+          "delivery_service_window_completed": 11,
+          "presencial_accepted": 10,
+          "presencial_attempted": 10,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 10,
+          "presencial_service_window_completed": 10,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "fdb7f01b52882bd0efd238c54ca07a83116d82f7541e9e7308b9b640b7654f2f",
+        "source_id": "POS:D02:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 2,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 15,
+          "presencial_attempted": 15,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 15,
+          "presencial_service_window_completed": 14,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "a48cab30521b27adb14d908988b0af20fb1712b69872248b710fc2b846b7d616",
+        "source_id": "POS:D02:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 2,
+          "delivery_accepted": 15,
+          "delivery_attempted": 15,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 15,
+          "delivery_service_window_completed": 15,
+          "presencial_accepted": 19,
+          "presencial_attempted": 19,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 19,
+          "presencial_service_window_completed": 17,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "2fac32e9a3a7be5f7f780db5ea7a53de045358db89e80f8744271fa0683e500a",
+        "source_id": "POS:D02:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 2,
+          "delivery_accepted": 4,
+          "delivery_attempted": 4,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 4,
+          "delivery_service_window_completed": 5,
+          "presencial_accepted": 6,
+          "presencial_attempted": 6,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 6,
+          "presencial_service_window_completed": 9,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "613685a923363abde0888a2fd76f7d9a14e77fb2bebb19dc99053f51b62c8c8c",
+        "source_id": "POS:D03:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 3,
+          "delivery_accepted": 5,
+          "delivery_attempted": 5,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 5,
+          "delivery_service_window_completed": 4,
+          "presencial_accepted": 4,
+          "presencial_attempted": 4,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 4,
+          "presencial_service_window_completed": 4,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "2e115f472e6f11b0512565c41d6e5b95b0c84697e3de60aed275ce0f429d8a6d",
+        "source_id": "POS:D03:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 3,
+          "delivery_accepted": 11,
+          "delivery_attempted": 11,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 11,
+          "delivery_service_window_completed": 12,
+          "presencial_accepted": 11,
+          "presencial_attempted": 11,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 11,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "06b1f20cd0ad9bc2878824e1d4675042ff593926ddef3c2e1e6ac02187281712",
+        "source_id": "POS:D03:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 3,
+          "delivery_accepted": 10,
+          "delivery_attempted": 10,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 10,
+          "delivery_service_window_completed": 10,
+          "presencial_accepted": 8,
+          "presencial_attempted": 8,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 8,
+          "presencial_service_window_completed": 8,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "9f56c977201274c3872351848dfce521acdcbcfd13244f584d70b0583839232f",
+        "source_id": "POS:D04:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 4,
+          "delivery_accepted": 5,
+          "delivery_attempted": 5,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 5,
+          "delivery_service_window_completed": 5,
+          "presencial_accepted": 8,
+          "presencial_attempted": 8,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 8,
+          "presencial_service_window_completed": 8,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "45042af724516655a75915ed84ec48aa157b4d4d822c1ce8652e0301767f966e",
+        "source_id": "POS:D04:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 4,
+          "delivery_accepted": 14,
+          "delivery_attempted": 14,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 14,
+          "delivery_service_window_completed": 14,
+          "presencial_accepted": 11,
+          "presencial_attempted": 11,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 11,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "1a8d743a3bf152b15083a4b67d42a832fa589a12874a09bf584361bc25aaf62b",
+        "source_id": "POS:D04:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 4,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 13,
+          "presencial_attempted": 13,
+          "presencial_canceled": 2,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 11,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "1f4ca0148f42b72dcdb3dffb38247b1c0759c1b4a9b3c6a7c196ce10621183c3",
+        "source_id": "POS:D05:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 5,
+          "delivery_accepted": 2,
+          "delivery_attempted": 2,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 2,
+          "delivery_service_window_completed": 2,
+          "presencial_accepted": 7,
+          "presencial_attempted": 7,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 7,
+          "presencial_service_window_completed": 7,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "1cee47f677174273d9825de035610ccc23382b4fdef6fc54c85581e3eef0c080",
+        "source_id": "POS:D05:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 5,
+          "delivery_accepted": 9,
+          "delivery_attempted": 9,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 9,
+          "delivery_service_window_completed": 9,
+          "presencial_accepted": 13,
+          "presencial_attempted": 13,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 13,
+          "presencial_service_window_completed": 13,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "7929d40f4f702d4fd54206eafc7c84942ca3c99d1159714190f3bc25a0f3d83e",
+        "source_id": "POS:D05:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 5,
+          "delivery_accepted": 8,
+          "delivery_attempted": 8,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 8,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 9,
+          "presencial_attempted": 9,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 9,
+          "presencial_service_window_completed": 9,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "be00dd38a8b45f14ca5c15d15939c4c9bbe21783cd440bb575df92b93a3406e7",
+        "source_id": "POS:D06:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 6,
+          "delivery_accepted": 8,
+          "delivery_attempted": 8,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 8,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 15,
+          "presencial_attempted": 15,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 15,
+          "presencial_service_window_completed": 14,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "91d6f1944c0d3c77f1c8428c6e1af589e0fa28775083a075733ef082cd64fca0",
+        "source_id": "POS:D06:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 6,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 12,
+          "presencial_attempted": 12,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 12,
+          "presencial_service_window_completed": 13,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "40f657d928d1d2f8e78e97dbcce5a438bb6f91c64f733649e8b7ee8cce396814",
+        "source_id": "POS:D06:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 6,
+          "delivery_accepted": 8,
+          "delivery_attempted": 8,
+          "delivery_canceled": 1,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 6,
+          "presencial_attempted": 6,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 6,
+          "presencial_service_window_completed": 6,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "51138a0427e7619fe16c770e7d759d033b7ab0cd0ace3c340166da6bf7ef53c4",
+        "source_id": "POS:D07:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 7,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 8,
+          "presencial_attempted": 8,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 8,
+          "presencial_service_window_completed": 7,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "eb8e3a7d39499216da297239ee9b2832eafa311bf55f3c1f1b0ee3092ef4abf7",
+        "source_id": "POS:D07:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 7,
+          "delivery_accepted": 11,
+          "delivery_attempted": 11,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 11,
+          "delivery_service_window_completed": 10,
+          "presencial_accepted": 13,
+          "presencial_attempted": 13,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 13,
+          "presencial_service_window_completed": 13,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "6c50276c087c4fb7bd418f0b1e068793f1d55d6ecbe41930d3bc3e0a71720e82",
+        "source_id": "POS:D07:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 7,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 9,
+          "presencial_attempted": 9,
+          "presencial_canceled": 1,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 8,
+          "presencial_service_window_completed": 9,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "a8ab9ccf90372d0d862f77bcb8bb8496b2b25ff2d28d6d35375cb73b7d453d3c",
+        "source_id": "POS:D08:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 8,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 17,
+          "presencial_attempted": 17,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 17,
+          "presencial_service_window_completed": 17,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "59bf99229984de31c382d4417f8569bf7db30d96f4a52274ab16418c4a1b0915",
+        "source_id": "POS:D08:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 8,
+          "delivery_accepted": 10,
+          "delivery_attempted": 10,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 10,
+          "delivery_service_window_completed": 10,
+          "presencial_accepted": 19,
+          "presencial_attempted": 19,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 19,
+          "presencial_service_window_completed": 17,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "7d418b6e736cf7c3db0f5730113183b3897a02fa2cc8e4132d98261190886e6c",
+        "source_id": "POS:D08:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 8,
+          "delivery_accepted": 8,
+          "delivery_attempted": 8,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 8,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 13,
+          "presencial_attempted": 13,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 13,
+          "presencial_service_window_completed": 15,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "d95e3c007ab3b9964fbe0d16317c340210193a10602b5d0fc7f1474a7cc67db0",
+        "source_id": "POS:D09:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 9,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 10,
+          "presencial_attempted": 10,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 10,
+          "presencial_service_window_completed": 10,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "55918b7d2bac623b0e0b4b35faf1410995b019da07a9e079dd94c50ae872f1dd",
+        "source_id": "POS:D09:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 9,
+          "delivery_accepted": 7,
+          "delivery_attempted": 7,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 7,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 20,
+          "presencial_attempted": 20,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 20,
+          "presencial_service_window_completed": 19,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "38050615830deaec286ead53197bef97e15261d0777e8a8dcfe7c59a1c5b1217",
+        "source_id": "POS:D09:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 9,
+          "delivery_accepted": 3,
+          "delivery_attempted": 3,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 3,
+          "delivery_service_window_completed": 3,
+          "presencial_accepted": 6,
+          "presencial_attempted": 6,
+          "presencial_canceled": 1,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 5,
+          "presencial_service_window_completed": 6,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "bcc9c7a99ba343dcd443da27f446adb8183355882b63b93d3e7ccf6f842c8696",
+        "source_id": "POS:D10:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 10,
+          "delivery_accepted": 8,
+          "delivery_attempted": 8,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 8,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 9,
+          "presencial_attempted": 9,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 9,
+          "presencial_service_window_completed": 9,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "e4982a2ca76911320768ceeefe2140a200333ed26508c3d7b9811945927d3e04",
+        "source_id": "POS:D10:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 10,
+          "delivery_accepted": 12,
+          "delivery_attempted": 12,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 12,
+          "delivery_service_window_completed": 12,
+          "presencial_accepted": 20,
+          "presencial_attempted": 20,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 20,
+          "presencial_service_window_completed": 19,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "c1fc1582970f8e7893b0e64f06474d3333a9442ade71e0ca1821ecdba1c54446",
+        "source_id": "POS:D10:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 10,
+          "delivery_accepted": 5,
+          "delivery_attempted": 5,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 5,
+          "delivery_service_window_completed": 5,
+          "presencial_accepted": 9,
+          "presencial_attempted": 9,
+          "presencial_canceled": 1,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 8,
+          "presencial_service_window_completed": 9,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "14df518ac37a0c6f76e73c61ed90722c78b5d2efe796c16c96d0c121951ce0c3",
+        "source_id": "POS:D11:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 11,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 12,
+          "presencial_attempted": 12,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 12,
+          "presencial_service_window_completed": 12,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "03a32c318bacf4b8aaf482dfe2b668bb13d30586ed6c2f8d9146f82bb56a5335",
+        "source_id": "POS:D11:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 11,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 14,
+          "presencial_attempted": 14,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 14,
+          "presencial_service_window_completed": 14,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "08e2197e03dbda6bc2e73cea89c6c2fb413f9e06ceab3b6b6f94e392a4802fec",
+        "source_id": "POS:D11:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 11,
+          "delivery_accepted": 5,
+          "delivery_attempted": 5,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 5,
+          "delivery_service_window_completed": 5,
+          "presencial_accepted": 11,
+          "presencial_attempted": 11,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 11,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "253d05a9933ab17c68f3488c475e98191b626e2f19668f831f5dc94debc0119b",
+        "source_id": "POS:D12:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 12,
+          "delivery_accepted": 10,
+          "delivery_attempted": 10,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 10,
+          "delivery_service_window_completed": 9,
+          "presencial_accepted": 10,
+          "presencial_attempted": 10,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 10,
+          "presencial_service_window_completed": 10,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "a78fc865d79d41a0f8d9a5563ec42181291bf403d012daa2240ba26b689d2afe",
+        "source_id": "POS:D12:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 12,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 15,
+          "presencial_attempted": 15,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 15,
+          "presencial_service_window_completed": 14,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "b20108a1a43d29a1ea0200fa849b38c2c1c5f37a12f274c630a79870a10d94e3",
+        "source_id": "POS:D12:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 12,
+          "delivery_accepted": 9,
+          "delivery_attempted": 9,
+          "delivery_canceled": 1,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 8,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 9,
+          "presencial_attempted": 9,
+          "presencial_canceled": 1,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 8,
+          "presencial_service_window_completed": 9,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "9f451144a910cd2bd3e6ede17d87451067acca49b6fd87a3f76bf71b58105eff",
+        "source_id": "POS:D13:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 13,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 11,
+          "presencial_attempted": 11,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 10,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "f327aa131d9c0952207bde740161f6a929781a88a889bdf318c0fe952d037fa7",
+        "source_id": "POS:D13:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 13,
+          "delivery_accepted": 11,
+          "delivery_attempted": 11,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 11,
+          "delivery_service_window_completed": 10,
+          "presencial_accepted": 12,
+          "presencial_attempted": 12,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 12,
+          "presencial_service_window_completed": 12,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "2809e2c64ca2046f3c0f26e650edf39bdca48654c888ce020f0acaa1afa232f5",
+        "source_id": "POS:D13:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 13,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 7,
+          "presencial_accepted": 7,
+          "presencial_attempted": 7,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 7,
+          "presencial_service_window_completed": 8,
+          "window": "valle_pm"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "754bd9547609838d78268a422d95d09217d9ae2f09eb5cd1a2a1656e007bb0d3",
+        "source_id": "POS:D14:valle_am",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 14,
+          "delivery_accepted": 8,
+          "delivery_attempted": 8,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 8,
+          "delivery_service_window_completed": 8,
+          "presencial_accepted": 15,
+          "presencial_attempted": 15,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 15,
+          "presencial_service_window_completed": 15,
+          "window": "valle_am"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "96cd2a91e2fc43a78065f2588d84f5b8f4fdf4bcc3649e09c182134be779c619",
+        "source_id": "POS:D14:pico",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 14,
+          "delivery_accepted": 10,
+          "delivery_attempted": 10,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 10,
+          "delivery_service_window_completed": 10,
+          "presencial_accepted": 11,
+          "presencial_attempted": 11,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 11,
+          "presencial_service_window_completed": 11,
+          "window": "pico"
+        }
+      },
+      {
+        "evidence_type": "OBSERVADO",
+        "sha256": "7322c407ce03b8f91ae8a4b420ead6fbb4affa5a73648823329fd339215eeb91",
+        "source_id": "POS:D14:valle_pm",
+        "units": {
+          "day": "day_index",
+          "delivery_accepted": "orders",
+          "delivery_attempted": "orders",
+          "delivery_canceled": "orders",
+          "delivery_declined": "orders",
+          "delivery_fulfilled": "orders",
+          "delivery_service_window_completed": "orders",
+          "presencial_accepted": "orders",
+          "presencial_attempted": "orders",
+          "presencial_canceled": "orders",
+          "presencial_declined": "orders",
+          "presencial_fulfilled": "orders",
+          "presencial_service_window_completed": "orders",
+          "window": "label"
+        },
+        "values": {
+          "day": 14,
+          "delivery_accepted": 6,
+          "delivery_attempted": 6,
+          "delivery_canceled": 0,
+          "delivery_declined": 0,
+          "delivery_fulfilled": 6,
+          "delivery_service_window_completed": 6,
+          "presencial_accepted": 3,
+          "presencial_attempted": 3,
+          "presencial_canceled": 0,
+          "presencial_declined": 0,
+          "presencial_fulfilled": 3,
+          "presencial_service_window_completed": 3,
+          "window": "valle_pm"
+        }
+      }
+    ]
+  },
+  "labels_allowed": [
+    "OBSERVADO",
+    "CALIBRADO",
+    "INFERIDO",
+    "SIMULADO",
+    "HIPÓTESIS",
+    "DESCONOCIDO"
+  ],
+  "limitations": {
+    "event_times_raw_available": false,
+    "grouping_pos": "Resultados agrupados por ventana de llegada del pedido, no por hora de completado",
+    "kitchen_stage_trace_available": false,
+    "pickup_stage_trace_available": false,
+    "requests_attempted": "Demanda potencial registrada en POS/plataforma durante operación virtual con delivery abierto",
+    "service_window_counts": "Completados por ventana real de entrega, separados de cohortes de llegada",
+    "source_row_hashes_prove": "Integridad de fila, NO verdad externa"
+  },
+  "operating_reference": {
+    "candidate_decisions": {
+      "no_delivery": "Sólo presencial",
+      "open_full": "Abrir delivery durante tres ventanas",
+      "open_offpeak_capped": "Delivery sólo en valle AM/PM, máximo 9 aceptados por ventana"
+    },
+    "horizon_days": {
+      "evidence_type": "CALIBRADO",
+      "sha256": "df46788ad88a1ed1375e82674691e6b12d034d68c1c380438169e7a747135136",
+      "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+      "unit": "days",
+      "value": 14
+    },
+    "initial_conditions": {
+      "cash_mxn": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "c439d25bf3d736251261464dfcbc3f25e797c13c6def8f8968ae0b6e57dde242",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "MXN",
+        "value": 4600
+      },
+      "delivery_daily_fee_mxn": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "2e59079d5ccc2602faabc924a332e9162ca750b08237c59d5927bb289ced5add",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "MXN/day",
+        "value": 300
+      },
+      "delivery_setup_mxn": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "1559c484bae5279448a4b795ed4f0845cdd265464e94ec4262b3e96a807dc4dd",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "MXN",
+        "value": 900
+      },
+      "fixed_daily_cost_mxn": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "50c8d4415258efac4bcb170bc7f1bc8be7d3ab716bbbfe4dbfad01f5e2f497ee",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "MXN/day",
+        "value": 1650
+      },
+      "inventory_meals": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "8e40a62811af49b0caf6034bc0887ad974de1a7af178e0762dda5a3fabffc89e",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "meals_equivalent",
+        "value": 92
+      },
+      "supplier_nominal_lead_days": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "1ae247c1bea0afce380f2d5652525270e98bea75f68a0393f1c9d5a8bfcd4352",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "days",
+        "value": 1
+      },
+      "supplier_reorder_target_meals": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "f0981e237107a72b4307f77155e7807514945e1fc7c3a0776038b5360ae3c55c",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "meals_equivalent",
+        "value": 125
+      },
+      "supplier_reorder_threshold_meals": {
+        "evidence_type": "OBSERVADO",
+        "sha256": "c4cec174f2a69ed4ad7d5c53a6b62e674e56bc7f1f0cacde4ccfc8c7c5599c96",
+        "source_id": "OPENING:REGISTER:v0.1",
+        "unit": "meals_equivalent",
+        "value": 47
+      }
+    },
+    "policy_eval": {
+      "allow_cash_breach_days": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "4218814d626a3e7fb4efa3e8042ad44e5de05a0502159b09e5fd39a2c15b90e3",
+        "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+        "unit": "days",
+        "value": 0
+      },
+      "decision_horizon_days": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "df46788ad88a1ed1375e82674691e6b12d034d68c1c380438169e7a747135136",
+        "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+        "unit": "days",
+        "value": 14
+      },
+      "max_delivery_cancel_ratio": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "03a214e36a3dfce783449508130a4682b77d8e4865812353ef56f46f156ba14c",
+        "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+        "unit": "fraction",
+        "value": 0.2
+      },
+      "objective": "Minimizar pérdida operacional definida en protocol.md",
+      "service_floor_instore": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "2b256857c9e6cb1350cdc79d2887b351d3972e636a1d31f03c3fdcd451aa95d6",
+        "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+        "unit": "fraction",
+        "value": 0.92
+      },
+      "time_window_type": "Tres ventanas de dos horas; NO promediar el pico como día completo"
+    },
+    "reference": {
+      "base_payout_policy": "Delivery liquidado 1 día después en referencia",
+      "boundary": "Demanda presencial y delivery, cocina, despacho, inventario, proveedor, cuentas por cobrar, caja",
+      "cancellation_after_minutes": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "2e737c6eed8abd9002a1427d8d11b8aa32635cdc8aa2532c0a103b22d2be29ca",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "minutes",
+        "value": 205
+      },
+      "catering_load_reference_per_day": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "c95880e22e65b35da4811701743254a1fb2a2c046a4c8fe972c1235908528571",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "meals/day",
+        "value": 0
+      },
+      "delivery_packaging_mxn": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "713f5ce506abda6b5c71c3fc03daa95331e680cfe09f9b8a2f75acfcaf678f06",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "MXN/order",
+        "value": 9
+      },
+      "delivery_price_mxn": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "5d85eed82040e76bd01ca628dd0233490b2d818533e1c750e7b0c47b8f9aa2c6",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "MXN/order",
+        "value": 130
+      },
+      "dispatch_capacity_reference_per_hour": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "dca3c7e2d9da007c5d200ad497f9472b06324b8153ba166b98407e81c66e0f6b",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "orders/hour",
+        "value": 15
+      },
+      "kitchen_capacity_per_hour": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "4142a3f8da28dc40dd5ff177a81df227055a429d5c2480188176597f596ec4c3",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "orders/hour",
+        "value": 16
+      },
+      "meal_input_cost_mxn": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "eb5ec172d1fbb9d633a1de0dcf48b3837939299cc9b1be592aa3e27a360a2dbc",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "MXN/meal",
+        "value": 32
+      },
+      "order_priority": "FIFO por antigüedad de aceptación (cocina compartida)",
+      "platform_fee_fraction": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "56a71273e8452935577e5a7d6342f54c5b603c90d7d7c49b4ee9dfb610730b0e",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "fraction",
+        "value": 0.24
+      },
+      "presencial_price_mxn": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "4d096f672bb235e9b85eb4191e8088b98b4b79b72e5117b994fc1479cecb14ed",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "MXN/order",
+        "value": 120
+      },
+      "settlement_reference_days": {
+        "evidence_type": "CALIBRADO",
+        "sha256": "6a01c634dc39cb3b36204b8b51af2062b7f0112f7b05afd49e629688aaf365ed",
+        "source_id": "REF:ENGINEERING:v0.1",
+        "unit": "days",
+        "value": 1
+      }
+    },
+    "windows": [
+      {
+        "end_local": "11:00",
+        "hours": {
+          "evidence_type": "CALIBRADO",
+          "sha256": "8a59ac38ec22f752a8d4b8f1af48df25254075e33b9184c70bbf97116f34cd4e",
+          "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+          "unit": "hours",
+          "value": 2
+        },
+        "name": "valle_am",
+        "start_local": "09:00"
+      },
+      {
+        "end_local": "13:00",
+        "hours": {
+          "evidence_type": "CALIBRADO",
+          "sha256": "8a59ac38ec22f752a8d4b8f1af48df25254075e33b9184c70bbf97116f34cd4e",
+          "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+          "unit": "hours",
+          "value": 2
+        },
+        "name": "pico",
+        "start_local": "11:00"
+      },
+      {
+        "end_local": "15:00",
+        "hours": {
+          "evidence_type": "CALIBRADO",
+          "sha256": "8a59ac38ec22f752a8d4b8f1af48df25254075e33b9184c70bbf97116f34cd4e",
+          "source_id": "EXPERIMENT:PROTOCOL:v0.1",
+          "unit": "hours",
+          "value": 2
+        },
+        "name": "valle_pm",
+        "start_local": "13:00"
+      }
+    ]
+  },
+  "packet_sha256": "68b26b596b93f7a5574f61a94f1e2927588d907c5f6a4a876bafe381b952376a",
+  "schema_version": "IGC-0-observation-v0.1"
+}

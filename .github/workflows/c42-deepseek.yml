@@ -1,0 +1,32 @@
+name: C4.2 DeepSeek stock-flow coverage A-B
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c42:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify syntax before any inference
+        run: python3 -m py_compile scripts/c42_transport.py scripts/c42_validator.py scripts/run_c42_deepseek.py
+      - name: Run original C4 baseline controls
+        run: python3 -m unittest discover -s tests -p test_c4_validator.py -v
+      - name: Verify C4.2 formatting and flow coverage controls
+        run: python3 -m unittest discover -s tests -p test_c42.py -v
+      - name: Execute two DeepSeek requests without retry
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python3 scripts/run_c42_deepseek.py
+      - name: Preserve untouched provider outputs, reasoning and certificates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c42-deepseek-stock-flow
+          path: c42-cloudflare-results/
+          if-no-files-found: warn

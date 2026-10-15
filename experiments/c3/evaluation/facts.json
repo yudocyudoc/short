@@ -1,0 +1,20 @@
+{
+  "horizon_hours": 3,
+  "requests_total": 33,
+  "initial_inventory": 24,
+  "initial_pending": 0,
+  "replenishment": 0,
+  "other_material_outflows": 0,
+  "machine_capacity_per_hour": 10,
+  "prepared_delivered": 16,
+  "rejected_before_acceptance": 8,
+  "canceled_after_acceptance": 3,
+  "allowed_request_edges": [
+    ["external", "submitted"],
+    ["submitted", "accepted_pending"],
+    ["submitted", "rejected"],
+    ["accepted_pending", "canceled"],
+    ["accepted_pending", "fulfilled"]
+  ],
+  "allowed_material_edges": [["inventory", "consumed"]]
+}

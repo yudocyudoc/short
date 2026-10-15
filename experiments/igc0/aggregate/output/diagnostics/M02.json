@@ -1,0 +1,13 @@
+{
+  "case_id": "M02",
+  "not_an_oracle_comparison": true,
+  "open_full_fit": {
+    "closing_cash_abs_error_mxn": 11857.2,
+    "closing_inventory_abs_error": 29.0,
+    "closing_receivables_abs_error_mxn": 2272.4,
+    "delivery_service_abs_error": 112.0,
+    "presencial_service_abs_error": 87.0
+  },
+  "status": "UNVALIDATED_AGGREGATE_REFERENCE",
+  "warning": "Errors reflect both model aggregation and unknown virtual mechanisms; do NOT adjudicate cause."
+}

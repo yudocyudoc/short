@@ -1,0 +1,74 @@
+name: IGC0 M01 DeepSeek second attempt v2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  igc-m01-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    defaults:
+      run:
+        working-directory: experiments/igc0/analyst
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile public analyst and guards
+        run: python -m compileall -q src
+      - name: Verify initial evidence and all semantic guard tests before API
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Verify public evidence and make M01 input
+        run: python src/prepare.py --public-zip inputs/IGC0_8_mundos_analista.zip --out output
+      - name: Verify identical M01 evidence and frozen v2 prompt
+        run: |
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          d=json.loads(Path('output/inputs/M01.json').read_text())
+          assert d['case_id']=='M01'
+          assert len(d['pos_by_arrival_cohort'])==42
+          assert len(d['daily_stocks'])==14
+          assert d['epistemic']['counterfactual_without_model']=='DESCONOCIDO'
+          from sys import path
+          path.insert(0,'src')
+          from prepare import sha
+          assert sha(d)=='3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df'
+          prompt=Path('prompts/igc_v2.md').read_text()
+          assert 'informational_links' in prompt and 'mechanism_checks' in prompt
+          print('M01_V2_INPUT_CONFIRMED',sha(d))
+          print('M01_V2_PROMPT_SHA256',hashlib.sha256(prompt.encode()).hexdigest())
+          PY
+      - name: Call DeepSeek exactly once for M01
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          python src/run_llm_v2.py --inputs output/inputs --out output/llm_v2 --case M01 --prompt prompts/igc_v2.md
+      - name: Print separate technical and semantic results
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path('output/llm_v2/M01')
+          for name in ('adjudication_v2.json','semantic_v2.json','validation.json','usage.json'):
+              f=base/name
+              print('M01_V2_'+name, f.read_text()[:16000] if f.exists() else 'MISSING')
+          PY
+      - name: Archive unmodified inference and source ledger
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc0-m01-deepseek-v2
+          path: |
+            experiments/igc0/analyst/output/input_manifest.json
+            experiments/igc0/analyst/output/inputs/M01.json
+            experiments/igc0/analyst/output/llm_v2/M01/
+          retention-days: 90
+          if-no-files-found: warn

@@ -1,0 +1,59 @@
+name: IGC0 manual Cloudflare Worker deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_deploy:
+        description: 'I reviewed this commit and authorize Cloudflare deployment'
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: igc0-worker-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ inputs.confirm_deploy == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run no-cost contract checks
+        run: |
+          node --check experiments/igc0/worker/src/index.mjs
+          node --test experiments/igc0/worker/tests/*.test.mjs
+          python -m json.tool experiments/igc0/worker/wrangler.jsonc > /dev/null
+      - name: Check all required GitHub deployment secrets
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_DEPLOY_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_TOKEN }}
+          IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing account ID"; exit 1; }
+          test -n "$CLOUDFLARE_DEPLOY_TOKEN" || { echo "Missing Cloudflare deploy token"; exit 1; }
+          test ${#IGC_WORKER_API_KEY} -ge 24 || { echo "Missing worker authorization secret (24+ characters required)"; exit 1; }
+      - name: Deploy fail-closed IGC0 Worker via Wrangler
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_DEPLOY_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: experiments/igc0/worker
+          wranglerVersion: '4'
+          command: deploy
+          secrets: |
+            IGC_API_KEY
+        env:
+          IGC_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
+      - name: Describe deployed version
+        run: |
+          echo "Worker: igc0-review-lab"
+          echo "Source commit: $GITHUB_SHA"
+          echo "Set repository variable IGC_WORKER_URL to the deployment URL before invoking the audit workflow."

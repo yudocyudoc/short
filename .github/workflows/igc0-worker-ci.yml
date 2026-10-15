@@ -1,0 +1,31 @@
+name: IGC0 Worker static checks
+
+on:
+  push:
+    paths:
+      - 'experiments/igc0/worker/**'
+      - 'experiments/igc0/analyst/src/cloudflare_bridge.py'
+      - 'experiments/igc0/analyst/tests/test_cloudflare_bridge.py'
+      - '.github/workflows/igc0-worker-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Cloudflare Worker syntax
+        run: node --check experiments/igc0/worker/src/index.mjs
+      - name: Test authenticated Worker without model calls
+        run: node --test experiments/igc0/worker/tests/*.test.mjs
+      - name: Validate Wrangler JSON configuration
+        run: python -m json.tool experiments/igc0/worker/wrangler.jsonc > /dev/null
+      - name: Verify GitHub-side Cloudflare bridge with mocks
+        run: python -m unittest discover -s experiments/igc0/analyst/tests -p 'test_cloudflare_bridge.py' -v

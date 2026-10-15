@@ -1,0 +1,52 @@
+name: IGC0 inspect split M01 graph (no inference)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read frozen split-run artifact only
+        run: gh run download 38684669725 --repo yudocyudoc/short --name igc0-m01-split-v3 --dir original
+      - name: Summarize graph and source labels without modifying it
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          root=Path('original/split_v3/M01')
+          graph=json.loads((root/'IG/parsed_final.json').read_text(encoding='utf-8'))
+          verdict=json.loads((root/'IG/graph_validation.json').read_text(encoding='utf-8'))
+          summary=json.loads((root/'summary.json').read_text(encoding='utf-8'))
+          output={
+            'case_id':graph.get('case_id'),
+            'stocks':[{'id':s.get('id'),'unit':s.get('unit'),
+              'initial':s.get('initial'),'initial_label':s.get('initial_label'),
+              'initial_ref_count':len(s.get('initial_refs',[]))}
+              for s in graph.get('stocks',[])],
+            'pipes':[{'id':p.get('id'),'from':p.get('from'),'to':p.get('to'),
+              'unit_per_time':p.get('unit_per_time'),'epistemic':p.get('epistemic'),
+              'evidence_ref_count':len(p.get('evidence_refs',[]))}
+              for p in graph.get('pipes',[])],
+            'links':graph.get('informational_links',[]),
+            'mechanism_checks':graph.get('mechanism_checks',[]),
+            'unknowns':graph.get('unknowns',[]),
+            'graph_sha256':verdict.get('graph_sha256'),
+            'validator_errors':verdict.get('issues'),
+            'second_call_skipped':summary.get('C_status')=='SKIPPED_IG_REJECT'
+          }
+          Path('m01-split-ig-diagnostic.json').write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n')
+          print('M01_SPLIT_GRAPH_DIAGNOSTIC',json.dumps(output,ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: igc0-m01-split-graph-diagnostic
+          path: m01-split-ig-diagnostic.json
