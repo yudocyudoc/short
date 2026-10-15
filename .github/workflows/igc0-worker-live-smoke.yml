@@ -1,0 +1,60 @@
+name: IGC0 live Worker smoke (no inference)
+
+on:
+  push:
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - '.github/workflows/igc0-worker-live-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Check health and reject unauthenticated inference
+        env:
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request, urllib.error
+
+          base=os.environ['IGC_WORKER_URL'].rstrip('/')
+          def call(req):
+              try:
+                  with urllib.request.urlopen(req, timeout=16) as response:
+                      return response.status, json.load(response)
+              except urllib.error.HTTPError as e:
+                  return e.code, json.load(e)
+
+          healthy, body=call(urllib.request.Request(base+'/health'))
+          assert healthy==200, (healthy,body)
+          assert body.get('service')=='igc0-review-lab',body
+          assert body.get('contract')=='igc0.worker.v1',body
+
+          malformed=json.dumps({
+              'schema_version':'igc0.worker.v1','case_id':'M01',
+              'stage':'IG','request_id':'public-smoke-001',
+              'messages':[{'role':'system','content':'test'},
+                          {'role':'user','content':'test'}]
+          }).encode()
+          rejected, error=call(urllib.request.Request(
+              base+'/v1/infer', data=malformed, method='POST',
+              headers={'Content-Type':'application/json'}))
+          assert rejected==401,(rejected,error)
+          assert error.get('error')=='UNAUTHORIZED',error
+
+          rejected_bad, error_bad=call(urllib.request.Request(
+              base+'/v1/infer', data=malformed, method='POST',
+              headers={'Content-Type':'application/json','Authorization':'Bearer deliberately-invalid'}))
+          assert rejected_bad==401,(rejected_bad,error_bad)
+
+          print('IGC0_LIVE_SMOKE',
+             json.dumps({'health_status':healthy,'service':body.get('service'),
+                         'missing_key_http_status':rejected,'wrong_key_http_status':rejected_bad,
+                         'workers_ai_calls':0,'deploy_performed':False},sort_keys=True))
+          PY
