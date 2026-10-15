@@ -1,0 +1,16 @@
+{
+  "IG_accept": false,
+  "actual_inferences": 1,
+  "cloudflare_worker_url": "https://igc0-review-lab.oulipo.workers.dev",
+  "experiment": "IGC0_M01_WORKER_REVIEW_V1",
+  "github_run_id": "38692953137-1",
+  "has_oracle": false,
+  "input_sha256": "3ede7ef04e172c04f9ab5564c57bc1b1e5d88ba63c19b76660e9941f13dec6df",
+  "max_inferences": 2,
+  "model": "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+  "projection_permitted": false,
+  "prompt_sha256": "83cc4a64dcfa41eaeca864efe0917020e1b31409ac704d68cac0491f759f8ea8",
+  "review_status": "SKIPPED_UNPARSEABLE",
+  "source_commit": "2d4c686f6c79fc5cb30bcad05ddc1106cb4db25e",
+  "status": "IG_FORMAT_OR_TRANSPORT_REJECT"
+}

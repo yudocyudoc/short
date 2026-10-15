@@ -1,0 +1,10 @@
+{
+  "accepted": false,
+  "issues": [
+    {
+      "code": "FORMAT_REJECT",
+      "detail": "LLM output was not a complete JSON object",
+      "where": "response"
+    }
+  ]
+}
