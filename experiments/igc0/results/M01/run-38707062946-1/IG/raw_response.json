@@ -1,0 +1,134 @@
+{
+  "boundary": {
+    "inside": [
+      "proceso de ventas",
+      "proceso de cobro"
+    ],
+    "outside": [
+      "proveedor",
+      "clientes"
+    ],
+    "possible_omissions": [
+      "costos de producción",
+      "costos de entrega"
+    ]
+  },
+  "case_id": "M01",
+  "informational_links": [
+    {
+      "from": "inventario",
+      "to": "ventas_presencial",
+      "type": "information",
+      "why": "La cantidad de inventario disponible afecta las ventas presenciales"
+    },
+    {
+      "from": "inventario",
+      "to": "ventas_delivery",
+      "type": "information",
+      "why": "La cantidad de inventario disponible afecta las ventas delivery"
+    }
+  ],
+  "mechanism_checks": [
+    {
+      "evidence_refs": [],
+      "explanation": "No hay información sobre la capacidad de la cocina compartida",
+      "linked_ids": [],
+      "role": "shared_kitchen",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [],
+      "explanation": "No hay información sobre la cola de pedidos",
+      "linked_ids": [],
+      "role": "order_backlog",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [],
+      "explanation": "No hay información sobre el despacho de delivery",
+      "linked_ids": [],
+      "role": "delivery_dispatch",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [],
+      "explanation": "No hay información sobre el retraso en el pago",
+      "linked_ids": [],
+      "role": "payout_delay",
+      "status": "unknown"
+    }
+  ],
+  "pipes": [
+    {
+      "capacity_source": null,
+      "epistemic": "HIPÓTESIS",
+      "evidence_refs": [],
+      "from": "inventario",
+      "id": "ventas_presencial",
+      "mechanism": "Ventas presenciales",
+      "to": "caja",
+      "unit_per_time": "meals_equivalent/day"
+    },
+    {
+      "capacity_source": null,
+      "epistemic": "HIPÓTESIS",
+      "evidence_refs": [],
+      "from": "inventario",
+      "id": "ventas_delivery",
+      "mechanism": "Ventas delivery",
+      "to": "cuentas_por_cobrar",
+      "unit_per_time": "meals_equivalent/day"
+    },
+    {
+      "capacity_source": null,
+      "epistemic": "HIPÓTESIS",
+      "evidence_refs": [],
+      "from": "cuentas_por_cobrar",
+      "id": "cobro_delivery",
+      "mechanism": "Cobro de delivery",
+      "to": "caja",
+      "unit_per_time": "MXN/day"
+    }
+  ],
+  "stocks": [
+    {
+      "id": "inventario",
+      "initial": 92,
+      "initial_label": "OBSERVADO",
+      "initial_refs": [
+        {
+          "sha256": "8e40a62811af49b0caf6034bc0887ad974de1a7af178e0762dda5a3fabffc89e",
+          "source_id": "OPENING:REGISTER:v0.1"
+        }
+      ],
+      "unit": "meals_equivalent"
+    },
+    {
+      "id": "caja",
+      "initial": 4600,
+      "initial_label": "OBSERVADO",
+      "initial_refs": [
+        {
+          "sha256": "c439d25bf3d736251261464dfcbc3f25e797c13c6def8f8968ae0b6e57dde242",
+          "source_id": "OPENING:REGISTER:v0.1"
+        }
+      ],
+      "unit": "MXN"
+    },
+    {
+      "id": "cuentas_por_cobrar",
+      "initial": null,
+      "initial_label": "DESCONOCIDO",
+      "initial_refs": [],
+      "unit": "MXN"
+    }
+  ],
+  "unknowns": [
+    "costos de producción",
+    "costos de entrega",
+    "capacidad de la cocina compartida",
+    "cola de pedidos",
+    "despacho de delivery",
+    "retraso en el pago"
+  ]
+}

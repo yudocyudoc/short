@@ -1,0 +1,18 @@
+{
+  "files": {
+    "IG/model.json": "36ee372da42481e0ac6088b6e43d4b6540323b27cafa5a7682245fe2bc8610b2",
+    "IG/raw_response.json": "36ee372da42481e0ac6088b6e43d4b6540323b27cafa5a7682245fe2bc8610b2",
+    "IG/request.json": "e2526e878a54c1d1a2bbbef3e564c24255b6541821900ad3956b6039241f4305",
+    "IG/transport.json": "18fcd61be3b5e16e4a2c459712778f0af9fcb4138c989fbfa9ed864e93585968",
+    "IG/validation.json": "ede170df44dd49bf8d14eb70af436500fd26f68d1a40abc9aaf26869f9c9d527",
+    "IG/worker_response.json": "b4e871fdd3bdce9e8989e380e1f37eb024da6b9c413d89de803cfe6a21e9125e",
+    "input.json": "63a064f580814903862fcc8a10a0247ca6fb09eb97c2c77223f8fc40a9850f92",
+    "prompt.md": "83cc4a64dcfa41eaeca864efe0917020e1b31409ac704d68cac0491f759f8ea8",
+    "summary.json": "2da2bca6d03315c10b2fb4b5c655d056a4dd8ded73e7e6cad38a9e9c35974bd4"
+  },
+  "head_commit_authorized": "e74bed957f460fa5a1e19289fbbf1a3dae446fc9",
+  "note": "Original artifact contents, not repaired. Manifest added by separate no-inference archival workflow.",
+  "source_artifact_id": 11958229055,
+  "source_artifact_zip_sha256": "87356c95b1f65d871159d625ea9c7c67fa0697b92eb47e661193f93764973399",
+  "source_workflow_run": 38707062946
+}
