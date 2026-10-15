@@ -31,7 +31,7 @@ jobs:
               except urllib.error.HTTPError as e:
                   return e.code, e.headers.get("Content-Type",""), e.read()
 
-          healthy, health_type, health_raw=call(urllib.request.Request(base+'/health'))
+          healthy, health_type, health_raw=call(urllib.request.Request(base+'/health', headers={'User-Agent':'IGC0-GitHub-Audit/1.0'}))
           safe_excerpt=health_raw[:180].decode('utf-8','replace').replace('\\n',' ')
           print('IGC0_HEALTH_HTTP',json.dumps({
               'status':healthy,'content_type':health_type,'body_bytes':len(health_raw),
@@ -49,14 +49,14 @@ jobs:
           }).encode()
           rejected, error_type, error_raw=call(urllib.request.Request(
               base+'/v1/infer', data=malformed, method='POST',
-              headers={'Content-Type':'application/json'}))
+              headers={'Content-Type':'application/json','User-Agent':'IGC0-GitHub-Audit/1.0'}))
           assert rejected==401,(rejected,error_type)
           error=json.loads(error_raw)
           assert error.get('error')=='UNAUTHORIZED',error
 
           rejected_bad, error_bad_type, error_bad_raw=call(urllib.request.Request(
               base+'/v1/infer', data=malformed, method='POST',
-              headers={'Content-Type':'application/json','Authorization':'Bearer deliberately-invalid'}))
+              headers={'Content-Type':'application/json','Authorization':'Bearer deliberately-invalid','User-Agent':'IGC0-GitHub-Audit/1.0'}))
           assert rejected_bad==401,(rejected_bad,error_bad_type)
 
           print('IGC0_LIVE_SMOKE',
