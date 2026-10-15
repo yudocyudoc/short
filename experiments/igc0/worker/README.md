@@ -41,7 +41,8 @@ En **GitHub → Settings → Secrets and variables → Actions**:
 | Nombre | Tipo | Fuente |
 |---|---|---|
 | `CLOUDFLARE_ACCOUNT_ID` | secreto existente | ID de cuenta Cloudflare |
-| `CLOUDFLARE_API_TOKEN` | secreto existente | Token de cuenta: **debe autorizar desplegar Workers**; las inferencias REST previas no acreditan este permiso |
+| `CLOUDFLARE_API_TOKEN` | secreto existente | Sólo inferencia REST de experimentos previos; **no se usará para desplegar** |
+| `CLOUDFLARE_DEPLOY_TOKEN` | **secreto nuevo** | Token separado, con permisos para crear y actualizar Workers; restringir a una cuenta |
 | `IGC_WORKER_API_KEY` | **secreto nuevo** | Clave aleatoria de 24+ caracteres para proteger `/v1/infer`; no es una API key de Cloudflare ni GitHub |
 | `IGC_WORKER_URL` | variable nueva | URL HTTPS del Worker obtenida después del despliegue, sin `/v1/infer` |
 
@@ -52,7 +53,7 @@ El workflow de despliegue usa `cloudflare/wrangler-action@v4`, se ejecuta sólo 
 ## Secuencia manual prevista
 
 1. Revisar y aprobar PR del código; los workflows `workflow_dispatch` pueden requerir estar presentes en la rama por defecto para aparecer en el selector de GitHub.
-2. Crear el secreto nuevo `IGC_WORKER_API_KEY`, conservar los dos secretos Cloudflare existentes, y verificar que el token Cloudflare tenga permiso de edición de Workers.
+2. Crear los secretos nuevos `IGC_WORKER_API_KEY` y `CLOUDFLARE_DEPLOY_TOKEN`, conservando `CLOUDFLARE_API_TOKEN` exclusivamente para inferencias anteriores. El nuevo token debe tener permiso de creación y despliegue sobre la cuenta elegida.
 3. Ejecutar **IGC0 manual Cloudflare Worker deploy** con confirmación desde Actions. Este paso modifica infraestructura Cloudflare; no se ejecuta por push.
 4. Copiar el Worker URL en la variable `IGC_WORKER_URL`; verificar GET `/health` y un rechazo HTTP 401 sin credencial.
 5. Ejecutar **IGC0 M01 audited Worker inference** en la rama `experiment/c0-cafeteria` con opción `RUN_M01_ONE_REVIEW`. Es el **único paso con coste potencial de Workers AI**, hasta dos llamadas.
@@ -91,8 +92,12 @@ Se agregó [`igc0-worker-preflight.yml`](../../../.github/workflows/igc0-worker-
 
 1. En el equipo local generar una clave aleatoria nueva (por ejemplo, `python -c "import secrets;print(secrets.token_urlsafe(48))"`). No pegarla en un issue, comentario, PR ni chat.
 2. En GitHub, `short → Settings → Secrets and variables → Actions → New repository secret`, guardar esa clave como `IGC_WORKER_API_KEY`. No confundirla con un token Cloudflare. El workflow de despliegue la copia como secret binding `IGC_API_KEY`.
-3. En el dashboard de Cloudflare, revisar el **rol del token existente**. Que sea `active` no significa que tenga el rol para desplegar. **No ampliar a ciegas los permisos de un token usado para inferencias**. Si hace falta, crear un token específico para desplegar con rol Workers product Admin durante la creación inicial, y usarlo como `CLOUDFLARE_API_TOKEN` para este paso o adaptar a un secreto dedicado antes de desplegar.
+3. En Cloudflare, crear **otro token**, separado del existente `Workers AI`, con alcance de creación de Workers (Workers product Admin o plantilla `Edit Cloudflare Workers` cuando aparezca) y recursos restringidos a la cuenta del experimento. Guardarlo en GitHub como `CLOUDFLARE_DEPLOY_TOKEN`.
 4. Los workflows `workflow_dispatch` sólo aparecen normalmente en el selector de Actions cuando su definición está presente en la **rama predeterminada `main`**. Estos archivos siguen en la rama `experiment/c0-cafeteria`, por lo que **no hay botón de despliegue garantizado aún**. Revisar la PR y promover sólo el workflow necesario (o fusionar el código autorizado) a `main` antes de ejecutarlo. No se ha fusionado ni desplegado automáticamente.
 5. Tras un despliegue autorizado, guardar `IGC_WORKER_URL` como variable de repositorio y verificar `/health`, rechazo HTTP 401 sin Bearer, y el ciclo M01 sólo después de revisar los artefactos de CI.
 
 No se tiene en esta conexión una acción para editar GitHub Actions secrets ni administrar API tokens Cloudflare; por eso **ninguna credencial se ha creado, transferido ni revelado** durante esta preparación.
+
+## Separación de credenciales, actualización 2026-10-14
+
+El usuario confirmó en captura que el token actual llamado `Workers AI` concede sólo **Account → Workers AI → Read/Edit** y recursos `All accounts`. Ése es el token para invocar el modelo, **no** para desplegar código. No ampliar su alcance: crear **otro** token `IGC0 Worker Deploy` para Wrangler, preferiblemente desde la plantilla oficial **Edit Cloudflare Workers** y limitado a la cuenta deseada. El workflow `igc0-worker-deploy.yml` y el preflight utilizan ahora el secreto nuevo `CLOUDFLARE_DEPLOY_TOKEN` en lugar de `CLOUDFLARE_API_TOKEN`. La ejecución experimental vía REST previa permanece sin cambios. El preflight histórico #38688147098 validó únicamente el token anterior; se requiere nueva comprobación después de configurar el de despliegue.
