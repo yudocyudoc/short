@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '22'
       - name: Run no-cost contract checks
-            run: |
+        run: |
           node --check experiments/igc0/worker/src/index.mjs
           node --test experiments/igc0/worker/tests/*.test.mjs
           python -m json.tool experiments/igc0/worker/wrangler.jsonc > /dev/null
