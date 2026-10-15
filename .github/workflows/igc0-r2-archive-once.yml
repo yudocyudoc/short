@@ -1,0 +1,73 @@
+name: IGC0 M01-R2 archive existing result (no inference)
+
+on:
+  pull_request:
+    types: [synchronize]
+    branches:
+      - experiment/c0-cafeteria
+    paths:
+      - 'experiments/igc0/authorizations/M01-R2-ARCHIVE-ONCE.md'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  archive:
+    if: ${{ github.event.pull_request.number == 3 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'experiment/igc0-m01-r2-llama' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: experiment/c0-cafeteria
+          persist-credentials: true
+      - name: Retrieve existing immutable M01-R2 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: igc0-worker-audit-38707062946-1
+          run-id: 38707062946
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/igc0-r2-source
+      - name: Validate source result and assemble audit manifest (no AI calls)
+        run: |
+          python - <<'PY'
+          import hashlib,json,shutil
+          from pathlib import Path
+          src=Path("/tmp/igc0-r2-source")
+          sm=json.loads((src/"summary.json").read_text())
+          val=json.loads((src/"IG/validation.json").read_text())
+          trace=json.loads((src/"IG/transport.json").read_text())
+          assert sm["experiment"]=="IGC0_M01_IG_LLAMA_R2"
+          assert sm["actual_inferences"]==1 and sm["max_inferences"]==1
+          assert sm["model"]=="@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+          assert sm["status"]=="IG_REJECT" and not sm["IG_accept"]
+          assert val["accepted"]==False and val["validator"]=="IGC0_GRAPH_GATE_V3"
+          assert trace["transport_status"]=="OK" and trace["response_format"]=="native_object"
+          assert trace["retry_count"]==0 and trace["stage"]=="IG"
+          assert not (src/"REVIEW").exists() and not (src/"C").exists()
+          output=Path("experiments/igc0/results/M01/run-38707062946-1")
+          assert not output.exists()
+          shutil.copytree(src,output)
+          m={"source_workflow_run":38707062946,"source_artifact_id":11958229055,
+             "source_artifact_zip_sha256":"87356c95b1f65d871159d625ea9c7c67fa0697b92eb47e661193f93764973399",
+             "head_commit_authorized":"e74bed957f460fa5a1e19289fbbf1a3dae446fc9",
+             "note":"Original artifact contents, not repaired. Manifest added by separate no-inference archival workflow.",
+             "files":{p.relative_to(output).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+                      for p in sorted(output.rglob("*")) if p.is_file()}}
+          (output/"archive_integrity_manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
+          print("ARCHIVED_FILES",len(m["files"]))
+          print("WORKERS_AI_CALLS",0)
+          PY
+      - name: Commit original R2 evidence to isolated results-only branch
+        run: |
+          set -eu
+          BRANCH="igc0/audit-m01-r2-38707062946-1"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -- experiments/igc0/results/M01/run-38707062946-1
+          test "$(git diff --cached --name-only | grep -cv '^experiments/igc0/results/M01/run-38707062946-1/')" = "0"
+          git commit -m "audit(igc0): preserve unmodified M01-R2 Llama model and rejection"
+          git push origin "HEAD:refs/heads/$BRANCH"
+          echo "AUDIT_BRANCH=$BRANCH" >> "$GITHUB_ENV"
