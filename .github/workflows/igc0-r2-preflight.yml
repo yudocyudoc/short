@@ -1,0 +1,37 @@
+name: IGC0 M01-R2 no-cost preflight
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/igc0/**'
+      - '.github/workflows/igc0-worker-audit.yml'
+      - '.github/workflows/igc0-r2-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Worker syntax and tests without AI calls
+        run: |
+          node --check experiments/igc0/worker/src/index.mjs
+          node --test experiments/igc0/worker/tests/*.test.mjs
+      - name: Verify Python contracts and public packet without AI calls
+        run: |
+          python -m unittest discover -s experiments/igc0/analyst/tests -p 'test_*.py' -v
+          python experiments/igc0/analyst/src/prepare.py \
+            --public-zip experiments/igc0/analyst/inputs/IGC0_8_mundos_analista.zip \
+            --out experiments/igc0/analyst/output
+      - name: Assert R2 is not deployed and no inference is triggered here
+        run: |
+          echo "PRE_FLIGHT_ONLY=1"
+          echo "WORKERS_AI_CALLS=0"
+          echo "CLOUDFLARE_DEPLOY=0"

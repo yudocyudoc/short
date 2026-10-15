@@ -1,20 +1,19 @@
-name: IGC0 M01 audited Worker inference (manual)
+name: IGC0 M01-R2 Llama single IG inference (manual)
 
 on:
   workflow_dispatch:
     inputs:
       confirm_inference:
-        description: 'I authorize up to two billed DeepSeek calls for synthetic M01'
+        description: 'I authorize exactly ONE billed Llama IG call for synthetic M01'
         type: choice
         required: true
         options:
           - DO_NOT_RUN
-          - RUN_M01_ONE_REVIEW
+          - RUN_M01_R2_IG_ONCE
         default: DO_NOT_RUN
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: igc0-review-results
@@ -22,32 +21,50 @@ concurrency:
 
 jobs:
   infer:
-    if: ${{ inputs.confirm_inference == 'RUN_M01_ONE_REVIEW' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_M01_R2_IG_ONCE' && github.ref == 'refs/heads/experiment/igc0-m01-r2-llama' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Verify correct development branch
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Confirm manual authorization and prohibit reruns
         run: |
-          test "$GITHUB_REF_NAME" = "experiment/c0-cafeteria" || {
-            echo "Select experiment/c0-cafeteria as the workflow branch to preserve experimental isolation."; exit 1;
-          }
-      - name: Verify public evidence and preregistered Python validators
+          test "$GITHUB_RUN_ATTEMPT" = "1" || { echo "Reruns cannot bill another call."; exit 1; }
+          test "$GITHUB_REF_NAME" = "experiment/igc0-m01-r2-llama" || exit 1
+      - name: Verify public evidence, Worker, and preregistered Python validators
         run: |
+          node --check experiments/igc0/worker/src/index.mjs
+          node --test experiments/igc0/worker/tests/*.test.mjs
           python -m unittest discover -s experiments/igc0/analyst/tests -p 'test_*.py' -v
           python experiments/igc0/analyst/src/prepare.py \
             --public-zip experiments/igc0/analyst/inputs/IGC0_8_mundos_analista.zip \
             --out experiments/igc0/analyst/output
       - name: Check Worker URL and protected endpoint credential
         env:
-          IGC_WORKER_URL: ${{ vars.IGC_WORKER_URL }}
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
           IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
         run: |
           case "$IGC_WORKER_URL" in https://*) ;; *) echo "Set IGC_WORKER_URL repository variable with HTTPS Worker URL"; exit 1;; esac
           test ${#IGC_WORKER_API_KEY} -ge 24 || { echo "Missing IGC_WORKER_API_KEY secret"; exit 1; }
-      - name: Run M01 with one possible feedback revision
+      - name: Verify deployed Worker health without inferencing
         env:
-          IGC_WORKER_URL: ${{ vars.IGC_WORKER_URL }}
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          url=os.environ["IGC_WORKER_URL"]+"/health"
+          req=urllib.request.Request(url, headers={"User-Agent":"IGC0-GitHub-Audit/1.0"})
+          with urllib.request.urlopen(req,timeout=20) as response:
+              assert response.status == 200
+              data=json.load(response)
+          assert data.get("service") == "igc0-review-lab", data
+          assert data.get("contract") == "igc0.worker.v1", data
+          print("WORKER_HEALTH_OK", data.get("service"), data.get("contract"))
+          PY
+      - name: Run M01-R2 IG (exactly one inference, zero retries)
+        env:
+          IGC_WORKER_URL: https://igc0-review-lab.oulipo.workers.dev
           IGC_WORKER_API_KEY: ${{ secrets.IGC_WORKER_API_KEY }}
         run: |
           python experiments/igc0/analyst/src/cloudflare_bridge.py \
@@ -64,26 +81,5 @@ jobs:
           path: experiments/igc0/results/M01/run-${{ github.run_id }}-${{ github.run_attempt }}/
           if-no-files-found: warn
           retention-days: 90
-      - name: Commit immutable audit trace to results-only branch
-        run: |
-          set -eu
-          RESULT="experiments/igc0/results/M01/run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          test -f "$RESULT/summary.json"
-          BRANCH="igc0/audit-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
-          git add -- "$RESULT"
-          git commit -m "results(igc0): archive M01 Worker inference and deterministic review"
-          git push origin "HEAD:refs/heads/$BRANCH"
-          echo "RESULT_BRANCH=$BRANCH" >> "$GITHUB_ENV"
-      - name: Propose results-only audit pull request
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh pr create \
-            --base "experiment/c0-cafeteria" \
-            --head "$RESULT_BRANCH" \
-            --title "audit(igc0): M01 Worker run ${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" \
-            --body "Synthetic M01 only; exact prompts, model responses, hashes and deterministic validations. Do not merge without independent review. No evaluator oracle included." \
-          || echo "GitHub Actions may not be permitted to open PRs. The result branch and artifact are still available."
+      # No automatic push: raw output + hashes persist as a GitHub Actions artifact.
+      # Review before importing into a results-only branch.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import worker, { MODEL, CONTRACT } from "../src/index.mjs";
+import worker, { MODEL, CONTRACT, GRAPH_SCHEMA, GENERATION } from "../src/index.mjs";
 
 const TOKEN = "igc0-testing-secret-only-1234567890";
 const url = "https://example.workers.dev/v1/infer";
@@ -77,12 +77,24 @@ test("no automatic retry; one API call per authorized request", async () => {
   assert.equal(env.calls.length, 1);
   assert.equal(env.calls[0].model, MODEL);
   assert.equal(env.calls[0].payload.stream, false);
+  assert.equal(env.calls[0].payload.max_tokens, 4500);
+  assert.equal(env.calls[0].payload.response_format.type, "json_schema");
+  assert.deepEqual(
+    env.calls[0].payload.response_format.json_schema.required,
+    ["case_id", "stocks", "pipes", "informational_links", "boundary", "mechanism_checks", "unknowns"],
+  );
+  assert.ok(GRAPH_SCHEMA.properties.stocks.items.properties.initial.type.includes("null"));
+  assert.ok(GRAPH_SCHEMA.properties.pipes.items.properties.capacity_source.anyOf.some(x => x.type === "null"));
+  assert.equal(GENERATION.temperature, 0.1);
+  assert.equal(body.inference_config.response_format_type, "json_schema");
 });
-test("stage REVIEW requires same authenticated contract", async () => {
-  const env = fakeEnv();
-  const res = await worker.fetch(request(input({ stage: "REVIEW" })), env);
-  assert.equal(res.status, 200);
-  assert.equal(env.calls.length, 1);
+test("R2 blocks REVIEW and C before model inference", async () => {
+  for (const stage of ["REVIEW", "C"]) {
+    const env = fakeEnv();
+    const res = await worker.fetch(request(input({ stage })), env);
+    assert.equal(res.status, 422);
+    assert.equal(env.calls.length, 0);
+  }
 });
 test("request body limit blocks inference", async () => {
   const env = fakeEnv();

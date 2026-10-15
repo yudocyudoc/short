@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""No-cost tests for Cloudflare transport and auditable one-revision runner."""
+"""No-cost tests for Cloudflare transport and auditable single-call R2 runner."""
 import json
 import sys
 import tempfile
@@ -18,15 +18,11 @@ KEY="test-token-abcdefghijklmnopqrstuvwxyz0123456789"
 RUN="12345678-1"
 
 class TestCloudflareBridge(unittest.TestCase):
-    def test_two_stage_context_replayed_explicitly(self):
+    def test_r2_rejects_review_even_with_previous_model(self):
         prev={"case_id":"M01","stocks":[]}
         gate={"accepted":False,"issues":[{"code":"DANGLING_INFO_LINK","where":"x"}]}
-        request=make_request("REVIEW",PACKET,PROMPT,"igc0-test-0001",prev,gate)
-        self.assertEqual(len(request["messages"]),4)
-        self.assertEqual([x["role"] for x in request["messages"]],
-                         ["system","user","assistant","user"])
-        self.assertIn("DANGLING_INFO_LINK",request["messages"][-1]["content"])
-        self.assertEqual(json.loads(request["messages"][2]["content"]),prev)
+        with self.assertRaises(ValueError):
+            make_request("REVIEW",PACKET,PROMPT,"igc0-test-0001",prev,gate)
     def test_review_without_prior_model_refused(self):
         with self.assertRaises(ValueError):
             make_request("REVIEW",PACKET,PROMPT,"igc0-test-0002")
@@ -41,21 +37,19 @@ class TestCloudflareBridge(unittest.TestCase):
             self.assertEqual(verdict["actual_inferences"],1)
             self.assertEqual(calls,["IG"])
             self.assertTrue((Path(td)/"summary.json").exists())
-    def test_rejected_graph_receives_exactly_one_review(self):
+    def test_rejected_graph_stops_after_one_ig_call(self):
         calls=[]
         initial={"case_id":"M01","stocks":[],"pipes":[]}
         errors={"accepted":False,"issues":[{"code":"MISSING_DOMAIN_STOCK","where":"stocks"}]}
         def mock(stage,packet,prompt,out,run_id,worker_url,token,previous=None,findings=None):
             calls.append(stage)
-            if stage=="IG":return initial,errors
-            self.assertEqual(previous,initial)
-            self.assertEqual(findings,errors)
-            return {"case_id":"M01","stocks":[{"id":"orders"}]}, {"accepted":True,"issues":[]}
+            return initial,errors
         with tempfile.TemporaryDirectory() as td,patch("cloudflare_bridge.stage_run",side_effect=mock):
             verdict=execute(PACKET,PROMPT,Path(td),RUN,URL,KEY)
-            self.assertEqual(verdict["status"],"REVIEW_ACCEPT")
-            self.assertEqual(verdict["actual_inferences"],2)
-            self.assertEqual(calls,["IG","REVIEW"])
+            self.assertEqual(verdict["status"],"IG_REJECT")
+            self.assertEqual(verdict["max_inferences"],1)
+            self.assertEqual(verdict["actual_inferences"],1)
+            self.assertEqual(calls,["IG"])
     def test_invalid_json_stops_without_review(self):
         calls=[]
         def mock(stage,*args,**kwargs):
@@ -68,13 +62,13 @@ class TestCloudflareBridge(unittest.TestCase):
         body=make_request("IG",PACKET,PROMPT,"igc0-test-0003")
         with patch("cloudflare_bridge.urlopen") as u:
             reply=u.return_value.__enter__.return_value
-            reply.read.return_value=b'{"schema_version":"igc0.worker.v1","case_id":"M08","stage":"IG","request_id":"igc0-test-0003","model":"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"}'
+            reply.read.return_value=b'{"schema_version":"igc0.worker.v1","case_id":"M08","stage":"IG","request_id":"igc0-test-0003","model":"@cf/meta/llama-3.3-70b-instruct-fp8-fast"}'
             with self.assertRaises(ValueError):
                 submit_worker(URL,KEY,body)
     def test_stage_run_saves_raw_and_never_saves_http_token(self):
         body={"schema_version":"igc0.worker.v1","case_id":"M01","stage":"IG",
               "request_id":"igc0-12345678-1-ig",
-              "model":"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+              "model":"@cf/meta/llama-3.3-70b-instruct-fp8-fast",
               "provider_result":{"response":'{"case_id":"M01","stocks":[],"pipes":[]}',
                                  "usage":{"total_tokens":3}}}
         with tempfile.TemporaryDirectory() as td,patch("cloudflare_bridge.submit_worker",return_value=body),patch(

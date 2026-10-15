@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""M01 only: GitHub-owned audited DeepSeek inference and at most one review.
+"""M01 only: GitHub-owned audited single-call Llama IG inference (M01-R2).
 
 The Worker is a stateless transport to Workers AI. GitHub's Python code owns
 all input verification, immutable artifacts and deterministic SD graph checks.
@@ -18,7 +18,7 @@ from run_llm import separate
 from igc_split_gate import graph_gate
 
 CONTRACT = "igc0.worker.v1"
-MODEL = "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"
+MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 
 def digest(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -40,21 +40,8 @@ def make_request(stage, packet, prompt, request_id, previous=None, findings=None
         {"role": "user", "content": json.dumps(packet, ensure_ascii=False, sort_keys=True,
                                               separators=(",", ":"))},
     ]
-    if stage == "REVIEW":
-        if previous is None or findings is None:
-            raise ValueError("REVIEW requires frozen previous JSON and validator feedback")
-        messages.append({"role": "assistant", "content": json.dumps(previous, ensure_ascii=False, sort_keys=True,
-                                                                separators=(",", ":"))})
-        messages.append({"role": "user", "content": json.dumps({
-            "task": "Revisa tu modelo SD anterior, no el problema desde cero. Estos son los errores verificables.",
-            "validation": findings,
-            "rules": [
-                "Devuelve JSON completo con idéntico contrato de etapa IG",
-                "Conserva afirmaciones justificadas y fuentes reales",
-                "Corrige los errores sin añadir cantidades ni causalidad ficticia",
-                "No uses el oráculo ni produzcas proyecciones numéricas",
-            ],
-        }, ensure_ascii=False, separators=(",", ":"))})
+    if stage != "IG":
+        raise ValueError("M01-R2 authorizes only the IG stage")
     return {"schema_version": CONTRACT, "case_id": "M01",
             "stage": stage, "request_id": request_id, "messages": messages}
 
@@ -121,13 +108,13 @@ def execute(packet, prompt, out, run_id, worker_url, token):
     if packet.get("epistemic", {}).get("counterfactual_without_model") != "DESCONOCIDO":
         raise ValueError("Public provenance expected")
     out.mkdir(parents=True, exist_ok=True)
-    result={"experiment": "IGC0_M01_WORKER_REVIEW_V1",
+    result={"experiment": "IGC0_M01_IG_LLAMA_R2",
             "input_sha256": sha(packet), "prompt_sha256": digest(prompt),
             "source_commit": os.getenv("GITHUB_SHA", "local_test"),
             "github_run_id": run_id,
             "model": MODEL,
             "cloudflare_worker_url": worker_url.rstrip("/"),
-            "max_inferences": 2,
+            "max_inferences": 1,
             "actual_inferences": 1,
             "has_oracle": False, "projection_permitted": False}
     write(out / "input.json", packet)
@@ -141,15 +128,8 @@ def execute(packet, prompt, out, run_id, worker_url, token):
         result["status"] = "IG_FORMAT_OR_TRANSPORT_REJECT"
         result["review_status"] = "SKIPPED_UNPARSEABLE"
     else:
-        # Review the frozen initial object and its validation errors; no repair by code.
-        result["actual_inferences"] = 2
-        revision, second_gate = stage_run(
-            "REVIEW", packet, prompt, out, run_id, worker_url, token,
-            previous=initial, findings=first_gate)
-        result["review_status"] = (
-            "ACCEPT" if second_gate and second_gate.get("accepted") else "REJECT")
-        result["status"] = (
-            "REVIEW_ACCEPT" if result["review_status"] == "ACCEPT" else "REVIEW_REJECT")
+        result["status"] = "IG_REJECT"
+        result["review_status"] = "DISABLED_SINGLE_CALL_R2"
     write(out / "summary.json", result)
     print("IGC0_WORKER_AUDIT_SUMMARY", json.dumps({
         "status":result["status"],"calls":result["actual_inferences"],
@@ -164,7 +144,7 @@ def main():
     ap.add_argument("--out",type=Path,required=True)
     ap.add_argument("--run-id",required=True)
     ap.add_argument("--execute",action="store_true",
-                    help="Explicit permission for up to two paid Workers AI calls")
+                    help="Explicit permission for ONE paid Workers AI IG call")
     args=ap.parse_args()
     if not args.execute:
         raise SystemExit("No inference. Pass --execute deliberately.")
