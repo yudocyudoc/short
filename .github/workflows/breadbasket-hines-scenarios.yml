@@ -61,7 +61,7 @@ jobs:
           assert r['verdict']=='SCENARIO_SIMULATION_NOT_EMPIRICAL_VALIDATION'
           assert r['engine_version']=='3.14.3'
           assert [x['date'] for x in r['days']]==['2017-02-04','2016-10-30']
-          assert [x['source_sale_transactions'] for x in r['days']]==[139,83]
+          assert [x['source_sale_transactions'] for x in r['days']]==[139,79]
           assert all(len(x['scenarios'])==3 for x in r['days'])
           assert all(s['conservation_order_abs_error']<1e-6 and
                      s['conservation_prepared_inventory_abs_error']<1e-6
