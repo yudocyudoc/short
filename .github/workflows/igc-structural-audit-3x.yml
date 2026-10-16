@@ -1,0 +1,71 @@
+name: IGC structural audit 3x
+
+on:
+  pull_request:
+    branches: [experiment/breadbasket-hines-scenarios]
+    paths:
+      - 'experiments/igc-structural-audit-3x/**'
+      - '.github/workflows/igc-structural-audit-3x.yml'
+  workflow_dispatch:
+    inputs:
+      confirm_inference:
+        description: 'I authorize up to 6 Cloudflare DeepSeek inference calls'
+        type: choice
+        options:
+          - DO_NOT_RUN
+          - RUN_SIX_CASES
+        default: DO_NOT_RUN
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    defaults:
+      run:
+        working-directory: experiments/igc-structural-audit-3x
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify source fixtures, arithmetic probes and A/B boundaries
+        run: |
+          python3 -m unittest -v test_experiment.py
+          python3 runner.py --dry-run --out ./prepared
+      - name: Archive six prepared prompts without inference
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-structural-preflight-${{ github.run_id }}
+          path: experiments/igc-structural-audit-3x/prepared/
+          if-no-files-found: warn
+          retention-days: 90
+
+  infer:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_SIX_CASES' }}
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: experiments/igc-structural-audit-3x
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run 6 isolated DeepSeek calls without revisions
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python3 runner.py --execute --out ./audit-results
+      - name: Archive original provider outputs and hashes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-structural-audit-3x-${{ github.run_id }}
+          path: experiments/igc-structural-audit-3x/audit-results/
+          retention-days: 90
+          if-no-files-found: warn
