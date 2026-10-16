@@ -2,7 +2,6 @@ name: IGC structural audit 3x - Llama 3.3 70B
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited]
     branches: [experiment/igc-structural-audit-3x]
     paths:
       - 'experiments/igc-structural-audit-3x/runner.py'
@@ -75,7 +74,7 @@ jobs:
           retention-days: 90
 
   infer:
-    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_SIX_LLAMA') || (github.event_name == 'pull_request' && github.event.action == 'edited' && github.event.pull_request.title == 'AUTHORIZE_IGC_LLAMA_SIX_ONCE' && github.event.pull_request.head.ref == 'experiment/igc-structural-audit-llama-3-3') }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_SIX_LLAMA' }}
     needs: preflight
     runs-on: ubuntu-latest
     timeout-minutes: 25
