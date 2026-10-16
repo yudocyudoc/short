@@ -1,0 +1,140 @@
+{
+  "nodes": [
+    {
+      "role": "incoming_orders",
+      "kind": "flow",
+      "label": "Pedidos aceptados",
+      "evidence": [
+        "F1"
+      ]
+    },
+    {
+      "role": "unprepared_work",
+      "kind": "stock",
+      "label": "Pedidos por preparar",
+      "evidence": [
+        "F1",
+        "F2"
+      ]
+    },
+    {
+      "role": "preparation",
+      "kind": "flow",
+      "label": "Preparación por hora",
+      "evidence": [
+        "F2"
+      ]
+    },
+    {
+      "role": "prepared_work",
+      "kind": "stock",
+      "label": "Preparados esperando reparto",
+      "evidence": [
+        "F2",
+        "F3"
+      ]
+    },
+    {
+      "role": "dispatch",
+      "kind": "flow",
+      "label": "Reparto por hora",
+      "evidence": [
+        "F3"
+      ]
+    },
+    {
+      "role": "delivered",
+      "kind": "stock",
+      "label": "Entregas acumuladas",
+      "evidence": [
+        "F3"
+      ]
+    }
+  ],
+  "material_links": [
+    {
+      "source": "incoming_orders",
+      "target": "unprepared_work",
+      "evidence": [
+        "F1"
+      ]
+    },
+    {
+      "source": "unprepared_work",
+      "target": "preparation",
+      "evidence": [
+        "F2"
+      ]
+    },
+    {
+      "source": "preparation",
+      "target": "prepared_work",
+      "evidence": [
+        "F2"
+      ]
+    },
+    {
+      "source": "prepared_work",
+      "target": "dispatch",
+      "evidence": [
+        "F3"
+      ]
+    },
+    {
+      "source": "dispatch",
+      "target": "delivered",
+      "evidence": [
+        "F3"
+      ]
+    }
+  ],
+  "causal_links": [
+    {
+      "source": "unprepared_work",
+      "target": "preparation",
+      "polarity": "+",
+      "evidence": [
+        "F2"
+      ]
+    },
+    {
+      "source": "prepared_work",
+      "target": "dispatch",
+      "polarity": "+",
+      "evidence": [
+        "F3"
+      ]
+    }
+  ],
+  "feedback_loops": [
+    {
+      "path": [
+        "unprepared_work",
+        "preparation",
+        "unprepared_work"
+      ],
+      "kind": "B",
+      "evidence": [
+        "F2"
+      ]
+    },
+    {
+      "path": [
+        "prepared_work",
+        "dispatch",
+        "prepared_work"
+      ],
+      "kind": "B",
+      "evidence": [
+        "F3"
+      ]
+    }
+  ],
+  "decision": "SIMULATE_SYNTHETIC",
+  "numeric_evidence": [
+    "F4"
+  ],
+  "missing": [
+    "No existen mediciones comerciales: la parametrización es hipotética."
+  ]
+}

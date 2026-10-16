@@ -1,0 +1,150 @@
+name: IGC SD-AI qualitative graph -> OpenModelica component assembly
+
+on:
+  pull_request:
+    branches: [experiment/igc-field-mechanism-selection-v1]
+    paths:
+      - 'experiments/sdai-om-scaffold-v1/**'
+      - '.github/workflows/igc-sdai-om-scaffold-v1.yml'
+  push:
+    branches: [experiment/igc-sdai-om-components-v1]
+    paths:
+      - 'experiments/sdai-om-scaffold-v1/authorize_four_real_calls.txt'
+  workflow_dispatch:
+    inputs:
+      confirm_real_llm:
+        description: 'Run four actual Cloudflare Llama calls and Modelica build if graph accepted'
+        type: choice
+        required: true
+        default: DO_NOT_RUN
+        options:
+          - DO_NOT_RUN
+          - RUN_FOUR_CASES
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-assembly:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify causal graph structure and no LLM equations
+        run: |
+          python -m unittest discover -s experiments/sdai-om-scaffold-v1 -p 'test_*.py' -v
+          python experiments/sdai-om-scaffold-v1/compile_graph.py \
+            --case G01 \
+            --proposal experiments/sdai-om-scaffold-v1/oracle_graph_G01.json \
+            --out experiments/sdai-om-scaffold-v1/output/hand_oracle_adjudication.json \
+            --model experiments/sdai-om-scaffold-v1/IGCAutoAssembled.mo
+          python experiments/sdai-om-scaffold-v1/run_llm.py --prepare-only \
+            --out experiments/sdai-om-scaffold-v1/output/prepared_prompts
+          test -s experiments/sdai-om-scaffold-v1/IGCAutoAssembled.mo
+          ! grep -q 'der(' experiments/sdai-om-scaffold-v1/IGCAutoAssembled.mo
+      - name: Pull same verified OpenModelica engine as S1 and S2
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/sdai-om-home" "$RUNNER_TEMP/sdai-om-libs"
+          docker run --rm openmodelica/openmodelica:v1.26.5-minimal omc --version
+      - name: Obtain original versions of MSL and BSD SystemDynamics
+        run: |
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/sdai-om-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/sdai-om-libs/systemdynamics"
+          git -C "$RUNNER_TEMP/sdai-om-libs/msl" rev-parse HEAD > experiments/sdai-om-scaffold-v1/output/modelica4_commit.txt
+          git -C "$RUNNER_TEMP/sdai-om-libs/systemdynamics" rev-parse HEAD > experiments/sdai-om-scaffold-v1/output/systemdynamics212_commit.txt
+      - name: Simulate original already validated S2 components
+        working-directory: experiments/sdai-om-scaffold-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/sdai-om-scaffold-v1 \
+            -v "$RUNNER_TEMP/sdai-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/sdai-om-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc baseline.mos | tee output/original_omc.log
+          test -s s2_reference_res.csv
+      - name: Compile and simulate a model assembled solely from trusted component templates
+        working-directory: experiments/sdai-om-scaffold-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/sdai-om-scaffold-v1 \
+            -v "$RUNNER_TEMP/sdai-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/sdai-om-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc assembled.mos | tee output/assembled_omc.log
+          test -s om_assembled_res.csv
+      - name: Check all 41 timestamps and 6 SD variables vs independent Euler and known S2
+        working-directory: experiments/sdai-om-scaffold-v1
+        run: |
+          python ../openmodelica-mto-s2/verify.py \
+            --reference-out output/euler_reference.csv \
+            --equations s2_reference_res.csv \
+            --components om_assembled_res.csv \
+            --report output/parity_report.json
+          cp s2_reference_res.csv output/
+          cp om_assembled_res.csv output/
+          cp IGCAutoAssembled.mo output/
+      - name: Archive compiler report and unmodified OM output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-sdai-om-assembled-${{ github.run_id }}
+          path: experiments/sdai-om-scaffold-v1/output/
+          if-no-files-found: warn
+          retention-days: 90
+
+  real-llm:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.confirm_real_llm == 'RUN_FOUR_CASES') ||
+      (github.event_name == 'push' && github.event.head_commit.message == 'run(igc): four actual SD causal selections and Modelica compilation')
+    needs: [deterministic-assembly]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: One-shot actual LLM graph extraction (never author equations)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/sdai-om-scaffold-v1/run_llm.py --execute \
+            --out experiments/sdai-om-scaffold-v1/output/actual_llm
+      - name: Rebuild the accepted real LLM graph with OpenModelica components
+        working-directory: experiments/sdai-om-scaffold-v1
+        run: |
+          cp output/actual_llm/G01/COMPILER_ASSEMBLED.mo IGCAutoAssembled.mo
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/sdai-om-home" "$RUNNER_TEMP/sdai-om-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/sdai-om-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/sdai-om-libs/systemdynamics"
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/sdai-om-scaffold-v1 \
+            -v "$RUNNER_TEMP/sdai-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/sdai-om-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc assembled.mos | tee output/actual_llm/modelica_compile.log
+          test -s om_assembled_res.csv
+          python ../openmodelica-mto-s2/verify.py \
+            --reference-out output/actual_llm/euler_reference.csv \
+            --equations om_assembled_res.csv \
+            --components om_assembled_res.csv \
+            --report output/actual_llm/numeric_report.json
+          cp om_assembled_res.csv output/actual_llm/
+      - name: Archive raw actual LLM responses, adjudication and compilations even if failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-sdai-om-real-llm-${{ github.run_id }}
+          path: experiments/sdai-om-scaffold-v1/output/actual_llm/
+          if-no-files-found: warn
+          retention-days: 90

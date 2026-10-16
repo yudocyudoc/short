@@ -1,0 +1,98 @@
+{
+  "version": "IGC_OPENMODELICA_SCAFFOLD_V1",
+  "source": "Verified SystemDynamics 2.1.2, MSL 4.0.0, previous IGC S2 green CI.",
+  "boundary": "LLM identifies entities/causal links ONLY. Zero equations, zero Modelica code, zero numeric overrides; compiler emits predefined structural port and signal wiring and OpenModelica compiles library equations.",
+  "roles": {
+    "incoming_orders": {
+      "kind": "flow",
+      "class": "SystemDynamics.Rates.Rate_1",
+      "meaning": "accepted external orders, not unobserved arrivals"
+    },
+    "unprepared_work": {
+      "kind": "stock",
+      "class": "SystemDynamics.Levels.Level",
+      "meaning": "accepted orders awaiting preparation"
+    },
+    "preparation": {
+      "kind": "flow",
+      "class": "SystemDynamics.Rates.RRate",
+      "meaning": "bounded release of unprepared work into prepared work"
+    },
+    "prepared_work": {
+      "kind": "stock",
+      "class": "SystemDynamics.Levels.Level",
+      "meaning": "prepared orders waiting for dispatch"
+    },
+    "dispatch": {
+      "kind": "flow",
+      "class": "SystemDynamics.Rates.RRate",
+      "meaning": "bounded removal of prepared work into deliveries"
+    },
+    "delivered": {
+      "kind": "stock",
+      "class": "SystemDynamics.Levels.Level1a",
+      "meaning": "cumulative delivered orders"
+    }
+  },
+  "policy_blocks": {
+    "preparation_response": {
+      "class": "Modelica.Blocks.Math.Gain",
+      "connects": "unprepared_work -> preparation",
+      "parameter_source": "existing S2 fixture responseTime"
+    },
+    "dispatch_response": {
+      "class": "Modelica.Blocks.Math.Gain",
+      "connects": "prepared_work -> dispatch",
+      "parameter_source": "existing S2 fixture responseTime"
+    },
+    "preparation_cap": {
+      "class": "SystemDynamics.Rates.RRate",
+      "parameter_source": "existing S2 fixture capacityPreparing"
+    },
+    "dispatch_cap": {
+      "class": "SystemDynamics.Rates.RRate",
+      "parameter_source": "existing S2 fixture capacityDispatch"
+    },
+    "order_profile": {
+      "class": "IGCS2MakeToOrder.Scenario",
+      "parameter_source": "existing S2 exogenous synthetic time profile, not discovered"
+    }
+  },
+  "allowed_flow_links": [
+    [
+      "incoming_orders",
+      "unprepared_work"
+    ],
+    [
+      "unprepared_work",
+      "preparation"
+    ],
+    [
+      "preparation",
+      "prepared_work"
+    ],
+    [
+      "prepared_work",
+      "dispatch"
+    ],
+    [
+      "dispatch",
+      "delivered"
+    ]
+  ],
+  "allowed_causal_polarities": [
+    {
+      "source": "unprepared_work",
+      "target": "preparation",
+      "polarity": "+"
+    },
+    {
+      "source": "prepared_work",
+      "target": "dispatch",
+      "polarity": "+"
+    }
+  ],
+  "compiler_contract": "Only exact verified pattern assembled in v1. Incomplete or alternative graphs result in NO_MODEL, not invented Modelica.",
+  "fixture_file": "experiments/openmodelica-mto-s2/scenario.json",
+  "licensed_library": "SystemDynamics 2.1.2 BSD-3-Clause, MSL 4.0.0"
+}
