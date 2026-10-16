@@ -1,4 +1,4 @@
-# The Bread Basket — Primera aplicación condicional de SD con PySD y moléculas Hines
+# The Bread Basket — Primera aplicación condicional de SD con PySD
 
 **Experimento:** `BREADBASKET_HINES_PYSD_CONDITIONAL_V1`.
 
