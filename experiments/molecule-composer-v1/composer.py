@@ -49,7 +49,7 @@ def decode(proposal):
     for v in items("CONEXIONES"):
         m=WIRE.fullmatch(v)
         if m is None:raise ValueError("INVALID_WIRE_SYNTAX")
-        wires.append((m.group(1)+"."+m.group(2),m.group(3)+"."+m.group(4)))
+        wires.append((m.group(1).strip()+"."+m.group(2).strip(),m.group(3).strip()+"."+m.group(4).strip()))
     if len(wires)!=len(set(wires)):raise ValueError("DUPLICATE_WIRE")
     if len(sections["EXPLICACION"].strip())<24:raise ValueError("EXPLANATION_TOO_SHORT")
     if len(sections["DATOS_FALTANTES"].strip())<10:raise ValueError("MISSING_DATA_TOO_SHORT")
