@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [experiment/hines-pysd-parity]
     paths:
-      - 'experiments/real-pos/**'
+      - 'experiments/real-pos/bread-basket/**'
       - '.github/workflows/breadbasket-real-pos.yml'
   workflow_dispatch:
 
@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run offline ingestion and epistemic boundary tests
-        run: python -m unittest discover -s experiments/real-pos -p 'test_*.py' -v
+        run: python -m unittest discover -s experiments/real-pos/bread-basket -p 'test_*.py' -v
       - name: Download pinned published POS mirror to temp directory only
         run: |
           mkdir -p /tmp/breadbasket
@@ -31,13 +31,13 @@ jobs:
           echo 'Source pinned by commit and verified by git blob hash. Source bytes never included in artifacts.'
       - name: Analyze original POS events without SD simulation or LLM
         run: |
-          python experiments/real-pos/breadbasket_analyze.py \
+          python experiments/real-pos/bread-basket/breadbasket_analyze.py \
             --csv /tmp/breadbasket/BreadBasket_DMS.csv \
-            --out experiments/real-pos/output/breadbasket_observed_patterns.json
+            --out experiments/real-pos/bread-basket/output/breadbasket_observed_patterns.json
           python - <<'PY'
           import json
           from pathlib import Path
-          r=json.loads(Path('experiments/real-pos/output/breadbasket_observed_patterns.json').read_text())
+          r=json.loads(Path('experiments/real-pos/bread-basket/output/breadbasket_observed_patterns.json').read_text())
           assert r['source']['git_blob_sha1']=='ceea9513b75a3dda41a9209b6fd1875c12580933'
           assert r['quality']['counts']=={
             'raw_item_rows':21293,'none_rows':786,'non_none_item_rows':20507,
@@ -53,6 +53,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: breadbasket-real-pos-${{ github.run_id }}
-          path: experiments/real-pos/output/
+          path: experiments/real-pos/bread-basket/output/
           if-no-files-found: warn
           retention-days: 90
