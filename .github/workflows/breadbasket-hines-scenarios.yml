@@ -66,6 +66,12 @@ jobs:
           assert all(s['conservation_order_abs_error']<1e-6 and
                      s['conservation_prepared_inventory_abs_error']<1e-6
                      for x in r['days'] for s in x['scenarios'])
+          assert r['operational_plausibility_gate']['status']=='WARNING_MAKE_TO_ORDER_OVERPRODUCTION'
+          alerts=r['operational_plausibility_gate']['alerts']
+          assert len(alerts)==2
+          assert {a['nominal_capacity_orders_per_hour'] for a in alerts}=={32.0}
+          assert all(a['surplus_preparations_orders']>0 for a in alerts)
+          print('DOMAIN_PLAUSIBILITY_WARNING_REGISTERED_NOT_HIDDEN')
           assert r['safety_conclusions']['llm_calls']==0
           assert not list(folder.glob('*.mdl'))
           print('CONDITIONAL_HINES_SD_SIX_SCENARIOS_VALIDATED')
