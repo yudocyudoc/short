@@ -1,0 +1,513 @@
+{
+  "inventory_version": "HINES_DRIVE_BACKUP_DISCOVERY_V1",
+  "file_count": 83,
+  "model_files": 81,
+  "documentation_files": 1,
+  "source": "User-supplied private Google Drive backup; metadata read 2026-10-15 local MX / 2026-10-16 UTC",
+  "privacy": "Do not publish raw bytes or Drive file IDs. This public index contains only names and sizes.",
+  "trust_levels": {
+    "DISCOVERED_ONLY": "Filename and size observed in user's backup; contents, PySD compatibility, port semantics and rights not yet fully audited.",
+    "INSPECTED_NOT_EXECUTABLE": "Source bytes inspected and SHA-256 computed; no implementation-specific parity, unit adaptation or operational contract validated.",
+    "VERIFIED4": "One of four files whose publisher originals, hashes and original PySD parity were previously tested in this repository."
+  },
+  "entries": [
+    {
+      "filename": "a1smth.mdl",
+      "size_bytes": 2742,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "a2prod.mdl",
+      "size_bytes": 4611,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "a3age.mdl",
+      "size_bytes": 6540,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "a4prod.mdl",
+      "size_bytes": 6530,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "a8prod2.mdl",
+      "size_bytes": 5313,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "a8prod2a.mdl",
+      "size_bytes": 4409,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "accumulator.mdl",
+      "size_bytes": 1574,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "ancadj.mdl",
+      "size_bytes": 6467,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "ancadjp.mdl",
+      "size_bytes": 6665,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "b1proj.mdl",
+      "size_bytes": 3602,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "b2workf.mdl",
+      "size_bytes": 2346,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "b3sched.mdl",
+      "size_bytes": 2402,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "b5fatigu.mdl",
+      "size_bytes": 2865,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "beerseg.mdl",
+      "size_bytes": 6146,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "BrokenCascade.mdl",
+      "size_bytes": 5525,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "BuildingInvDoingWork.mdl",
+      "size_bytes": 2387,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "c2capord.mdl",
+      "size_bytes": 10272,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "c5extrap.mdl",
+      "size_bytes": 4046,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "c6price.mdl",
+      "size_bytes": 9755,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "CapUtil.mdl",
+      "size_bytes": 2983,
+      "stage": "VERIFIED4",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "cascade.mdl",
+      "size_bytes": 4054,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "cascadedSmooth.mdl",
+      "size_bytes": 4607,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "CascadeProtectedByPDY.mdl",
+      "size_bytes": 8894,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "casccof.mdl",
+      "size_bytes": 7813,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "casclev.mdl",
+      "size_bytes": 2967,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "convert.mdl",
+      "size_bytes": 1891,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "CreationAbilityFromFlow.mdl",
+      "size_bytes": 2046,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "d2pv.mdl",
+      "size_bytes": 2883,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "decay.mdl",
+      "size_bytes": 2292,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "delay.mdl",
+      "size_bytes": 2555,
+      "stage": "VERIFIED4",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "din.mdl",
+      "size_bytes": 2287,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "disdrain.mdl",
+      "size_bytes": 3406,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "DoingWork.mdl",
+      "size_bytes": 2313,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "doingWorkCascade.mdl",
+      "size_bytes": 4636,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "EstimatedPDYFromWorkflow.mdl",
+      "size_bytes": 2137,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "ExternalSplit-one.mdl",
+      "size_bytes": 2040,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "ExternalSplit-two.mdl",
+      "size_bytes": 2289,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "goalgap.mdl",
+      "size_bytes": 2193,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "GoToZero.mdl",
+      "size_bytes": 2104,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "hcoflow.mdl",
+      "size_bytes": 3507,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "if_then.mdl",
+      "size_bytes": 3046,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "invbakf.mdl",
+      "size_bytes": 5040,
+      "stage": "VERIFIED4",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "invbakl.mdl",
+      "size_bytes": 4629,
+      "stage": "VERIFIED4",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "level.mdl",
+      "size_bytes": 2162,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "LevelProtectedByPDY.mdl",
+      "size_bytes": 6744,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "MarketShare1.mdl",
+      "size_bytes": 9626,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "Molecule.2mdl",
+      "size_bytes": 19294,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "other"
+    },
+    {
+      "filename": "Molecule.mdl",
+      "size_bytes": 19302,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "molecule.pdf",
+      "size_bytes": 570212,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "documentation"
+    },
+    {
+      "filename": "MultivariateAnchAdj.mdl",
+      "size_bytes": 5868,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "NonlinearBiDiSplit.mdl",
+      "size_bytes": 3784,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "NonlinearMultiDiSplit.mdl",
+      "size_bytes": 10715,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "NonlinearSplit.mdl",
+      "size_bytes": 3917,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "overtime.mdl",
+      "size_bytes": 3001,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "pancprc.mdl",
+      "size_bytes": 5430,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "pdy.mdl",
+      "size_bytes": 5161,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "plevflow.mdl",
+      "size_bytes": 3595,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "PopulationGrowth.mdl",
+      "size_bytes": 2258,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "prodattr.mdl",
+      "size_bytes": 5148,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "produc.mdl",
+      "size_bytes": 2003,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "proportionalSplit.mdl",
+      "size_bytes": 3919,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "protlev.mdl",
+      "size_bytes": 3076,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "purch.mdl",
+      "size_bytes": 5762,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "Quality.mdl",
+      "size_bytes": 4972,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "remainingDuration.mdl",
+      "size_bytes": 2133,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "resid.mdl",
+      "size_bytes": 2087,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "resourceCreatingFlow.mdl",
+      "size_bytes": 2136,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "ResourceFromFlow.mdl",
+      "size_bytes": 2176,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "ResourcesFromBudget.mdl",
+      "size_bytes": 2066,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "schdcomp.mdl",
+      "size_bytes": 2589,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "smthprc.mdl",
+      "size_bytes": 5104,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "softmax.mdl",
+      "size_bytes": 3041,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "softmin.mdl",
+      "size_bytes": 3030,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "spending.mdl",
+      "size_bytes": 1971,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "splitflo.mdl",
+      "size_bytes": 5274,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "tcasccof.mdl",
+      "size_bytes": 8358,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "tcoflow.mdl",
+      "size_bytes": 4136,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "trend.mdl",
+      "size_bytes": 3473,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "UnivariateAnchAdj.mdl",
+      "size_bytes": 3010,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "untitled.mdl",
+      "size_bytes": 1344,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "WeightedSplit.mdl",
+      "size_bytes": 5167,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "wom.mdl",
+      "size_bytes": 3683,
+      "stage": "DISCOVERED_ONLY",
+      "kind": "vensim_molecule"
+    },
+    {
+      "filename": "workf.mdl",
+      "size_bytes": 2495,
+      "stage": "INSPECTED_NOT_EXECUTABLE",
+      "kind": "vensim_molecule"
+    }
+  ]
+}
