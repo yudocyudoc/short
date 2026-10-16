@@ -1,0 +1,141 @@
+{
+  "experiment": "BREAD_BASKET_OBSERVED_POS_V1",
+  "verdict": "OBSERVATIONS_REPRODUCED_NOT_SD_CALIBRATED",
+  "source": {
+    "attributed_business": "The Bread Basket, Edinburgh",
+    "original_kaggle": "https://www.kaggle.com/datasets/mittalvasu95/the-bread-basket",
+    "mirror_repo": "prasertcbs/basic-dataset",
+    "mirror_commit": "8415fd4eedd124d739d75430853796e13ded1009",
+    "mirror_path": "BreadBasket_DMS.csv",
+    "original_source_git_blob_sha1": "ceea9513b75a3dda41a9209b6fd1875c12580933",
+    "original_source_sha256": "72d21cc42c084d1e54a7b9183b0294d8b4142cf4b5a224eb41a21228a71797a8",
+    "original_source_bytes": 710518,
+    "evidence_limitation": "Secondary public mirror; original transaction authenticity and source license not independently verified"
+  },
+  "execution": {
+    "run": "https://github.com/yudocyudoc/short/actions/runs/38840956620",
+    "source_commit": "91809892ea96f81379dfb86f71acd65ba548340d",
+    "artifact_id": 12021111990,
+    "artifact_zip_sha256": "e03341715b63cc51467f08fe78f211e84bd9318ed1f591cdeb0a6db546e07c61",
+    "full_json_uncompressed_sha256": "15e4ab830b9fd4958266110ad6f75cdd1f863a850914fa79131d1bb721013b98",
+    "full_json_bytes": 644997,
+    "reproducibility_note": "Regenerate full JSON with breadbasket_analyze.py at source_commit on pinned mirror file; verify SHA256; artifact retained for 90 days",
+    "tests": 7,
+    "all_pass": true,
+    "model_sd_simulations": 0,
+    "llm_calls": 0
+  },
+  "observations": {
+    "source_date_range": [
+      "2016-10-30T09:58:11",
+      "2017-04-09T15:04:24"
+    ],
+    "raw_product_rows": 21293,
+    "none_rows": 786,
+    "valid_product_rows": 20507,
+    "all_transaction_ids": 9531,
+    "transactions_with_items": 9465,
+    "none_only_transactions": 66,
+    "product_names": 94,
+    "active_days_with_sales": 159,
+    "max_registered_transactions_one_hour": {
+      "date": "2016-10-30",
+      "hour": 10,
+      "count": 25
+    },
+    "max_registered_transactions_one_15min": {
+      "count": 9,
+      "occurrences": [
+        {
+          "date": "2016-11-27",
+          "hour": 11,
+          "minute": 15
+        },
+        {
+          "date": "2017-01-28",
+          "hour": 11,
+          "minute": 0
+        },
+        {
+          "date": "2017-02-04",
+          "hour": 11,
+          "minute": 45
+        }
+      ]
+    },
+    "busiest_sales_day": {
+      "date": "2017-02-04",
+      "registered_transactions": 139
+    },
+    "by_weekday_monday_zero": [
+      1128,
+      1185,
+      1109,
+      1248,
+      1475,
+      2059,
+      1261
+    ],
+    "top_products_by_raw_line": [
+      [
+        "Coffee",
+        5471
+      ],
+      [
+        "Bread",
+        3325
+      ],
+      [
+        "Tea",
+        1435
+      ],
+      [
+        "Cake",
+        1025
+      ],
+      [
+        "Pastry",
+        856
+      ],
+      [
+        "Sandwich",
+        771
+      ],
+      [
+        "Medialuna",
+        616
+      ],
+      [
+        "Hot chocolate",
+        590
+      ],
+      [
+        "Cookies",
+        540
+      ],
+      [
+        "Brownie",
+        379
+      ]
+    ]
+  },
+  "decision_boundary": {
+    "observable": "Registered sale timestamps and item composition only",
+    "not_observable": [
+      "customer arrival timestamps",
+      "unserved demand",
+      "staffing/throughput",
+      "actual queues",
+      "service durations",
+      "stock depletion",
+      "BOM/recipes",
+      "supplier fulfillment",
+      "delivery",
+      "territory/competitors"
+    ],
+    "no_causal_inference": true,
+    "no_inventory_leakage_claim": true,
+    "no_queue_capacity_claim": true,
+    "initial_use": "Describe sales-pattern forcing for explicitly hypothetical conditional SD scenarios only"
+  }
+}
