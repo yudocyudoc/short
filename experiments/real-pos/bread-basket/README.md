@@ -55,3 +55,13 @@ Para el momento **Antes**, los registros históricos de venta pueden ayudar a pl
 ## Carpeta permanente del experimento
 
 Todos los componentes de la investigación quedan agrupados en `experiments/real-pos/bread-basket/`. Las evidencias auditadas están en la rama de resultados y [PR #10](https://github.com/yudocyudoc/short/pull/10); se conservan como archivos derivados, no como copia del CSV original.
+
+## Experimento SD condicional — Hines y PySD
+
+En **[sd-scenarios/](sd-scenarios/README.md)** hay una segunda fase independiente: reutiliza `CapUtil.mdl` y `invbakf.mdl` de Hines y alimenta seis simulaciones PySD con series horarias derivadas de las ventas registradas de The Bread Basket.
+
+- [PR #11 — código, configuración y pruebas](https://github.com/yudocyudoc/short/pull/11)
+- [PR #12 — series y auditoría permanente](https://github.com/yudocyudoc/short/pull/12)
+- [GitHub Actions #38843656367 — ejecución verificada](https://github.com/yudocyudoc/short/actions/runs/38843656367)
+
+**Resultado:** las seis simulaciones conservan balances matemáticos, pero dos escenarios de gran capacidad generan producción de pedidos preparados por encima de las ventas usadas como señal de entrada. El resultado incluye `WARNING_MAKE_TO_ORDER_OVERPRODUCTION`: **composición reproducible ≠ modelo del negocio validado**. No se han identificado colas, capacidad, llegadas perdidas ni inventarios reales.

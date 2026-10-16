@@ -1,0 +1,86 @@
+name: Bread Basket — conditional Hines PySD scenarios
+
+on:
+  pull_request:
+    branches: [experiment/breadbasket-real-observations]
+    paths:
+      - 'experiments/real-pos/bread-basket/**'
+      - '.github/workflows/breadbasket-hines-scenarios.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  conditional-hines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: experiments/hines-pysd/requirements.txt
+      - name: Install pinned PySD 3.14.3
+        run: |
+          python -m pip install -r experiments/hines-pysd/requirements.txt
+          python -c 'import pysd; assert pysd.__version__ == "3.14.3"'
+      - name: Offline source-adapter and POS tests
+        run: |
+          python -m unittest discover -s experiments/real-pos/bread-basket -p 'test_*.py' -v
+          python -m unittest discover -s experiments/real-pos/bread-basket/sd-scenarios -p 'test_*.py' -v
+      - name: Obtain frozen public POS source
+        run: |
+          mkdir -p /tmp/breadbasket
+          curl --fail --silent --show-error --location --retry 3 \
+            'https://raw.githubusercontent.com/prasertcbs/basic-dataset/8415fd4eedd124d739d75430853796e13ded1009/BreadBasket_DMS.csv' \
+            --output /tmp/breadbasket/BreadBasket_DMS.csv
+      - name: Verify POS bytes and build observable event-rate pattern
+        run: |
+          python experiments/real-pos/bread-basket/breadbasket_analyze.py \
+            --csv /tmp/breadbasket/BreadBasket_DMS.csv \
+            --out /tmp/breadbasket/observed_patterns.json
+      - name: Obtain verified Hines originals from publisher
+        run: |
+          python experiments/hines-pysd/fetch_sources.py \
+            --dest /tmp/hines-originals \
+            --out experiments/real-pos/bread-basket/output/sd-scenarios
+      - name: Run two original-structure PySD molecules in six conditional scenarios
+        run: |
+          python experiments/real-pos/bread-basket/sd-scenarios/run_scenarios.py \
+            --aggregates /tmp/breadbasket/observed_patterns.json \
+            --originals /tmp/hines-originals \
+            --temporary-models /tmp/hines-ephemeral-orders-hour \
+            --out experiments/real-pos/bread-basket/output/sd-scenarios
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          folder=Path('experiments/real-pos/bread-basket/output/sd-scenarios')
+          r=json.loads((folder/'conditional_scenario_summary.json').read_text())
+          assert r['verdict']=='SCENARIO_SIMULATION_NOT_EMPIRICAL_VALIDATION'
+          assert r['engine_version']=='3.14.3'
+          assert [x['date'] for x in r['days']]==['2017-02-04','2016-10-30']
+          assert [x['source_sale_transactions'] for x in r['days']]==[139,79]
+          assert all(len(x['scenarios'])==3 for x in r['days'])
+          assert all(s['conservation_order_abs_error']<1e-6 and
+                     s['conservation_prepared_inventory_abs_error']<1e-6
+                     for x in r['days'] for s in x['scenarios'])
+          assert r['operational_plausibility_gate']['status']=='WARNING_MAKE_TO_ORDER_OVERPRODUCTION'
+          alerts=r['operational_plausibility_gate']['alerts']
+          assert len(alerts)==2
+          assert {a['nominal_capacity_orders_per_hour'] for a in alerts}=={32.0}
+          assert all(a['surplus_preparations_orders']>0 for a in alerts)
+          print('DOMAIN_PLAUSIBILITY_WARNING_REGISTERED_NOT_HIDDEN')
+          assert r['safety_conclusions']['llm_calls']==0
+          assert not list(folder.glob('*.mdl'))
+          print('CONDITIONAL_HINES_SD_SIX_SCENARIOS_VALIDATED')
+          PY
+      - name: Upload derived data and audit reports only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: breadbasket-hines-scenarios
+          path: experiments/real-pos/bread-basket/output/sd-scenarios/
+          if-no-files-found: warn
+          retention-days: 90
