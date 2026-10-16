@@ -181,6 +181,8 @@ def run_one(caputil_file, backlog_file, counts, cap, config):
         "simulated_backlog_end_of_day_orders":backlog_final,
         "simulated_maximum_backlog_orders":max(rec["simulated_unfulfilled_orders"] for rec in records),
         "simulated_prepared_inventory_end_of_day_orders":finished_stock_final,
+        "hypothetical_preparation_surplus_over_sale_proxy_orders":max(0.0,produced_integrated-accepted_proxy),
+        "make_to_order_plausibility_warning":produced_integrated>accepted_proxy+1e-6,
         "simulated_maximum_prepared_inventory_orders":max(rec["simulated_prepared_orders"] for rec in records),
         "conservation_order_abs_error":abs(order_balance_err),
         "conservation_prepared_inventory_abs_error":abs(inventory_balance_err),
@@ -231,6 +233,16 @@ def main():
         import csv
         writer=csv.DictWriter(fh,fieldnames=list(combined[0]))
         writer.writeheader();writer.writerows(combined)
+    warnings=[
+        {"date":day["date"],
+         "nominal_capacity_orders_per_hour":case["hypothetical_nominal_kitchen_capacity_orders_per_hour"],
+         "modelled_prepared_orders":case["simulated_produced_orders_integrated"],
+         "recorded_sale_proxy_orders":case["proxy_orders_integrated"],
+         "surplus_preparations_orders":case["hypothetical_preparation_surplus_over_sale_proxy_orders"],
+         "leftover_prepared_orders":case["simulated_prepared_inventory_end_of_day_orders"]}
+        for day in days for case in day["scenarios"]
+        if case["make_to_order_plausibility_warning"]
+    ]
     report={
         "experiment":"BREADBASKET_HINES_PYSD_CONDITIONAL_V1",
         "verdict":"SCENARIO_SIMULATION_NOT_EMPIRICAL_VALIDATION",
@@ -241,6 +253,12 @@ def main():
         "transient_unit_adaptations":adaptations,
         "engine":"PySD",
         "engine_version":pysd.__version__,
+        "operational_plausibility_gate":{
+            "status":"WARNING_MAKE_TO_ORDER_OVERPRODUCTION" if warnings else "NO_INTEGRAL_OVERPRODUCTION_DETECTED",
+            "alerts":warnings,
+            "meaning":"The Hines CapUtil lookup can generate prepared orders beyond registered-sale-proxy orders, because the models are linked one-way without an endogenous order-production cap. This is not evidence that the bakery overproduced; it shows a domain assumption missing from this composition.",
+            "calibrated_for_actual_business":False
+        },
         "structural_composition":"two Hines molecules run sequentially; capacity output fed into backlog",
         "no_endogenous_feedback_from_backlog_to_kitchen":True,
         "predeclared_config":cfg,
