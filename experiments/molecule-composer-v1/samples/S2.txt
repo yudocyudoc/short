@@ -1,0 +1,7 @@
+ESTADO: ABSTENER
+MOLECULAS: NINGUNA
+CONEXIONES: NINGUNA
+EXPLICACION:
+Las cuatro moléculas verificadas no cierran por sí mismas un control sobre pedidos aún no preparados. Backlog en invbakf no es igual a trabajo pendiente de preparación. No ensamblaría lazo abierto para esta pregunta.
+DATOS_FALTANTES:
+Estados de pedidos pendientes de preparar, ya preparados y despachados; política de producción y capacidad medida.

@@ -1,0 +1,41 @@
+{
+  "experiment": "MOLECULE_COMPOSER_SELECTION_V1",
+  "status": "synthetic_methodological_pilot",
+  "cases": [
+    {
+      "case_id": "S1",
+      "title": "Taller con producción para inventario",
+      "question": "Con un plan de fabricación independiente de pedidos, capacidad nominal conocida y productos terminados almacenables, ¿qué moléculas verificadas escogerías y cómo conectarías las salidas para explorar acumulación de pedidos y stock?",
+      "facts": [
+        "La empresa FABRICA PARA INVENTARIO, por pronóstico; puede crear existencias sin pedidos.",
+        "Los pedidos que entran son pedidos aceptados, no timestamps de cobro.",
+        "El objetivo es un ensayo sintético de 8 horas, no pronosticar un negocio real.",
+        "La producción planificada es entrada exógena; no debe inferirse de Orders.",
+        "La capacidad y parámetros se entregarán como supuestos explícitos al simulador."
+      ]
+    },
+    {
+      "case_id": "S2",
+      "title": "Cocina estrictamente bajo pedido",
+      "question": "¿Se puede construir, con esta biblioteca verificada de solo cuatro moléculas y sus conexiones autorizadas, un mecanismo cerrado en que los trabajos pendientes de preparar controlen la producción?",
+      "facts": [
+        "No se fabrica para stock: se produce únicamente para pedidos aceptados no preparados.",
+        "Cuando no hay trabajo sin preparar, la producción debe ser exactamente cero.",
+        "Cuando existen pedidos sin preparar, la cocina puede seguir produciendo aunque no lleguen pedidos nuevos.",
+        "Se necesitan estados separados para pedidos sin preparar, preparados y despachados.",
+        "No está permitido inventar ecuaciones ni modificar funciones originales."
+      ]
+    },
+    {
+      "case_id": "S3",
+      "title": "POS de cobro sin datos de llegada",
+      "question": "¿Se puede estimar capacidad, cola y pedidos no atendidos de una cafetería usando solamente marcas de tiempo de ventas cobradas y estas cuatro moléculas?",
+      "facts": [
+        "Solo hay fecha/hora de transacciones cobradas, cantidad de artículos y productos.",
+        "No se observaron llegadas de clientes, cola, capacidad del personal, duración de preparación, inventario ni demanda perdida.",
+        "No hay medición de capacidad ni políticas de recepción de pedidos.",
+        "El objetivo sería recomendar si ampliar capacidad."
+      ]
+    }
+  ]
+}

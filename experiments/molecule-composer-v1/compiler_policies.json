@@ -1,0 +1,43 @@
+{
+  "version": "INDEPENDENT_COMPILER_BOUNDARIES_V1",
+  "rule": "No son conclusiones del LLM; son contratos operacionales explícitos que el motor aplica independientemente.",
+  "cases": {
+    "S1": {
+      "scenario_type": "make_to_stock",
+      "may_execute": true,
+      "allow_molecules": [
+        "CAP_UTIL",
+        "BACKLOG_FLOW"
+      ],
+      "required_molecules": [
+        "CAP_UTIL",
+        "BACKLOG_FLOW"
+      ],
+      "required_connections": [
+        [
+          "CAP_UTIL.Production",
+          "BACKLOG_FLOW.Producing"
+        ]
+      ],
+      "source_simulation": "synthetic_mts.json"
+    },
+    "S2": {
+      "scenario_type": "make_to_order",
+      "may_execute": false,
+      "blocking_reason": "ENDOGENOUS_UNPREPARED_WORK_BACKLOG_MISSING",
+      "required_constraints": [
+        "production depends on unprepared work backlog",
+        "no excess stock production"
+      ],
+      "required_molecules": [],
+      "required_connections": []
+    },
+    "S3": {
+      "scenario_type": "pos_only",
+      "may_execute": false,
+      "blocking_reason": "UNOBSERVED_ARRIVALS_CAPACITY_AND_LOST_DEMAND",
+      "required_molecules": [],
+      "required_connections": []
+    }
+  }
+}

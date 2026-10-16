@@ -1,0 +1,16 @@
+{
+  "version": "SYNTHETIC_MTS_V1",
+  "labels": {
+    "origin": "HIPOTESIS_EXPLICITA",
+    "observed_company_metrics": false
+  },
+  "dt_hours": 0.25,
+  "duration_hours": 8,
+  "capacity_orders_per_hour": 12,
+  "planned_production_orders_per_hour": 8,
+  "accepted_orders_per_hour": 6,
+  "initial_accepted_unshipped_orders": 5,
+  "initial_finished_goods_orders": 12,
+  "assumed_minimum_ship_time_hours": 0.25,
+  "assumed_processing_and_shipping_target_hours": 0.5
+}

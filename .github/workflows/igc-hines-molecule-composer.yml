@@ -1,0 +1,134 @@
+name: IGC Hines molecule composer v1
+
+on:
+  pull_request:
+    branches: [experiment/breadbasket-hines-scenarios]
+    paths:
+      - 'experiments/molecule-composer-v1/**'
+      - '.github/workflows/igc-hines-molecule-composer.yml'
+  workflow_dispatch:
+    inputs:
+      confirm_inference:
+        description: 'Authorize 3 Cloudflare Llama inferences for S1, S2, S3'
+        required: true
+        type: choice
+        options:
+          - DO_NOT_RUN
+          - RUN_THREE_CASES
+        default: DO_NOT_RUN
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check compiler, catalogue and three synthetic examples (no AI)
+        run: |
+          cd experiments/molecule-composer-v1
+          python3 -m unittest -v test_composer.py
+          python3 run_llm.py --dry-run --out ./output/prepared
+          python3 composer.py --case S1 --proposal samples/S1.txt --out ./output/s1_compiled.json
+          python3 composer.py --case S2 --proposal samples/S2.txt --out ./output/s2_abstained.json
+          python3 composer.py --case S3 --proposal samples/S3.txt --out ./output/s3_abstained.json
+      - name: Archive offline baseline, not an AI achievement
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-hines-composer-offline-${{ github.run_id }}
+          path: experiments/molecule-composer-v1/output/
+          if-no-files-found: warn
+          retention-days: 90
+
+  synthetic-pysd:
+    needs: offline
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: experiments/hines-pysd/requirements.txt
+      - name: Install existing PySD engine, no new modeling dependencies
+        run: pip install -r experiments/hines-pysd/requirements.txt
+      - name: Obtain four verified originals (temporary, never archived)
+        run: |
+          python experiments/hines-pysd/fetch_sources.py \
+            --dest /tmp/hines-composer-originals \
+            --out experiments/molecule-composer-v1/output/sources
+      - name: Execute only permitted synthetic make-to-stock composition
+        run: |
+          python experiments/molecule-composer-v1/simulate.py \
+            --case S1 --proposal experiments/molecule-composer-v1/samples/S1.txt \
+            --originals /tmp/hines-composer-originals \
+            --scratch /tmp/hines-composer-adapted \
+            --out experiments/molecule-composer-v1/output/S1-simulation
+          python experiments/molecule-composer-v1/simulate.py \
+            --case S2 --proposal experiments/molecule-composer-v1/samples/S2.txt \
+            --originals /tmp/hines-composer-originals \
+            --scratch /tmp/hines-composer-adapted \
+            --out experiments/molecule-composer-v1/output/S2-not-simulated
+          python experiments/molecule-composer-v1/simulate.py \
+            --case S3 --proposal experiments/molecule-composer-v1/samples/S3.txt \
+            --originals /tmp/hines-composer-originals \
+            --scratch /tmp/hines-composer-adapted \
+            --out experiments/molecule-composer-v1/output/S3-not-simulated
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('experiments/molecule-composer-v1/output')
+          s=json.loads((p/'S1-simulation/report.json').read_text())
+          assert s['status']=='SYNTHETIC_COMPOSITION_EXECUTED'
+          assert s['rows']==33
+          assert s['evidence_flags']['synthetic_not_real']
+          assert max(abs(v) for v in s['conservation_errors'].values())<1e-6
+          for c in ('S2','S3'):
+              r=json.loads((p/f'{c}-not-simulated/report.json').read_text())
+              assert r['status']=='NO_SIMULATION',r
+          print('HINES_MOLECULE_COMPOSITION_SYNTHETIC_ONLY_PASSED')
+          PY
+      - name: Preserve reports and derived time series, not original Hines files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-hines-composer-pysd-${{ github.run_id }}
+          path: experiments/molecule-composer-v1/output/
+          if-no-files-found: warn
+          retention-days: 90
+
+  infer:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_THREE_CASES' }}
+    needs: [offline, synthetic-pysd]
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Three isolated Llama selections, no reparations
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/molecule-composer-v1/run_llm.py \
+            --execute --out experiments/molecule-composer-v1/output/llm
+      - name: Archive original responses and compiler results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-hines-composer-llm-${{ github.run_id }}
+          path: experiments/molecule-composer-v1/output/llm/
+          if-no-files-found: warn
+          retention-days: 90

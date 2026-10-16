@@ -1,0 +1,7 @@
+ESTADO: ENSAMBLAR
+MOLECULAS: CAP_UTIL, BACKLOG_FLOW
+CONEXIONES: CAP_UTIL.Production -> BACKLOG_FLOW.Producing
+EXPLICACION:
+La producción planeada es externa a los pedidos y puede terminar en inventario. El flujo Production alimenta Producing de la molécula de inventario y shipping. Es exploración de supuestos, no predicción validada.
+DATOS_FALTANTES:
+Medición real de capacidad, retrasos, inventario, demanda aceptada y reglas de reposición.

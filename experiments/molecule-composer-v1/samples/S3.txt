@@ -1,0 +1,7 @@
+ESTADO: ABSTENER
+MOLECULAS: NINGUNA
+CONEXIONES: NINGUNA
+EXPLICACION:
+Un ticket cobrado no observa llegada, espera, pedidos perdidos o límite de capacidad. No hay datos para calibrar una cola ni decidir ampliación.
+DATOS_FALTANTES:
+Tiempos de llegada, aceptación, preparación, espera, abandono, dotación y capacidad.
