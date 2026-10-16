@@ -1,0 +1,16 @@
+{
+  "business_plausibility_warning": true,
+  "files": {
+    "conditional_scenario_summary.json": "06995c1cea888bc0fb8a79576c01660d4d920017855a358257544cf5d4d2ecef",
+    "conditional_timeseries.csv": "8e37858588467bef95610834f64c6433b838bc62143f7efb7015805b34f9fb4c",
+    "source_manifest.json": "399176651dc5ee5f0a85fa7eaba16509738a0e5be017fddb202258f92cde426f"
+  },
+  "llm_calls": 0,
+  "original_mdl_bytes_in_archive": false,
+  "original_pos_bytes_in_archive": false,
+  "source_artifact_id": 12022676608,
+  "source_artifact_zip_sha256": "4c646a55e6775a52a36056db676251b94e881d47ee197e3402acd35e28b971ab",
+  "source_code_commit": "c8f40e5691f7028ba48294bd4c1c4884be675795",
+  "source_run": "https://github.com/yudocyudoc/short/actions/runs/38843656367",
+  "summary_status": "SCENARIO_SIMULATION_NOT_EMPIRICAL_VALIDATION"
+}

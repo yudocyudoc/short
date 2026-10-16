@@ -1,0 +1,236 @@
+{
+  "days": [
+    {
+      "date": "2017-02-04",
+      "max_observed_sales_15_min": 9,
+      "nonzero_sale_proxy_15_min_bins": 44,
+      "scenarios": [
+        {
+          "conservation_order_abs_error": 4.973799150320701e-14,
+          "conservation_prepared_inventory_abs_error": 0.0,
+          "hypothetical_nominal_kitchen_capacity_orders_per_hour": 8.0,
+          "hypothetical_preparation_surplus_over_sale_proxy_orders": 0.0,
+          "make_to_order_plausibility_warning": false,
+          "original_registered_sale_transactions_on_day": 139,
+          "proxy_orders_integrated": 139.0,
+          "simulated_backlog_end_of_day_orders": 49.804001604723844,
+          "simulated_conclusion_not_real_diagnosis": true,
+          "simulated_maximum_backlog_orders": 52.636445692562994,
+          "simulated_maximum_prepared_inventory_orders": 4.633822381758727,
+          "simulated_prepared_inventory_end_of_day_orders": 0.0,
+          "simulated_produced_orders_integrated": 89.1959983952761,
+          "simulated_shipped_orders_integrated": 89.1959983952761
+        },
+        {
+          "conservation_order_abs_error": 4.6407322429331543e-14,
+          "conservation_prepared_inventory_abs_error": 0.0,
+          "hypothetical_nominal_kitchen_capacity_orders_per_hour": 16.0,
+          "hypothetical_preparation_surplus_over_sale_proxy_orders": 0.0,
+          "make_to_order_plausibility_warning": false,
+          "original_registered_sale_transactions_on_day": 139,
+          "proxy_orders_integrated": 139.0,
+          "simulated_backlog_end_of_day_orders": 1.971540578150648,
+          "simulated_conclusion_not_real_diagnosis": true,
+          "simulated_maximum_backlog_orders": 11.800527059805667,
+          "simulated_maximum_prepared_inventory_orders": 10.23139475620034,
+          "simulated_prepared_inventory_end_of_day_orders": 0.0,
+          "simulated_produced_orders_integrated": 137.0284594218493,
+          "simulated_shipped_orders_integrated": 137.0284594218493
+        },
+        {
+          "conservation_order_abs_error": 2.6430788981068876e-14,
+          "conservation_prepared_inventory_abs_error": 2.842170943040401e-14,
+          "hypothetical_nominal_kitchen_capacity_orders_per_hour": 32.0,
+          "hypothetical_preparation_surplus_over_sale_proxy_orders": 34.48109441042163,
+          "make_to_order_plausibility_warning": true,
+          "original_registered_sale_transactions_on_day": 139,
+          "proxy_orders_integrated": 139.0,
+          "simulated_backlog_end_of_day_orders": 0.0007308942121235859,
+          "simulated_conclusion_not_real_diagnosis": true,
+          "simulated_maximum_backlog_orders": 11.719795227050781,
+          "simulated_maximum_prepared_inventory_orders": 41.528455319651535,
+          "simulated_prepared_inventory_end_of_day_orders": 34.4818253046337,
+          "simulated_produced_orders_integrated": 173.48109441042163,
+          "simulated_shipped_orders_integrated": 138.9992691057879
+        }
+      ],
+      "selection_rule": "date with highest registered transactions (139)",
+      "source_sale_transactions": 139
+    },
+    {
+      "date": "2016-10-30",
+      "max_observed_sales_15_min": 8,
+      "nonzero_sale_proxy_15_min_bins": 20,
+      "scenarios": [
+        {
+          "conservation_order_abs_error": 0.0,
+          "conservation_prepared_inventory_abs_error": 0.0,
+          "hypothetical_nominal_kitchen_capacity_orders_per_hour": 8.0,
+          "hypothetical_preparation_surplus_over_sale_proxy_orders": 0.0,
+          "make_to_order_plausibility_warning": false,
+          "original_registered_sale_transactions_on_day": 79,
+          "proxy_orders_integrated": 79.0,
+          "simulated_backlog_end_of_day_orders": 35.23377795608043,
+          "simulated_conclusion_not_real_diagnosis": true,
+          "simulated_maximum_backlog_orders": 37.53377795608043,
+          "simulated_maximum_prepared_inventory_orders": 3.234576918822893,
+          "simulated_prepared_inventory_end_of_day_orders": 0.0,
+          "simulated_produced_orders_integrated": 43.76622204391957,
+          "simulated_shipped_orders_integrated": 43.76622204391957
+        },
+        {
+          "conservation_order_abs_error": 8.881784197001252e-15,
+          "conservation_prepared_inventory_abs_error": 1.4210854715202004e-14,
+          "hypothetical_nominal_kitchen_capacity_orders_per_hour": 16.0,
+          "hypothetical_preparation_surplus_over_sale_proxy_orders": 0.0,
+          "make_to_order_plausibility_warning": false,
+          "original_registered_sale_transactions_on_day": 79,
+          "proxy_orders_integrated": 79.0,
+          "simulated_backlog_end_of_day_orders": 6.193367471946141,
+          "simulated_conclusion_not_real_diagnosis": true,
+          "simulated_maximum_backlog_orders": 13.448721450366087,
+          "simulated_maximum_prepared_inventory_orders": 7.784901461664129,
+          "simulated_prepared_inventory_end_of_day_orders": 0.0,
+          "simulated_produced_orders_integrated": 72.80663252805388,
+          "simulated_shipped_orders_integrated": 72.80663252805387
+        },
+        {
+          "conservation_order_abs_error": 1.984523656530392e-15,
+          "conservation_prepared_inventory_abs_error": 3.552713678800501e-15,
+          "hypothetical_nominal_kitchen_capacity_orders_per_hour": 32.0,
+          "hypothetical_preparation_surplus_over_sale_proxy_orders": 16.795939176456386,
+          "make_to_order_plausibility_warning": true,
+          "original_registered_sale_transactions_on_day": 79,
+          "proxy_orders_integrated": 79.0,
+          "simulated_backlog_end_of_day_orders": 7.650925726299106e-11,
+          "simulated_conclusion_not_real_diagnosis": true,
+          "simulated_maximum_backlog_orders": 13.0625,
+          "simulated_maximum_prepared_inventory_orders": 22.526119651556975,
+          "simulated_prepared_inventory_end_of_day_orders": 16.795939176532894,
+          "simulated_produced_orders_integrated": 95.79593917645639,
+          "simulated_shipped_orders_integrated": 78.99999999992349
+        }
+      ],
+      "selection_rule": "date with peak 1-hour registered transactions (25)",
+      "source_sale_transactions": 79
+    }
+  ],
+  "engine": "PySD",
+  "engine_version": "3.14.3",
+  "experiment": "BREADBASKET_HINES_PYSD_CONDITIONAL_V1",
+  "hines_originals_sha256": {
+    "CapUtil.mdl": "13e2ee6309a19815505e930530bfc25337049ad43aa00d2f775a7d27eb636993",
+    "invbakf.mdl": "19837f1a191ec0614bddfe95cb15b714d956f6c42e9ad69f8aca336f5ecb6d53"
+  },
+  "no_endogenous_feedback_from_backlog_to_kitchen": true,
+  "observed_source_git_blob_sha1": "ceea9513b75a3dda41a9209b6fd1875c12580933",
+  "observed_source_sha256": "72d21cc42c084d1e54a7b9183b0294d8b4142cf4b5a224eb41a21228a71797a8",
+  "operational_plausibility_gate": {
+    "alerts": [
+      {
+        "date": "2017-02-04",
+        "leftover_prepared_orders": 34.4818253046337,
+        "modelled_prepared_orders": 173.48109441042163,
+        "nominal_capacity_orders_per_hour": 32.0,
+        "recorded_sale_proxy_orders": 139.0,
+        "surplus_preparations_orders": 34.48109441042163
+      },
+      {
+        "date": "2016-10-30",
+        "leftover_prepared_orders": 16.795939176532894,
+        "modelled_prepared_orders": 95.79593917645639,
+        "nominal_capacity_orders_per_hour": 32.0,
+        "recorded_sale_proxy_orders": 79.0,
+        "surplus_preparations_orders": 16.795939176456386
+      }
+    ],
+    "calibrated_for_actual_business": false,
+    "meaning": "The Hines CapUtil lookup can generate prepared orders beyond registered-sale-proxy orders, because the models are linked one-way without an endogenous order-production cap. This is not evidence that the bakery overproduced; it shows a domain assumption missing from this composition.",
+    "status": "WARNING_MAKE_TO_ORDER_OVERPRODUCTION"
+  },
+  "predeclared_config": {
+    "clock": {
+      "dt_hours": 0.25,
+      "end_hour": 24,
+      "slots_per_day": 96,
+      "start_hour": 0,
+      "units": "hour"
+    },
+    "nonclaims": [
+      "POS recorded sales are neither unconstrained demand nor customer arrivals",
+      "Zero recorded sales does not demonstrate business was open or demand was zero",
+      "Capacities and processing/ship times are hypothetical, not estimates",
+      "Backlog and prepared inventory are SIMULATED, not observed",
+      "Not an identified causal model of the source bakery",
+      "No customer wait time estimated",
+      "No forecast or recommendation about whether to open delivery"
+    ],
+    "preselected_dates": [
+      {
+        "date": "2017-02-04",
+        "selection_rule": "date with highest registered transactions (139)"
+      },
+      {
+        "date": "2016-10-30",
+        "selection_rule": "date with peak 1-hour registered transactions (25)"
+      }
+    ],
+    "provenance": {
+      "derived_mdl_committed_or_uploaded": false,
+      "hines_original_models": [
+        "CapUtil.mdl",
+        "invbakf.mdl"
+      ],
+      "llm_inference_calls": 0,
+      "original_source_sha256_canonical": "experiments/hines-pysd/specifications_extracted.json",
+      "runtime_model_units_relabelled": "Widgets->orders, Month/Week->Hour in transient copies only; all Hines mathematical expressions and lookup points unchanged"
+    },
+    "purpose": "Demonstrate observed-sale-timing as a conditional proxy input to existing Hines SD molecules, not estimate actual unserved demand or cafe capacity",
+    "scenario_parameters": {
+      "assumed_initial_prepared_orders": 0,
+      "assumed_initial_unfulfilled_orders": 0,
+      "assumed_minimum_ship_time_hours": 0.25,
+      "assumed_processing_and_shipping_target_hours": 0.5,
+      "desired_production_forcing": "equal to observed POS forcing; capacity-utilization molecule maps to modeled kitchen output",
+      "hypothetical_kitchen_nominal_capacities_orders_per_hour": [
+        8,
+        16,
+        32
+      ],
+      "orders_forcing": "4 * unique POS transaction counts recorded in each 15-minute bin (per hour), held at the start of each time step",
+      "production_feeds_shipping_model": "CapUtil.Production -> invbakf.Producing via sampled time-series, no endogenous feedback"
+    },
+    "schema_version": "breadbasket.hines.conditional.v0.1",
+    "source_input": "Pinned GitHub mirror of BreadBasket_DMS.csv processed by breadbasket_analyze.py (source blob SHA-1 ceea9513b75a3dda41a9209b6fd1875c12580933)"
+  },
+  "safety_conclusions": {
+    "capacities_are_hypothetical": true,
+    "llm_calls": 0,
+    "no_inventory_or_profit_claims": true,
+    "no_real_bakery_capacity_calibrated": true,
+    "observed_sales_are_not_total_demand": true,
+    "observed_transaction_times_are_not_customer_arrival_times": true,
+    "queue_lengths_are_simulated_not_observed": true
+  },
+  "source_data": "registered sales timestamps only",
+  "structural_composition": "two Hines molecules run sequentially; capacity output fed into backlog",
+  "transient_unit_adaptations": {
+    "CapUtil.mdl": {
+      "ephemeral_relabelled_sha256": "9e7531945facfd6a255a9b1e862ef35d5b8ae37394629a47f02f0d9a37cb6f72",
+      "model_formulas_changed": false,
+      "original_name": "CapUtil.mdl",
+      "publisher_original_sha256": "13e2ee6309a19815505e930530bfc25337049ad43aa00d2f775a7d27eb636993",
+      "transient_models_persisted": false,
+      "unit_relabelling_only": true
+    },
+    "invbakf.mdl": {
+      "ephemeral_relabelled_sha256": "273e63e6236c050fd8d85371953e16979d2b562424222d80551fa8bb1cd5d984",
+      "model_formulas_changed": false,
+      "original_name": "invbakf.mdl",
+      "publisher_original_sha256": "19837f1a191ec0614bddfe95cb15b714d956f6c42e9ad69f8aca336f5ecb6d53",
+      "transient_models_persisted": false,
+      "unit_relabelling_only": true
+    }
+  },
+  "verdict": "SCENARIO_SIMULATION_NOT_EMPIRICAL_VALIDATION"
+}
