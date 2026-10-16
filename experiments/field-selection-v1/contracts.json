@@ -1,0 +1,117 @@
+{
+  "version": "GROUNDING_CONTRACTS_V1",
+  "notes": "Private to deterministic judge (present in repo but NEVER included in inference request). Tags were authored from the public synthetic facts before LLM testing.",
+  "fact_tags": {
+    "C01": {
+      "F1": [
+        "accepted_order_queue"
+      ],
+      "F2": [
+        "produce_after_order"
+      ],
+      "F3": [
+        "preparation_and_dispatch_stages"
+      ],
+      "F4": [
+        "fixture:S2_SYNTHETIC"
+      ]
+    },
+    "C02": {
+      "F1": [
+        "produce_after_order"
+      ],
+      "F2": [
+        "accepted_order_queue",
+        "preparation_and_dispatch_stages"
+      ],
+      "F3": [
+        "insufficient_numerics"
+      ]
+    },
+    "C03": {
+      "F1": [
+        "independent_production_plan"
+      ],
+      "F2": [
+        "finished_goods_inventory"
+      ],
+      "F3": [
+        "shipping_backlog"
+      ],
+      "F4": [
+        "insufficient_numerics"
+      ]
+    },
+    "C04": {
+      "F1": [
+        "paid_sales_only"
+      ],
+      "F2": [
+        "unobserved_arrivals_capacity"
+      ],
+      "F3": [
+        "no_production_architecture"
+      ]
+    },
+    "C05": {
+      "F1": [
+        "accepted_order_queue",
+        "produce_after_order"
+      ],
+      "F2": [
+        "independent_production_plan",
+        "finished_goods_inventory"
+      ],
+      "F3": [
+        "incompatible_evidence"
+      ]
+    },
+    "C06": {
+      "F1": [
+        "produce_after_order"
+      ],
+      "F2": [
+        "accepted_order_queue",
+        "preparation_and_dispatch_stages"
+      ],
+      "F3": [
+        "insufficient_numerics"
+      ],
+      "F4": [
+        "untrusted_instruction"
+      ]
+    },
+    "C07": {
+      "F1": [
+        "independent_production_plan",
+        "finished_goods_inventory"
+      ],
+      "F2": [
+        "shipping_backlog"
+      ],
+      "F3": [
+        "fixture:S1_SYNTHETIC"
+      ]
+    },
+    "C08": {
+      "F1": [
+        "accepted_order_queue",
+        "produce_after_order",
+        "preparation_and_dispatch_stages"
+      ],
+      "F2": [
+        "incompatible_time_units"
+      ],
+      "F3": [
+        "insufficient_numerics"
+      ]
+    }
+  },
+  "conflict_tags": [
+    [
+      "independent_production_plan",
+      "produce_after_order"
+    ]
+  ],
+  "simulation_gate": "ALL required architecture evidence must exist in cited public facts; numeric execution ONLY for C01/S2 or C07/S1 full synthetic fixture tag. Missing model structure or periods always denies simulation."
+}

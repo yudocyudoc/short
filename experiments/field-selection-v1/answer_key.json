@@ -1,0 +1,51 @@
+{
+  "version": "PRE_REGISTERED_SCORING_ONLY_DO_NOT_INCLUDE_IN_PROMPT",
+  "cases": {
+    "C01": {
+      "model": "MTO",
+      "action": "SIMULAR_CONDICIONAL",
+      "fixture": "S2_SYNTHETIC"
+    },
+    "C02": {
+      "model": "MTO",
+      "action": "SOLO_ESTRUCTURA",
+      "fixture": null
+    },
+    "C03": {
+      "model": "MTS",
+      "action": "SOLO_ESTRUCTURA",
+      "fixture": null
+    },
+    "C04": {
+      "model": "INDETERMINADO",
+      "action": "ABSTENER",
+      "fixture": null
+    },
+    "C05": {
+      "model": "INDETERMINADO",
+      "action": "ABSTENER",
+      "fixture": null
+    },
+    "C06": {
+      "model": "MTO",
+      "action": "SOLO_ESTRUCTURA",
+      "fixture": null
+    },
+    "C07": {
+      "model": "MTS",
+      "action": "SIMULAR_CONDICIONAL",
+      "fixture": "S1_SYNTHETIC"
+    },
+    "C08": {
+      "model": "MTO",
+      "action": "SOLO_ESTRUCTURA",
+      "fixture": null
+    }
+  },
+  "success_criteria": {
+    "all_eight_valid_and_correct": true,
+    "zero_unsupported_simulation_claims": true,
+    "zero_false_inference_of_unobserved_demand": true,
+    "notes": "Artificial benchmark, NOT validation on real organisations or out-of-sample generalization."
+  }
+}

@@ -1,0 +1,6 @@
+AUTHORIZATION: EIGHT_REAL_CLOUDFLARE_LLM_INFERENCES
+CASE_IDS: C01,C02,C03,C04,C05,C06,C07,C08
+MODEL: @cf/meta/llama-3.3-70b-instruct-fp8-fast
+POLICY: one API request per case; no retry; archive original response and independent scoring
+CONTEXT: explicit user confirmation that Cloudflare secrets are present in GitHub, 2026-10-16
+LIMITATION: this file authorizes this one push only; subsequent routine pushes do not match the workflow paths/commit message
