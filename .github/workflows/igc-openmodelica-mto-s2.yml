@@ -74,6 +74,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: igc-s2-mto-components-${{ github.run_id }}
-          path: experiments/openmodelica-mto-s2/output/
+          path: |
+            experiments/openmodelica-mto-s2/output/
+            experiments/openmodelica-mto-s2/s2_equations_res.csv
+            experiments/openmodelica-mto-s2/s2_components_res.csv
           if-no-files-found: warn
           retention-days: 90
