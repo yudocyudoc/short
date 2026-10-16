@@ -64,7 +64,7 @@ jobs:
           docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
             -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
             -v "$RUNNER_TEMP/igc-thirdparty:/thirdparty:ro" \
-            -e MODELICAPATH=/thirdparty/msl:/thirdparty/systemdynamics \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
             openmodelica/openmodelica:v1.26.5-minimal \
             omc equations.mos | tee output/omc_equations_stdout.txt
           test -s s1_equations_res.csv
@@ -74,7 +74,7 @@ jobs:
           docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
             -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
             -v "$RUNNER_TEMP/igc-thirdparty:/thirdparty:ro" \
-            -e MODELICAPATH=/thirdparty/msl:/thirdparty/systemdynamics \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
             openmodelica/openmodelica:v1.26.5-minimal \
             omc components.mos | tee output/omc_components_stdout.txt
           test -s s1_components_res.csv
