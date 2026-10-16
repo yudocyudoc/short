@@ -1,0 +1,78 @@
+{
+  "purpose": "Content-level inspection only, not PySD parity, not a permit to connect and execute.",
+  "observed_in_backup": {
+    "DoingWork.mdl": {
+      "sha256": "60c403c6eb736ddaeccd3643cd0c362b3743c96974e8dcc4b90235d4229dfe9c",
+      "size": 2313,
+      "equations_excerpt": [
+        "Work To Do = INTEG(-producing, 100)",
+        "producing = workers*productivity"
+      ],
+      "interpretation": "Existing work is consumed at a constant rate when workforce and productivity are constant; no stop at zero and no arrival of newly accepted work."
+    },
+    "BuildingInvDoingWork.mdl": {
+      "sha256": "2e39208799e9a16721e77ea2308abd476c8f985dba19b95771aed3d393822bd7",
+      "size": 2387,
+      "equations_excerpt": [
+        "Inventory = INTEG(producing, 0)",
+        "producing = workers*productivity"
+      ],
+      "interpretation": "Represents accumulating finished inventory; it has no endogenous customer-order shipping or make-to-order constraint."
+    },
+    "produc.mdl": {
+      "sha256": "043e5553495bf72ee6cb4f913b569a0d6f200ef7d9a678dfa0ee331762502305",
+      "size": 2003,
+      "equations_excerpt": [
+        "producing = workers*productivity"
+      ],
+      "interpretation": "Static workforce × productivity flow, not a complete order-production-stock relationship."
+    },
+    "workf.mdl": {
+      "sha256": "3868ee7662401764d09b192ac8cf860e59583c8c36fa2afd44167698d7efd7b3",
+      "size": 2495,
+      "equations_excerpt": [
+        "Workforce = INTEG(Hiring and Firing, Desired People)",
+        "Hiring and Firing = Worker Shortage / time to hire or fire"
+      ],
+      "interpretation": "Workforce adjustment; not production-backlog allocation."
+    },
+    "b2workf.mdl": {
+      "sha256": "b5ac5184445d9a534ddfe615b4cb25761197b698b30f13fe094b0d39c2af46ca",
+      "size": 2346,
+      "equations_excerpt": [
+        "Desired People = Desired Accomplishing Rate / productivity"
+      ],
+      "interpretation": "Desired workforce from output target; not a queue service rule."
+    },
+    "doingWorkCascade.mdl": {
+      "sha256": "31921b71a81949e3a60618df6129e7f548621384512a56acd434dcdac0ccf34a",
+      "size": 4636,
+      "equations_excerpt": [
+        "Inventory A = INTEG(producing A-producing B,0)",
+        "Inventory B = INTEG(producing B-producing C,0)"
+      ],
+      "interpretation": "A multi-stage inventory cascade; production flows defined from workforce and productivity, without automatic downstream-capacity protection."
+    },
+    "c2capord.mdl": {
+      "sha256": "403224d408e00e07507b874eed1a6f8f499ec1453e4ac9b64d13737e5b859d8b",
+      "size": 10272,
+      "equations_excerpt": [
+        "Productive Capacity = INTEG(FinishingConstruction-Retiring Capacity, Desired Capacity)",
+        "Construction In Process = INTEG(Starting Construction-FinishingConstruction,Target Construction In Process)"
+      ],
+      "interpretation": "Adjustment/construction of productive capacity, not directly 15-minute restaurant service capacity."
+    },
+    "tcasccof.mdl": {
+      "sha256": "8b0c3328175074eb15d765b543c8148a65b0aa6a2c1bf26f9d06c5115ac3e5cc",
+      "size": 8358,
+      "equations_excerpt": [
+        "Mature material = INTEG(Material maturing-Material aging, ...)",
+        "Old material = INTEG(Material aging-Material flowing out, ...)"
+      ],
+      "interpretation": "Age cohorts of material and characteristic, not backlog shipping."
+    }
+  },
+  "caution": "Only 4 molecules have verified publisher source, frozen manifest and previous PySD parity as recognized by composer. Inspected candidates remain non-executable in v1.",
+  "raw_bytes_published": false,
+  "drive_ids_published": false
+}
