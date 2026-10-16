@@ -17,6 +17,11 @@ FIELDS={
 def read_csv(path):
     with Path(path).open(encoding="utf-8-sig",newline="") as f:
         rows=list(csv.DictReader(f))
+    # OMC CSV includes an identical duplicate terminal time=8 row. Drop only
+    # that byte-for-byte identical extra record; never interpolate or average.
+    if len(rows)==34 and "time" in rows[0]:
+        if rows[-1]==rows[-2] and float(rows[-1]["time"])==8.0:
+            rows.pop()
     if len(rows)!=33:raise ValueError(f"EXPECTED_33_TIMEPOINTS:{path}:{len(rows)}")
     return rows
 
