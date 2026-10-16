@@ -1,0 +1,104 @@
+name: IGC structural audit 3x - Llama 3.3 70B
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches: [experiment/igc-structural-audit-3x]
+    paths:
+      - 'experiments/igc-structural-audit-3x/runner.py'
+      - 'experiments/igc-structural-audit-3x/llama-replication.md'
+      - '.github/workflows/igc-structural-audit-llama.yml'
+  workflow_dispatch:
+    inputs:
+      confirm_inference:
+        description: 'Explicitly authorize up to six Llama calls through Cloudflare'
+        type: choice
+        required: true
+        options: [DO_NOT_RUN, RUN_SIX_LLAMA]
+        default: DO_NOT_RUN
+
+permissions:
+  contents: read
+
+concurrency:
+  group: igc-structural-llama-3x-once
+  cancel-in-progress: false
+
+env:
+  IGC_MODEL: '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    defaults:
+      run:
+        working-directory: experiments/igc-structural-audit-3x
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Seven deterministic tests
+        run: python3 -m unittest -v test_experiment.py
+      - name: Freeze six prompt hashes equal to previous DeepSeek run
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          from runner import prompt, MODEL, TEMP, MAX_TOKENS
+          expected={
+            ('BB01','A'):'1d8467d6d0794eb08bcd84ecbc11d5d8a2b902c361729a9acf979f45039a2eae',
+            ('W17','A'):'86e6d7b0a7bb16fa2c741f007a80f1808d0e5b2f73c7d8625e7f55da383986f1',
+            ('W18','A'):'f683345303746464a6e0c62950362cf641e940d2f4aa0bd6787e1ed7bf06c6bb',
+            ('BB01','B'):'fce85bde4b8a00db02ed046dc43a7bd30d0fcf6075423f429d7077f732c1d3b1',
+            ('W17','B'):'d31f04170f8d3da532268211236d71314d7648a5cb1c66e582d0d0ee53deb7e2',
+            ('W18','B'):'ec2d98d44f8815441696f5e1665867232bf41f0b7f80f24f6a09119119952fdd'}
+          data=json.loads(Path('cases.json').read_text())
+          cases={c['case_id']:c for c in data['cases']}
+          assert MODEL=='@cf/meta/llama-3.3-70b-instruct-fp8-fast'
+          assert TEMP==.1 and MAX_TOKENS==3500
+          for arm in ('A','B'):
+            for case_id in ('BB01','W17','W18'):
+              digest=hashlib.sha256(prompt(cases[case_id],arm).encode()).hexdigest()
+              assert digest==expected[(case_id,arm)],(case_id,arm,digest)
+              print('MATCHES_DEEPSEEK_INPUT',case_id,arm,digest)
+          PY
+      - name: Prepare Llama call packages, no API
+        run: python3 runner.py --dry-run --out ./prepared-llama
+      - name: Archive complete preflight
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-llama-preflight-${{ github.run_id }}
+          path: experiments/igc-structural-audit-3x/prepared-llama/
+          if-no-files-found: warn
+          retention-days: 90
+
+  infer:
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.confirm_inference == 'RUN_SIX_LLAMA') || (github.event_name == 'pull_request' && github.event.action == 'edited' && github.event.pull_request.title == 'AUTHORIZE_IGC_LLAMA_SIX_ONCE' && github.event.pull_request.head.ref == 'experiment/igc-structural-audit-llama-3-3') }}
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: experiments/igc-structural-audit-3x
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run six isolated Llama 3.3 calls, zero revisions
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+          python3 runner.py --execute --out ./llama-results
+      - name: Archive original Llama responses and hashes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-structural-audit-llama-${{ github.run_id }}
+          path: experiments/igc-structural-audit-3x/llama-results/
+          if-no-files-found: warn
+          retention-days: 90
