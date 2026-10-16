@@ -32,6 +32,17 @@ El workflow `breadbasket-hines-scenarios.yml` descarga de Vensim los archivos `C
 
 **Límite de composición:** el encadenamiento es unidireccional. `Backlog` no realimenta la decisión de producción de `CapUtil`; sin esta conexión endógena, no debe afirmarse que obtuvimos el modelo completo de una cafetería. La molécula original de inventario terminado no representa insumos, empaques ni costos.
 
+## Primer hallazgo de auditoría: paridad numérica ≠ plausibilidad operacional
+
+En la primera ejecución de PySD (Actions #38843408303), ambas moléculas conservaron balances perfectamente. Sin embargo, con **32 órdenes/hora** de capacidad hipotética, `CapUtil` produjo más pedidos preparados que ventas-proxy:
+
+- 2017-02-04: 173.48 pedidos preparados simulados contra 139 transacciones registradas; 34.48 sobrantes.
+- 2016-10-30: 95.80 preparados simulados contra 79 transacciones; 16.80 sobrantes.
+
+**Son cifras simuladas, no observaciones de la panadería.** Bajo nuestro mapeo de `Inventory` como «pedidos individuales preparados y esperando despacho», exceder órdenes aceptadas es una advertencia estructural: `CapUtil.Production` no recibe una restricción desde el backlog. Si modeláramos producción para stock, la interpretación cambiaría; aquí no se ha establecido tal operación.
+
+A partir de este hallazgo se añadió `operational_plausibility_gate=WARNING_MAKE_TO_ORDER_OVERPRODUCTION`. La prueba CI exige que esta incompatibilidad potencial se identifique en el informe y no se convierta en una recomendación de ampliar capacidad.
+
 ## Pruebas y compuertas
 
 - Conteos por día en 96 ventanas, sin doble conteo de artículos ni imputaciones.
