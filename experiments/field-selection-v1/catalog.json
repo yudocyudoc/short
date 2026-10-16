@@ -1,0 +1,57 @@
+{
+  "version": "STRUCTURAL_COMPONENT_CATALOG_V1",
+  "scope": "Known, previously executed S1 and S2 mechanisms ONLY; not a general AutoModelica library or model discovery engine.",
+  "architectures": {
+    "MTO": {
+      "description": "Accepted orders create unprepared work, preparation drains that work into prepared-but-undelivered stock, dispatch drains prepared work, deliveries accumulate.",
+      "required_tags": [
+        "accepted_order_queue",
+        "produce_after_order",
+        "preparation_and_dispatch_stages"
+      ],
+      "blocks": [
+        "SystemDynamics.Levels.Level",
+        "SystemDynamics.Levels.Level1a",
+        "SystemDynamics.Rates.Rate_1",
+        "SystemDynamics.Rates.RRate"
+      ],
+      "policies": [
+        "PREPARE_FROM_UNPREPARED_BOUNDED",
+        "DISPATCH_FROM_PREPARED_BOUNDED"
+      ],
+      "numeric_fixture": "S2_SYNTHETIC",
+      "existing_experiment": "experiments/openmodelica-mto-s2/IGCS2MakeToOrder.mo",
+      "limitations": "Arrival and response policies require separate substantive evidence; all parameters in S2 are hypothetical."
+    },
+    "MTS": {
+      "description": "An exogenous production plan fills finished-goods inventory independently of orders; accepted orders form a shipping backlog.",
+      "required_tags": [
+        "independent_production_plan",
+        "finished_goods_inventory",
+        "shipping_backlog"
+      ],
+      "blocks": [
+        "SystemDynamics.Levels.Level",
+        "SystemDynamics.Rates.Rate_1"
+      ],
+      "policies": [
+        "PLAN_DRIVES_PRODUCTION_LOOKUP",
+        "STOCK_AND_BACKLOG_DRIVE_SHIPPING_LOOKUP"
+      ],
+      "numeric_fixture": "S1_SYNTHETIC",
+      "existing_experiment": "experiments/openmodelica-s1-parity/IGCS1Parity.mo",
+      "limitations": "Two lookup functions are separately authored mathematical policy; not supplied by SystemDynamics Level and Rate."
+    }
+  },
+  "dispositions": [
+    "SIMULAR_CONDICIONAL",
+    "SOLO_ESTRUCTURA",
+    "ABSTENER"
+  ],
+  "blocklist": [
+    "Raw Modelica code",
+    "unverified library classes",
+    "invented parameter values",
+    "inference from paid sales to unobserved lost demand"
+  ]
+}
