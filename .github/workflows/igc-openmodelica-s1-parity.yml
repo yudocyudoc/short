@@ -36,13 +36,15 @@ jobs:
           mkdir -p "$RUNNER_TEMP/igc-modelica-home" experiments/openmodelica-s1-parity/output
           docker run --rm openmodelica/openmodelica:v1.26.5-minimal omc --version
           python -c 'import pysd; print("PySD",pysd.__version__)'
-      - name: Install BSD Modelica libraries in persistent temporary container HOME
-        working-directory: experiments/openmodelica-s1-parity
+      - name: Download exact BSD library release tags from official GitHub repositories
         run: |
-          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
-            -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
-            openmodelica/openmodelica:v1.26.5-minimal \
-            omc install_libraries.mos | tee output/omc_libraries_stdout.txt
+          mkdir -p "$RUNNER_TEMP/igc-thirdparty"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-thirdparty/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-thirdparty/systemdynamics"
+          test -s "$RUNNER_TEMP/igc-thirdparty/msl/Modelica/package.mo"
+          test -s "$RUNNER_TEMP/igc-thirdparty/systemdynamics/SystemDynamics/package.mo"
+          git -C "$RUNNER_TEMP/igc-thirdparty/msl" rev-parse HEAD > experiments/openmodelica-s1-parity/output/modelica_v4_git_commit.txt
+          git -C "$RUNNER_TEMP/igc-thirdparty/systemdynamics" rev-parse HEAD > experiments/openmodelica-s1-parity/output/systemdynamics_v2_git_commit.txt
       - name: Obtain four original Hines files SHA-verified in temporary directory
         run: |
           python experiments/hines-pysd/fetch_sources.py \
@@ -61,6 +63,8 @@ jobs:
         run: |
           docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
             -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-thirdparty:/thirdparty:ro" \
+            -e MODELICAPATH=/thirdparty/msl:/thirdparty/systemdynamics \
             openmodelica/openmodelica:v1.26.5-minimal \
             omc equations.mos | tee output/omc_equations_stdout.txt
           test -s s1_equations_res.csv
@@ -69,6 +73,8 @@ jobs:
         run: |
           docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
             -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-thirdparty:/thirdparty:ro" \
+            -e MODELICAPATH=/thirdparty/msl:/thirdparty/systemdynamics \
             openmodelica/openmodelica:v1.26.5-minimal \
             omc components.mos | tee output/omc_components_stdout.txt
           test -s s1_components_res.csv
