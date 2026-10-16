@@ -53,10 +53,29 @@ def independent_reference(cfg):
 def read_csv(path,modelica=False):
     with Path(path).open(encoding="utf-8-sig",newline="") as h:
         data=list(csv.DictReader(h))
-    if modelica and len(data)==42 and data[-1]==data[-2] and abs(float(data[-1].get("time",float("nan")))-10)<1e-8:
-        data.pop()
+    if modelica:
+        # OMC emits pre-event and post-event samples for discontinuities at 2h
+        # and 4h, plus sometimes an extra terminal row. Retain the LAST sample
+        # at each exact grid timestamp, i.e., the right-continuous event state.
+        # Reject off-grid observations or unexpected event duplicates.
+        by_step={}
+        duplicates=[]
+        for row in data:
+            t=float(row["time"])
+            k=round(t/.25)
+            if not (0<=k<=40 and abs(t-k*.25)<1e-7):
+                raise ValueError(f"UNEXPECTED_OFF_GRID_TIMESTAMP:{t}")
+            if k in by_step:
+                if k not in (8,16,40):
+                    raise ValueError(f"UNEXPECTED_DUPLICATE_TIMESTAMP:{t}")
+                duplicates.append(k)
+            by_step[k]=row
+        if len(data)>41:
+            print("OMC_DISCONTINUITY_RECORDS",json.dumps({"source":str(path),
+                "raw_rows":len(data),"duplicate_event_times":[k*.25 for k in duplicates]}),flush=True)
+        data=[by_step[i] for i in sorted(by_step)]
     if len(data)!=41:raise ValueError(f"REQUIRED_41_TIMES:{path}:got={len(data)}")
-    if not all(abs(float(r["time"])-i*.25)<1e-8 for i,r in enumerate(data)):
+    if not all(abs(float(r["time"])-i*.25)<1e-7 for i,r in enumerate(data)):
         raise ValueError(f"TIMESTAMP_MISMATCH:{path}")
     return data
 
