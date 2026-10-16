@@ -1,0 +1,31 @@
+{
+  "experiment": "IGC_S2_MAKE_TO_ORDER",
+  "provenance": "fully synthetic hypothetical accepted orders, no measured operations",
+  "engine": "Euler",
+  "dt_hours": 0.25,
+  "duration_hours": 10,
+  "capacity_preparing_orders_per_hour": 10,
+  "capacity_dispatch_orders_per_hour": 8,
+  "preparation_response_time_hours": 0.5,
+  "dispatch_response_time_hours": 0.5,
+  "initial_unprepared_orders": 0,
+  "initial_prepared_orders": 0,
+  "initial_delivered_orders": 0,
+  "arrival_regimes": [
+    {
+      "start_hour": 0,
+      "end_hour": 2,
+      "accepted_orders_per_hour": 6
+    },
+    {
+      "start_hour": 2,
+      "end_hour": 4,
+      "accepted_orders_per_hour": 16
+    },
+    {
+      "start_hour": 4,
+      "end_hour": 10,
+      "accepted_orders_per_hour": 0
+    }
+  ]
+}
