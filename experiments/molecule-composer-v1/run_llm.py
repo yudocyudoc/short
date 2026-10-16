@@ -40,9 +40,14 @@ def write(path,obj):
 def build_prompt(case,catalog):
     public={"case_id":case["case_id"],"title":case["title"],
             "question":case["question"],"facts":case["facts"]}
-    # The compiler's private operational policy and simulation parameters are
+    discovery=load("drive_backup_discovery.json")
+    visible=[{"filename":x["filename"],"status":x["stage"]}
+             for x in discovery["entries"] if x["kind"]=="vensim_molecule"]
+    # The compiler's operational policy and simulation parameters are
     # not included in this prompt. No hidden oracle/answer labels supplied.
-    return INSTRUCTION+"\nCATALOGO DISPONIBLE:\n"+json.dumps(catalog,ensure_ascii=False,indent=2,sort_keys=True)+ \
+    return INSTRUCTION+"\nCATALOGO EJECUTABLE (cuatro moléculas con puertos verificados):\n"+json.dumps(catalog,ensure_ascii=False,indent=2,sort_keys=True)+ \
+           "\n\nINDICE DE RESPALDO EN DRIVE (nombres solamente; NO ejecutables en este experimento):\n"+json.dumps(visible,ensure_ascii=False,sort_keys=True)+ \
+           "\nNo afirmes que los nombres del índice especifican puertos, ecuaciones o compatibilidad. Si necesitas una molécula de este índice, ABSTENER y pedir verificación previa.\n"+ \
            "\n\nPROBLEMA:\n"+json.dumps(public,ensure_ascii=False,indent=2,sort_keys=True)
 
 def get_response(wrapper):
