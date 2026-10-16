@@ -15,8 +15,8 @@ No rewriting the shipping policy as min(backlog,cap), no making production stric
 ## Three runs
 
 1. PySD loads temporary verified publisher CapUtil.mdl and invbakf.mdl using the existing, unit-label-only, temporary adapter.
-2. OpenModelica 1.26.3 runs IGCS1Parity.Equations with explicit ODE states, Euler, 32 intervals.
-3. OpenModelica 1.26.3 with BSD-3-Clause SystemDynamics 2.1.2 runs IGCS1Parity.Components with Level and Rate_1 connectors, Euler, 32 intervals.
+2. OpenModelica 1.26.5 runs IGCS1Parity.Equations with explicit ODE states, Euler, 32 intervals.
+3. OpenModelica 1.26.5 with BSD-3-Clause SystemDynamics 2.1.2 runs IGCS1Parity.Components with Level and Rate_1 connectors, Euler, 32 intervals.
 
 A deterministic Python comparator checks 33 timepoints × 4 variables (production, shipping, backlog, inventory) for all three pairs: OMC equations vs PySD; OMC components vs PySD; components vs equations. Predeclared absolute tolerance 1e-4.
 
