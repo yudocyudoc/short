@@ -1,0 +1,7 @@
+getVersion();
+updatePackageIndex();
+installPackage(Modelica, "4.0.0", exactMatch=true);
+installPackage(SystemDynamics, "2.1.2", exactMatch=true);
+loadModel(Modelica, {"4.0.0"});
+loadModel(SystemDynamics, {"2.1.2"});
+getErrorString();

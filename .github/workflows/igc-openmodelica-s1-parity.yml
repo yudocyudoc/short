@@ -1,0 +1,102 @@
+name: IGC S1 parity - PySD vs OpenModelica
+
+on:
+  pull_request:
+    branches: [experiment/igc-hines-molecule-composer-v1]
+    paths:
+      - 'experiments/openmodelica-s1-parity/**'
+      - '.github/workflows/igc-openmodelica-s1-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  comparison:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: experiments/hines-pysd/requirements.txt
+      - name: Offline contracts (without simulator)
+        run: python -m unittest discover -s experiments/openmodelica-s1-parity -p 'test_*.py' -v
+      - name: Install pinned PySD 3.14.3
+        run: |
+          python -m pip install -r experiments/hines-pysd/requirements.txt
+          python -c 'import pysd; assert pysd.__version__ == "3.14.3"'
+      - name: Pull official pinned OpenModelica CLI Docker image
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-modelica-home" experiments/openmodelica-s1-parity/output
+          docker run --rm openmodelica/openmodelica:v1.26.5-minimal omc --version
+          python -c 'import pysd; print("PySD",pysd.__version__)'
+      - name: Download exact BSD library release tags from official GitHub repositories
+        run: |
+          mkdir -p "$RUNNER_TEMP/igc-thirdparty"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-thirdparty/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-thirdparty/systemdynamics"
+          test -s "$RUNNER_TEMP/igc-thirdparty/msl/Modelica/package.mo"
+          test -s "$RUNNER_TEMP/igc-thirdparty/systemdynamics/SystemDynamics/package.mo"
+          git -C "$RUNNER_TEMP/igc-thirdparty/msl" rev-parse HEAD > experiments/openmodelica-s1-parity/output/modelica_v4_git_commit.txt
+          git -C "$RUNNER_TEMP/igc-thirdparty/systemdynamics" rev-parse HEAD > experiments/openmodelica-s1-parity/output/systemdynamics_v2_git_commit.txt
+      - name: Obtain four original Hines files SHA-verified in temporary directory
+        run: |
+          python experiments/hines-pysd/fetch_sources.py \
+            --dest /tmp/igc-openmodelica-originals \
+            --out experiments/openmodelica-s1-parity/output/source
+      - name: Execute previously approved S1 with original Hines molecules in PySD
+        run: |
+          python experiments/molecule-composer-v1/simulate.py \
+            --case S1 \
+            --proposal experiments/molecule-composer-v1/samples/S1.txt \
+            --originals /tmp/igc-openmodelica-originals \
+            --scratch /tmp/igc-om-hines-temporary \
+            --out experiments/openmodelica-s1-parity/output/pysd_s1
+      - name: Execute SAME S1 as OpenModelica equations (Euler 32 steps)
+        working-directory: experiments/openmodelica-s1-parity
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
+            -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-thirdparty:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc equations.mos | tee output/omc_equations_stdout.txt
+          test -s s1_equations_res.csv
+      - name: Execute SAME S1 with SystemDynamics Level and Rate components
+        working-directory: experiments/openmodelica-s1-parity
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-s1-parity \
+            -v "$RUNNER_TEMP/igc-modelica-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-thirdparty:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc components.mos | tee output/omc_components_stdout.txt
+          test -s s1_components_res.csv
+      - name: Compare all 33 timestamps and 4 variables in three pairs
+        working-directory: experiments/openmodelica-s1-parity
+        run: |
+          python compare.py \
+            --pysd output/pysd_s1/conditional_timeseries.csv \
+            --equations s1_equations_res.csv \
+            --components s1_components_res.csv \
+            --out output/parity_report.json \
+            --tol 0.0001
+          cp s1_equations_res.csv output/
+          cp s1_components_res.csv output/
+      - name: Archive source verification, raw numeric series and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-s1-pysd-openmodelica-${{ github.run_id }}
+          path: |
+            experiments/openmodelica-s1-parity/output/
+            experiments/openmodelica-s1-parity/s1_equations_res.csv
+            experiments/openmodelica-s1-parity/s1_components_res.csv
+          if-no-files-found: warn
+          retention-days: 90
