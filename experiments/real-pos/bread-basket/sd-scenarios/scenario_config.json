@@ -1,0 +1,55 @@
+{
+  "schema_version": "breadbasket.hines.conditional.v0.1",
+  "purpose": "Demonstrate observed-sale-timing as a conditional proxy input to existing Hines SD molecules, not estimate actual unserved demand or cafe capacity",
+  "source_input": "Pinned GitHub mirror of BreadBasket_DMS.csv processed by breadbasket_analyze.py (source blob SHA-1 ceea9513b75a3dda41a9209b6fd1875c12580933)",
+  "preselected_dates": [
+    {
+      "date": "2017-02-04",
+      "selection_rule": "date with highest registered transactions (139)"
+    },
+    {
+      "date": "2016-10-30",
+      "selection_rule": "date with peak 1-hour registered transactions (25)"
+    }
+  ],
+  "clock": {
+    "start_hour": 0,
+    "end_hour": 24,
+    "dt_hours": 0.25,
+    "slots_per_day": 96,
+    "units": "hour"
+  },
+  "scenario_parameters": {
+    "hypothetical_kitchen_nominal_capacities_orders_per_hour": [
+      8,
+      16,
+      32
+    ],
+    "assumed_initial_unfulfilled_orders": 0,
+    "assumed_initial_prepared_orders": 0,
+    "assumed_minimum_ship_time_hours": 0.25,
+    "assumed_processing_and_shipping_target_hours": 0.5,
+    "orders_forcing": "4 * unique POS transaction counts recorded in each 15-minute bin (per hour), held at the start of each time step",
+    "desired_production_forcing": "equal to observed POS forcing; capacity-utilization molecule maps to modeled kitchen output",
+    "production_feeds_shipping_model": "CapUtil.Production -> invbakf.Producing via sampled time-series, no endogenous feedback"
+  },
+  "provenance": {
+    "hines_original_models": [
+      "CapUtil.mdl",
+      "invbakf.mdl"
+    ],
+    "original_source_sha256_canonical": "experiments/hines-pysd/specifications_extracted.json",
+    "runtime_model_units_relabelled": "Widgets->orders, Month/Week->Hour in transient copies only; all Hines mathematical expressions and lookup points unchanged",
+    "derived_mdl_committed_or_uploaded": false,
+    "llm_inference_calls": 0
+  },
+  "nonclaims": [
+    "POS recorded sales are neither unconstrained demand nor customer arrivals",
+    "Zero recorded sales does not demonstrate business was open or demand was zero",
+    "Capacities and processing/ship times are hypothetical, not estimates",
+    "Backlog and prepared inventory are SIMULATED, not observed",
+    "Not an identified causal model of the source bakery",
+    "No customer wait time estimated",
+    "No forecast or recommendation about whether to open delivery"
+  ]
+}
