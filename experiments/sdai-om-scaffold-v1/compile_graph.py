@@ -76,8 +76,26 @@ def verify(case_id,proposal):
     if not isinstance(proposal["missing"],list) or not all(
         isinstance(s,str) and 0<len(s)<=200 for s in proposal["missing"]):
         return invalid("INVALID_MISSING_INFORMATION",case_id)
-    if not isinstance(proposal["feedback_loops"],list) or proposal["feedback_loops"]:
-        return invalid("UNSUPPORTED_FEEDBACK_LOOP",case_id)
+    if not isinstance(proposal["feedback_loops"],list):
+        return invalid("INVALID_FEEDBACK_LOOPS",case_id)
+    supported_loops={
+        ("unprepared_work","preparation","unprepared_work"):{"F2"},
+        ("prepared_work","dispatch","prepared_work"):{"F3"}}
+    seen_loops=set()
+    for loop in proposal["feedback_loops"]:
+        if not isinstance(loop,dict) or set(loop)!={"path","kind","evidence"}:
+            return invalid("INVALID_FEEDBACK_LOOP_SCHEMA",case_id)
+        sequence=loop["path"]
+        if not isinstance(sequence,list) or len(sequence)!=3:
+            return invalid("UNSUPPORTED_FEEDBACK_LOOP",case_id)
+        try: key=tuple(sequence)
+        except TypeError:return invalid("INVALID_FEEDBACK_LOOP_PATH",case_id)
+        if key not in supported_loops or key in seen_loops or loop["kind"]!="B":
+            return invalid("UNSUPPORTED_OR_DUPLICATE_FEEDBACK_LOOP",case_id)
+        seen_loops.add(key)
+        if not valid_ref(loop["evidence"],{f["id"] for f in case["facts"]}) or not (
+            supported_loops[key].intersection(loop["evidence"])):
+            return invalid("UNGROUNDED_FEEDBACK_LOOP",case_id)
     facts={item["id"] for item in case["facts"]}
     if not isinstance(proposal["numeric_evidence"],list) or any(
         x not in facts for x in proposal["numeric_evidence"]):
