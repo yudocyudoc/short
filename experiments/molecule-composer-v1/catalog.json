@@ -1,0 +1,104 @@
+{
+  "version": "HINES_VERIFIED_4_V1",
+  "scope": "Solo cuatro originales previamente cotejados contra fuente Vensim y equivalencia PySD. No se infiere cobertura de toda la biblioteca Hines.",
+  "source_manifest": "experiments/hines-pysd/specifications_extracted.json",
+  "source_workflow": "experiments/hines-pysd/fetch_sources.py",
+  "molecules": [
+    {
+      "id": "CAP_UTIL",
+      "file": "CapUtil.mdl",
+      "title": "Capacity Utilization",
+      "purpose": "Convierte producción deseada exógena y capacidad nominal en una tasa de producción a través de un lookup original. No conserva trabajos en curso ni inventario.",
+      "inputs": {
+        "Desired Production": "orders/hour",
+        "Capacity": "orders/hour"
+      },
+      "outputs": {
+        "Production": "orders/hour"
+      },
+      "stocks": [],
+      "limitations": [
+        "La curva de Hines puede dar Production > Desired Production por debajo de capacidad.",
+        "No recibe Backlog ni impone hacer solo lo pedido.",
+        "No representa por sí misma una cocina bajo pedido."
+      ]
+    },
+    {
+      "id": "BACKLOG_FLOW",
+      "file": "invbakf.mdl",
+      "title": "Backlog Shipping Protected by Flow",
+      "purpose": "Sigue inventario de producto terminado, backlog pendiente de despacho y flujo de Shipping con una curva de nivel de flujo.",
+      "inputs": {
+        "Orders": "orders/hour",
+        "Producing": "orders/hour"
+      },
+      "outputs": {
+        "Shipping": "orders/hour",
+        "Backlog": "orders",
+        "Inventory": "orders"
+      },
+      "stocks": [
+        "Backlog",
+        "Inventory"
+      ],
+      "limitations": [
+        "Backlog incluye pedidos no despachados, no necesariamente pedidos sin preparar.",
+        "Producing es entrada externa: no controla por sí misma la producción.",
+        "Parámetros de despacho no se calibran con tickets POS."
+      ]
+    },
+    {
+      "id": "BACKLOG_LEVEL",
+      "file": "invbakl.mdl",
+      "title": "Backlog Shipping Protected by Level",
+      "purpose": "Variante alternativa del mecanismo de shipping según inventario.",
+      "inputs": {
+        "Orders": "orders/hour",
+        "Producing": "orders/hour"
+      },
+      "outputs": {
+        "Shipping": "orders/hour",
+        "Backlog": "orders",
+        "Inventory": "orders"
+      },
+      "stocks": [
+        "Backlog",
+        "Inventory"
+      ],
+      "limitations": [
+        "No se ha caracterizado para operar como lazo cerrado make-to-order.",
+        "No debe elegirse por similitud de nombre con el problema."
+      ]
+    },
+    {
+      "id": "MATERIAL_DELAY",
+      "file": "delay.mdl",
+      "title": "Material Delay",
+      "purpose": "Retraso de material en tránsito en una forma original de Hines.",
+      "inputs": {
+        "Material flowing in": "widgets/time"
+      },
+      "outputs": {
+        "Material flowing out": "widgets/time"
+      },
+      "stocks": [
+        "Material"
+      ],
+      "limitations": [
+        "No representa por sí mismo backlog de pedidos.",
+        "Requiere conversión de unidades y una conexión explícita con mecanismo relevante."
+      ]
+    }
+  ],
+  "verified_connection": {
+    "from": "CAP_UTIL.Production",
+    "to": "BACKLOG_FLOW.Producing",
+    "unit": "orders/hour",
+    "external_inputs": [
+      "planned Desired Production",
+      "hypothetical Capacity",
+      "accepted Orders"
+    ],
+    "meaning": "Solo se aprueba para producción destinada a inventario, con plan productivo exógeno explícito; no para producción estricta bajo pedido."
+  }
+}
