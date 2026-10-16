@@ -16,7 +16,8 @@ SOURCE_REPO="prasertcbs/basic-dataset"
 SOURCE_PATH="BreadBasket_DMS.csv"
 SOURCE_URL=f"https://raw.githubusercontent.com/{SOURCE_REPO}/{SOURCE_COMMIT}/{SOURCE_PATH}"
 EXPECTED={"raw_item_rows":21293,"none_rows":786,"non_none_item_rows":20507,
-          "raw_transaction_ids":9531,"valid_transactions":9465,"distinct_products":94}
+          "raw_transaction_ids":9531,"valid_transactions":9465,
+          "none_only_transaction_ids":66,"distinct_products":94}
 EXPECTED_COLUMNS=("Date","Time","Transaction","Item")
 
 def digest(raw: bytes):
