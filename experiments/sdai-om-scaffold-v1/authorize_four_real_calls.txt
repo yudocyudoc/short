@@ -1,0 +1,7 @@
+ONE_TIME_AUTHORIZATION: four real Llama causal-structure experiments via GitHub Actions
+CASES: G01,G02,G03,G04
+MODEL: @cf/meta/llama-3.3-70b-instruct-fp8-fast
+SECURITY: no LLM equations or custom Modelica; numeric parameters only in approved existing synthetic fixture
+BASELINE: human graph 14 tests plus OpenModelica compilation/parity passed in run 38975779514
+CONTEXT: user explicitly authorized proceeding, and Cloudflare secrets were previously confirmed in this repository
+NO RETRIES: preserving all original responses and adjudications
