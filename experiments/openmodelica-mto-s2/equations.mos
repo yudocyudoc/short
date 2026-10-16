@@ -1,0 +1,6 @@
+getVersion();
+loadModel(Modelica, {"4.0.0"});
+loadFile("IGCS2MakeToOrder.mo");
+checkModel(IGCS2MakeToOrder.Equations);
+simulate(IGCS2MakeToOrder.Equations, startTime=0, stopTime=10, numberOfIntervals=40, method="euler", outputFormat="csv", fileNamePrefix="s2_equations");
+getErrorString();

@@ -1,0 +1,82 @@
+name: IGC S2 - reusable SystemDynamics make-to-order
+on:
+  pull_request:
+    branches: [experiment/igc-openmodelica-s1-parity]
+    paths:
+      - 'experiments/openmodelica-mto-s2/**'
+      - '.github/workflows/igc-openmodelica-mto-s2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mto:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Independent Euler baseline and five offline contract tests
+        run: |
+          python -m unittest discover -s experiments/openmodelica-mto-s2 -p 'test_*.py' -v
+          python experiments/openmodelica-mto-s2/verify.py \
+            --reference-out experiments/openmodelica-mto-s2/output/independent_euler.csv
+      - name: Pin official OMC runtime
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          docker run --rm openmodelica/openmodelica:v1.26.5-minimal omc --version
+          mkdir -p "$RUNNER_TEMP/s2-om-home" "$RUNNER_TEMP/s2-lib"
+      - name: Clone exact BSD Modelica and SystemDynamics source tags
+        run: |
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/s2-lib/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/s2-lib/systemdynamics"
+          test -s "$RUNNER_TEMP/s2-lib/msl/Modelica/package.mo"
+          test -s "$RUNNER_TEMP/s2-lib/systemdynamics/SystemDynamics/package.mo"
+          git -C "$RUNNER_TEMP/s2-lib/msl" rev-parse HEAD > experiments/openmodelica-mto-s2/output/modelica4_git_sha.txt
+          git -C "$RUNNER_TEMP/s2-lib/systemdynamics" rev-parse HEAD > experiments/openmodelica-mto-s2/output/systemdynamics212_git_sha.txt
+      - name: Equations-only reference in OpenModelica
+        working-directory: experiments/openmodelica-mto-s2
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-mto-s2 \
+            -v "$RUNNER_TEMP/s2-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/s2-lib:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc equations.mos | tee output/equations_omc.log
+          test -s s2_equations_res.csv
+      - name: Reusable stocks + restricted capacity rates
+        working-directory: experiments/openmodelica-mto-s2
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/openmodelica-mto-s2 \
+            -v "$RUNNER_TEMP/s2-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/s2-lib:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc components.mos | tee output/components_omc.log
+          test -s s2_components_res.csv
+      - name: Check numerical equivalence, invariants and component reuse audit
+        working-directory: experiments/openmodelica-mto-s2
+        run: |
+          python verify.py \
+            --reference-out output/independent_euler.csv \
+            --equations s2_equations_res.csv \
+            --components s2_components_res.csv \
+            --report output/comparison_report.json
+          cp s2_equations_res.csv output/
+          cp s2_components_res.csv output/
+      - name: Archive reproducible results, never source libraries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-s2-mto-components-${{ github.run_id }}
+          path: |
+            experiments/openmodelica-mto-s2/output/
+            experiments/openmodelica-mto-s2/s2_equations_res.csv
+            experiments/openmodelica-mto-s2/s2_components_res.csv
+          if-no-files-found: warn
+          retention-days: 90
