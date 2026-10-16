@@ -1,0 +1,7 @@
+getVersion();
+loadModel(Modelica, {"4.0.0"});
+loadModel(SystemDynamics, {"2.1.2"});
+loadFile("IGCS1Parity.mo");
+checkModel(IGCS1Parity.Components);
+simulate(IGCS1Parity.Components, startTime=0, stopTime=8, numberOfIntervals=32, method="euler", outputFormat="csv", fileNamePrefix="s1_components");
+getErrorString();
