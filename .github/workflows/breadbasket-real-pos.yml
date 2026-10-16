@@ -1,0 +1,58 @@
+name: Bread Basket — real POS descriptive evidence
+
+on:
+  pull_request:
+    branches: [experiment/hines-pysd-parity]
+    paths:
+      - 'experiments/real-pos/bread-basket/**'
+      - '.github/workflows/breadbasket-real-pos.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run offline ingestion and epistemic boundary tests
+        run: python -m unittest discover -s experiments/real-pos/bread-basket -p 'test_*.py' -v
+      - name: Download pinned published POS mirror to temp directory only
+        run: |
+          mkdir -p /tmp/breadbasket
+          curl --fail --location --silent --show-error --retry 3 \
+            'https://raw.githubusercontent.com/prasertcbs/basic-dataset/8415fd4eedd124d739d75430853796e13ded1009/BreadBasket_DMS.csv' \
+            --output /tmp/breadbasket/BreadBasket_DMS.csv
+          echo 'Source pinned by commit and verified by git blob hash. Source bytes never included in artifacts.'
+      - name: Analyze original POS events without SD simulation or LLM
+        run: |
+          python experiments/real-pos/bread-basket/breadbasket_analyze.py \
+            --csv /tmp/breadbasket/BreadBasket_DMS.csv \
+            --out experiments/real-pos/bread-basket/output/breadbasket_observed_patterns.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('experiments/real-pos/bread-basket/output/breadbasket_observed_patterns.json').read_text())
+          assert r['source']['git_blob_sha1']=='ceea9513b75a3dda41a9209b6fd1875c12580933'
+          assert r['quality']['counts']=={
+            'raw_item_rows':21293,'none_rows':786,'non_none_item_rows':20507,
+            'raw_transaction_ids':9531,'valid_transactions':9465,
+            'none_only_transaction_ids':66,'distinct_products':94
+          }
+          assert r['identifiability']['stock_flow_calibration']=='BLOCKED_UNTIL_INDEPENDENT_OBSERVATIONS'
+          assert r['queue_inferred'] is False and r['sd_model_fitted'] is False
+          print('BREAD_BASKET_OBSERVED_TRANSACTIONS_VERIFIED')
+          PY
+      - name: Store derived statistical aggregates, not original data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: breadbasket-real-pos-${{ github.run_id }}
+          path: experiments/real-pos/bread-basket/output/
+          if-no-files-found: warn
+          retention-days: 90
