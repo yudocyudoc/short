@@ -187,7 +187,7 @@ def main():
        pair(reference,eq,"REFERENCE_VS_OMC_EQUATIONS",1e-6),
        pair(reference,comp,"REFERENCE_VS_OMC_COMPONENTS",1e-6),
        pair(eq,comp,"OMC_EQUATIONS_VS_COMPONENTS",1e-6)]
-    invariants=[check_invariants(rows,name,cfg) for name,rows in
+    invariants=[check_invariants(rows,name,cfg) for rows,name in
                 ((reference,"INDEPENDENT_PYTHON_EULER"),(eq,"OMC_EQUATIONS"),(comp,"OMC_COMPONENTS"))]
     report={"status":"PASS" if all(x["pass"] for x in pairs) and all(x["all_pass"] for x in invariants) else "MISMATCH",
        "experiment":"IGC_S2_MTO_COMPONENT_REUSE_V1",
