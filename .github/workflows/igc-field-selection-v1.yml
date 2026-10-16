@@ -6,6 +6,12 @@ on:
     paths:
       - 'experiments/field-selection-v1/**'
       - '.github/workflows/igc-field-selection-v1.yml'
+  # One explicitly-authorized push to a sentinel on this experimental branch.
+  # Routine commits and PR CI NEVER spend Cloudflare inference credits.
+  push:
+    branches: [experiment/igc-field-mechanism-selection-v1]
+    paths:
+      - 'experiments/field-selection-v1/authorize_eight_real_inferences.txt'
   workflow_dispatch:
     inputs:
       confirm_real_llm:
@@ -56,7 +62,9 @@ jobs:
           retention-days: 90
 
   actual-llm:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_real_llm == 'RUN_EIGHT_CASES' }}
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.confirm_real_llm == 'RUN_EIGHT_CASES') ||
+      (github.event_name == 'push' && github.event.head_commit.message == 'run(igc): execute eight real Cloudflare selection cases')
     needs: [deterministic]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
