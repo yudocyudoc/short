@@ -1,4 +1,4 @@
-"""IGC-AUDIT-3X: six independent DeepSeek calls (A without probes; B with probes).
+"""IGC-AUDIT-3X: six independent Cloudflare LLM calls (A without probes; B with probes).
 The reserved evaluator key is never loaded and must not be published here.
 """
 from __future__ import annotations
@@ -10,7 +10,7 @@ from urllib.error import HTTPError,URLError
 from probes import report
 
 ROOT=Path(__file__).resolve().parent
-MODEL='@cf/deepseek-ai/deepseek-r1-distill-qwen-32b'
+MODEL=os.getenv('IGC_MODEL', '@cf/deepseek-ai/deepseek-r1-distill-qwen-32b')
 TEMP=.1
 MAX_TOKENS=3500
 CASES=('BB01','W17','W18')
