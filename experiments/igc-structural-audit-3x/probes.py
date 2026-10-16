@@ -58,7 +58,7 @@ def report(case):
                       'Balance mutations are algebraic examples, not original-Hines perturbations.']}}
         for day,counts in case['observed_sales_by_quarter_hour'].items():
             for cap in case['equations_and_design']['parameters']['capacity_orders_per_hour']:
-                produced=sum(cap*interp(lookup,4*n/c)*.25 for n in counts)
+                produced=sum(cap*interp(lookup,4*n/cap)*.25 for n in counts)
                 data['arithmetic_probes']['scenario_probes'].append({
                     'day':day,'capacity':cap,'recorded_transactions':sum(counts),
                     'production_from_lookup_integral':round(produced,6),
