@@ -1,7 +1,7 @@
 {
   "inventory_version": "HINES_DRIVE_BACKUP_DISCOVERY_V1",
   "file_count": 83,
-  "model_files": 81,
+  "model_files": 82,
   "documentation_files": 1,
   "source": "User-supplied private Google Drive backup; metadata read 2026-10-15 local MX / 2026-10-16 UTC",
   "privacy": "Do not publish raw bytes or Drive file IDs. This public index contains only names and sizes.",
@@ -291,7 +291,7 @@
       "filename": "Molecule.2mdl",
       "size_bytes": 19294,
       "stage": "DISCOVERED_ONLY",
-      "kind": "other"
+      "kind": "vensim_molecule"
     },
     {
       "filename": "Molecule.mdl",
