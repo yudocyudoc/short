@@ -63,6 +63,16 @@ class MolecularTopologyTests(unittest.TestCase):
         self.assertEqual([x["role"] for x in messages],["system","user","assistant","user"])
         self.assertNotIn("capacityPreparing=10",json.dumps(messages))
         self.assertNotIn("der(",json.dumps(messages))
+    def test_fenced_json_from_real_llama_is_accepted_without_altering_structure(self):
+        import json
+        p=oracle()
+        fence="```json\n"+json.dumps(p,ensure_ascii=False)+"\n```"
+        self.assertEqual(run_cycle.parse_proposal_text(fence),p)
+        self.assertEqual(run_cycle.parse_proposal_text(json.dumps(p)),p)
+        with self.assertRaises(ValueError):
+            run_cycle.parse_proposal_text(fence+"\nAdditional prose")
+        with self.assertRaises(ValueError):
+            run_cycle.parse_proposal_text("```json\n{nonsense}\n```")
     def test_max_five_attempts(self):
         with self.assertRaises(ValueError):run_cycle.run(HERE/"_never",False,6)
     def test_no_uncited_extra_link(self):
