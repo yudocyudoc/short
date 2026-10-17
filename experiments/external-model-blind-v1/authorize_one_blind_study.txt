@@ -1,0 +1,9 @@
+SINGLE_RESEARCH_RUN: IGC external model blind proxy adjudication
+CREATOR: @cf/qwen/qwen3-30b-a3b-fp8
+REVIEWER: @cf/zai-org/glm-4.7-flash
+TESTED: @cf/meta/llama-3.3-70b-instruct-fp8-fast, two frozen prompt arms
+SCOPE: up to 24 creator cases, 24 GLM reviewers, 48 Llama tests
+OPERATIONAL_BLIND: independent GLM reference artifact archived and hashed before Llama phase
+NO_RETRIES; NO_LLM_EQUATIONS; NO_NUMERIC_DATA; NO_OPENMODELICA
+DISCLAIMER: GLM proxy gold is NOT independently human validated truth
+USER_AUTHORIZATION: proceed with next evaluation in current IGC conversation
