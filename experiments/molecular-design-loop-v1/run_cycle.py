@@ -212,4 +212,8 @@ def main():
     p.add_argument("--max-attempts",type=int,default=5)
     a=p.parse_args()
     run(a.out,a.execute,a.max_attempts)
+    if a.execute:
+        final=json.loads((a.out/"manifest.json").read_text(encoding="utf-8"))
+        if final["result"]!="PASS_SYNTHETIC_MOLECULAR_DESIGN_LOOP":
+            raise SystemExit("RESEARCH_LOOP_NO_PASS_SEE_ARCHIVED_ARTIFACTS")
 if __name__=="__main__":main()
