@@ -20,8 +20,8 @@ PORTS={
  "DISPATCH":{"in":("FLOW","ReadyOrder"),"out":("FLOW","Shipment")},
  "TRANSIT":{"in":("FLOW","Shipment"),"out":("FLOW","Shipment")},
  "DELIVERY":{"in":("FLOW","Shipment"),"reported":("SIGNAL","DeliveryRate")},
- "REPORT_FILTER":{"in":("SIGNAL","DeliveryRate"),"out":("SIGNAL","ReportedDeliveryRate")},
- "OBSERVED":{"in":("SIGNAL","ReportedDeliveryRate")}
+ "REPORT_FILTER":{"in":("SIGNAL","DeliveryRate"),"out":("SIGNAL","DeliveryRate")},
+ "OBSERVED":{"in":("SIGNAL","DeliveryRate")}
 }
 NATIVE={
  "SOURCE.out":"accepted.outflow",
@@ -61,8 +61,12 @@ def enumerate_graphs():
             # rate SIGNAL, not a second output of the actual delivery stock.
             verify_link("DELIVERY.reported","REPORT_FILTER.in")
             edges.append({"from":"DELIVERY.reported","to":"REPORT_FILTER.in","type":"SIGNAL<DeliveryRate>"})
+            verify_link("REPORT_FILTER.out","OBSERVED.in")
+            edges.append({"from":"REPORT_FILTER.out","to":"OBSERVED.in","type":"SIGNAL<DeliveryRate>"})
             components.extend(["REPORT_FILTER","OBSERVED"])
         else:
+            verify_link("DELIVERY.reported","OBSERVED.in")
+            edges.append({"from":"DELIVERY.reported","to":"OBSERVED.in","type":"SIGNAL<DeliveryRate>"})
             components.append("OBSERVED")
         out.append({"id":ALIASES[(use_transport,use_reporting)],
             "components":components,"edges":edges,
@@ -89,7 +93,7 @@ def compile_graphs(graphs):
         for edge in graph["edges"]:
             source,dest=edge["from"],edge["to"]
             if source in ("SOURCE.out","PREPARATION.out"):continue
-            if source=="DELIVERY.reported":
+            if source in ("DELIVERY.reported","REPORT_FILTER.out"):
                 # This is a signal observation of a native REAL variable,
                 # not a material-flow connect() operation.
                 continue
