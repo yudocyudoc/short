@@ -1,0 +1,88 @@
+name: IGC molecular architect loop — Llama -> Molecules -> OpenModelica
+
+on:
+  pull_request:
+    branches: [experiment/igc-sdai-om-components-v1]
+    paths:
+      - 'experiments/molecular-design-loop-v1/**'
+      - '.github/workflows/igc-molecular-design-loop-v1.yml'
+  push:
+    branches: [experiment/igc-molecular-design-loop-v1]
+    paths:
+      - 'experiments/molecular-design-loop-v1/authorize_real_loop.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  molecular-loop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Type checks and repair diagnostics
+        run: |
+          python -m unittest discover -s experiments/molecular-design-loop-v1 -p 'test_*.py' -v
+          mkdir -p experiments/molecular-design-loop-v1/output
+          python experiments/molecular-design-loop-v1/compose.py \
+            --proposal experiments/molecular-design-loop-v1/oracle_human_graph.json \
+            --out experiments/molecular-design-loop-v1/output/human_oracle_structural.json \
+            --model experiments/molecular-design-loop-v1/IGCComposed.mo
+          python experiments/molecular-design-loop-v1/run_cycle.py --prepare-only \
+            --out experiments/molecular-design-loop-v1/output/prepared --max-attempts 5
+          ! grep -q 'der(' experiments/molecular-design-loop-v1/IGCComposed.mo
+      - name: Install fixed OpenModelica container and previously verified SystemDynamics/MSL source
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-om-home" "$RUNNER_TEMP/igc-om-libs"
+          docker run --rm openmodelica/openmodelica:v1.26.5-minimal omc --version
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-om-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-om-libs/systemdynamics"
+          git -C "$RUNNER_TEMP/igc-om-libs/msl" rev-parse HEAD > experiments/molecular-design-loop-v1/output/modelica4_commit.txt
+          git -C "$RUNNER_TEMP/igc-om-libs/systemdynamics" rev-parse HEAD > experiments/molecular-design-loop-v1/output/systemdynamics212_commit.txt
+      - name: Simulate trusted S2 baseline and independent human-assembled molecular graph
+        working-directory: experiments/molecular-design-loop-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/molecular-design-loop-v1 \
+            -v "$RUNNER_TEMP/igc-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-om-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc reference.mos | tee output/s2_omc.log
+          test -s s2_reference_res.csv
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/molecular-design-loop-v1 \
+            -v "$RUNNER_TEMP/igc-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-om-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc assemble.mos | tee output/molecular_oracle_omc.log
+          test -s om_molecule_res.csv
+          python ../openmodelica-mto-s2/verify.py \
+            --reference-out output/independent_euler.csv \
+            --equations s2_reference_res.csv \
+            --components om_molecule_res.csv \
+            --report output/human_oracle_numerical_parity.json
+          cp om_molecule_res.csv output/human_oracle_molecular_series.csv
+          cp IGCComposed.mo output/human_oracle_modelica.mo
+      - name: Real Llama design and up to five diagnostics-based repairs
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): one real five-attempt molecular architecture loop'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/molecular-design-loop-v1/run_cycle.py --execute \
+            --out experiments/molecular-design-loop-v1/output/real_llm \
+            --max-attempts 5
+      - name: Archive actual LLM replies, compiler and OpenModelica diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-molecular-architect-${{ github.run_id }}
+          path: experiments/molecular-design-loop-v1/output/
+          if-no-files-found: warn
+          retention-days: 90
