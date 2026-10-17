@@ -41,7 +41,9 @@ jobs:
 
   independent-reference:
     needs: [deterministic]
-    if: github.event_name == 'push' && github.event.head_commit.message == 'run(igc): Qwen generated blinded GLM labels before Llama'
+    if: >-
+      github.event_name == 'push' &&
+      github.event.head_commit.message == 'run(igc): Qwen generated blinded GLM labels before Llama'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
