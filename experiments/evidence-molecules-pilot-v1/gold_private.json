@@ -1,0 +1,18 @@
+{
+  "version": "IGC_EVIDENCE_PILOT_FROZEN_LABELS_V1",
+  "scope": "Synthetic qualitative facts authored before inference. Only scoring process may load this file, never prompt.",
+  "cases": {
+    "P01": {"molecules": ["CAP_UTIL", "BACKLOG_FLOW"], "supported_facts": {"CAP_UTIL": ["F2"], "BACKLOG_FLOW": ["F3"]}},
+    "P02": {"molecules": ["MTO_S2_PATTERN"], "supported_facts": {"MTO_S2_PATTERN": ["F1", "F2", "F3"]}},
+    "P03": {"molecules": ["MATERIAL_DELAY"], "supported_facts": {"MATERIAL_DELAY": ["F1", "F2"]}},
+    "P04": {"molecules": ["CAP_UTIL"], "supported_facts": {"CAP_UTIL": ["F1", "F2"]}},
+    "P05": {"molecules": [], "supported_facts": {}},
+    "P06": {"molecules": ["CAP_UTIL", "BACKLOG_FLOW"], "supported_facts": {"CAP_UTIL": ["F2"], "BACKLOG_FLOW": ["F3"]}},
+    "P07": {"molecules": ["MATERIAL_DELAY", "BACKLOG_FLOW"], "supported_facts": {"MATERIAL_DELAY": ["F1", "F2"], "BACKLOG_FLOW": ["F3"]}},
+    "P08": {"molecules": [], "supported_facts": {}},
+    "P09": {"molecules": ["BACKLOG_FLOW"], "supported_facts": {"BACKLOG_FLOW": ["F1", "F2", "F3"]}},
+    "P10": {"molecules": [], "supported_facts": {}},
+    "P11": {"molecules": [], "supported_facts": {}},
+    "P12": {"molecules": [], "supported_facts": {}}
+  }
+}
