@@ -1,0 +1,10 @@
+{
+  "study": "IGC_CRITIC_MIN_V1",
+  "labels": {
+    "R01": "STOPS",
+    "R02": "CONTINUES",
+    "R03": "UNKNOWN",
+    "R04": "CONFLICT"
+  },
+  "limitation": "Synthetic cases and expected readings written by project team, never exposed to critic. Engineering smoke test only."
+}
