@@ -1,0 +1,77 @@
+{
+  "instances": [
+    {
+      "id": "orders",
+      "module": "ACCEPTED_SOURCE",
+      "evidence": [
+        {
+          "fact_id": "F1",
+          "quote": "Los encargos ya aceptados entran en una lista de trabajos pendientes."
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "module": "PREPARATION_QUEUE",
+      "evidence": [
+        {
+          "fact_id": "F2",
+          "quote": "Sólo después de aceptar un encargo se inicia su preparación"
+        }
+      ]
+    },
+    {
+      "id": "ready",
+      "module": "DISPATCH_QUEUE",
+      "evidence": [
+        {
+          "fact_id": "F3",
+          "quote": "Los trabajos terminados esperan una segunda etapa de reparto."
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "module": "DELIVERY_COUNTER",
+      "evidence": [
+        {
+          "fact_id": "F3",
+          "quote": "Cada envío retira un trabajo preparado y registra una entrega completada."
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "from": "orders.out",
+      "to": "work.in",
+      "evidence": [
+        {
+          "fact_id": "F1",
+          "quote": "Los nuevos encargos se añaden a esa lista."
+        }
+      ]
+    },
+    {
+      "from": "work.out",
+      "to": "ready.in",
+      "evidence": [
+        {
+          "fact_id": "F2",
+          "quote": "los trabajos sin preparar salen de la primera lista y pasan a estar terminados."
+        }
+      ]
+    },
+    {
+      "from": "ready.out",
+      "to": "done.in",
+      "evidence": [
+        {
+          "fact_id": "F3",
+          "quote": "Cada envío retira un trabajo preparado y registra una entrega completada."
+        }
+      ]
+    }
+  ],
+  "unresolved": []
+}
