@@ -1,0 +1,79 @@
+name: IGC minimal constraint explorer + causal critic
+
+on:
+  pull_request:
+    branches: [experiment/igc-mto-mts-choice-v1]
+    paths:
+      - 'experiments/constraint-critic-min-v1/**'
+      - '.github/workflows/igc-constraint-critic-min-v1.yml'
+  push:
+    branches: [experiment/igc-constraint-critic-min-v1]
+    paths:
+      - 'experiments/constraint-critic-min-v1/authorize_one_critic_run.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  constraint-critic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Enumerate without LLM and run deterministic linter tests
+        run: |
+          python -m unittest discover -s experiments/constraint-critic-min-v1 -p 'test_*.py' -v
+          mkdir -p experiments/constraint-critic-min-v1/output/probes
+      - name: Install previously verified OM libraries
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-choice-home" "$RUNNER_TEMP/igc-choice-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-choice-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-choice-libs/systemdynamics"
+      - name: Execute actual counterfactuals in OpenModelica, not equations from Llama
+        working-directory: experiments/policy-choice-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/policy-choice-v1 \
+            -v "$RUNNER_TEMP/igc-choice-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-choice-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc behavior.mos | tee ../constraint-critic-min-v1/output/omc.log
+          test -s probe_no_orders_mto_res.csv
+          test -s probe_no_orders_mts_res.csv
+          python verify_behavior.py --mto probe_no_orders_mto_res.csv \
+            --mts probe_no_orders_mts_res.csv \
+            --out ../constraint-critic-min-v1/output/behavior_verified.json
+          cp probe_no_orders_mto_res.csv ../constraint-critic-min-v1/output/probes/
+          cp probe_no_orders_mts_res.csv ../constraint-critic-min-v1/output/probes/
+      - name: Generate ALL typed valid architectures, derive signatures from OMC
+        run: |
+          python experiments/constraint-critic-min-v1/explorer.py \
+            --probes experiments/constraint-critic-min-v1/output/probes \
+            --output experiments/constraint-critic-min-v1/output/exploration.json
+          python experiments/constraint-critic-min-v1/run_critic.py --prepare-only \
+            --probes experiments/constraint-critic-min-v1/output/probes \
+            --out experiments/constraint-critic-min-v1/output/prepared
+      - name: Llama critic: no synthesis, no model equations, only grounded discriminating test
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): one real causal critic over machine candidates'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/constraint-critic-min-v1/run_critic.py --execute \
+            --probes experiments/constraint-critic-min-v1/output/probes \
+            --out experiments/constraint-critic-min-v1/output/real
+      - name: Preserve original responses, measured series, linter diagnostics and candidates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-constraint-critic-${{ github.run_id }}
+          path: experiments/constraint-critic-min-v1/output/
+          retention-days: 90
+          if-no-files-found: warn
