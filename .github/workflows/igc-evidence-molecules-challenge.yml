@@ -1,0 +1,93 @@
+name: IGC challenge — frozen A/B/C, 24 new qualitative cases
+
+on:
+  pull_request:
+    branches: [experiment/igc-evidence-molecules-pilot-v1]
+    paths:
+      - 'experiments/evidence-molecules-challenge-v1/**'
+      - '.github/workflows/igc-evidence-molecules-challenge.yml'
+  push:
+    branches: [experiment/igc-evidence-molecules-challenge-v2]
+    paths:
+      - 'experiments/evidence-molecules-challenge-v1/authorize_48_real_calls.txt'
+  workflow_dispatch:
+    inputs:
+      confirm_real_llm:
+        description: '48 genuine Cloudflare Llama requests (24 cases x 2 frozen prompts), no retries'
+        type: choice
+        required: true
+        default: DO_NOT_RUN
+        options: [DO_NOT_RUN, RUN_48_CASES]
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Confirm old three approaches exactly frozen
+        run: |
+          python -m unittest discover -s experiments/evidence-molecules-challenge-v1 -p 'test_*.py' -v
+      - name: New cases with unmodified old regex; prepare 48 prompts WITHOUT provider calls
+        run: |
+          python experiments/evidence-molecules-challenge-v1/run_challenge.py \
+            --prepare-only --out experiments/evidence-molecules-challenge-v1/output/prepared
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('experiments/evidence-molecules-challenge-v1/output/prepared')
+          m=json.loads((p/'manifest.json').read_text())
+          b=json.loads((p/'baseline_frozen_score.json').read_text())
+          assert m['actual_llm'] is False
+          assert len(m['entries'])==48 and all(x['status']=='PREPARED_ONLY' for x in m['entries'])
+          assert b['total']==24 and b['evaluated']==24
+          print('CHALLENGE_BASELINE_FROZEN',json.dumps(
+            {'total':b['total'],'strict':b['strict_pass'],
+             'exact_selection':b['exact_selection'],'literal':b['literal_quote_pass']}))
+          PY
+      - name: Preserve deterministic outputs separately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-challenge-prepared-${{ github.run_id }}
+          path: experiments/evidence-molecules-challenge-v1/output/prepared
+          retention-days: 90
+          if-no-files-found: warn
+
+  real-llm:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.confirm_real_llm == 'RUN_48_CASES') ||
+      (github.event_name == 'push' && github.event.head_commit.message == 'run(igc): execute frozen paired challenge 48 real calls')
+    needs: [deterministic]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run authentic paired SD and molecule prompts, no revision based on outputs
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/evidence-molecules-challenge-v1/run_challenge.py \
+            --execute --out experiments/evidence-molecules-challenge-v1/output/real
+      - name: Always archive 48 original responses, prompts, score and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-challenge-48-real-${{ github.run_id }}
+          path: experiments/evidence-molecules-challenge-v1/output/real
+          retention-days: 90
+          if-no-files-found: warn
