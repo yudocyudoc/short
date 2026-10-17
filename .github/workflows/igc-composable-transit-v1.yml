@@ -1,0 +1,78 @@
+name: IGC typed optional transit molecule with two discriminating probes
+
+on:
+  pull_request:
+    branches: [experiment/igc-constraint-critic-min-v1]
+    paths:
+      - 'experiments/composable-transit-v1/**'
+      - '.github/workflows/igc-composable-transit-v1.yml'
+  push:
+    branches: [experiment/igc-composable-transit-two-probes-v1]
+    paths:
+      - 'experiments/composable-transit-v1/authorize_once.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  composition-two-probes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Typed graph enumerator, Modelica renderer and conditional-critic unit tests
+        run: |
+          python -m unittest discover -s experiments/composable-transit-v1 -p 'test_*.py' -v
+          mkdir -p experiments/composable-transit-v1/output/
+          python experiments/composable-transit-v1/enumerate.py \
+            --source experiments/composable-transit-v1/IGCTransitGraphs.mo \
+            --graph-report experiments/composable-transit-v1/output/graphs.json
+      - name: Install fixed OpenModelica, MSL, and SystemDynamics versions
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-transit-home" "$RUNNER_TEMP/igc-transit-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-transit-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-transit-libs/systemdynamics"
+      - name: Compile both newly connected molecular graphs and execute both counterfactuals
+        working-directory: experiments/composable-transit-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/composable-transit-v1 \
+            -v "$RUNNER_TEMP/igc-transit-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-transit-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc probe.mos | tee output/omc_log.txt
+          for kind in no_orders_direct no_orders_buffered pulse_direct pulse_buffered; do
+            test -s "$kind"_res.csv
+            cp "$kind"_res.csv output/
+          done
+          cp IGCTransitGraphs.mo output/
+          python analyze_probes.py --csv-dir . --out output/probe_signatures.json
+      - name: Prepare critic input without any secret or model call
+        run: |
+          python experiments/composable-transit-v1/review.py --prepare-only \
+            --probes experiments/composable-transit-v1/output/probe_signatures.json \
+            --out experiments/composable-transit-v1/output/prepared
+      - name: Real Llama review of four new qualitative delivery-policy situations
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): one real optional-molecule two-probe critic trial'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/composable-transit-v1/review.py --execute \
+            --probes experiments/composable-transit-v1/output/probe_signatures.json \
+            --out experiments/composable-transit-v1/output/real
+      - name: Preserve original Llama replies, graph source, dynamic series and verifier reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-optional-molecule-two-probes-${{ github.run_id }}
+          path: experiments/composable-transit-v1/output/
+          retention-days: 90
+          if-no-files-found: warn
