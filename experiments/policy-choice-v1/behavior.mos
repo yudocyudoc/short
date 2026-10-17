@@ -1,0 +1,11 @@
+getVersion();
+loadModel(Modelica, {"4.0.0"});
+loadModel(SystemDynamics, {"2.1.2"});
+loadFile("../openmodelica-mto-s2/IGCS2MakeToOrder.mo");
+loadFile("../openmodelica-s1-parity/IGCS1Parity.mo");
+loadFile("BehaviorProbes.mo");
+checkModel(IGCBehaviorProbes.NoOrdersMTO);
+checkModel(IGCBehaviorProbes.NoOrdersMTS);
+simulate(IGCBehaviorProbes.NoOrdersMTO, startTime=0, stopTime=4, numberOfIntervals=16, method="euler", outputFormat="csv", fileNamePrefix="probe_no_orders_mto");
+simulate(IGCBehaviorProbes.NoOrdersMTS, startTime=0, stopTime=4, numberOfIntervals=16, method="euler", outputFormat="csv", fileNamePrefix="probe_no_orders_mts");
+getErrorString();
