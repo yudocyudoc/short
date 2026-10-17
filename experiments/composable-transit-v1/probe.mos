@@ -1,0 +1,17 @@
+getVersion();
+loadModel(Modelica, {"4.0.0"});
+loadModel(SystemDynamics, {"2.1.2"});
+loadFile("../openmodelica-mto-s2/IGCS2MakeToOrder.mo");
+loadFile("../molecular-design-loop-v1/IGCMolecules.mo");
+loadFile("IGCTransitCore.mo");
+loadFile("IGCTransitGraphs.mo");
+loadFile("IGCTransitProbeWrappers.mo");
+checkModel(IGCTransitProbes.NoOrdersDirect);
+checkModel(IGCTransitProbes.NoOrdersBuffered);
+checkModel(IGCTransitGraphs.Direct);
+checkModel(IGCTransitGraphs.Buffered);
+simulate(IGCTransitProbes.NoOrdersDirect, startTime=0, stopTime=8, numberOfIntervals=64, method="euler", outputFormat="csv", fileNamePrefix="no_orders_direct");
+simulate(IGCTransitProbes.NoOrdersBuffered, startTime=0, stopTime=8, numberOfIntervals=64, method="euler", outputFormat="csv", fileNamePrefix="no_orders_buffered");
+simulate(IGCTransitGraphs.Direct, startTime=0, stopTime=8, numberOfIntervals=64, method="euler", outputFormat="csv", fileNamePrefix="pulse_direct");
+simulate(IGCTransitGraphs.Buffered, startTime=0, stopTime=8, numberOfIntervals=64, method="euler", outputFormat="csv", fileNamePrefix="pulse_buffered");
+getErrorString();

@@ -1,0 +1,40 @@
+{
+  "version": "IGC_ONE_OPTIONAL_MOLECULE_V1",
+  "source": "New optional post-dispatch transit stock, using previously tested IGCMolecules.BoundedQueue. Original S2 upstream and native Modelica remain fixed.",
+  "boundary": {
+    "SOURCE": {
+      "out": "FLOW<Order>"
+    },
+    "DELIVERY": {
+      "in": "FLOW<Shipment>"
+    }
+  },
+  "stages": [
+    {
+      "id": "PREPARATION",
+      "mandatory": true,
+      "in": "FLOW<Order>",
+      "out": "FLOW<ReadyOrder>",
+      "purpose": "Accepted work waits for physical preparation"
+    },
+    {
+      "id": "DISPATCH",
+      "mandatory": true,
+      "in": "FLOW<ReadyOrder>",
+      "out": "FLOW<Shipment>",
+      "purpose": "Finished units are ready for departure"
+    },
+    {
+      "id": "TRANSIT",
+      "mandatory": false,
+      "in": "FLOW<Shipment>",
+      "out": "FLOW<Shipment>",
+      "purpose": "Physically shipped goods remain in transit before being received",
+      "semantic_condition": "Receipt occurs after shipment, and in-transit goods are accumulated",
+      "native_class": "IGCMolecules.BoundedQueue",
+      "parameters": "Trusted transitCapacity and transitResponseTime; hidden from LLM"
+    }
+  ],
+  "guarantee": "Optional additions are enumerated from typed graph contracts. This scope has only 2 models, no free graph topology or novel equation synthesis.",
+  "library": "OpenModelica 1.26.5 with SystemDynamics v2.1.2 and Modelica Standard Library v4.0.0"
+}

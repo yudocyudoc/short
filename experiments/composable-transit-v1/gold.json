@@ -1,0 +1,10 @@
+{
+  "version": "FROZEN_BEFORE_LLAMA",
+  "labels": {
+    "C01": "LAG",
+    "C02": "SYNC",
+    "C03": "UNKNOWN",
+    "C04": "CONFLICT"
+  },
+  "limitations": "Gold created by project author before first inferencing; not external semantic validation."
+}
