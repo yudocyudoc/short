@@ -58,7 +58,7 @@ jobs:
           python experiments/constraint-critic-min-v1/run_critic.py --prepare-only \
             --probes experiments/constraint-critic-min-v1/output/probes \
             --out experiments/constraint-critic-min-v1/output/prepared
-      - name: Llama critic: no synthesis, no model equations, only grounded discriminating test
+      - name: "Llama critic: no synthesis, no model equations, only grounded discriminating test"
         if: >-
           github.event_name == 'push' &&
           github.event.head_commit.message == 'run(igc): one real causal critic over machine candidates'
