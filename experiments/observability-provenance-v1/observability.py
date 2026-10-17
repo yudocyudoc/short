@@ -56,7 +56,7 @@ def simulate_measurements(case,source):
     if len(source)<10 or "time" not in source[0]:
         raise ValueError("NO_TIME_GRID")
     ts=[r["time"] for r in source]
-    if any(not math.isfinite(t) for t in ts) or any(b<=a for a,b in zip(ts,ts[1:])):
+    if any(not math.isfinite(t) for t in ts) or ts[-1]<=ts[0] or any(b<a-1e-12 for a,b in zip(ts,ts[1:])):
         raise ValueError("BAD_TIME_GRID")
     output={}
     for name in case["available_signals"]:
