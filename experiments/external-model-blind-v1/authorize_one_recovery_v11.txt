@@ -1,0 +1,8 @@
+ONE-TIME TECHNICAL RECOVERY v1.1
+SOURCE: 16 formally valid Qwen cases from archived first run #38995455018, exact SHA pinned
+ORIGINAL QWEN CASES WITH INVALID JSON: 8, remain excluded
+REVIEWER: @cf/zai-org/glm-4.7-flash, disable thinking via chat_template_kwargs.enable_thinking=false and reasoning_effort=null
+TESTER: original unchanged Llama generic SD vs molecule prompts, no equations or numerical data
+ORDER: archive GLM reference and verify hash BEFORE any Llama calls
+FIRST ATTEMPT 0 valid GLM due content null explicitly preserved and not silently rescored
+ZERO REPEATS of original Qwen case generation, zero retroactive case edits

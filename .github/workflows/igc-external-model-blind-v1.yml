@@ -1,0 +1,102 @@
+name: IGC external-model blind proxy — Qwen / GLM / frozen Llama B-C
+
+on:
+  pull_request:
+    branches: [experiment/igc-evidence-molecules-challenge-v2]
+    paths:
+      - 'experiments/external-model-blind-v1/**'
+      - '.github/workflows/igc-external-model-blind-v1.yml'
+  push:
+    branches: [experiment/igc-external-model-blind-v1]
+    paths:
+      - 'experiments/external-model-blind-v1/authorize_one_blind_study.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Frozen original prompts and three-model isolation checks
+        run: |
+          python -m unittest discover -s experiments/external-model-blind-v1 -p 'test_*.py' -v
+          python experiments/external-model-blind-v1/run_blind.py --prepare-only \
+            --out experiments/external-model-blind-v1/output
+      - name: Archive prepared prompts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-external-blind-prepared-${{ github.run_id }}
+          path: experiments/external-model-blind-v1/output/reference
+          if-no-files-found: warn
+          retention-days: 90
+
+  independent-reference:
+    needs: [deterministic]
+    if: >-
+      github.event_name == 'push' &&
+      github.event.head_commit.message == 'run(igc): Qwen generated blinded GLM labels before Llama'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Qwen generates new narratives; GLM evaluates blindly, no Llama outputs yet
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/external-model-blind-v1/run_blind.py --execute-reference \
+            --out experiments/external-model-blind-v1/output
+      - name: Freeze reference and archived originals before Llama stage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-external-reference-before-llama-${{ github.run_id }}
+          path: experiments/external-model-blind-v1/output/reference/
+          if-no-files-found: warn
+          retention-days: 90
+
+  frozen-llama-test:
+    needs: [independent-reference]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read only the already archived source and GLM reference
+        uses: actions/download-artifact@v4
+        with:
+          name: igc-external-reference-before-llama-${{ github.run_id }}
+          path: experiments/external-model-blind-v1/output/reference/
+      - name: Verify frozen GLM gold SHA then use identical previous Llama prompts
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/external-model-blind-v1/run_blind.py --execute-test \
+            --out experiments/external-model-blind-v1/output
+      - name: Archive original Llama responses and GLM-proxy comparison even when failing
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-external-blind-llama-results-${{ github.run_id }}
+          path: experiments/external-model-blind-v1/output/tested/
+          if-no-files-found: warn
+          retention-days: 90
