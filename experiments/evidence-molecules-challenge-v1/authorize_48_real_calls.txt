@@ -1,0 +1,7 @@
+ONE_TIME_AUTHORIZATION: 24 novel qualitative challenge cases x 2 frozen Llama prompts = 48 actual Cloudflare calls
+MODEL: @cf/meta/llama-3.3-70b-instruct-fp8-fast
+TEMPLATE_CODE_FROZEN: PR21 run_llm.py, deterministic.py, evaluate.py, catalog_public.json, verified by git blob SHA
+EVIDENCE: human-created cases and gold committed prior to inference, SHA on branch
+PRIOR_BASELINE: 10/24 strict on the frozen 24 cases in Actions #38992458667
+NO_RETRIES, NO_FITTING, ORIGINAL_TEXTS_STORED
+USER_INSTRUCTION: adelante, avancemos with contextual authorization to perform the next comparison using existing Cloudflare GitHub secrets
