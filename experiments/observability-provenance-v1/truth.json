@@ -1,0 +1,17 @@
+{
+  "version": "HIDDEN_FROM_CRITIC",
+  "truth": {
+    "O01": "Direct",
+    "O02": "TransitOnly",
+    "O03": "ReportOnly",
+    "O04": "TransitAndReport",
+    "O05": "Direct",
+    "O06": "TransitAndReport",
+    "O07": "TransitOnly",
+    "O08": "ReportOnly",
+    "O09": "Direct",
+    "O10": "TransitAndReport",
+    "O11": "Direct",
+    "O12": "TransitOnly"
+  }
+}
