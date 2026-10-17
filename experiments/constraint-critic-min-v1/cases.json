@@ -1,0 +1,78 @@
+{
+  "study": "IGC_CRITIC_MIN_V1",
+  "cases": [
+    {
+      "id": "R01",
+      "title": "Taller de piezas por encargo",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los operarios nunca comienzan una pieza antes de que el cliente apruebe el encargo."
+        },
+        {
+          "id": "F2",
+          "text": "Si no hay pedidos aceptados ni trabajo previo, nadie fabrica artículos para guardar."
+        },
+        {
+          "id": "F3",
+          "text": "Los encargos ya completados esperan su reparto."
+        }
+      ]
+    },
+    {
+      "id": "R02",
+      "title": "Planta de envases para almacén",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La planta sigue fabricando envases conforme a su calendario aunque no reciba compras."
+        },
+        {
+          "id": "F2",
+          "text": "La fabricación continúa para alimentar el inventario de producto terminado, antes de conocer a los compradores."
+        },
+        {
+          "id": "F3",
+          "text": "Los pedidos que llegan más tarde se despachan desde las existencias."
+        }
+      ]
+    },
+    {
+      "id": "R03",
+      "title": "Registros de ventas insuficientes",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La tabla disponible registra productos cobrados y entregados al comprador."
+        },
+        {
+          "id": "F2",
+          "text": "No registra cuándo se fabricaron esos productos respecto de cada pedido."
+        },
+        {
+          "id": "F3",
+          "text": "Tampoco se conserva documentación de las decisiones sobre producir o guardar inventario."
+        }
+      ]
+    },
+    {
+      "id": "R04",
+      "title": "Dos procedimientos incompatibles",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Un manual vigente afirma que la fabricación de este artículo exige antes una orden aceptada."
+        },
+        {
+          "id": "F2",
+          "text": "Otro manual vigente para el mismo artículo y periodo exige fabricar unidades de antemano para almacén, incluso sin pedidos."
+        },
+        {
+          "id": "F3",
+          "text": "No existe una conciliación que permita establecer cuál instrucción se aplica realmente."
+        }
+      ]
+    }
+  ],
+  "notation": "Qualitative cases, no numeric observations"
+}
