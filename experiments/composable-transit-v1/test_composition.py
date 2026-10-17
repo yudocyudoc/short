@@ -95,6 +95,13 @@ class ComposeAndCriticTests(unittest.TestCase):
         self.assertEqual(review.validate(self.cases[2],r)["status"],"INVALID")
         r["next_question"]="¿Cuándo llega realmente el producto al destinatario?"
         self.assertEqual(review.validate(self.cases[2],r)["status"],"VALID_FORMAT")
+    def test_long_but_valid_discriminating_question_is_not_lost(self):
+        r={"case_id":"C04","test_id":review.TEST,"expected":"CONFLICT",
+           "fact_ids":["F1","F2"],"next_question":"¿"+"c"*249}
+        self.assertEqual(len(r["next_question"]),250)
+        self.assertEqual(review.validate(self.cases[3],r)["status"],"VALID_FORMAT")
+        r["next_question"]="¿"+"c"*400
+        self.assertEqual(review.validate(self.cases[3],r)["status"],"INVALID")
     def test_fenced_json(self):
         raw=json.dumps({"a":1})
         self.assertEqual(review.parse(raw),{"a":1})
