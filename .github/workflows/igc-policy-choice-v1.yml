@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   selection-experiment:
@@ -72,6 +73,19 @@ jobs:
           python experiments/policy-choice-v1/run_native.py \
             --responses experiments/policy-choice-v1/output/llama_real/manifest.json \
             --out experiments/policy-choice-v1/output/llama_native
+      - name: Fetch locked original run for separately labeled forensic audit
+        uses: actions/download-artifact@v4
+        with:
+          name: igc-policy-choice-39001963771
+          repository: yudocyudoc/short
+          run-id: 39001963771
+          github-token: ${{ github.token }}
+          path: experiments/policy-choice-v1/output/original_first_run
+      - name: Post-hoc policy intent inspection; NEVER reinterpret strict AST failures as PASS
+        run: |
+          python experiments/policy-choice-v1/forensic_original.py \
+            --archive experiments/policy-choice-v1/output/original_first_run \
+            --out experiments/policy-choice-v1/output/original_policy_intent_report.json
       - name: Archive original replies, immutable cases/gold, OMC results and scores
         if: always()
         uses: actions/upload-artifact@v4
