@@ -40,6 +40,19 @@ class ObservabilityTests(unittest.TestCase):
         self.assertEqual(contrast(base,{**base,"unit":"orders","source_id":"b"})[0],"UNKNOWN")
         self.assertEqual(contrast(base,base)[1],"NONINDEPENDENT_CHANNELS")
         self.assertEqual(contrast(base,{**base,"time_grid_id":"y","source_id":"b"})[0],"UNKNOWN")
+    def test_openmodelica_event_timestamp_duplicates_allowed(self):
+        from observability import simulate_measurements
+        case=self.cases[0]
+        source=[
+            {"time":0.0,"dispatchRate":0.0,"reportedDeliveryRate":0.0},
+            {"time":0.0,"dispatchRate":0.0,"reportedDeliveryRate":0.0},
+        ]+[{"time":float(i),"dispatchRate":float(i),"reportedDeliveryRate":float(i)}
+           for i in range(1,12)]
+        values=simulate_measurements(case,source)
+        self.assertEqual(values["dispatchRate"]["n"],13)
+        source[5]["time"]=-1
+        with self.assertRaises(ValueError):
+            simulate_measurements(case,source)
     def test_claims_never_enter_pruning(self):
         # O01 says 'transport' but measured delivery dashboard equals dispatch.
         c=self.cases[0]
