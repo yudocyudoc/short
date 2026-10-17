@@ -72,7 +72,7 @@ def parse_proposal_text(raw):
     if not isinstance(raw,str):raise ValueError("NON_TEXT_RESPONSE")
     text=raw.strip()
     if text.startswith("`"):
-        match=re.fullmatch(r"```(?:json)?\\s*([\\s\\S]*?)\\s*```",text)
+        match=re.fullmatch(r"```(?:json)?\s*([\s\S]*?)\s*```",text)
         if not match:raise ValueError("UNSUPPORTED_WRAPPER")
         text=match.group(1).strip()
     obj=json.loads(text)
