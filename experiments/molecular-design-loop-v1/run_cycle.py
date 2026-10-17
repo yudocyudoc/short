@@ -5,7 +5,7 @@ If OM backend itself is broken, fail as backend error rather than ask Llama to
 invent an equation. Persist every original response and diagnostic.
 """
 from __future__ import annotations
-import argparse,hashlib,json,os,subprocess,sys
+import argparse,hashlib,json,os,re,subprocess,sys
 from pathlib import Path
 from datetime import datetime,timezone
 from urllib.request import Request,urlopen
@@ -63,6 +63,22 @@ def api_call(account,token,messages):
             text=choices[0]["message"]["content"]
     if not isinstance(text,str):raise ValueError("NO_PROVIDER_TEXT")
     return body,provider,text
+def parse_proposal_text(raw):
+    """Accept ONLY a JSON object, bare or wrapped by exactly one JSON fence.
+
+    The fence is transport formatting, not permission to repair malformed JSON
+    or regenerate omitted links. Preserve the original unmodified response.
+    """
+    if not isinstance(raw,str):raise ValueError("NON_TEXT_RESPONSE")
+    text=raw.strip()
+    if text.startswith("`"):
+        match=re.fullmatch(r"```(?:json)?\\s*([\\s\\S]*?)\\s*```",text)
+        if not match:raise ValueError("UNSUPPORTED_WRAPPER")
+        text=match.group(1).strip()
+    obj=json.loads(text)
+    if not isinstance(obj,dict):raise ValueError("JSON_ROOT_NOT_OBJECT")
+    return obj
+
 def structural_feedback(result):
     return {"stage":"IGC_TYPE_AND_EVIDENCE_CHECKER","status":result["status"],
       "issues":result["issues"],"permitted_repairs":["SELECT_REGISTERED_MOLECULE",
@@ -127,7 +143,7 @@ def run(out,execute,max_attempts):
             body,provider,raw=api_call(account,token,messages)
             save(folder/"provider_original.json",provider)
             (folder/"original_llm_response.txt").write_text(raw,encoding="utf-8")
-            proposal=json.loads(raw)
+            proposal=parse_proposal_text(raw)
             step["response_sha256"]=sha(raw)
             step["received"]=True
         except (HTTPError,URLError,TimeoutError,ValueError,TypeError,KeyError) as exc:
