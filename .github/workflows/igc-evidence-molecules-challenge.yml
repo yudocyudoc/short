@@ -7,7 +7,7 @@ on:
       - 'experiments/evidence-molecules-challenge-v1/**'
       - '.github/workflows/igc-evidence-molecules-challenge.yml'
   push:
-    branches: [experiment/igc-evidence-molecules-challenge-v1]
+    branches: [experiment/igc-evidence-molecules-challenge-v2]
     paths:
       - 'experiments/evidence-molecules-challenge-v1/authorize_48_real_calls.txt'
   workflow_dispatch:
