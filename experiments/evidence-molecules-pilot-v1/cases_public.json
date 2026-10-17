@@ -1,0 +1,104 @@
+{
+  "version": "IGC_EVIDENCE_PILOT_PUBLIC_V1",
+  "notice": "Doce situaciones inventadas cualitativas; no son datos de empresas reales. Ninguna contiene parametros numericos.",
+  "cases": [
+    {
+      "id": "P01", "title": "Fabricante de artículos de oficina", "question": "¿Qué mecanismos podrían representar los materiales terminados y los compromisos con clientes?",
+      "facts": [
+        {"id": "F1", "text": "El taller fabrica lotes para almacén antes de conocer las compras de clientes."},
+        {"id": "F2", "text": "El plan de producción deseada se compara con la capacidad nominal de las máquinas para ajustar el ritmo productivo."},
+        {"id": "F3", "text": "Los productos terminados se acumulan en existencias y los pedidos confirmados pendientes se despachan desde ellas."}
+      ]
+    },
+    {
+      "id": "P02", "title": "Imprenta de encargos personalizados", "question": "¿Cómo representar el tránsito de cada encargo aceptado hasta su entrega?",
+      "facts": [
+        {"id": "F1", "text": "Los encargos aceptados forman una lista de trabajos todavía sin preparar."},
+        {"id": "F2", "text": "La impresión sólo comienza después de aceptar un encargo y retira trabajos de esa lista."},
+        {"id": "F3", "text": "Los encargos impresos esperan en otra acumulación hasta que el mensajero los entrega y registra la entrega."}
+      ]
+    },
+    {
+      "id": "P03", "title": "Material viajando entre plantas", "question": "¿Qué mecanismo básico explica el desfase físico entre enviar y recibir?",
+      "facts": [
+        {"id": "F1", "text": "La planta de origen envía material que queda físicamente en tránsito."},
+        {"id": "F2", "text": "Ese mismo material aparece en la planta de destino sólo después del traslado; las entradas y salidas no ocurren simultáneamente."},
+        {"id": "F3", "text": "La descripción no informa sobre pedidos comerciales ni planes de fabricación."}
+      ]
+    },
+    {
+      "id": "P04", "title": "Cuello de botella de máquinas", "question": "¿Qué pieza representaría la relación entre producción deseada y disponibilidad productiva?",
+      "facts": [
+        {"id": "F1", "text": "Los responsables fijan una producción deseada y conocen la capacidad nominal de la planta."},
+        {"id": "F2", "text": "La tasa productiva efectiva depende de la relación entre la producción deseada y esa capacidad."},
+        {"id": "F3", "text": "No se ha descrito inventario, pedidos aceptados ni trabajo pendiente."}
+      ]
+    },
+    {
+      "id": "P05", "title": "Archivo de caja de una cafetería", "question": "¿Podemos inferir una cola de preparación y su capacidad con estos registros?",
+      "facts": [
+        {"id": "F1", "text": "El archivo sólo registra los pagos realizados y sus horarios."},
+        {"id": "F2", "text": "No hay información de clientes que desistieron, tiempos de preparación ni pedidos pendientes."},
+        {"id": "F3", "text": "Nadie sabe todavía si se elabora para existencias o únicamente después de recibir pedidos."}
+      ]
+    },
+    {
+      "id": "P06", "title": "Almacén de accesorios electrónicos", "question": "¿Cómo se vinculan la política de fabricar y el surtido de compras confirmadas?",
+      "facts": [
+        {"id": "F1", "text": "Se planea producir para mantener artículos terminados en bodega, incluso sin ventas nuevas."},
+        {"id": "F2", "text": "La producción deseada se ajusta por una curva de utilización de la capacidad instalada."},
+        {"id": "F3", "text": "Se registra un backlog de pedidos aceptados sin despachar; las entregas consumen existencias terminadas."}
+      ]
+    },
+    {
+      "id": "P07", "title": "Distribuidor con traslado entre almacenes", "question": "¿Qué mecanismos se reconocen en la cadena física descrita?",
+      "facts": [
+        {"id": "F1", "text": "El proveedor expide mercancía terminada y ésta permanece viajando antes de entrar al almacén comercial."},
+        {"id": "F2", "text": "El inventario comercial sólo recibe esos productos una vez que termina el tránsito del material."},
+        {"id": "F3", "text": "Las órdenes de compra confirmadas de clientes esperan pendientes hasta poder enviarse desde el inventario comercial."},
+        {"id": "F4", "text": "La forma de decidir cuánto produce el proveedor es desconocida."}
+      ]
+    },
+    {
+      "id": "P08", "title": "Dos versiones sobre la misma línea", "question": "¿Podemos elegir una estructura de producción sin resolver esta discrepancia?",
+      "facts": [
+        {"id": "F1", "text": "La gerencia de fábrica dice que todos los productos de esa línea se terminan anticipadamente para almacenarlos."},
+        {"id": "F2", "text": "El responsable de pedidos asegura que esos mismos productos nunca se fabrican antes de recibir el encargo."},
+        {"id": "F3", "text": "Ambas declaraciones corresponden a la misma línea y al mismo periodo, sin conciliación de fuentes."}
+      ]
+    },
+    {
+      "id": "P09", "title": "Despacho desde inventario comprado", "question": "¿Qué subestructura se puede describir sin inferir la política del proveedor?",
+      "facts": [
+        {"id": "F1", "text": "El negocio dispone de inventario de producto terminado adquirido a terceros."},
+        {"id": "F2", "text": "Los pedidos confirmados sin surtir se acumulan en un backlog de despacho."},
+        {"id": "F3", "text": "El envío reduce simultáneamente el inventario terminado y los pedidos pendientes."},
+        {"id": "F4", "text": "No se ha descrito el plan productivo ni la capacidad de la fábrica proveedora."}
+      ]
+    },
+    {
+      "id": "P10", "title": "Solicitudes de aprobación", "question": "¿Es suficiente el retraso narrado para elegir una molécula de retardo de material?",
+      "facts": [
+        {"id": "F1", "text": "Los empleados esperan una decisión administrativa que tarda en llegar."},
+        {"id": "F2", "text": "Lo que se retrasa es la autorización de una solicitud, no el traslado físico de una misma cantidad de material."},
+        {"id": "F3", "text": "No se describe producción, inventario terminado ni cola de pedidos aceptados para procesar."}
+      ]
+    },
+    {
+      "id": "P11", "title": "Dotación de personal", "question": "¿Qué mecanismos pueden proponerse con el pequeño catálogo disponible?",
+      "facts": [
+        {"id": "F1", "text": "La plantilla laboral cambia al contratar o dar de baja trabajadores."},
+        {"id": "F2", "text": "La contratación responde a una plantilla objetivo y ocurre con demoras."},
+        {"id": "F3", "text": "No hay trabajo material en tránsito, inventario terminado ni fabricación planificada."}
+      ]
+    },
+    {
+      "id": "P12", "title": "Servicios instantáneos sin stock", "question": "¿Alguna molécula registrada representa directamente la situación descrita?",
+      "facts": [
+        {"id": "F1", "text": "El servicio no conserva pedidos pendientes ni existencias terminadas."},
+        {"id": "F2", "text": "La atención ocurre al instante y no hay transporte de material ni etapas en tránsito."},
+        {"id": "F3", "text": "No se ha descrito capacidad productiva frente a una producción deseada."}
+      ]
+    }
+  ]
+}
