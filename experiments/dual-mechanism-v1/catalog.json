@@ -1,0 +1,35 @@
+{
+  "version": "IGC_DUAL_OPTIONAL_MECHANISMS_V1",
+  "core": "IGCTransitCore.Upstream includes order input, preparation, dispatch, delivery counter; new combinatorial search branches after dispatch and at observation output.",
+  "optional": [
+    {
+      "id": "TRANSIT",
+      "kind": "MATERIAL_STOCK",
+      "port_in": "FLOW<Shipment>",
+      "port_out": "FLOW<Shipment>",
+      "native": "IGCMolecules.BoundedQueue",
+      "meaning": "physical units depart workshop but wait to reach customer; affects physical deliveryRate"
+    },
+    {
+      "id": "REPORT_FILTER",
+      "kind": "INFORMATION_FILTER",
+      "port_in": "SIGNAL<DeliveryRate>",
+      "port_out": "SIGNAL<ReportedDeliveryRate>",
+      "native": "IGCInformationMolecules.FirstOrderReportFilter",
+      "meaning": "smooths the displayed measurement of physical arrival rate, never changes stocks or physical deliveries"
+    }
+  ],
+  "notes": [
+    "Not an administrative queue of unreported individual transactions: the filter smooths a measured rate; it does not delay discrete accounting events.",
+    "Both optional mechanisms use verified upstream S2. REPORT_FILTER is genuinely different (first-order information smoothing instead of a physical level/flow stock).",
+    "Discrete selection of material and informational signal branches; 4 possible graphs. Physical flow conservation remains inside existing SystemDynamics molecules.",
+    "Same port and flow type grammar; numerical parameters only in Modelica, never Llama.",
+    "Observability is conditional: comparing physical arrival with dispatch requires measuring the real arrival, not merely computing a latent state."
+  ],
+  "tests": [
+    "NO_ORDERS",
+    "OBSERVED_VS_DISPATCH",
+    "PHYSICAL_VS_DISPATCH",
+    "OBSERVED_VS_PHYSICAL"
+  ]
+}
