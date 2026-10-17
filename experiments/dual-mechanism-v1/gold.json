@@ -1,0 +1,50 @@
+{
+  "warning": "Synthetic investigator-authored labels; not independent causal gold.",
+  "tests": [
+    "OBSERVED_VS_DISPATCH",
+    "PHYSICAL_VS_DISPATCH",
+    "OBSERVED_VS_PHYSICAL"
+  ],
+  "labels": {
+    "D01": {
+      "OBSERVED_VS_DISPATCH": "LAG",
+      "PHYSICAL_VS_DISPATCH": "LAG",
+      "OBSERVED_VS_PHYSICAL": "SYNC"
+    },
+    "D02": {
+      "OBSERVED_VS_DISPATCH": "LAG",
+      "PHYSICAL_VS_DISPATCH": "SYNC",
+      "OBSERVED_VS_PHYSICAL": "LAG"
+    },
+    "D03": {
+      "OBSERVED_VS_DISPATCH": "LAG",
+      "PHYSICAL_VS_DISPATCH": "LAG",
+      "OBSERVED_VS_PHYSICAL": "LAG"
+    },
+    "D04": {
+      "OBSERVED_VS_DISPATCH": "SYNC",
+      "PHYSICAL_VS_DISPATCH": "SYNC",
+      "OBSERVED_VS_PHYSICAL": "SYNC"
+    },
+    "D05": {
+      "OBSERVED_VS_DISPATCH": "LAG",
+      "PHYSICAL_VS_DISPATCH": "UNKNOWN",
+      "OBSERVED_VS_PHYSICAL": "UNKNOWN"
+    },
+    "D06": {
+      "OBSERVED_VS_DISPATCH": "UNKNOWN",
+      "PHYSICAL_VS_DISPATCH": "LAG",
+      "OBSERVED_VS_PHYSICAL": "UNKNOWN"
+    },
+    "D07": {
+      "OBSERVED_VS_DISPATCH": "UNKNOWN",
+      "PHYSICAL_VS_DISPATCH": "CONFLICT",
+      "OBSERVED_VS_PHYSICAL": "UNKNOWN"
+    },
+    "D08": {
+      "OBSERVED_VS_DISPATCH": "UNKNOWN",
+      "PHYSICAL_VS_DISPATCH": "UNKNOWN",
+      "OBSERVED_VS_PHYSICAL": "UNKNOWN"
+    }
+  }
+}
