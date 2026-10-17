@@ -1,0 +1,149 @@
+{
+  "version": "FROZEN_PRE_FIRST_CRITIC_CALL",
+  "cases": [
+    {
+      "id": "D01",
+      "title": "Transporte con reporte inmediato",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los paquetes dejan el taller y permanecen físicamente viajando antes de ser recibidos."
+        },
+        {
+          "id": "F2",
+          "text": "La entrega física se registra en el mismo instante en que el cliente recibe el paquete."
+        },
+        {
+          "id": "F3",
+          "text": "El sistema muestra el ritmo de entregas sin promediar ni retrasar esa medición."
+        }
+      ]
+    },
+    {
+      "id": "D02",
+      "title": "Ventanilla y reporte filtrado",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El cliente recibe el objeto físicamente en el mismo instante del despacho por ventanilla."
+        },
+        {
+          "id": "F2",
+          "text": "El tablero publica una tasa de entregas suavizada que se ajusta gradualmente después de los cambios reales."
+        },
+        {
+          "id": "F3",
+          "text": "No existe mercancía que permanezca viajando después de salir del área de despacho."
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "title": "Transporte y filtro de información",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los productos salen del taller y se acumulan temporalmente en vehículos antes de llegar al cliente."
+        },
+        {
+          "id": "F2",
+          "text": "La recepción física sucede después del despacho."
+        },
+        {
+          "id": "F3",
+          "text": "El reporte público de la tasa de entregas utiliza además un filtro de primer orden y reacciona gradualmente a los cambios en recepción."
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "title": "Ventanilla con medición instantánea",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El producto pasa de despacho a manos del comprador sin tránsito posterior."
+        },
+        {
+          "id": "F2",
+          "text": "El tablero refleja la tasa física de entrega de inmediato, sin filtrarla ni promediarla."
+        },
+        {
+          "id": "F3",
+          "text": "La entrega queda registrada simultáneamente al despacho."
+        }
+      ]
+    },
+    {
+      "id": "D05",
+      "title": "Sólo conocemos despachos y curva reportada",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La tasa informada de entregas responde con desfase respecto del ritmo de despachos."
+        },
+        {
+          "id": "F2",
+          "text": "No se conserva la hora efectiva de recepción física de cada envío."
+        },
+        {
+          "id": "F3",
+          "text": "Tampoco se documenta si el tablero suaviza las tasas antes de mostrarlas."
+        }
+      ]
+    },
+    {
+      "id": "D06",
+      "title": "Tránsito físico, reporte desconocido",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los bienes salen del taller y permanecen en carretera antes de que el comprador los reciba."
+        },
+        {
+          "id": "F2",
+          "text": "Se puede documentar que la recepción física sucede después del despacho."
+        },
+        {
+          "id": "F3",
+          "text": "No sabemos cómo transforma el sistema informático esa recepción en la tasa de entregas reportada."
+        }
+      ]
+    },
+    {
+      "id": "D07",
+      "title": "Fuentes contradictorias sobre recepción",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Un protocolo vigente afirma que cada pedido se recibe físicamente al salir de despacho."
+        },
+        {
+          "id": "F2",
+          "text": "Otro protocolo vigente para el mismo producto afirma que llega físicamente sólo tras transportarse."
+        },
+        {
+          "id": "F3",
+          "text": "No tenemos evidencia para determinar cuál política de recepción se aplica."
+        }
+      ]
+    },
+    {
+      "id": "D08",
+      "title": "Documentación sin observables útiles",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El archivo indica solamente cuántos pedidos fueron aceptados."
+        },
+        {
+          "id": "F2",
+          "text": "No contiene fechas de despacho, recepción física ni series del tablero de entregas."
+        },
+        {
+          "id": "F3",
+          "text": "No existe descripción de la relación entre el trabajo físico y el sistema de reporte."
+        }
+      ]
+    }
+  ]
+}
