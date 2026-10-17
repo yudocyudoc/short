@@ -1,0 +1,10 @@
+ONE_TIME_PROSPECTIVE_MODEL_EVALUATION
+CASES: T01-T12, all frozen before model requests
+ALTERNATIVES: MTO (native S2), MTS (native S1), identical abstract external port signatures
+BASLINES: type unification, simple lexical heuristic, both frozen
+MODEL: Cloudflare Llama 3.3 70B
+PROMPTS: no equations and no numeric data
+ATTEMPTS: one plus at most one schema/evidence repair; all original responses archived
+NO_POSTHOC_CHANGE_OF_LABELS_OR_CASES
+BACKEND: OMC independent zero-new-orders behavior discriminator already PASS in CI #39001909102
+EXPERIMENT_SCOPE: policy choice plus compositional facade, not general architectural design

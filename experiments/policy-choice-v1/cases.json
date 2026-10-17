@@ -1,0 +1,234 @@
+{
+  "version": "FROZEN_PRE_LLM",
+  "n": 12,
+  "cases": [
+    {
+      "id": "T01",
+      "title": "Muebles por encargo",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los carpinteros comienzan cada mueble únicamente después de que el cliente acepta su diseño."
+        },
+        {
+          "id": "F2",
+          "text": "La orden autorizada espera en una lista hasta que un operario inicia el trabajo."
+        },
+        {
+          "id": "F3",
+          "text": "Al terminar, el mueble se guarda temporalmente para su reparto; no se hacen piezas para mostrador sin cliente."
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "Impresión personalizada",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los folletos llevan nombres y contenidos exclusivos aportados con cada compra confirmada."
+        },
+        {
+          "id": "F2",
+          "text": "No se imprime ningún ejemplar antes de recibir la solicitud aceptada."
+        },
+        {
+          "id": "F3",
+          "text": "Tras imprimir, se apilan las cajas terminadas para que el reparto las retire."
+        }
+      ]
+    },
+    {
+      "id": "T03",
+      "title": "Reparación de bicicletas",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Se registran órdenes firmadas que esperan su turno para ser reparadas."
+        },
+        {
+          "id": "F2",
+          "text": "Las bicicletas solo entran al taller con autorización de su propietario."
+        },
+        {
+          "id": "F3",
+          "text": "Después de concluir la reparación se guardan en un área separada hasta ser entregadas."
+        }
+      ]
+    },
+    {
+      "id": "T04",
+      "title": "Uniformes especiales",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Cada uniforme tiene tallas y distintivos que se conocen sólo cuando el contratante aprueba el pedido."
+        },
+        {
+          "id": "F2",
+          "text": "Los pedidos aprobados aguardan costura y, ya terminados, esperan mensajería."
+        },
+        {
+          "id": "F3",
+          "text": "Se menciona capacidad del taller, pero se niega expresamente fabricar mercancía anticipadamente."
+        }
+      ]
+    },
+    {
+      "id": "T05",
+      "title": "Jabones de temporada",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La planta elabora lotes según un programa de fabricación fijado antes de recibir ventas."
+        },
+        {
+          "id": "F2",
+          "text": "Los lotes fabricados llegan a existencias de producto terminado y luego abastecen pedidos."
+        },
+        {
+          "id": "F3",
+          "text": "Los despachos retiran cajas de almacén incluso cuando la línea no está produciendo."
+        }
+      ]
+    },
+    {
+      "id": "T06",
+      "title": "Pan empacado",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El horno completa una producción programada con independencia de las reservas de distribuidores."
+        },
+        {
+          "id": "F2",
+          "text": "Los panes ya empacados se conservan como inventario terminado."
+        },
+        {
+          "id": "F3",
+          "text": "Cada distribuidor puede comprar y recibir producto que fue fabricado antes de que enviara su pedido."
+        }
+      ]
+    },
+    {
+      "id": "T07",
+      "title": "Refacciones en almacén",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Se decide cuánto producir a partir de un calendario interno y la capacidad de la planta."
+        },
+        {
+          "id": "F2",
+          "text": "Las piezas terminadas ingresan a una bodega desde la cual se atienden solicitudes posteriores."
+        },
+        {
+          "id": "F3",
+          "text": "Las ventas no desencadenan la fabricación individual de cada pieza."
+        }
+      ]
+    },
+    {
+      "id": "T08",
+      "title": "Botellas para exhibición",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La producción se organiza por campañas independientes de los encargos de comercios."
+        },
+        {
+          "id": "F2",
+          "text": "Las botellas fabricadas se mantienen en inventario disponible antes de conocer qué comercio las comprará."
+        },
+        {
+          "id": "F3",
+          "text": "Al llegar un pedido, el despacho retira unidades de ese inventario."
+        }
+      ]
+    },
+    {
+      "id": "T09",
+      "title": "Comprobantes de venta",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los tickets muestran las mercancías que ya fueron entregadas y cobradas."
+        },
+        {
+          "id": "F2",
+          "text": "No registran si el artículo existía antes del pedido o se fabricó por encargo."
+        },
+        {
+          "id": "F3",
+          "text": "Tampoco registran trabajo pendiente ni planes previos de fabricación."
+        }
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "Clínica con agenda",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los pacientes solicitan consultas y a veces esperan a que el médico tenga horario."
+        },
+        {
+          "id": "F2",
+          "text": "La administración menciona capacidad de atención, no fabricación ni inventario de bienes."
+        },
+        {
+          "id": "F3",
+          "text": "La documentación no dice que se transformen productos físicos para almacenarlos o repartirlos."
+        }
+      ]
+    },
+    {
+      "id": "T11",
+      "title": "Manuales enfrentados",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Una instrucción vigente dice que cada artículo sólo se fabrica después de recibir un pedido aceptado."
+        },
+        {
+          "id": "F2",
+          "text": "Otra instrucción vigente, sobre ese mismo artículo y periodo, ordena producir para inventario antes de vender."
+        },
+        {
+          "id": "F3",
+          "text": "La dirección no confirma cuál procedimiento opera realmente."
+        }
+      ]
+    },
+    {
+      "id": "T12",
+      "title": "Política cambiante sin fechas",
+      "question": "Con los hechos disponibles, elige la política causal si está justificada, o declara la razón para no componer. Si compones, conecta fuente, mecanismo y entregas; explica también por qué no elegiste la política rival.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El jefe declara que el taller nunca trabaja sin un encargo confirmado."
+        },
+        {
+          "id": "F2",
+          "text": "El jefe de turno del mismo periodo afirma que habitualmente se producen unidades adelantadas para almacén."
+        },
+        {
+          "id": "F3",
+          "text": "Nadie puede esclarecer si ambas declaraciones se refieren a procesos distintos o a una contradicción."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "version": "FROZEN_PRE_LLM",
+  "limitations": "Designed/labelled in same project; NOT external independent ground truth",
+  "cases": {
+    "T01": {
+      "status": "COMPOSE",
+      "policy": "MTO",
+      "decisive_evidence": "F1"
+    },
+    "T02": {
+      "status": "COMPOSE",
+      "policy": "MTO",
+      "decisive_evidence": "F2"
+    },
+    "T03": {
+      "status": "COMPOSE",
+      "policy": "MTO",
+      "decisive_evidence": "F2"
+    },
+    "T04": {
+      "status": "COMPOSE",
+      "policy": "MTO",
+      "decisive_evidence": "F3"
+    },
+    "T05": {
+      "status": "COMPOSE",
+      "policy": "MTS",
+      "decisive_evidence": "F1"
+    },
+    "T06": {
+      "status": "COMPOSE",
+      "policy": "MTS",
+      "decisive_evidence": "F3"
+    },
+    "T07": {
+      "status": "COMPOSE",
+      "policy": "MTS",
+      "decisive_evidence": "F1"
+    },
+    "T08": {
+      "status": "COMPOSE",
+      "policy": "MTS",
+      "decisive_evidence": "F2"
+    },
+    "T09": {
+      "status": "INSUFFICIENT_EVIDENCE",
+      "policy": null,
+      "decisive_evidence": "F2"
+    },
+    "T10": {
+      "status": "INSUFFICIENT_EVIDENCE",
+      "policy": null,
+      "decisive_evidence": "F2"
+    },
+    "T11": {
+      "status": "CONTRADICTORY",
+      "policy": null,
+      "decisive_evidence": "F2"
+    },
+    "T12": {
+      "status": "CONTRADICTORY",
+      "policy": null,
+      "decisive_evidence": "F2"
+    }
+  }
+}

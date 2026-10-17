@@ -1,0 +1,96 @@
+name: IGC competing MTO/MTS architecture selection + dynamic counterfactual
+
+on:
+  pull_request:
+    branches: [experiment/igc-molecular-design-loop-v1]
+    paths:
+      - 'experiments/policy-choice-v1/**'
+      - '.github/workflows/igc-policy-choice-v1.yml'
+  push:
+    branches: [experiment/igc-mto-mts-choice-v1]
+    paths:
+      - 'experiments/policy-choice-v1/authorize_real_choice.txt'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  selection-experiment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Type equivalence, gold independence, real abstention and library safeguards
+        run: |
+          python -m unittest discover -s experiments/policy-choice-v1 -p 'test_*.py' -v
+          mkdir -p experiments/policy-choice-v1/output
+          python experiments/policy-choice-v1/run_study.py --prepare-only \
+            --out experiments/policy-choice-v1/output/prepared --max-attempts 2
+      - name: Fetch fixed OpenModelica with the verified S1 and S2 libraries
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-choice-home" "$RUNNER_TEMP/igc-choice-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-choice-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-choice-libs/systemdynamics"
+      - name: Probe different behaviors under no accepted orders for genuine MTO and MTS
+        working-directory: experiments/policy-choice-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/policy-choice-v1 \
+            -v "$RUNNER_TEMP/igc-choice-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-choice-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc behavior.mos | tee output/omc_policy_counterfactual.log
+          test -s probe_no_orders_mto_res.csv
+          test -s probe_no_orders_mts_res.csv
+          python verify_behavior.py --mto probe_no_orders_mto_res.csv \
+            --mts probe_no_orders_mts_res.csv \
+            --out output/behavior_contrast.json
+          cp probe_no_orders_mto_res.csv output/
+          cp probe_no_orders_mts_res.csv output/
+      - name: Llama sees all mechanisms and narrative, but never numeric parameters or equations
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): twelve real competing MTO MTS policy choices'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/policy-choice-v1/run_study.py --execute \
+            --out experiments/policy-choice-v1/output/llama_real \
+            --max-attempts 2
+      - name: Render and actually simulate every distinct Llama-proposed native policy
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): twelve real competing MTO MTS policy choices'
+        run: |
+          python experiments/policy-choice-v1/run_native.py \
+            --responses experiments/policy-choice-v1/output/llama_real/manifest.json \
+            --out experiments/policy-choice-v1/output/llama_native
+      - name: Fetch locked original run for separately labeled forensic audit
+        uses: actions/download-artifact@v4
+        with:
+          name: igc-policy-choice-39001963771
+          repository: yudocyudoc/short
+          run-id: 39001963771
+          github-token: ${{ github.token }}
+          path: experiments/policy-choice-v1/output/original_first_run
+      - name: Post-hoc policy intent inspection; NEVER reinterpret strict AST failures as PASS
+        run: |
+          python experiments/policy-choice-v1/forensic_original.py \
+            --archive experiments/policy-choice-v1/output/original_first_run \
+            --out experiments/policy-choice-v1/output/original_policy_intent_report.json
+      - name: Archive original replies, immutable cases/gold, OMC results and scores
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-policy-choice-${{ github.run_id }}
+          path: experiments/policy-choice-v1/output/
+          if-no-files-found: warn
+          retention-days: 90
