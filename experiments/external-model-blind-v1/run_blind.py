@@ -203,21 +203,38 @@ def phase_test(out,account,token,cases,gold,reference):
     if account and not manifest["complete"]:raise SystemExit("INCOMPLETE_TEST_RESPONSES")
     return score
 
+def load_frozen_reference(out):
+    root=out/"reference"
+    status=json.loads((root/"status.json").read_text(encoding="utf-8"))
+    gold=json.loads((root/"proxy_reference.json").read_text(encoding="utf-8"))["cases"]
+    cases=json.loads((root/"scored_cases.json").read_text(encoding="utf-8"))["cases"]
+    if status.get("gold_sha256")!=sha(json.dumps(gold,sort_keys=True)):
+        raise SystemExit("REFERENCE_SHA256_MISMATCH")
+    if not status.get("completed_before_llama"):
+        raise SystemExit("NO_FROZEN_REFERENCE")
+    if len(cases)!=len(gold) or len(cases)<12 or set(gold)!={c["id"] for c in cases}:
+        raise SystemExit("INVALID_OR_INSUFFICIENT_FROZEN_REFERENCE")
+    return cases,gold,status
+
 def main():
     a=argparse.ArgumentParser()
     group=a.add_mutually_exclusive_group(required=True)
     group.add_argument("--prepare-only",action="store_true")
-    group.add_argument("--execute",action="store_true")
+    group.add_argument("--execute-reference",action="store_true")
+    group.add_argument("--execute-test",action="store_true")
     a.add_argument("--out",required=True,type=Path)
     o=a.parse_args()
     verify_frozen()
-    account=os.getenv("CLOUDFLARE_ACCOUNT_ID","").strip() if o.execute else ""
-    token=os.getenv("CLOUDFLARE_API_TOKEN","").strip() if o.execute else ""
-    if o.execute and not (account and token):raise SystemExit("NO_CLOUDFLARE_CREDENTIALS")
-    cases,gold,reference=phase_reference(o.out,account,token)
-    if o.execute:
-        if len(cases)<12:raise SystemExit("INSUFFICIENT_REVIEWED_CASES_BEFORE_ANY_LLAMA")
+    account=os.getenv("CLOUDFLARE_ACCOUNT_ID","").strip() if not o.prepare_only else ""
+    token=os.getenv("CLOUDFLARE_API_TOKEN","").strip() if not o.prepare_only else ""
+    if not o.prepare_only and not (account and token):raise SystemExit("NO_CLOUDFLARE_CREDENTIALS")
+    if o.execute_test:
+        cases,gold,reference=load_frozen_reference(o.out)
         phase_test(o.out,account,token,cases,gold,reference)
-    else:print("PROMPT_PREPARATION_ONLY_NO_PAID_CALLS")
+    else:
+        cases,gold,reference=phase_reference(o.out,account,token)
+        if o.execute_reference and len(cases)<12:
+            raise SystemExit("INSUFFICIENT_REVIEWED_CASES_BEFORE_ANY_LLAMA")
+        if o.prepare_only:print("PROMPT_PREPARATION_ONLY_NO_PAID_CALLS")
 
 if __name__=="__main__":main()
