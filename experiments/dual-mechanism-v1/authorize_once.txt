@@ -1,0 +1,7 @@
+ONE-TIME MODEL CRITIC EXPERIMENT
+PRECOMMITTED: eight qualitative cases D01-D08 and separate gold.json
+ENGINE: deterministic 4 Modelica graph compositions from two distinct optionals physical TRANSIT / information REPORT_FILTER
+NUMERIC: eight verified OMC simulations, three qualitative signatures derived from CSV (Actions #39070228180)
+CRITIC: Cloudflare Llama 3.3 70B, only fact_id constraints on three tests, no models/equations/parameter values
+REQUESTS: exactly one per case, temperature 0, no posthoc retuning or retries
+INTERPRETATION: conditional pruning, no semantic truth guarantee; conflict blocks pruning; preserve original responses
