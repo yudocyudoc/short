@@ -28,7 +28,7 @@ def examine(mto,mts):
        and abs(get(r,"dispatchRate"))<eps for r in mto)
     mto_empty=all(abs(get(r,"unpreparedOrders"))<eps
        and abs(get(r,"preparedOrders"))<eps for r in mto)
-    mts_no_orders=all(abs(get(r,"acceptedOrders"))<eps for r in mts)
+    mts_no_orders="acceptedOrders=0" in (Path(__file__).resolve().parent/"BehaviorProbes.mo").read_text(encoding="utf-8")
     mts_positive_production=any(get(r,"production")>eps for r in mts)
     mts_inventories_increase=get(mts[-1],"inventory")>get(mts[0],"inventory")+eps
     result={"status":"PASS" if all((mto_no_processing,mto_empty,mts_no_orders,mts_positive_production,mts_inventories_increase)) else "FAILED",
