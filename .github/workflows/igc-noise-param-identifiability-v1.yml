@@ -1,0 +1,88 @@
+name: IGC bounded-error observability under hidden parameter drift
+
+on:
+  push:
+    branches: [experiment/igc-noise-parameter-identifiability-v1]
+    paths:
+      - 'experiments/noise-param-identifiability-v1/**'
+      - '.github/workflows/igc-noise-param-identifiability-v1.yml'
+  pull_request:
+    branches: [experiment/igc-observability-provenance-v1]
+    paths:
+      - 'experiments/noise-param-identifiability-v1/**'
+      - '.github/workflows/igc-noise-param-identifiability-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  noise-and-parameter-stress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run new and inherited regression tests before simulation
+        run: |
+          python -m unittest discover -s experiments/noise-param-identifiability-v1 -p 'test_*.py' -v
+          python -m unittest discover -s experiments/observability-provenance-v1 -p 'test_*.py' -v
+          python -m unittest discover -s experiments/dual-mechanism-v1 -p 'test_*.py' -v
+          mkdir -p experiments/dual-mechanism-v1/output experiments/noise-param-identifiability-v1/output
+          python experiments/dual-mechanism-v1/construct.py \
+            --model experiments/dual-mechanism-v1/IGCObservationGraphs.mo \
+            --manifest experiments/dual-mechanism-v1/output/graph_manifest.json
+      - name: Install locked OpenModelica and libraries
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-noise-home" "$RUNNER_TEMP/igc-noise-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-noise-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-noise-libs/systemdynamics"
+      - name: Run eight original reference simulations to derive candidate signatures
+        working-directory: experiments/dual-mechanism-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/dual-mechanism-v1 \
+            -v "$RUNNER_TEMP/igc-noise-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-noise-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc simulate.mos | tee output/reference_omc.log
+          for graph in Direct TransitOnly ReportOnly TransitAndReport; do
+            for mode in zero pulse; do
+              test -s "$mode"_"$graph"_res.csv
+            done
+          done
+          python analyze.py --directory . --out output/probe_signatures.json
+      - name: Execute eight unseen-parameter Modelica models
+        working-directory: experiments/dual-mechanism-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/dual-mechanism-v1 \
+            -v "$RUNNER_TEMP/igc-noise-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-noise-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal \
+            omc ../noise-param-identifiability-v1/simulate_stress.mos | tee output/stress_omc.log
+          for regime in Fast Slow; do
+            for graph in Direct TransitOnly ReportOnly TransitAndReport; do
+              test -s "stress_$regime$graph"_res.csv
+              cp "stress_$regime$graph"_res.csv output/
+            done
+          done
+      - name: Apply forty predeclared noise, calibration and missingness regimes
+        run: |
+          python experiments/noise-param-identifiability-v1/robustness.py \
+            --series experiments/dual-mechanism-v1/output \
+            --probes experiments/dual-mechanism-v1/output/probe_signatures.json \
+            --out experiments/noise-param-identifiability-v1/output
+      - name: Upload locked reference, held-out worlds, original telemetry and scores
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-noise-param-${{ github.run_id }}
+          path: |
+            experiments/dual-mechanism-v1/output/
+            experiments/noise-param-identifiability-v1/output/
+          retention-days: 90
+          if-no-files-found: warn
