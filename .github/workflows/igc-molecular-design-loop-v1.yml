@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   molecular-loop:
@@ -67,6 +68,35 @@ jobs:
             --report output/human_oracle_numerical_parity.json
           cp om_molecule_res.csv output/human_oracle_molecular_series.csv
           cp IGCComposed.mo output/human_oracle_modelica.mo
+      - name: Fetch original Llama response from prior format-failed run
+        uses: actions/download-artifact@v4
+        with:
+          name: igc-molecular-architect-38997693854
+          repository: yudocyudoc/short
+          run-id: 38997693854
+          github-token: ${{ github.token }}
+          path: experiments/molecular-design-loop-v1/output/first_original_archive
+      - name: Revalidate same original proposal with corrected bounded parser, no new LLM call
+        run: |
+          python experiments/molecular-design-loop-v1/replay_first_original.py \
+            --original experiments/molecular-design-loop-v1/output/first_original_archive/real_llm/attempt_01/original_llm_response.txt \
+            --model experiments/molecular-design-loop-v1/IGCComposed.mo \
+            --report experiments/molecular-design-loop-v1/output/original_llama_replay_report.json
+      - name: Execute preserved original Llama graph in OpenModelica
+        working-directory: experiments/molecular-design-loop-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/molecular-design-loop-v1 \
+            -v "$RUNNER_TEMP/igc-om-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-om-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc assemble.mos | tee output/original_llama_omc.log
+          test -s om_molecule_res.csv
+          python ../openmodelica-mto-s2/verify.py \
+            --reference-out output/original_llama_independent_euler.csv \
+            --equations s2_reference_res.csv \
+            --components om_molecule_res.csv \
+            --report output/original_llama_om_parity.json
+          cp IGCComposed.mo output/original_llama_composed.mo
       - name: Real Llama design and up to five diagnostics-based repairs
         if: >-
           github.event_name == 'push' &&
