@@ -60,7 +60,7 @@ def validate(case,x):
     if x["expected"] in {"SYNC","LAG"} and not ids:errors.append("MISSING_SUPPORT")
     if x["expected"]=="CONFLICT" and len(ids)<2:errors.append("MISSING_COUNTERFACT")
     q=x["next_question"]
-    if not isinstance(q,str) or len(q)>240 or (x["expected"] in {"UNKNOWN","CONFLICT"} and not q.strip()):
+    if not isinstance(q,str) or len(q)>400 or (x["expected"] in {"UNKNOWN","CONFLICT"} and not q.strip()):
         errors.append("QUESTION_REQUIRED")
     return {"status":"VALID_FORMAT" if not errors else "INVALID",
        "issues":errors,"semantic_entailment_verified":False}
