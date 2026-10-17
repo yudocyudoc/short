@@ -1,0 +1,7 @@
+AUTHORIZE_ONE_RUN: 24 real inference requests across 12 public qualitative cases and two prompt arms (generic_sd, molecular_scaffold).
+MODEL: @cf/meta/llama-3.3-70b-instruct-fp8-fast
+RETRIES: zero; TEMPERATURE: zero; TOKENS: 1250 maximum per response.
+SOURCE: the user authorized proceeding with point 1, with GitHub Cloudflare secrets already configured in the repository.
+RUN_RULE: only one explicit push commit with the exact authorization message triggers calls; subsequent ordinary commits never trigger inference.
+NO EQUATIONS: structural molecule selection with evidence quotes only.
+BASELINE: 12/12 prior to LLM, noted as a likely too-easy non-blind benchmark.
