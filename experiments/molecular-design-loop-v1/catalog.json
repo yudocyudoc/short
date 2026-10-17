@@ -1,0 +1,122 @@
+{
+  "version": "IGC_MOLECULE_COMPOSITION_V1",
+  "status": "Three original IGC molecular wrappers, implemented with verified SystemDynamics 2.1.2 and MSL 4.0.0 components. NOT Hines imported molecules and NOT BusinessSimulation classes.",
+  "modules": [
+    {
+      "id": "ACCEPTED_SOURCE",
+      "native": "IGCMolecules.AcceptedSource",
+      "category": "boundary",
+      "function": "Acepta el flujo externo de pedidos previamente admitidos; no determina demanda perdida ni inventa valores",
+      "ports": [
+        {
+          "name": "out",
+          "direction": "OUT",
+          "type": "FLOW<Order>"
+        }
+      ],
+      "requirements": [
+        "source_event_observed"
+      ],
+      "exclusions": [
+        "not_a_sales_receipt_count"
+      ]
+    },
+    {
+      "id": "PREPARATION_QUEUE",
+      "native": "IGCMolecules.BoundedQueue",
+      "category": "molecule",
+      "function": "Acumula pedidos aceptados sin preparar; el trabajo completado sale hacia la siguiente etapa",
+      "ports": [
+        {
+          "name": "in",
+          "direction": "IN",
+          "type": "FLOW<Order>"
+        },
+        {
+          "name": "out",
+          "direction": "OUT",
+          "type": "FLOW<PreparedOrder>"
+        },
+        {
+          "name": "waiting",
+          "direction": "OBSERVE",
+          "type": "STATE<Order>"
+        }
+      ],
+      "requirements": [
+        "orders_wait_before_preparation",
+        "preparation_is_separate_stage"
+      ],
+      "exclusions": [
+        "not_finished_goods_shipment_backlog"
+      ],
+      "parameters": [
+        "REF<capacityPreparing>",
+        "REF<preparationResponseTime>"
+      ]
+    },
+    {
+      "id": "DISPATCH_QUEUE",
+      "native": "IGCMolecules.BoundedQueue",
+      "category": "molecule",
+      "function": "Acumula pedidos ya preparados pendientes de despacho, y el despacho los transforma en entregados",
+      "ports": [
+        {
+          "name": "in",
+          "direction": "IN",
+          "type": "FLOW<PreparedOrder>"
+        },
+        {
+          "name": "out",
+          "direction": "OUT",
+          "type": "FLOW<DeliveredOrder>"
+        },
+        {
+          "name": "waiting",
+          "direction": "OBSERVE",
+          "type": "STATE<PreparedOrder>"
+        }
+      ],
+      "requirements": [
+        "prepared_orders_wait_before_dispatch",
+        "shipping_separate_from_preparation"
+      ],
+      "exclusions": [
+        "not_unprepared_work_backlog"
+      ],
+      "parameters": [
+        "REF<capacityDispatch>",
+        "REF<dispatchResponseTime>"
+      ]
+    },
+    {
+      "id": "DELIVERY_COUNTER",
+      "native": "IGCMolecules.DeliveryCounter",
+      "category": "molecule",
+      "function": "Acumula entregas completadas sin crearlas; stock contador terminal",
+      "ports": [
+        {
+          "name": "in",
+          "direction": "IN",
+          "type": "FLOW<DeliveredOrder>"
+        },
+        {
+          "name": "total",
+          "direction": "OBSERVE",
+          "type": "STATE<DeliveredOrder>"
+        }
+      ],
+      "requirements": [
+        "delivery_events_exist"
+      ],
+      "exclusions": [
+        "not_a_shipping_policy"
+      ]
+    }
+  ],
+  "approved_backend": "OpenModelica v1.26.5-minimal, SystemDynamics 2.1.2, Modelica Standard Library 4.0.0",
+  "no_llm_equations": true,
+  "parameter_source": "Existing IGCS2MakeToOrder.Scenario only; numeric values never sent to Llama",
+  "limits": "v1 supports four named mechanism roles, one instance each; Llama chooses and connects their semantic typed ports. It does not discover new types, auto-create policies or connect BusinessSimulation acausal ports.",
+  "evidence_policy": "Each selected molecule and link must have one supporting exact excerpt from a supplied case fact; reviewer does not automatically establish semantic causality by substring."
+}

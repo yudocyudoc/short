@@ -1,0 +1,11 @@
+ONE-TIME TEST AUTHORIZATION
+TASK: same S2 synthetic qualitative work preparation dispatch model
+MODEL: @cf/meta/llama-3.3-70b-instruct-fp8-fast
+MAX_REPAIR_ATTEMPTS: 5
+SCOPE: Llama chooses registered 4 roles / 3 material links; typed AST and literal citations
+BACKEND: trusted Modelica wrappers + OpenModelica, no model-generated equations
+PROOF: human-oracle 14/14 tests, OM parity zero error in Actions #38997637947
+SECRETS: preexisting GitHub Actions Cloudflare secrets, no value stored in repo
+NO RETRIES OUTSIDE BUDGET; preserve all original replies and diagnostic artifacts
+
+CORRECTIVE_PROSPECTIVE_EXECUTION: the first five authentic Llama outputs were identical valid JSON objects wrapped in Markdown; strict single-fence parser added; archived original graph replayed with zero model calls and OMC parity PASS in Actions #38998020947. Run once again to exercise fully integrated live Llama->OMC path with max 5 repairs; preserve result even if non-PASS. No changes to molecule semantics or test case.

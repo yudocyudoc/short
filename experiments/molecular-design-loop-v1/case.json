@@ -1,0 +1,23 @@
+{
+  "id": "HOUSE01",
+  "title": "Taller de encargos que prepara y entrega",
+  "question": "Construye un primer plano de dinámica de sistemas usando únicamente moléculas disponibles y los hechos observacionales. Separa la llegada de encargos, la preparación, el trabajo terminado y la entrega, pero no des por existentes mecanismos sin soporte.",
+  "facts": [
+    {
+      "id": "F1",
+      "text": "Los encargos ya aceptados entran en una lista de trabajos pendientes. Los nuevos encargos se añaden a esa lista."
+    },
+    {
+      "id": "F2",
+      "text": "Sólo después de aceptar un encargo se inicia su preparación: los trabajos sin preparar salen de la primera lista y pasan a estar terminados."
+    },
+    {
+      "id": "F3",
+      "text": "Los trabajos terminados esperan una segunda etapa de reparto. Cada envío retira un trabajo preparado y registra una entrega completada."
+    },
+    {
+      "id": "F4",
+      "text": "La entrada de encargos, la preparación y el reparto son procesos distintos. No se fabrican artículos anticipadamente para almacén."
+    }
+  ]
+}

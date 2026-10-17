@@ -1,0 +1,9 @@
+getVersion();
+loadModel(Modelica, {"4.0.0"});
+loadModel(SystemDynamics, {"2.1.2"});
+loadFile("../openmodelica-mto-s2/IGCS2MakeToOrder.mo");
+loadFile("IGCMolecules.mo");
+loadFile("IGCComposed.mo");
+checkModel(IGCComposed.Components);
+simulate(IGCComposed.Components, startTime=0, stopTime=10, numberOfIntervals=40, method="euler", outputFormat="csv", fileNamePrefix="om_molecule");
+getErrorString();
