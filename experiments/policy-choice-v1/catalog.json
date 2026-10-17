@@ -1,0 +1,112 @@
+{
+  "version": "IGC_TWO_POLICY_COMPETING_GRAPH_V1",
+  "statement": "Exactly TWO executable alternative causal mechanisms have deliberately identical abstract inlet/outlet types; typed wiring cannot identify whether work is produced before an order.",
+  "interfaces": {
+    "ORDER_SOURCE": {
+      "ports": {
+        "out": "FLOW<Order>"
+      }
+    },
+    "MTO": {
+      "ports": {
+        "in": "FLOW<Order>",
+        "out": "FLOW<DeliveredOrder>"
+      }
+    },
+    "MTS": {
+      "ports": {
+        "in": "FLOW<Order>",
+        "out": "FLOW<DeliveredOrder>"
+      }
+    },
+    "DELIVERY": {
+      "ports": {
+        "in": "FLOW<DeliveredOrder>"
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "ORDER_SOURCE",
+      "class": "IGCPolicySelection.OrdersBoundary",
+      "kind": "BOUNDARY",
+      "optional": false,
+      "purpose": "Límite exógeno de pedidos aceptados; no equivale a demanda total.",
+      "ports": {
+        "out": "FLOW<Order>"
+      }
+    },
+    {
+      "id": "MTO",
+      "class": "IGCS2MakeToOrder.Components",
+      "kind": "ARCHITECTURE",
+      "optional": true,
+      "purpose": "Preparación empieza únicamente tras encargo aceptado, con trabajos aún sin preparar y trabajos terminados pendientes de despacho.",
+      "requires": [
+        "acceptance_triggers_preparation",
+        "unfinished_work_queue",
+        "finished_work_waits_for_dispatch"
+      ],
+      "excludes": [
+        "speculative_production_without_orders"
+      ],
+      "ports": {
+        "in": "FLOW<Order>",
+        "out": "FLOW<DeliveredOrder>"
+      }
+    },
+    {
+      "id": "MTS",
+      "class": "IGCS1Parity.Components",
+      "kind": "ARCHITECTURE",
+      "optional": true,
+      "purpose": "La producción obedece a un plan exógeno de capacidad, puede preceder ventas y almacena inventario terminado para despachar encargos confirmados.",
+      "requires": [
+        "exogenous_production_plan",
+        "produce_for_inventory_before_order",
+        "finished_inventory_for_shipments"
+      ],
+      "excludes": [
+        "all_units_built_only_after_accepted_order"
+      ],
+      "ports": {
+        "in": "FLOW<Order>",
+        "out": "FLOW<DeliveredOrder>"
+      }
+    },
+    {
+      "id": "DELIVERY",
+      "class": "IGCPolicySelection.DeliveriesBoundary",
+      "kind": "BOUNDARY",
+      "optional": false,
+      "purpose": "Observación terminal de entregas, no crea producción.",
+      "ports": {
+        "in": "FLOW<DeliveredOrder>"
+      }
+    }
+  ],
+  "extra_non_executable": [
+    {
+      "id": "MATERIAL_DELAY",
+      "status": "NOT_EXECUTABLE_IN_THIS_COMPOSER",
+      "purpose": "Transporte físico con acumulación en tránsito; no sustituye una política de fabricación."
+    },
+    {
+      "id": "BACKLOG_LEVEL",
+      "status": "NOT_EXECUTABLE_IN_THIS_COMPOSER",
+      "purpose": "Regulación alternativa de despacho, no implica producir bajo encargo."
+    },
+    {
+      "id": "WORKFORCE_ADJUSTMENT",
+      "status": "NOT_EXECUTABLE_IN_THIS_COMPOSER",
+      "purpose": "Cambio gradual de plantilla laboral, distinto de fabricar inventario."
+    },
+    {
+      "id": "ADMIN_APPROVAL_DELAY",
+      "status": "NOT_EXECUTABLE_IN_THIS_COMPOSER",
+      "purpose": "Esperas administrativas, no transporte físico."
+    }
+  ],
+  "warning": "The executable option set comprises two preexisting complete architectures (S1 / S2), not eight freely interoperable molecules. Abstract ports deliberately match and cannot choose policy. Rendering selects tested native S1 or S2, not arbitrary connection synthesis.",
+  "backend": "OpenModelica 1.26.5 + MSL 4.0.0 + SystemDynamics 2.1.2; numeric parameters from fixed synthetic scenarios, never transmitted to Llama."
+}
