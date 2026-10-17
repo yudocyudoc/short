@@ -1,0 +1,86 @@
+name: IGC observability and evidence provenance — guarded vs critic-only
+
+on:
+  push:
+    branches: [experiment/igc-observability-provenance-v1]
+    paths:
+      - 'experiments/observability-provenance-v1/**'
+      - '.github/workflows/igc-observability-provenance-v1.yml'
+  pull_request:
+    branches: [experiment/igc-transit-report-observability-v1]
+    paths:
+      - 'experiments/observability-provenance-v1/**'
+      - '.github/workflows/igc-observability-provenance-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-observability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Offline controls for provenance, measurement errors and no false elimination
+        run: |
+          python -m unittest discover -s experiments/observability-provenance-v1 -p 'test_*.py' -v
+          python -m unittest discover -s experiments/dual-mechanism-v1 -p 'test_*.py' -v
+          mkdir -p experiments/dual-mechanism-v1/output experiments/observability-provenance-v1/output
+          python experiments/dual-mechanism-v1/construct.py \
+            --model experiments/dual-mechanism-v1/IGCObservationGraphs.mo \
+            --manifest experiments/dual-mechanism-v1/output/graph_manifest.json
+      - name: Install pinned OpenModelica and molecular libraries
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-home" "$RUNNER_TEMP/igc-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-libs/systemdynamics"
+      - name: Execute eight real Modelica simulations from PR 29
+        working-directory: experiments/dual-mechanism-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/dual-mechanism-v1 \
+            -v "$RUNNER_TEMP/igc-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc simulate.mos | tee output/omc.log
+          for graph in Direct TransitOnly ReportOnly TransitAndReport; do
+            for mode in zero pulse; do
+              test -s "$mode"_"$graph"_res.csv
+              cp "$mode"_"$graph"_res.csv output/
+            done
+          done
+          python analyze.py --directory . --out output/probe_signatures.json
+      - name: Deterministic guarded evaluation with truth hidden from Llama
+        run: |
+          python experiments/observability-provenance-v1/observability.py \
+            --series experiments/dual-mechanism-v1/output \
+            --probes experiments/dual-mechanism-v1/output/probe_signatures.json \
+            --out experiments/observability-provenance-v1/output
+      - name: Same-case Llama baseline versus measured-only guard
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$CLOUDFLARE_ACCOUNT_ID" ] && [ -n "$CLOUDFLARE_API_TOKEN" ]; then
+            python experiments/observability-provenance-v1/observability.py \
+              --series experiments/dual-mechanism-v1/output \
+              --probes experiments/dual-mechanism-v1/output/probe_signatures.json \
+              --out experiments/observability-provenance-v1/output --llama
+          else
+            echo "LLAMA_NOT_RUN: repository secrets unavailable; deterministic results remain valid"
+          fi
+      - name: Upload CSVs, graph signatures, dossiers, original Llama responses and scores
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-observability-${{ github.run_id }}
+          path: |
+            experiments/dual-mechanism-v1/output/
+            experiments/observability-provenance-v1/output/
+          retention-days: 90
+          if-no-files-found: warn
