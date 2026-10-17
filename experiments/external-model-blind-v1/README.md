@@ -63,3 +63,13 @@ Las llamadas auténticas sólo se activan por el commit de autorización en la r
 - Antes de construir un compilador completo IGC-SL o invertir en infraestructura de moléculas, comprobar si el beneficio causal supera el coste de su preparación y mantenimiento.
 
 Fuentes de modelos Workers AI: [Qwen3](https://developers.cloudflare.com/ai/models/%40cf/qwen/qwen3-30b-a3b-fp8/), [GLM-4.7-Flash](https://developers.cloudflare.com/changelog/post/2026-02-13-glm-4.7-flash-workers-ai/).
+
+
+## Resultado fallido de la primera ejecución y enmienda técnica v1.1
+
+La primera ejecución auténtica [#38995455018](https://github.com/yudocyudoc/short/actions/runs/38995455018) **falló antes de Llama**. Qwen generó 24 respuestas, pero únicamente 16 eran JSON sintácticamente válidos según el contrato de su primera versión; las otras ocho tenían una llave de cierre adicional. Ninguno de los 16 intentos de adjudicación GLM produjo texto final: la respuesta del proveedor contenía `choices[0].message.content=null` y razonamiento no finalizado que consumió el máximo de tokens. **0 adjudicaciones válidas; 0 llamadas Llama.**
+
+La enmienda v1.1 es prospectiva respecto de las respuestas de Llama, que siguen sin existir. No reescribe casos ni rescata arbitrariamente JSON mal formado. Descarga de GitHub el **mismo artefacto Qwen original** (artifact #12086714733, run #38995455018), toma sus 16 casos válidos, comprueba la huella SHA-256 `b296c42fe129e59bffa158a2bec771b36d39e21e5ddbc7424c0734ac5cf122c9` y pide **una nueva adjudicación GLM** con `chat_template_kwargs.enable_thinking=false` y `reasoning_effort=null`, opciones admitidas por Cloudflare. Se guardan los nuevos originales del árbitro, se congela ese artefacto **antes** de cualquier inferencia Llama, y sólo se usa el evaluador anterior.
+
+Esta recuperación es **un segundo ensayo técnico declarado**, NO una repetición oculta de la primera campaña para inflar resultados; conserva ocho exclusiones originales y el fallo GLM como evidencia. Si no se obtienen al menos 12 referencias formalmente válidas, se detiene sin llamadas Llama.
+
