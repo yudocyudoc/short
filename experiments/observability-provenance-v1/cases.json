@@ -1,0 +1,269 @@
+{
+  "version": "SYNTHETIC_OBSERVABILITY_V1",
+  "source": "OpenModelica PR29 pulse outputs only; no real organization data",
+  "cases": [
+    {
+      "id": "O01",
+      "title": "Ventanilla con manual que menciona transporte",
+      "available_signals": [
+        "dispatchRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "Un manual antiguo dice que la entrega requiere transporte posterior al despacho.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O02",
+      "title": "Transporte con recepción no medida",
+      "available_signals": [
+        "dispatchRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "El jefe afirma que el tablero refleja recepciones instantáneas.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O03",
+      "title": "Reporte filtrado con documento engañoso",
+      "available_signals": [
+        "dispatchRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "Una minuta afirma que toda demora en el tablero se debe a camiones.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O04",
+      "title": "Ambos mecanismos con tres tasas medidas",
+      "available_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "Hay registros de despacho, recepción física y tablero.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O05",
+      "title": "Datos de sólo despacho",
+      "available_signals": [
+        "dispatchRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "No se conservaron fechas de recepción ni historial del tablero.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O06",
+      "title": "Retardo visible pero mecanismo oculto",
+      "available_signals": [
+        "dispatchRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "El reporte reacciona después de un cambio en el despacho, pero faltan recibos.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O07",
+      "title": "Tránsito con tres series",
+      "available_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "La nota operativa describe paquetes viajando.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O08",
+      "title": "Filtro con tres series",
+      "available_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "El manual indica que el tablero suaviza mediciones.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O09",
+      "title": "Unidades incompatibles en tablero",
+      "available_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "El fichero del tablero está etiquetado como conteo, no como tasa.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3,
+      "unit_overrides": {
+        "reportedDeliveryRate": "orders"
+      }
+    },
+    {
+      "id": "O10",
+      "title": "Documentos contradictorios y sin recibos",
+      "available_signals": [
+        "dispatchRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "El protocolo A afirma entrega al despachar.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        },
+        {
+          "id": "F2",
+          "text": "El protocolo B afirma entrega tras transporte físico.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O11",
+      "title": "No hay datos del tablero",
+      "available_signals": [
+        "dispatchRate",
+        "deliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "Un correo indica que el reporte publicado podría estar promediado.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    },
+    {
+      "id": "O12",
+      "title": "La única comparación posible es tablero contra recepción",
+      "available_signals": [
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "claims": [
+        {
+          "id": "F1",
+          "text": "No está disponible la serie de despacho en esta ventana.",
+          "provenance": "DOCUMENT_UNVERIFIED"
+        }
+      ],
+      "obtainable_signals": [
+        "dispatchRate",
+        "deliveryRate",
+        "reportedDeliveryRate"
+      ],
+      "measurement_budget": 3
+    }
+  ]
+}
