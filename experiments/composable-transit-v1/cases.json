@@ -1,0 +1,77 @@
+{
+  "version": "FROZEN_BEFORE_LLAMA",
+  "cases": [
+    {
+      "id": "C01",
+      "title": "Envío terrestre posterior al despacho",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El sistema registra la salida de los productos cuando abandonan el taller."
+        },
+        {
+          "id": "F2",
+          "text": "Los productos viajan por carretera y se consideran entregados sólo al ser recibidos por el cliente."
+        },
+        {
+          "id": "F3",
+          "text": "Se pueden acumular paquetes enviados que todavía no han llegado a destino."
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "title": "Entrega al retirar en ventanilla",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El comprador recibe su producto en la ventanilla del taller."
+        },
+        {
+          "id": "F2",
+          "text": "La entrega se registra en el mismo instante en que el producto sale del área de despacho."
+        },
+        {
+          "id": "F3",
+          "text": "No queda una segunda cola de mercancías viajando después del despacho."
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "title": "Registro exclusivo de expediciones",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El documento disponible sólo indica qué productos salieron del almacén."
+        },
+        {
+          "id": "F2",
+          "text": "No se dispone de registros de llegada al comprador."
+        },
+        {
+          "id": "F3",
+          "text": "Se desconoce si el transporte posterior afecta el instante contabilizado como entrega."
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "title": "Políticas de entrega incompatibles",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El manual operativo actual establece que la entrega se completa cuando el paquete abandona la puerta del taller."
+        },
+        {
+          "id": "F2",
+          "text": "Otra instrucción vigente del mismo proceso exige esperar a que el destinatario reciba físicamente el paquete antes de registrar entrega."
+        },
+        {
+          "id": "F3",
+          "text": "No hay registro que permita decidir cuál política se está aplicando en este periodo."
+        }
+      ]
+    }
+  ]
+}
