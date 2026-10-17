@@ -1,0 +1,80 @@
+name: IGC two optional molecules — physical transit and information filter
+
+on:
+  pull_request:
+    branches: [experiment/igc-composable-transit-two-probes-v1]
+    paths:
+      - 'experiments/dual-mechanism-v1/**'
+      - '.github/workflows/igc-dual-mechanism-v1.yml'
+  push:
+    branches: [experiment/igc-transit-report-observability-v1]
+    paths:
+      - 'experiments/dual-mechanism-v1/authorize_once.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  dual-molecule-search:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate generator, typing, critic and stagewise identifiability
+        run: |
+          python -m unittest discover -s experiments/dual-mechanism-v1 -p 'test_*.py' -v
+          mkdir -p experiments/dual-mechanism-v1/output
+          python experiments/dual-mechanism-v1/construct.py \
+            --model experiments/dual-mechanism-v1/IGCObservationGraphs.mo \
+            --manifest experiments/dual-mechanism-v1/output/graph_manifest.json
+      - name: Install verified Modelica tools and libraries
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-dual-home" "$RUNNER_TEMP/igc-dual-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-dual-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-dual-libs/systemdynamics"
+      - name: Compile four molecular graphs and simulate two conditions for each
+        working-directory: experiments/dual-mechanism-v1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/dual-mechanism-v1 \
+            -v "$RUNNER_TEMP/igc-dual-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-dual-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc simulate.mos | tee output/omc_compile_and_simulate.log
+          for graph in Direct TransitOnly ReportOnly TransitAndReport; do
+            for test in zero pulse; do
+              test -s "${test}_${graph}_res.csv"
+              cp "${test}_${graph}_res.csv" output/
+            done
+          done
+          cp IGCObservationGraphs.mo output/
+          python analyze.py --directory . --out output/probe_signatures.json
+      - name: Prepare critic input with no secret and no LLM
+        run: |
+          python experiments/dual-mechanism-v1/critic.py --prepare-only \
+            --probes experiments/dual-mechanism-v1/output/probe_signatures.json \
+            --out experiments/dual-mechanism-v1/output/prepared
+      - name: Real Llama as critic of three observable contrasts in eight new situations
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): one eight-case dual-molecule causal critic experiment'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/dual-mechanism-v1/critic.py --execute \
+            --probes experiments/dual-mechanism-v1/output/probe_signatures.json \
+            --out experiments/dual-mechanism-v1/output/real
+      - name: Archive full OMC outputs, original model replies and linter results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-dual-molecule-${{ github.run_id }}
+          path: experiments/dual-mechanism-v1/output/
+          retention-days: 90
+          if-no-files-found: warn
