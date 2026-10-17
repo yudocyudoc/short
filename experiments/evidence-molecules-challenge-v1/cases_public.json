@@ -1,0 +1,474 @@
+{
+  "version": "IGC_CHALLENGE_PILOT_PUBLIC_V1",
+  "notice": "24 new qualitative hypothetical narratives fixed for follow-up of 12-case pilot; no observed companies, no numerical parameters. Original prompt and regex baseline imported unchanged from prior experiment.",
+  "cases": [
+    {
+      "id": "N01",
+      "title": "Jabones con existencias",
+      "question": "Se pide representar la producción y los envíos sin confundir pedido con orden de fabricación",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Fabrica jabones a partir de un programa propio que no depende de encargos entrantes."
+        },
+        {
+          "id": "F2",
+          "text": "El nivel de uso de las líneas se determina confrontando el objetivo de fabricar con la capacidad nominal de las máquinas."
+        },
+        {
+          "id": "F3",
+          "text": "Los jabones acabados se guardan; las solicitudes confirmadas aún sin envío se acumulan y los despachos consumen ese inventario."
+        }
+      ]
+    },
+    {
+      "id": "N02",
+      "title": "Restauración de cámaras",
+      "question": "Diferenciar encargos y objetos listos para retirar",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Cada cámara llega con orden de reparación autorizada y espera su turno antes de entrar al banco de trabajo."
+        },
+        {
+          "id": "F2",
+          "text": "La restauración consume encargos pendientes; una cámara no se interviene si nadie la ha encargado."
+        },
+        {
+          "id": "F3",
+          "text": "Las cámaras restauradas forman otra reserva temporal de trabajos completos hasta que se entregan a su dueño."
+        }
+      ]
+    },
+    {
+      "id": "N03",
+      "title": "Furgones entre naves",
+      "question": "Identificar qué mecanismo explica un retraso de llegada",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Se cargan piezas físicas en furgones que atraviesan una ruta entre dos instalaciones."
+        },
+        {
+          "id": "F2",
+          "text": "Las mismas piezas permanecen en camino durante el traslado y sólo luego salen del tránsito hacia destino."
+        },
+        {
+          "id": "F3",
+          "text": "La descripción no precisa planes de producción ni inventario destinado a clientes."
+        }
+      ]
+    },
+    {
+      "id": "N04",
+      "title": "Turnos de un hospital",
+      "question": "¿Qué molécula explica la demora indicada?",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El hospital ajusta número de enfermeras según una dotación objetivo."
+        },
+        {
+          "id": "F2",
+          "text": "Entre solicitar nuevos contratos y contar con las personas contratadas transcurren semanas."
+        },
+        {
+          "id": "F3",
+          "text": "No se describe un flujo físico de material viajando ni producción prevista para almacén."
+        }
+      ]
+    },
+    {
+      "id": "N05",
+      "title": "Refacciones adquiridas",
+      "question": "Delimitar el mecanismo de surtido sin atribuir fabricación",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La tienda compra repuestos acabados a proveedores y los conserva en almacén."
+        },
+        {
+          "id": "F2",
+          "text": "Las compras confirmadas de clientes quedan registradas como pendientes de despacho mientras no se surten."
+        },
+        {
+          "id": "F3",
+          "text": "Cuando se despacha, bajan tanto las existencias terminadas como los compromisos por entregar."
+        },
+        {
+          "id": "F4",
+          "text": "No conocemos cómo los proveedores deciden cuánto producir."
+        }
+      ]
+    },
+    {
+      "id": "N06",
+      "title": "Capacidad de salas",
+      "question": "Analizar la relación entre la demanda de consultas y horarios",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La clínica habla de su capacidad máxima de atender pacientes en consulta."
+        },
+        {
+          "id": "F2",
+          "text": "Los tiempos disponibles se asignan por agenda y no hay una tasa de fabricación deseada comparada con capacidad industrial."
+        },
+        {
+          "id": "F3",
+          "text": "No existen productos terminados en inventario ni flujo físico en viaje."
+        }
+      ]
+    },
+    {
+      "id": "N07",
+      "title": "Licencias municipales",
+      "question": "Comprobar si el retardo de material es apropiado",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Un trámite de licencia se queda esperando revisión por una autoridad."
+        },
+        {
+          "id": "F2",
+          "text": "La demora ocurre porque falta una decisión administrativa, no porque unidades físicas se transporten a otro lugar."
+        },
+        {
+          "id": "F3",
+          "text": "No se describe una cadena de acumulaciones de pedidos preparados y enviados."
+        }
+      ]
+    },
+    {
+      "id": "N08",
+      "title": "Quesos que llegan al almacén",
+      "question": "Reconocer tránsito e inventario comercial",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El proveedor despacha cajas de queso acabado que permanecen físicamente en un camión refrigerado antes de ingresar al depósito."
+        },
+        {
+          "id": "F2",
+          "text": "Lo recibido se incorpora a existencias terminadas; las compras confirmadas aún sin surtir esperan su despacho desde ese stock."
+        },
+        {
+          "id": "F3",
+          "text": "La producción del proveedor se desconoce: ninguna orden del comercio controla el ritmo de fabricación."
+        }
+      ]
+    },
+    {
+      "id": "N09",
+      "title": "Planta de mezclas",
+      "question": "¿Puede modelarse un control de utilización sin cola comercial?",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Las tandas de mezcla están previstas en un plan independiente de las compras."
+        },
+        {
+          "id": "F2",
+          "text": "El ritmo realizado se gobierna comparando el ritmo deseado con la capacidad nominal disponible."
+        },
+        {
+          "id": "F3",
+          "text": "No hay hechos sobre pedidos pendientes ni despacho de productos acabados."
+        }
+      ]
+    },
+    {
+      "id": "N10",
+      "title": "Piezas listas por surtir",
+      "question": "Evitar confundir backlog de envío con tareas por producir",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los artículos listos se mantienen en una estantería de producto terminado."
+        },
+        {
+          "id": "F2",
+          "text": "Se separa un registro de contratos de compra confirmados pendientes de envío, aunque los artículos ya existan."
+        },
+        {
+          "id": "F3",
+          "text": "Los envíos retiran producto terminado y reducen las obligaciones por entregar; no se acumulan tareas sin preparar."
+        }
+      ]
+    },
+    {
+      "id": "N11",
+      "title": "Taller sin etapa de entrega",
+      "question": "¿Cuál parte del flujo es defendible?",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los encargos hechos a medida sólo se trabajan después de que el cliente los aprueba."
+        },
+        {
+          "id": "F2",
+          "text": "Cada encargo espera un turno y sale del proceso cuando está terminado."
+        },
+        {
+          "id": "F3",
+          "text": "Los resultados se entregan en ese mismo instante: no existe una segunda acumulación de trabajos terminados esperando despacho."
+        }
+      ]
+    },
+    {
+      "id": "N12",
+      "title": "Producir para feria",
+      "question": "Reconocer políticas exógenas sin pedidos",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El plan mensual decide cuántos productos fabricar antes de que haya compradores."
+        },
+        {
+          "id": "F2",
+          "text": "El fabricante establece un nivel de uso de capacidad industrial según la producción deseada y su capacidad nominal."
+        },
+        {
+          "id": "F3",
+          "text": "Después de la fabricación no se describen pedidos ni compromisos de despacho."
+        }
+      ]
+    },
+    {
+      "id": "N13",
+      "title": "Paquetes en revisión aduanera",
+      "question": "¿Todo retardo es Material Delay?",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Un contenedor de producto físico permanece estacionado en un patio aduanal."
+        },
+        {
+          "id": "F2",
+          "text": "El contenedor no cambia de contenido y sólo abandona ese stock de tránsito tras la inspección y liberación."
+        },
+        {
+          "id": "F3",
+          "text": "La espera tiene una causa documental, pero la mercancía misma queda físicamente retenida en el sistema de transporte."
+        }
+      ]
+    },
+    {
+      "id": "N14",
+      "title": "Citas facturadas",
+      "question": "Reconocer límites de un archivo comercial",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El sistema registra sólo citas que terminaron y fueron facturadas."
+        },
+        {
+          "id": "F2",
+          "text": "No registra intentos de solicitud, citas rechazadas, colas de servicio o tiempos de traslado de material."
+        },
+        {
+          "id": "F3",
+          "text": "La gerencia quiere deducir capacidad, demanda insatisfecha y tiempos de espera de esos comprobantes."
+        }
+      ]
+    },
+    {
+      "id": "N15",
+      "title": "Juguetes personalizados",
+      "question": "Identificar dos reservas secuenciales",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El comprador paga y autoriza un juguete hecho a medida antes de empezar el ensamblado."
+        },
+        {
+          "id": "F2",
+          "text": "Los pedidos aceptados aguardan preparación; producir sin encargo está prohibido por la política de la tienda."
+        },
+        {
+          "id": "F3",
+          "text": "Tras ensamblar, los juguetes completos permanecen listos esperando que un mensajero los recoja y contabilice entregas."
+        }
+      ]
+    },
+    {
+      "id": "N16",
+      "title": "Vídeos de aprendizaje",
+      "question": "Determinar si hay movimiento físico",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los vídeos se pueden reproducir inmediatamente bajo demanda."
+        },
+        {
+          "id": "F2",
+          "text": "El alumnado reporta esperar decisiones del administrador sobre acceso, no existencias físicas viajando."
+        },
+        {
+          "id": "F3",
+          "text": "No existen compromisos de fabricación de objetos ni pedidos preparados pendientes de transportista."
+        }
+      ]
+    },
+    {
+      "id": "N17",
+      "title": "Distribución de semillas",
+      "question": "Seleccionar mecanismos sin inferir proveedor",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los sacos de semillas terminados viajan físicamente desde el puerto al centro de distribución; permanecen en un tramo de tránsito antes de recibirse."
+        },
+        {
+          "id": "F2",
+          "text": "Los sacos recibidos constituyen existencias y los pedidos de compradores confirmados se mantienen pendientes hasta ser enviados desde ese inventario."
+        },
+        {
+          "id": "F3",
+          "text": "El modo en que se fija el plan de fabricación del proveedor no fue documentado."
+        }
+      ]
+    },
+    {
+      "id": "N18",
+      "title": "Políticas incompatibles",
+      "question": "Decidir ante versiones sobre una misma línea de productos",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Un manual vigente sostiene que la planta inicia cada unidad sólo cuando entra el pedido de compra."
+        },
+        {
+          "id": "F2",
+          "text": "Otro manual vigente para esa misma referencia dice que siempre se fabrican unidades antes de conocer a los clientes y se almacenan."
+        },
+        {
+          "id": "F3",
+          "text": "No está acreditado qué política se aplica al mismo producto durante el periodo examinado."
+        }
+      ]
+    },
+    {
+      "id": "N19",
+      "title": "Inventario del distribuidor",
+      "question": "Diferenciar reabastecimiento de fabricación",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los artículos terminados llegan al depósito desde un socio externo y forman inventario disponible."
+        },
+        {
+          "id": "F2",
+          "text": "El registro de pedidos de clientes que aún no salieron del depósito es independiente de las existencias."
+        },
+        {
+          "id": "F3",
+          "text": "Cada salida satisface una parte de los pedidos por entregar y retira artículos del inventario."
+        },
+        {
+          "id": "F4",
+          "text": "La capacidad nominal del socio fabricante no está disponible."
+        }
+      ]
+    },
+    {
+      "id": "N20",
+      "title": "Tránsito de vacunas",
+      "question": "Distinguir una transferencia real de un trámite",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Un lote físico permanece en una nevera móvil durante una ruta hacia la clínica."
+        },
+        {
+          "id": "F2",
+          "text": "La cantidad que entró a la ruta sale como el mismo lote al terminar el traslado, después de un intervalo."
+        },
+        {
+          "id": "F3",
+          "text": "La clínica todavía no aporta información acerca de encargos de fabricación o despachos a compradores."
+        }
+      ]
+    },
+    {
+      "id": "N21",
+      "title": "Objetivo de productividad personal",
+      "question": "¿CAP_UTIL representa el ajuste de personas?",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El indicador llamado «capacidad» es el número de empleados que se desea contratar."
+        },
+        {
+          "id": "F2",
+          "text": "El equipo intenta alcanzar una plantilla objetivo mediante altas y bajas progresivas."
+        },
+        {
+          "id": "F3",
+          "text": "No existe ritmo de producción deseado independiente comparado con capacidad nominal de una planta."
+        }
+      ]
+    },
+    {
+      "id": "N22",
+      "title": "Encargo o anticipación",
+      "question": "Evaluar conflicto sin completar el modelo",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El director dice que nunca se fabrica antes de recibir un encargo aceptado."
+        },
+        {
+          "id": "F2",
+          "text": "El reporte del mismo taller señala fabricación anticipada regular de ese mismo artículo, sin vínculo con pedidos."
+        },
+        {
+          "id": "F3",
+          "text": "Las fechas y la categoría de producto coinciden y no hay conciliación de las fuentes."
+        }
+      ]
+    },
+    {
+      "id": "N23",
+      "title": "Proceso industrial extendido",
+      "question": "Reconocer tres mecanismos distintos sin confundirlos",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La fabricación de envases está regida por un programa de producción independiente de las ventas."
+        },
+        {
+          "id": "F2",
+          "text": "Se compara explícitamente producción deseada con capacidad nominal de la línea para obtener el ritmo de fabricación."
+        },
+        {
+          "id": "F3",
+          "text": "Los envases ya terminados se guardan y los pedidos confirmados pendientes se despachan desde esas existencias."
+        },
+        {
+          "id": "F4",
+          "text": "Parte del lote acabado atraviesa un tramo físico de tránsito entre fábrica y centro de distribución antes de ingresar a ese inventario."
+        }
+      ]
+    },
+    {
+      "id": "N24",
+      "title": "Mercancía hacia consumidor",
+      "question": "Evitar añadir inventario sin evidencia",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Después de retirarse del productor, la mercancía viaja físicamente hacia el comprador final."
+        },
+        {
+          "id": "F2",
+          "text": "Se mantiene como mercancía en camino y sale del tramo de transporte tras la entrega."
+        },
+        {
+          "id": "F3",
+          "text": "No hay evidencia sobre nivel de existencias de producto acabado, fabricación deseada o pedidos pendientes de despacho."
+        }
+      ]
+    }
+  ]
+}
