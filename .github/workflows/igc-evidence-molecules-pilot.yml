@@ -1,0 +1,93 @@
+name: IGC evidence-grounded molecule pilot (12 paired cases)
+
+on:
+  pull_request:
+    branches: [design/igc-sl-molecules-grammar-v01]
+    paths:
+      - 'experiments/evidence-molecules-pilot-v1/**'
+      - '.github/workflows/igc-evidence-molecules-pilot.yml'
+  push:
+    branches: [experiment/igc-evidence-molecules-pilot-v1]
+    paths:
+      - 'experiments/evidence-molecules-pilot-v1/authorize_real_24_calls.txt'
+  workflow_dispatch:
+    inputs:
+      confirm_llm_calls:
+        description: 'Perform 24 real Cloudflare Llama calls: 12 cases x 2 prompt arms, no retries'
+        required: true
+        type: choice
+        default: DO_NOT_RUN
+        options:
+          - DO_NOT_RUN
+          - RUN_24_CASE_ARM_PAIRS
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test evaluator, quote anchoring, prompt isolation and baseline
+        run: |
+          python -m unittest discover -s experiments/evidence-molecules-pilot-v1 -p 'test_*.py' -v
+          python experiments/evidence-molecules-pilot-v1/deterministic.py \
+            --out experiments/evidence-molecules-pilot-v1/output/deterministic_responses.json \
+            --score-out experiments/evidence-molecules-pilot-v1/output/deterministic_score.json
+          python experiments/evidence-molecules-pilot-v1/run_llm.py --prepare-only \
+            --out experiments/evidence-molecules-pilot-v1/output/prepared
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('experiments/evidence-molecules-pilot-v1/output/prepared/manifest.json')
+          d=json.loads(p.read_text())
+          assert d['execute'] is False
+          assert len(d['entries']) == 24
+          assert all(e['status']=='PREPARED_ONLY' for e in d['entries'])
+          print('24 REQUESTS PREPARED, ZERO ACTUAL LLM CALLS')
+          PY
+      - name: Preserve baseline and prepared prompt manifests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-molecule-pilot-prepared-${{ github.run_id }}
+          path: experiments/evidence-molecules-pilot-v1/output/
+          if-no-files-found: warn
+          retention-days: 90
+
+  real-llm:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.confirm_llm_calls == 'RUN_24_CASE_ARM_PAIRS') ||
+      (github.event_name == 'push' && github.event.head_commit.message == 'run(igc): execute 24 real paired molecule pilot calls')
+    needs: [deterministic]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Call Cloudflare Llama for paired SD and scaffold prompts (no retries)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/evidence-molecules-pilot-v1/run_llm.py --execute \
+            --out experiments/evidence-molecules-pilot-v1/output/actual_llm
+      - name: Save every request, raw response, evaluation and incomplete-run evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-molecule-pilot-real-${{ github.run_id }}
+          path: experiments/evidence-molecules-pilot-v1/output/actual_llm/
+          if-no-files-found: warn
+          retention-days: 90
