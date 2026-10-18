@@ -3,16 +3,18 @@
 ```yaml
 fecha_corte: 2026-10-18
 hoja_rectoria: v5.1-PROPUESTA-PENDIENTE-DE-APROBACION
-fase_actual: P0
-estado_fase: AUDITORIA_COMPLETADA_REVISION_ABIERTA
+fase_actual: P2
+estado_fase: P0_CERRADO_P1_EJECUTADO_P2_IR_CONCEPTUAL_EN_REVISION
 repositorio_base: main
 main_sha: 725b3f23193dde326886bc8d35ded538d645e902
-pr_relevantes: [20, 32, 33, 34, 35, 36, 37, 38]
+pr_relevantes: [20, 32, 33, 34, 35, 36, 37, 38, 39, 40]
 capacidades_implementadas:
   - moleculas_modelica_base_en_main
   - validador_cadenas_E0_en_PR33_draft
   - compositor_backend_E1_en_PR34_draft
   - ciclo_X1_ejecutado_PR37_no_repetir
+  - limites_P1_probados_PR39
+  - IR_conceptual_P2_PR40_NO_EJECUTABLE
 capacidades_solo_documentadas:
   - IGC_SL_v0_1_PR20
   - IR_causal_y_politicas_generales
@@ -21,11 +23,13 @@ limites_confirmados:
   - cadena_material_unica
   - sin_CONTROL_feedback_dinamico_general
   - sin_verificacion_semantica_y_evidencia_por_relacion
-experimento_actual_pregunta: "P1: limites de split conservativo, CONTROL real, transferencia semantica y abstencion"
-que_lo_refutaria: "aceptar clonacion material, rechazar split legitimo o transferencia valida, inventar politica ausente"
-resultado_verificable: "Auditoria P0 por inspeccion; no tests P1 ejecutados"
+experimento_actual_pregunta: "P2: distinguir bifurcación conservativa y clonación con IR tipado; feedback nativo sigue faltando"
+que_lo_refutaria: "pasar clonacion, confundir entidades o CONTROL con materia, simular sin politica, o romper regresiones E1"
+resultado_verificable: "P1 CI 39177612268: 6 limites, 11 regresiones E1; P2 CI 39178234331: IR conceptual con tests; NO Modelica nativo en P2"
 revision_externa_pendiente: true
-siguiente_accion_unica: preparar_ficha_p1_y_revision_adversativa
+revision_diseno_p1: ADJUDICATED_WITH_LIMITS
+revision_codigo_p2_pendiente: true
+siguiente_accion_unica: auditar_independientemente_codigo_p2_y_definir_gate_conservacion_nativa
 prohibiciones:
   - repetir_X1
   - reabrir_LLM_AST
@@ -34,7 +38,7 @@ prohibiciones:
 ```
 
 **Corte:** 2026-10-18 · **Hoja rectora propuesta:** v5.1, **pendiente de aprobación**.  
-**Estado:** auditoría documental y estática de código completada; observaciones críticas externas recibidas, **revisión independiente aún sin cierre formal**. Sólo se abrió el **PR #38 documental**, sin cambios de código ni merge a `main`.
+**Estado actualizado:** P0 auditado; revisión del diseño P1 **adjudicada con limitaciones**; P1 ejecutado [#39](https://github.com/yudocyudoc/short/pull/39); núcleo IR de P2 implementado [#40](https://github.com/yudocyudoc/short/pull/40), pero **aún no ejecutable nativamente**. El PR #38 contiene exclusivamente documentación, mientras #39/#40 son ramas experimentales separadas. No hay merges.
 
 ## Inventario verificado en GitHub
 
@@ -85,9 +89,16 @@ Tres mecanismos acoplables, sin cifras inventadas: **(A) llegadas y cola de pers
 
 **Nota:** las etiquetas de fallo son objetivos de interfaz propuestos, no códigos que ya entregue E1. La especificación #20 fundamenta la familia de diagnósticos; el parser/IR deberá versionarlos.
 
+## Avance registrado después de la ficha P1
+
+- **P0 / revisión de diseño:** [adjudicación P0/P1](https://github.com/yudocyudoc/short/blob/experiment/igc-v5-p1-limit-probes-v1/experiments/p1/ADJUDICACION_P0_P1.md). O1–O4 respondidas; revisión con segunda IA produjo hallazgo débil y **salida no JSON estricta**. No se confunde con auditoría del código nuevo.
+- **P1 / resultado medido:** [PR #39](https://github.com/yudocyudoc/short/pull/39), [Actions #39177612268](https://github.com/yudocyudoc/short/actions/runs/39177612268). Positivo split y negativo clon rechazados igual por E1; prueba semántica puede pasar al cambiar solo descripción; entidad `Person` no basta para distinguir rol. **No Modelica nuevo**.
+- **P2 / implementación acotada:** [PR #40](https://github.com/yudocyudoc/short/pull/40), [Actions #39178234331](https://github.com/yudocyudoc/short/actions/runs/39178234331). IR conceptual y linter admiten un stock de dos salidas como **estructura no ejecutable**, prohíben clonación, distinguen entidades y `SENSE/GOVERN` y reportan `POLICY_UNIMPLEMENTED`. **Faltan conservación numérica, política y red ejecutable.**
+- **Pendiente**: auditoría de código independiente P2 y verificación de licencias e interfaces para P3; sin aprobación de merge ni promoción de ingeniería a inferencia.
+
 ## Siguiente acción ÚNICA
 
-**Preparar y someter a revisión adversativa la ficha P1 de límites (cuatro fixtures originales + un positivo de transferencia emparejado), sin gold del mundo; resolver objeciones antes de codificar P2/P3 ni abrir un PR de código.** Habilita una capacidad concreta: distinguir una **ramificación material legítima** de clonación y de coincidencia semántica falsa, conservando estados de insuficiencia.
+**Auditar por una segunda IA el código P2 en su estado actual y preparar un contraejemplo de conservación dinámica que el IR estructural acepte, sin crear aún una política Modelica no verificada.** Habilita una capacidad concreta: distinguir una **ramificación material legítima** de clonación y de coincidencia semántica falsa, conservando estados de insuficiencia.
 
 **Costo/presupuesto:** ficha P1 de una página; cuatro casos principales y un control semántico emparejado, ningún LLM generando Modelica, cero moléculas nuevas admitidas antes del gate; reutilizar las CI E0/E1 como regresión. Revisión independiente adicional: una pasada adversativa, con objeciones localizadas y severidad. No hay aquí estimación monetaria verificada ni horas de desarrollo comprometidas.
 
