@@ -14,3 +14,7 @@ Inferencia real sólo desde workflow autorizado de GitHub Actions con Cloudflare
 **Doble veredicto:** clasificación de evidencia y construcción de AST son cosas diferentes; las dos pueden pasar o fallar independientemente. El AST propone una hipótesis, no identifica el grafo real. El baseline usa los mismos textos y no llama a modelos de IA.
 
 Un resultado de Llama bajo no agota la exploración con IA: en otra corrida comparable se podrá usar GPT, Claude, Gemini u otro modelo más capaz autorizado.
+
+## Enmienda preregistrada v2, antes de la primera llamada a Llama
+
+La prueba mecánica previa (sin IA) produjo **12/12 clasificaciones correctas** con la colección inicial. Este resultado reveló un techo determinado por palabras clave y un experimento incapaz de detectar ventaja semántica. Antes de ejecutar cualquier inferencia Llama se añadieron **seis viñetas adversariales I13–I18**: negación de un supuesto, reclasificación física por auditoría, evidencia positiva sin palabras clave, y conflicto entre afirmación y confirmación. Se conserva el precedente 12/12 y se congela la nueva población de 18 casos sin modificar la respuesta del modelo en función de resultados posteriores. El nuevo conjunto sigue siendo sintético, redactado por autores y no ciego externamente.
