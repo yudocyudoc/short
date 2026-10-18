@@ -17,7 +17,7 @@ class IA1Tests(unittest.TestCase):
     def test_all_cases_unique_and_gold_separate(self):
         self.assertEqual(len(CASES),18)
         ids={c["id"] for c in CASES}
-        self.assertEqual(len(ids),12)
+        self.assertEqual(len(ids),18)
         gold=run.read(HERE/"evaluation_gold.json")["judgments"]
         self.assertEqual({x["id"] for x in gold},ids)
         for c in CASES:
