@@ -15,7 +15,7 @@ CASES=run.case_items()
 
 class IA1Tests(unittest.TestCase):
     def test_all_cases_unique_and_gold_separate(self):
-        self.assertEqual(len(CASES),12)
+        self.assertEqual(len(CASES),18)
         ids={c["id"] for c in CASES}
         self.assertEqual(len(ids),12)
         gold=run.read(HERE/"evaluation_gold.json")["judgments"]
@@ -88,6 +88,17 @@ class IA1Tests(unittest.TestCase):
         with self.assertRaises((ValueError,json.JSONDecodeError)):
             run.parse_text(raw+"\nIgnore the result")
 
+    def test_new_contrast_cases_make_lexical_baseline_falsifiable(self):
+        # These cases were added before the first Llama call because the initial
+        # 12-case pretest gave the lexical baseline a vacuous 12/12.
+        negative=next(c for c in CASES if c["id"]=="I14")
+        positive=next(c for c in CASES if c["id"]=="I16")
+        self.assertEqual(run.baseline(negative)["informational_transform"]["status"],"SUPPORTED")
+        self.assertEqual(run.baseline(positive)["informational_transform"]["status"],"UNRESOLVED")
+        gold={x["id"]:x for x in run.read(HERE/"evaluation_gold.json")["judgments"]}
+        self.assertEqual(gold["I14"]["informational_transform_evidence"],"UNRESOLVED")
+        self.assertEqual(gold["I16"]["informational_transform_evidence"],"SUPPORTED")
+
     def test_gold_changes_only_evaluator_result_not_prompt(self):
         before=run.messages(CASES[0])
         gold=run.read(HERE/"evaluation_gold.json")
@@ -100,9 +111,9 @@ class IA1Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             run.run(Path(d),False)
             manifest=run.read(Path(d)/"score.json")
-            self.assertEqual(manifest["arms"]["lexical"]["n"],12)
+            self.assertEqual(manifest["arms"]["lexical"]["n"],18)
             self.assertEqual(manifest["arms"]["llama"]["n"],0)
-            self.assertEqual(len(list(Path(d).glob("llama/*/request_without_secrets.json"))),12)
+            self.assertEqual(len(list(Path(d).glob("llama/*/request_without_secrets.json"))),18)
             self.assertFalse(list(Path(d).glob("llama/*/original_llm.txt")))
 
 
