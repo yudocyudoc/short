@@ -35,6 +35,24 @@ class NumericComparatorTests(unittest.TestCase):
         self.assertEqual(sep.classify(different,1e-5),"SEPARABLE_NUMERICALLY")
         self.assertAlmostEqual(different["max_abs_difference"],0.2)
 
+    def test_parameter_compensation_blocks_structural_elimination(self):
+        # Both same-cap comparisons separate, yet cross-cap A(3) and B(100)
+        # coincide. A matrix that only compares equal parameters gives false confidence.
+        index={
+            ("A",3,"pulse"):dummy(0),
+            ("B",3,"pulse"):dummy(2),
+            ("A",100,"pulse"):dummy(1),
+            ("B",100,"pulse"):dummy(0),
+        }
+        self.assertGreater(sep.compare(index["A",3,"pulse"],index["B",3,"pulse"],
+                                       ["reportedDeliveryRate"])["max_abs_difference"],1e-5)
+        self.assertGreater(sep.compare(index["A",100,"pulse"],index["B",100,"pulse"],
+                                       ["reportedDeliveryRate"])["max_abs_difference"],1e-5)
+        robust=sep.assess_cross_parameter(index,"A","B",[3,100],["pulse"],
+                                         ["reportedDeliveryRate"],1e-5)
+        self.assertEqual(robust["status"],"UNRESOLVED_PARAMETER_COMPENSATION")
+        self.assertEqual(robust["robust_single_probes"],[])
+
     def test_only_visible_profile_fields_count(self):
         # Physical difference must not be inferred from a perfectly matching Q observation.
         a=dummy();b=copy.deepcopy(a)
