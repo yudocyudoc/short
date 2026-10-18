@@ -1,0 +1,55 @@
+name: IGC v3 IA-1 — evidence interpretation and molecular AST
+
+on:
+  pull_request:
+    branches: [experiment/igc-v3-e1-registry-composer-v1]
+    paths:
+      - 'experiments/ia1/**'
+      - '.github/workflows/igc-v3-ia1.yml'
+  push:
+    branches: [experiment/igc-v3-ia1-identification-v1]
+    paths:
+      - 'experiments/ia1/**'
+      - '.github/workflows/igc-v3-ia1.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: igc-v3-ia1-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typed-evidence-and-model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate IA-1 preregistration and negative controls
+        run: |
+          python -m unittest discover -s experiments/ia1 -p 'test_*.py' -v
+      - name: Compile the lexical/no-LLM baseline and freeze Llama requests
+        run: |
+          python experiments/ia1/run.py --prepare-only --out experiments/ia1/output/prepared
+      - name: One authorized set of twelve real Llama 3.3 70B calls
+        if: >-
+          github.event_name == 'push' &&
+          github.event.head_commit.message == 'run(igc): execute one-shot IA1 Llama comparison'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/ia1/run.py --execute --out experiments/ia1/output/real
+      - name: Preserve raw replies, prompt hashes, baseline and author-coded scores
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-v3-ia1-evidence-${{ github.run_id }}
+          path: experiments/ia1/output/
+          retention-days: 90
+          if-no-files-found: warn
