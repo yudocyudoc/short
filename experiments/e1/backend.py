@@ -145,16 +145,16 @@ def build(cfg,classes,graphs,out):
     (out/"IGCE1Generated.mo").write_text(modelica,encoding="utf-8")
     script=['getVersion();','loadModel(Modelica, {"4.0.0"});',
             'loadModel(SystemDynamics, {"2.1.2"});',
-            'loadFile("../../../src/modelica/IGCMolecules.mo");',
-            'loadFile("../../../src/modelica/IGCInformationMolecules.mo");',
-            'loadFile("generated/IGCE1Generated.mo");']
+            'loadFile("../../src/modelica/IGCMolecules.mo");',
+            'loadFile("../../src/modelica/IGCInformationMolecules.mo");',
+            'loadFile("generated/'+out.name+'/IGCE1Generated.mo");']
     for x in rows:
         name=x["model"]
         script.append("checkModel(IGCE1Generated."+name+");")
         script.append(
             "simulate(IGCE1Generated."+name+
             ',startTime=0,stopTime=8,numberOfIntervals=64,method="dassl",'+
-            'tolerance=1e-8,outputFormat="csv",fileNamePrefix="generated/results/'+
+            'tolerance=1e-8,outputFormat="csv",fileNamePrefix="generated/'+out.name+'/results/'+
             name+'");')
     script.append("getErrorString();")
     (out/"run.mos").write_text("\n".join(script)+"\n",encoding="utf-8")
