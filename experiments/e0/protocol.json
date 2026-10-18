@@ -1,0 +1,137 @@
+{
+  "version": "igc-v3/e0.1",
+  "status": "PROSPECTIVE_NO_IGC_SCORE",
+  "neutral_description": "Un sistema acepta pedidos, los prepara y despacha; existe una recepción física y un indicador de entregas. Su objetivo es atender los pedidos. Se dispone de algunas mediciones y puede aplicarse una intervención de las autorizadas.",
+  "observation_profiles": {
+    "P": {
+      "title": "físico e informacional",
+      "visible": [
+        "dispatchRate",
+        "deliveryRate",
+        "inTransit",
+        "reportedDeliveryRate"
+      ],
+      "hidden": [
+        "internalQueueStock",
+        "trueGraph",
+        "moleculeOrder",
+        "paramsTrue"
+      ]
+    },
+    "Q": {
+      "title": "sólo tablero",
+      "visible": [
+        "reportedDeliveryRate"
+      ],
+      "hidden": [
+        "dispatchRate",
+        "deliveryRate",
+        "inTransit",
+        "internalQueueStock",
+        "trueGraph",
+        "moleculeOrder",
+        "paramsTrue"
+      ]
+    }
+  },
+  "time": {
+    "start_h": 0,
+    "stop_h": 8,
+    "reported_step_h": 0.05,
+    "solver": "dassl",
+    "tolerance": 1e-8
+  },
+  "numerical": {
+    "error_bound": 0.00001,
+    "error_bound_status": "OPERATIONAL_THRESHOLD_NOT_CERTIFIED",
+    "max_abs_error": "max_t |prediction-observation|",
+    "rmse": "sqrt(mean_t((prediction-observation)^2))",
+    "compare_on": "identical output time grid, same visible variables; no binary SYNC/LAG"
+  },
+  "interventions": [
+    {
+      "id": "pulse",
+      "family": "pulse",
+      "amplitude_per_h": 6,
+      "start_h": 1,
+      "width_fraction_percent": 40,
+      "period_h": 4
+    },
+    {
+      "id": "step",
+      "family": "step",
+      "amplitude_per_h": 6,
+      "start_h": 1
+    },
+    {
+      "id": "ramp",
+      "family": "ramp",
+      "amplitude_per_h": 6,
+      "start_h": 1,
+      "duration_h": 3
+    },
+    {
+      "id": "high_pulse",
+      "family": "capacity_stress_pulse",
+      "amplitude_per_h": 14,
+      "start_h": 1,
+      "width_fraction_percent": 40,
+      "period_h": 4
+    }
+  ],
+  "parameter_policy": {
+    "mode": "P0_FINITE_PUBLIC_GRID",
+    "world_bounds_claim": "Only finite declared grid; NEVER continuous structural exclusion from a finite search.",
+    "aggregate_residence_h": [
+      1.6
+    ],
+    "transit_capacity_per_h": [
+      3,
+      100
+    ],
+    "filter_response_h": [
+      1.6
+    ],
+    "transit_stage_response_h": "0 stages: none; 1 stage: aggregate residence; 2 stages: aggregate residence/2 each",
+    "upstream": {
+      "preparation_max_throughput": 20,
+      "preparation_response_h": 0.5,
+      "dispatch_max_throughput": 20,
+      "dispatch_response_h": 0.5
+    },
+    "initial_conditions": {
+      "all_physical_stocks_units": 0,
+      "informational_filter_units_per_h": 0
+    }
+  },
+  "budgets": {
+    "world_responses_total": 3,
+    "initial": 1,
+    "chosen_discriminant": 1,
+    "reserved": 1,
+    "max_candidate_simulations_per_arm": 96,
+    "max_llm_calls_per_case": 2,
+    "max_repair_cycles": 3
+  },
+  "commitments": {
+    "gold_manifest": "SHA256(secret_salt || canonical_json(manifest))",
+    "required_before_first_trial": true,
+    "constructor_no_gold_access": true,
+    "report_stimulus_before_predicted_response": true,
+    "release_world_answer_after_prediction_sha256": true
+  },
+  "baselines": [
+    "PR29_FIXED_SWITCHES_ENGINEERING_ONLY",
+    "EXHAUSTIVE_OVER_VALID_CANDIDATES",
+    "FIXED_OR_RANDOM_SELECTOR",
+    "LEXICAL_EXTRACTION_FOR_IA",
+    "EQUAL_BUDGET_CAUSAL_CRITIC"
+  ],
+  "claims_prohibited": [
+    "A table of expected signatures is not oracle evidence.",
+    "A numerical match at one parameter point is not structural identification.",
+    "An unseparated pair is not proof of global structural equivalence.",
+    "An engineering PASS is not an IGC methodological PASS."
+  ],
+  "evaluator_visibility": "E0 reference models are public controls and never secret world truth. E2 must use separately isolated and salted evaluator truth."
+}
