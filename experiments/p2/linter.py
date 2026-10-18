@@ -105,8 +105,14 @@ def lint(graph,registry):
         if kind=="SENSE":
             if (a["kind"],b["kind"]) not in [("SIGNAL","SIGNAL"),("STOCK","SIGNAL"),("FLOW","SIGNAL")]:
                 issues.append(diagnostic("TYPE_MISMATCH",loc,"SENSE cannot be material transfer"))
-            if a["kind"]!="SIGNAL" and adapter!="readonly-stock-observation":
-                issues.append(diagnostic("BAD_ADAPTER",loc,"Sensor adapter must be read-only, registered"))
+            if (a["kind"],b["kind"])==("STOCK","SIGNAL"):
+                if adapter!="readonly-stock-observation":
+                    issues.append(diagnostic("BAD_ADAPTER",loc,"State observation needs registered read-only adapter"))
+            elif (a["kind"],b["kind"])==("SIGNAL","SIGNAL"):
+                if adapter is not None:
+                    issues.append(diagnostic("BAD_ADAPTER",loc,"Already a signal; extra stock adapter invalid"))
+            elif (a["kind"],b["kind"])==("FLOW","SIGNAL"):
+                issues.append(diagnostic("BAD_ADAPTER",loc,"Rate-to-signal adapter not yet registered for P2"))
         if kind=="GOVERN" and (a["kind"],b["kind"])!=("CONTROL","CONTROL"):
             issues.append(diagnostic("TYPE_MISMATCH",loc,"GOVERN must use CONTROL ports"))
         if adapter and adapter not in SUPPORTED_ADAPTERS:
