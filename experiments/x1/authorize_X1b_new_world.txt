@@ -1,0 +1,1 @@
+X1-b: independent new secret assignments after solely the Cloudflare output-parser repair. Do not alter candidate worlds, actions, probes, payoffs, budgets, scoring or prompt. X1-a remains documented as NOT EVALUABLE for C.

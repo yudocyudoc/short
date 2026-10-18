@@ -1,0 +1,1 @@
+Provider transport smoke, independent of X1 subjects. Do not rerun the scored trial.

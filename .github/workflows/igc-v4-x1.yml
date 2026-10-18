@@ -1,0 +1,183 @@
+name: IGC v4 X1 — integrated decision with sealed evaluator
+
+on:
+  pull_request:
+    branches: [experiment/igc-v3-e1-registry-composer-v1]
+    paths:
+      - 'experiments/x1/**'
+      - '.github/workflows/igc-v4-x1.yml'
+  push:
+    branches: [experiment/igc-v4-x1-decision-loop-v1]
+    paths:
+      - 'experiments/x1/**'
+      - '.github/workflows/igc-v4-x1.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: x1-v4-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  precheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Regression controls and honest abstention
+        run: python -m unittest discover -s experiments/x1 -p 'test_*.py' -v
+
+  provider_diagnostic:
+    needs: precheck
+    if: >-
+      github.event_name == 'push' &&
+      github.event.head_commit.message == 'diagnose(x1): inspect provider transport only'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - name: One neutral request, no X1 cases or world truth
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/x1/diagnose_provider.py
+
+  evaluator:
+    needs: precheck
+    if: >-
+      github.event_name == 'push' &&
+      github.event.head_commit.message == 'run(x1): execute single sealed decision trial'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Generate candidate Modelica exclusively with E1's compositor/backend
+        run: python experiments/x1/build.py --out experiments/x1/generated
+      - name: Pinned native Modelica environment
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/x1-home" "$RUNNER_TEMP/x1-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/x1-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/x1-libs/systemdynamics"
+      - name: Simulate both rival mechanisms and all three investment options
+        working-directory: experiments/x1
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/x1 \
+            -v "$RUNNER_TEMP/x1-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/x1-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc generated/run.mos | tee generated/omc.log
+          python evaluator.py --numeric generated/results --public-out output/public --private-out output/private
+      - name: Publish only public initial view to participants
+        uses: actions/upload-artifact@v4
+        with:
+          name: x1-public
+          path: experiments/x1/output/public/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Seal private evaluator manifest for later reveal job
+        uses: actions/upload-artifact@v4
+        with:
+          name: x1-private-evaluator
+          path: experiments/x1/output/private/private_truth.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Preserve numerical evaluator evidence (not provided to participants)
+        uses: actions/upload-artifact@v4
+        with:
+          name: x1-native-evaluator
+          path: |
+            experiments/x1/generated/omc.log
+            experiments/x1/generated/registry_generated.json
+            experiments/x1/generated/X1Alternatives.mo
+          retention-days: 90
+
+  choose:
+    needs: evaluator
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-public, path: experiments/x1/work/public}
+      - name: Commit the diagnostic probe before the world responds
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/x1/participants.py --stage choose --initial experiments/x1/work/public/initial_public.json --out experiments/x1/work/choices/choices.json
+      - uses: actions/upload-artifact@v4
+        with: {name: x1-committed-probes, path: experiments/x1/work/choices/choices.json, retention-days: 90}
+
+  reveal_probe:
+    needs: choose
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-public, path: experiments/x1/work/public}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-private-evaluator, path: experiments/x1/work/private}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-committed-probes, path: experiments/x1/work/choices}
+      - name: Return only each authorized observation, no world label
+        run: |
+          python experiments/x1/reveal.py --truth experiments/x1/work/private/private_truth.json --initial experiments/x1/work/public/initial_public.json --choices experiments/x1/work/choices/choices.json --out experiments/x1/work/probe/observations.json
+      - uses: actions/upload-artifact@v4
+        with: {name: x1-probe-answers, path: experiments/x1/work/probe/observations.json, retention-days: 90}
+
+  decide:
+    needs: reveal_probe
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-public, path: experiments/x1/work/public}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-committed-probes, path: experiments/x1/work/choices}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-probe-answers, path: experiments/x1/work/probe}
+      - name: Commit A/B/C decision and reserved prediction before truth
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python experiments/x1/participants.py --stage decide --initial experiments/x1/work/public/initial_public.json --choices experiments/x1/work/choices/choices.json --observed experiments/x1/work/probe/observations.json --out experiments/x1/work/decisions/decisions.json
+      - uses: actions/upload-artifact@v4
+        with: {name: x1-committed-decisions, path: experiments/x1/work/decisions/decisions.json, retention-days: 90}
+
+  judge:
+    needs: decide
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-public, path: experiments/x1/work/public}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-private-evaluator, path: experiments/x1/work/private}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-committed-probes, path: experiments/x1/work/choices}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-probe-answers, path: experiments/x1/work/probe}
+      - uses: actions/download-artifact@v4
+        with: {name: x1-committed-decisions, path: experiments/x1/work/decisions}
+      - name: Score after commitments and explicitly reveal signed world
+        run: |
+          python experiments/x1/judge.py --truth experiments/x1/work/private/private_truth.json --initial experiments/x1/work/public/initial_public.json --choices experiments/x1/work/choices/choices.json --observed experiments/x1/work/probe/observations.json --decisions experiments/x1/work/decisions/decisions.json --out experiments/x1/work/final/report.json
+      - uses: actions/upload-artifact@v4
+        with: {name: x1-final-decision-report, path: experiments/x1/work/final/report.json, retention-days: 90}

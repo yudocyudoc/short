@@ -1,0 +1,1 @@
+One preregistered six-case ideal decision trial. No rerun after seeing assignments, all C originals preserved. Falsifying decision reversal gate is evaluated BEFORE LLM calls.
