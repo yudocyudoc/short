@@ -87,6 +87,41 @@ def run(folder,protocol):
                     "interventions":measures,
                     "evidence_type":"computed_from_native_om_csv_not_expected_labels"
                 })
+    # Stronger question than equal-parameter pair comparisons: can an alternative
+    # *with another allowed parameter choice* reproduce the same observations?
+    # Cross every left/right parameter setting. A single unresolved combination
+    # prevents a claim that the pair is robustly separable under the P0 grid.
+    robust=[]
+    for profile_name,profile in profiles.items():
+        for left,right in pairs:
+            combinations=[]
+            caps=protocol["parameter_policy"]["transit_capacity_per_h"]
+            for left_cap in caps:
+                for right_cap in caps:
+                    by_probe={}
+                    for stimulus in (q["id"] for q in protocol["interventions"]):
+                        delta=compare(index[left,left_cap,stimulus],
+                                      index[right,right_cap,stimulus],profile["visible"])
+                        by_probe[stimulus]=delta["max_abs_difference"]
+                    combinations.append({
+                        "left_cap":left_cap,"right_cap":right_cap,
+                        "max_difference_over_menu":max(by_probe.values()),
+                        "status":"SEPARABLE_ON_MENU" if max(by_probe.values())>bound
+                                 else "UNRESOLVED_ON_MENU",
+                        "probe_max_differences":by_probe
+                    })
+            all_separated=all(x["status"]=="SEPARABLE_ON_MENU" for x in combinations)
+            robust_probes=[probe for probe in (q["id"] for q in protocol["interventions"])
+                           if all(x["probe_max_differences"][probe]>bound for x in combinations)]
+            robust.append({
+                "pair":[left,right],"profile":profile_name,
+                "cross_parameter_grid_combinations":len(combinations),
+                "status":"SEPARABLE_FOR_ALL_GRID_COMBINATIONS" if all_separated
+                         else "UNRESOLVED_PARAMETER_COMPENSATION",
+                "robust_single_probes":robust_probes,
+                "combinations":combinations,
+                "note":"Finite P0 parameter grid ONLY. This cannot exclude continuous parameter compensation."
+            })
     # Independent regression: filter must not alter any physical trace in paired variants.
     max_physical=0
     for c in protocol["parameter_policy"]["transit_capacity_per_h"]:
@@ -112,6 +147,12 @@ def run(folder,protocol):
             {"capacity_per_h":cap,"profile":p,"separable_pairs":summary[(cap,p,"SEPARABLE_ON_TESTED_GRID")],
              "unresolved_pairs":summary[(cap,p,"UNRESOLVED_ON_TESTED_GRID")]}
             for cap in protocol["parameter_policy"]["transit_capacity_per_h"] for p in profiles],
+        "robust_cross_parameter_matrix":robust,
+        "robust_cross_parameter_summary":[
+            {"profile":p,"robustly_separable":sum(x["status"]=="SEPARABLE_FOR_ALL_GRID_COMBINATIONS"
+                for x in robust if x["profile"]==p),
+             "unresolved":sum(x["status"]=="UNRESOLVED_PARAMETER_COMPENSATION"
+                for x in robust if x["profile"]==p)} for p in profiles],
         "max_physical_delta_if_report_added":max_physical,
         "capacity3_high_pulse_saturation_observed":saturation_verified,
         "reference_cases":len(cases),
@@ -132,6 +173,7 @@ def main():
     args.out.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("E0_NUMERIC_REFERENCE",json.dumps({
         "status":data["status"],"matrix":data["regime_and_profile_counts"],
+        "parameter_robust":data["robust_cross_parameter_summary"],
         "saturation":data["capacity3_high_pulse_saturation_observed"],
         "max_physical_delta":data["max_physical_delta_if_report_added"],
         "verdict":data["methodological_verdict"]},ensure_ascii=False))
