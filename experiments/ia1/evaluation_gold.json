@@ -1,5 +1,5 @@
 {
-  "version": "ia1-v1",
+  "version": "ia1-v2-pre-llama",
   "judgments": [
     {
       "id": "I01",
@@ -131,6 +131,70 @@
       "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
       "no_unique_topology": true,
       "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I13",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence supports a mechanism family but not a unique topology or a confirmed first-order component."
+    },
+    {
+      "id": "I14",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence supports a mechanism family but not a unique topology or a confirmed first-order component."
+    },
+    {
+      "id": "I15",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence supports a mechanism family but not a unique topology or a confirmed first-order component."
+    },
+    {
+      "id": "I16",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "SUPPORTED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence supports a mechanism family but not a unique topology or a confirmed first-order component."
+    },
+    {
+      "id": "I17",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "SUPPORTED",
+      "primary_anchors": [
+        "F1",
+        "F2",
+        "F3"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence supports a mechanism family but not a unique topology or a confirmed first-order component."
+    },
+    {
+      "id": "I18",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence supports a mechanism family but not a unique topology or a confirmed first-order component."
     }
   ]
 }
