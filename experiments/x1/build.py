@@ -77,7 +77,7 @@ def generate(dest):
         for a in ACTIONS:
             name="X_"+m+"_"+a
             current=updated(g,m,a)
-            native=backend.render_model(name,current,cfg,cl)
+            native=backend.render_model(name,current,cfg,cl).replace("parameter Integer probe(min=1,max=4)=1;","parameter Integer probe(min=1,max=4)=4;")
             if "der(" in native:
                 raise RuntimeError("NEW_DIFFERENTIAL_EQUATION_FORBIDDEN")
             composer.check_graph(current,cfg,cl)
@@ -90,8 +90,8 @@ def generate(dest):
       'getVersion();',
       'loadModel(Modelica, {"4.0.0"});',
       'loadModel(SystemDynamics, {"2.1.2"});',
-      'loadFile("../../../src/modelica/IGCMolecules.mo");',
-      'loadFile("../../../src/modelica/IGCInformationMolecules.mo");',
+      'loadFile("../../src/modelica/IGCMolecules.mo");',
+      'loadFile("../../src/modelica/IGCInformationMolecules.mo");',
       'loadFile("generated/X1Alternatives.mo");'
     ]
     for rec in registry:
