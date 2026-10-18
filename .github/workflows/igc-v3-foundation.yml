@@ -1,0 +1,59 @@
+name: IGC v3 foundation — native molecules smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/modelica/**'
+      - 'foundation/**'
+      - '.github/workflows/igc-v3-foundation.yml'
+  push:
+    branches: [research/igc-v3-foundation]
+    paths:
+      - 'src/modelica/**'
+      - 'foundation/**'
+      - '.github/workflows/igc-v3-foundation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  molecular-foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify unmodified molecular sources and falsifying controls
+        run: python -m unittest discover -s foundation -p 'test_*.py' -v
+      - name: Install pinned OpenModelica and published upstream libraries
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/igc-v3-home" "$RUNNER_TEMP/igc-v3-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/igc-v3-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/igc-v3-libs/systemdynamics"
+      - name: Simulate known direct and informationally filtered paths
+        working-directory: foundation
+        run: |
+          mkdir -p output
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/foundation \
+            -v "$RUNNER_TEMP/igc-v3-home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/igc-v3-libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc smoke.mos | tee output/omc.log
+          test -s direct_res.csv
+          test -s filtered_res.csv
+          python check_smoke.py --directory . --out output/technical_result.json
+          cp direct_res.csv filtered_res.csv output/
+      - name: Archive native numeric outputs and dual verdict
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-v3-foundation-regression
+          path: foundation/output/
+          retention-days: 90
+          if-no-files-found: warn
