@@ -29,8 +29,17 @@ def model_call(system,data):
                 headers={"Content-Type":"application/json","Authorization":"Bearer "+token})
     try:
         with urlopen(req,timeout=145) as f: obj=json.load(f)
-        raw=obj.get("result",{}).get("response")
+        body=obj.get("result",{})
+        raw=body.get("response") if isinstance(body,dict) else None
+        if not isinstance(raw,str) and isinstance(body,dict):
+            choices=body.get("choices",[])
+            if isinstance(choices,list) and choices:
+                message=choices[0].get("message",{})
+                raw=message.get("content") if isinstance(message,dict) else None
         if obj.get("success") is False or not isinstance(raw,str):
+            result["provider_shape"]={
+                "success":obj.get("success"),
+                "result_fields":list(body) if isinstance(body,dict) else []}
             raise ValueError("BAD_PROVIDER_REPLY")
         result["raw"]=raw
         result["parsed"]=json.loads(raw)
