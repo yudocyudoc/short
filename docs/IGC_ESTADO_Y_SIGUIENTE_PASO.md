@@ -1,7 +1,40 @@
 # IGC · Estado y siguiente paso — P0 (borrador de continuidad)
 
+```yaml
+fecha_corte: 2026-10-18
+hoja_rectoria: v5.1-PROPUESTA-PENDIENTE-DE-APROBACION
+fase_actual: P0
+estado_fase: AUDITORIA_COMPLETADA_REVISION_ABIERTA
+repositorio_base: main
+main_sha: 725b3f23193dde326886bc8d35ded538d645e902
+pr_relevantes: [20, 32, 33, 34, 35, 36, 37, 38]
+capacidades_implementadas:
+  - moleculas_modelica_base_en_main
+  - validador_cadenas_E0_en_PR33_draft
+  - compositor_backend_E1_en_PR34_draft
+  - ciclo_X1_ejecutado_PR37_no_repetir
+capacidades_solo_documentadas:
+  - IGC_SL_v0_1_PR20
+  - IR_causal_y_politicas_generales
+  - linter_redes_general_L0_L6
+limites_confirmados:
+  - cadena_material_unica
+  - sin_CONTROL_feedback_dinamico_general
+  - sin_verificacion_semantica_y_evidencia_por_relacion
+experimento_actual_pregunta: "P1: limites de split conservativo, CONTROL real, transferencia semantica y abstencion"
+que_lo_refutaria: "aceptar clonacion material, rechazar split legitimo o transferencia valida, inventar politica ausente"
+resultado_verificable: "Auditoria P0 por inspeccion; no tests P1 ejecutados"
+revision_externa_pendiente: true
+siguiente_accion_unica: preparar_ficha_p1_y_revision_adversativa
+prohibiciones:
+  - repetir_X1
+  - reabrir_LLM_AST
+  - empezar_ruido_antes_de_limites_estructurales
+  - mezclar_PASS_tecnico_y_causal
+```
+
 **Corte:** 2026-10-18 · **Hoja rectora propuesta:** v5.1, **pendiente de aprobación**.  
-**Estado:** auditoría documental y estática de código completada; **revisión independiente pendiente**. No se abrió PR ni se modificó el repositorio.
+**Estado:** auditoría documental y estática de código completada; observaciones críticas externas recibidas, **revisión independiente aún sin cierre formal**. Sólo se abrió el **PR #38 documental**, sin cambios de código ni merge a `main`.
 
 ## Inventario verificado en GitHub
 
@@ -17,6 +50,16 @@
 
 **Hines/BSL:** el PR #20 documenta fuentes originales y diversos estados de verificación, **pero no demuestra que BSL esté importada y compilada como catálogo E1**. Licencias, fuente, conectores y versiones siguen siendo comprobaciones por pieza, no permisos generales. La extensión E1 `Modelica.Blocks.Math.Gain` es un componente MSL distinto de una molécula física nueva.
 
+## Trazabilidad capacidad → evidencia → límite → pieza próxima
+
+| Capacidad actual | Evidencia concreta | Límite para cafetería | Pieza próxima, aún NO implementada |
+|---|---|---|---|
+| Fuente, acumulación y salida física | `main:src/modelica/IGCMolecules.mo`; E0 #33 `catalog.json` | Un solo tipo de trayectoria material, sin divisiones conservativas | IR de entidades y split conservativo verificable; P1 primero |
+| Composición y validación de cadenas | E1 #34 `composer.py:enumerate_material/check_graph`; CI #39104098853 | Un único sucesor físico por nodo; rechaza bifurcación legítima | Linter de redes L0–L3, sin relajar la conservación |
+| Información separada del material | E1 #34 `enumerate_signal`; `IGCInformationMolecules.mo` | Una cadena de reporte; ninguna política `GOVERN` dinámica general | Distinción `SENSE` vs `CONTROL`, política con puerto de control verdadero |
+| Tipos sintácticos y papeles por rol | E0 #33 y E1 #34 `registry.base.json` | Sin `CUSTOMER/ORDER/PRODUCT` y soporte de hipótesis exigido por vínculo | Subconjunto `SUPPORT/HYPOTHESIS/UNRESOLVED` de IGC-SL #20 |
+| Fuente de moléculas externas | IGC-SL #20 documenta Hines/BSL/MSL; MSL y SystemDynamics en CI #34 | Licencias/procedencia/adaptadores BSL-Hines **no auditados por pieza en P0** | Matriz origen–licencia–interfaz–verificación OMC, **gate P3**, no P1 |
+
 ## Tres límites confirmados por inspección de código
 
 1. **Red material limitada a cadena.** `composer.py:enumerate_material` y `check_graph` exigen sucesor físico único y camino `source → receipt`. Un split de clientes `atendidos + abandono` no se representa como bifurcación conservativa. El validador E0 impone grados análogos.
@@ -29,7 +72,9 @@ Tres mecanismos acoplables, sin cifras inventadas: **(A) llegadas y cola de pers
 
 **No se afirma que estas tres clases ya existan en Modelica.** Primero se definen contratos y pruebas de frontera; después P2 generaliza linter/IR y P3 admite moléculas ejecutables por verificación matemática/nativa.
 
-## Paquete mínimo de P1: un positivo y tres negativos
+## Paquete mínimo de P1: un positivo, tres negativos y una contraprueba semántica
+
+**Ficha de una página:** [`docs/IGC_P1_FICHA_LIMITES_v0_1.md`](IGC_P1_FICHA_LIMITES_v0_1.md). Los cuatro casos iniciales se conservan; se añade el **control de transferencia legítima POS-02** para evitar que `NEG-02` premie un rechazo indiscriminado. Ninguno supone que exista ya una política Modelica ejecutable. La crítica externa señaló además que un parámetro constante **no** prueba feedback `CONTROL`; esto es un gate propio.
 
 | ID | Caso | Resultado deseado; refutación de la ampliación |
 |---|---|---|
@@ -42,12 +87,23 @@ Tres mecanismos acoplables, sin cifras inventadas: **(A) llegadas y cola de pers
 
 ## Siguiente acción ÚNICA
 
-**Preparar la ficha P1 de límites, con los cuatro fixtures tipados y un paquete de crítica independiente sin gold; obtener la revisión antes de codificar P2/P3 ni abrir un PR nuevo.** Habilita una capacidad concreta: distinguir una **ramificación material legítima** de clonación y de coincidencia semántica falsa, conservando estados de insuficiencia.
+**Preparar y someter a revisión adversativa la ficha P1 de límites (cuatro fixtures originales + un positivo de transferencia emparejado), sin gold del mundo; resolver objeciones antes de codificar P2/P3 ni abrir un PR de código.** Habilita una capacidad concreta: distinguir una **ramificación material legítima** de clonación y de coincidencia semántica falsa, conservando estados de insuficiencia.
 
-**Costo/presupuesto:** una ficha de máximo una página, cuatro casos deterministas, ninguna llamada de LLM a Modelica, cero nuevas moléculas admitidas hasta superar el gate; reutilizar las CI E0/E1 como regresión. Revisión independiente adicional: una pasada adversativa, con objeciones localizadas y severidad. No hay aquí estimación monetaria verificada ni horas de desarrollo comprometidas.
+**Costo/presupuesto:** ficha P1 de una página; cuatro casos principales y un control semántico emparejado, ningún LLM generando Modelica, cero moléculas nuevas admitidas antes del gate; reutilizar las CI E0/E1 como regresión. Revisión independiente adicional: una pasada adversativa, con objeciones localizadas y severidad. No hay aquí estimación monetaria verificada ni horas de desarrollo comprometidas.
 
-**Puerta de salida:** revisor independiente examina los cuatro casos y propone al menos un contraejemplo propio; los requisitos quedan refinados sin fugas; los tests diseñados pueden fallar de verdad ante una regla actual demasiado estricta o demasiado laxa; se presenta al investigador una única modificación mínima de IR/linter que no rompa E0/E1. Si no aparece una nueva frontera falsable, **DETENER** sin codificar. **Revisión externa: PENDIENTE**; este documento no la simula.
+**Puerta de salida:** revisor independiente examina el paquete P1 sin gold y propone al menos un contraejemplo propio; los requisitos quedan refinados sin fugas; los tests diseñados pueden fallar de verdad ante una regla actual demasiado estricta o demasiado laxa; se presenta al investigador una única modificación mínima de IR/linter que no rompa E0/E1. Si no aparece una nueva frontera falsable, **DETENER** sin codificar. **Revisión externa: observaciones iniciales recibidas (O1–O4); cierre formal PENDIENTE**. No hay firma adversativa ni prueba ejecutada todavía.
 
 **Riesgos:** ampliar tipos sin semántica, confundir contrato declarativo con clase admitida, diseñar negativos tautológicos, mezclar políticas con flujos, evitar la abstención y abrir demasiado el catálogo. Mitigaciones: negativos no filtrados, procedencia, invariantes, no gold para revisora, controles de regresión.
 
-**Decisiones pendientes de aprobación:** aceptar v5.1 como rectora y cualquier posterior merge/cambio material de PR. Ninguno se ejecutó al elaborar este registro.
+## Hallazgos recibidos de revisión externa (sin cierre de gate)
+
+| Hallazgo | Severidad propuesta | Respuesta en diseño, no veredicto experimental |
+|---|---|---|
+| O1: `CONTROL` puede confundirse con parámetro estático | **Bloquea P2** | La ficha diferencia `SENSE → POLICY → CONTROL` dinámico de un `parameter maxThroughput`; exige rechazo `POLICY_UNIMPLEMENTED` cuando no hay política verificada. |
+| O2: solo rechazo semántico, sin transferencia válida | **Bloquea selección semántica P4** | Control emparejado POS-02 admite reutilización legítima de una molécula si preserva mecanismo y evidencia; no se decide por etiqueta sectorial. |
+| O3: custodio y aislamiento de gold sin asignar | **Bloquea campañas con mundos ocultos** | P1 usa veredictos esperados de *contrato* visibles y conserva cualquier mecanismo verdadero reservado fuera de revisora/constructor; el investigador designará custodio antes de ejecutar experimentos con gold. |
+| O4: presupuesto temporal sin parada | **Bloquea cierre de P1** | Máximo una ronda de revisión, una respuesta por hallazgo y **dos iteraciones de ficha**; si no se cierra, `BLOCKED` y elevar al investigador. No hay plazo de horas inventado. |
+
+**Pendientes P0:** matriz de licencia/procedencia por pieza Hines/BSL/MSL (**bloquea admisión P3**, no diseño P1); revisión externa formal y adjudicación de O1–O4 (**bloquea codificar P2**); aprobación del investigador de v5.1/D1–D7. La recepción de estas objeciones no equivale a auditoría completa ni a implementación.
+
+**Decisiones pendientes de aprobación:** v5.1 rectora, decisiones D1–D7, merge o cambios materiales de PR. **Ningún merge ni modificación experimental se ejecutó** al actualizar este registro. El PR #38 sigue siendo exclusivamente documental.
