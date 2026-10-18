@@ -127,6 +127,7 @@ def render_model(name,graph,cfg,classes):
 
 def build(cfg,classes,graphs,out):
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
+    (out/"results").mkdir(parents=True,exist_ok=True)
     prefix="B" if not cfg.get("new_classes") else "X"
     models=[]
     rows=[]
