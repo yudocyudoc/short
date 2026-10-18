@@ -186,6 +186,32 @@ def validate_graph(graph, catalog):
     if roles["report"] == 0 and taps:
         issues.append("UNNECESSARY_TAP")
     # Verify that the rate signal comes from the same physical flow received at the terminal.
+    # Degree constraints alone allow a disconnected, perfectly typed transit cycle.
+    # The material path must be one connected source-to-receipt chain.
+    material_next = {}
+    for link in links:
+        if link.get("adapter") is not None:
+            continue
+        try:
+            src, outport = link["from"].split(".")
+            dst, inport = link["to"].split(".")
+            if src in imap and dst in imap:
+                typ, _ = port_type(imap[src], outport, entries)
+                dsttyp, _ = port_type(imap[dst], inport, entries)
+                if typ.startswith("FLOW<") and typ == dsttyp:
+                    material_next[src] = dst
+        except (ValueError, KeyError, AttributeError):
+            continue
+    source = next((i["id"] for i in instances if i.get("role") == "source"), None)
+    receipt = next((i["id"] for i in instances if i.get("role") == "receipt"), None)
+    cursor = source
+    visited = set()
+    while cursor is not None and cursor not in visited:
+        visited.add(cursor)
+        cursor = material_next.get(cursor)
+    expected = {i["id"] for i in instances if i.get("role") != "report"}
+    if visited != expected or receipt not in visited or cursor is not None:
+        issues.append("PHYSICAL_PATH_NOT_CONNECTED")
     if taps:
         receipt_id = next((i["id"] for i in instances if i.get("role") == "receipt"), None)
         terminal_sources = {l["from"].split(".")[0] for l in links
