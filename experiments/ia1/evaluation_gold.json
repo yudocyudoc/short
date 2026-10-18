@@ -1,0 +1,136 @@
+{
+  "version": "ia1-v1",
+  "judgments": [
+    {
+      "id": "I01",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I02",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "SUPPORTED",
+      "primary_anchors": [
+        "F2",
+        "F3"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I03",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "SUPPORTED",
+      "primary_anchors": [
+        "F1",
+        "F3"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I04",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I05",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I06",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I07",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I08",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "SUPPORTED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I09",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I10",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I11",
+      "physical_post_dispatch_evidence": "SUPPORTED",
+      "informational_transform_evidence": "UNRESOLVED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    },
+    {
+      "id": "I12",
+      "physical_post_dispatch_evidence": "UNRESOLVED",
+      "informational_transform_evidence": "SUPPORTED",
+      "primary_anchors": [
+        "F1",
+        "F2"
+      ],
+      "structural_truth": "NOT_IDENTIFIABLE_FROM_TEXT",
+      "no_unique_topology": true,
+      "rubric_note": "Evidence for a mechanism family, not proof of a unique molecular graph nor proof of first-order parameters."
+    }
+  ]
+}
