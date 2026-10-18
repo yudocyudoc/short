@@ -99,8 +99,7 @@ def generate(dest):
         script.append("checkModel(X1Alternatives."+name+");")
         script.append('simulate(X1Alternatives.'+name+
             ',startTime=0,stopTime=8,numberOfIntervals=160,method="dassl",'+
-            'tolerance=1e-8,outputFormat="csv",fileNamePrefix="generated/results/'+name+'",'+
-            'simflags="-override probe=4");')
+            'tolerance=1e-8,outputFormat="csv",fileNamePrefix="generated/results/'+name+'");')
     script.append('getErrorString();')
     (dest/"run.mos").write_text("\n".join(script)+"\n",encoding="utf-8")
     (dest/"registry_generated.json").write_text(json.dumps(registry,indent=2)+"\n")
