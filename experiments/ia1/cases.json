@@ -1,0 +1,221 @@
+{
+  "version": "ia1-v1",
+  "cases": [
+    {
+      "id": "I01",
+      "context": "La operación prepara pedidos y luego los despacha a clientes. El equipo compara eventos operativos que sí se registran separadamente.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El registro del despacho marca la salida del almacén central."
+        },
+        {
+          "id": "F2",
+          "text": "En revisiones físicas se contaron unidades que habían salido de allí pero todavía no habían llegado al receptor."
+        },
+        {
+          "id": "F3",
+          "text": "El sistema de entregas registra la recepción en el destino, no solamente la salida."
+        }
+      ]
+    },
+    {
+      "id": "I02",
+      "context": "Una operación tiene un flujo de solicitudes y un panel para informar entregas.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "El muelle registra por separado la recepción física por hora."
+        },
+        {
+          "id": "F2",
+          "text": "Al contrastar ambos registros, el panel sigue variando suavemente incluso en horas en que el muelle tiene saltos bruscos."
+        },
+        {
+          "id": "F3",
+          "text": "El equipo que mantiene el panel documenta un promedio móvil de tasas antes de publicarlas."
+        }
+      ]
+    },
+    {
+      "id": "I03",
+      "context": "Los responsables quieren explicar diferencias entre despacho, recepción real y un indicador público.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Se han contado paquetes físicamente pendientes de recibir después del registro de su salida."
+        },
+        {
+          "id": "F2",
+          "text": "Los tiempos de recepción en destino se capturan por un sistema separado."
+        },
+        {
+          "id": "F3",
+          "text": "El indicador del tablero aplica una media temporal a esos tiempos antes de presentar una tasa por hora."
+        }
+      ]
+    },
+    {
+      "id": "I04",
+      "context": "Sólo se conservó un reporte consolidado por hora de las operaciones.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Se conoce cuándo se autorizaron salidas del centro."
+        },
+        {
+          "id": "F2",
+          "text": "El tablero marca entregas más tarde que las autorizaciones de salida."
+        },
+        {
+          "id": "F3",
+          "text": "No se cuenta con medición independiente de recepción física ni de material pendiente de recibir."
+        }
+      ]
+    },
+    {
+      "id": "I05",
+      "context": "Se busca comprender una variación en la operación sin confundir preparación y recepción en destino.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Los pedidos listos para preparar se acumulan dentro del centro antes de que se registren salidas."
+        },
+        {
+          "id": "F2",
+          "text": "No se registran existencias posteriores al despacho ni el instante físico de llegada al cliente."
+        },
+        {
+          "id": "F3",
+          "text": "El indicador de entregas es un extracto agregado; no se conoce su transformación."
+        }
+      ]
+    },
+    {
+      "id": "I06",
+      "context": "Hay dos fuentes de observación de un proceso de distribución.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Cuando se detuvieron por completo los despachos, aún hubo recepciones físicas de unidades previamente expedidas."
+        },
+        {
+          "id": "F2",
+          "text": "Las recepciones son eventos comprobados mediante actas firmadas en destino."
+        },
+        {
+          "id": "F3",
+          "text": "No se ha descrito el algoritmo del tablero informativo."
+        }
+      ]
+    },
+    {
+      "id": "I07",
+      "context": "La gerencia compara capacidad operativa y recepción física.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Durante un incremento sostenido de despachos, se acumularon unidades expedidas todavía no recibidas."
+        },
+        {
+          "id": "F2",
+          "text": "La recepción física no superó el máximo operativo de un paso posterior al despacho; se contabilizó stock pendiente."
+        },
+        {
+          "id": "F3",
+          "text": "No hay auditoría de la forma en que el tablero calcula su tasa."
+        }
+      ]
+    },
+    {
+      "id": "I08",
+      "context": "El área de datos revisa una discrepancia temporal.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Hay escaneos independientes de recepción física en el punto de destino."
+        },
+        {
+          "id": "F2",
+          "text": "El tablero recibe esos escaneos, pero el proveedor confirma que antes de mostrar la tasa la suaviza con un ajuste temporal."
+        },
+        {
+          "id": "F3",
+          "text": "No se midieron saldos materiales luego del despacho de origen."
+        }
+      ]
+    },
+    {
+      "id": "I09",
+      "context": "Se revisó una semana con una interrupción operativa y errores de comunicación.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La bitácora A afirma que una unidad se recibió a las 10:00; la bitácora B afirma que nunca llegó."
+        },
+        {
+          "id": "F2",
+          "text": "Ambas fuentes figuran como oficiales; su discrepancia no ha sido resuelta."
+        },
+        {
+          "id": "F3",
+          "text": "Hay un solo indicador de entregas, sin conocer su fórmula ni la cantidad en ruta."
+        }
+      ]
+    },
+    {
+      "id": "I10",
+      "context": "Una operación desea explicar su comportamiento dinámico.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Únicamente se conserva el total acumulado de entregas al cierre de cada jornada."
+        },
+        {
+          "id": "F2",
+          "text": "No se conservaron tiempos de despacho, recepción o actualización del indicador."
+        },
+        {
+          "id": "F3",
+          "text": "Una diferencia de totales entre días no indica por sí misma el mecanismo que la produjo."
+        }
+      ]
+    },
+    {
+      "id": "I11",
+      "context": "La organización tiene mediciones físicas, pero no un registro de la lógica informacional.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "Al final de cada turno se pesa lo ya despachado y aún ubicado físicamente dentro de vehículos."
+        },
+        {
+          "id": "F2",
+          "text": "Se confirma que esas unidades se reciben físicamente en el siguiente turno."
+        },
+        {
+          "id": "F3",
+          "text": "El indicador del panel sólo se exporta al final del día, sin detalle de su cálculo."
+        }
+      ]
+    },
+    {
+      "id": "I12",
+      "context": "Dos registros de las mismas entregas se revisaron ante una anomalía.",
+      "facts": [
+        {
+          "id": "F1",
+          "text": "La tasa de recepción física se registra en el muelle de destino."
+        },
+        {
+          "id": "F2",
+          "text": "El indicador para dirección muestra un promedio ponderado de recepciones anteriores, aplicado por software."
+        },
+        {
+          "id": "F3",
+          "text": "Los datos disponibles no indican si hubo material acumulado físicamente después del despacho."
+        }
+      ]
+    }
+  ]
+}
