@@ -7,12 +7,10 @@ on:
       - 'experiments/e0/**'
       - 'src/modelica/**'
       - '.github/workflows/igc-v3-e0.yml'
-  push:
-    branches: [experiment/igc-v3-e0-contract-v1]
-    paths:
-      - 'experiments/e0/**'
-      - 'src/modelica/**'
-      - '.github/workflows/igc-v3-e0.yml'
+
+concurrency:
+  group: igc-v3-e0-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
