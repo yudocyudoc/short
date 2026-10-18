@@ -1,0 +1,69 @@
+name: IGC v3 E1 — registry-swap molecular composition
+
+on:
+  pull_request:
+    branches: [experiment/igc-v3-e0-contract-v1]
+    paths:
+      - 'experiments/e1/**'
+      - '.github/workflows/igc-v3-e1.yml'
+      - 'experiments/e0/catalog.json'
+
+concurrency:
+  group: igc-v3-e1-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  register-and-compose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate registries and new graphs, including negative controls
+        run: |
+          python -m unittest discover -s experiments/e1 -p 'test_*.py' -v
+          python experiments/e1/composer.py --registry experiments/e1/registry.base.json --out experiments/e1/generated/base_ast.json
+          python experiments/e1/composer.py --registry experiments/e1/registry.extended.json --out experiments/e1/generated/extended_ast.json
+      - name: Generate Modelica using the same backend without scenario-specific templates
+        run: |
+          python experiments/e1/backend.py --registry experiments/e1/registry.base.json --out experiments/e1/generated/base
+          python experiments/e1/backend.py --registry experiments/e1/registry.extended.json --out experiments/e1/generated/extended
+      - name: Install verified Modelica packages
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/e1-home" "$RUNNER_TEMP/e1-libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/e1-libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/e1-libs/systemdynamics"
+      - name: Compile and run independently generated candidates in OpenModelica
+        working-directory: experiments/e1
+        run: |
+          for variant in base extended; do
+            docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/e1 \
+              -v "$RUNNER_TEMP/e1-home:/omhome" -e HOME=/omhome \
+              -v "$RUNNER_TEMP/e1-libs:/thirdparty:ro" \
+              -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+              openmodelica/openmodelica:v1.26.5-minimal omc generated/"$variant"/run.mos | tee generated/"$variant"/omc.log
+          done
+          python verify_native.py --root generated --out generated/real_results.json
+      - name: Preserve original Modelica and numeric audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-v3-e1-compiler-evidence
+          path: |
+            experiments/e1/generated/real_results.json
+            experiments/e1/generated/base/models.json
+            experiments/e1/generated/extended/models.json
+            experiments/e1/generated/base/IGCE1Generated.mo
+            experiments/e1/generated/extended/IGCE1Generated.mo
+            experiments/e1/generated/base/omc.log
+            experiments/e1/generated/extended/omc.log
+          retention-days: 90
+          if-no-files-found: warn
