@@ -60,6 +60,36 @@ def classify(result,error_bound):
     return "UNRESOLVED_WITHIN_OPERATIONAL_BOUND"
 
 
+def assess_cross_parameter(index,left,right,caps,probes,fields,bound):
+    """A structure is not refuted when *some other allowed parameters* fit."""
+    combinations=[]
+    for left_cap in caps:
+        for right_cap in caps:
+            by_probe={}
+            for stimulus in probes:
+                delta=compare(index[left,left_cap,stimulus],
+                              index[right,right_cap,stimulus],fields)
+                by_probe[stimulus]=delta["max_abs_difference"]
+            combinations.append({
+                "left_cap":left_cap,"right_cap":right_cap,
+                "max_difference_over_menu":max(by_probe.values()),
+                "status":"SEPARABLE_ON_MENU" if max(by_probe.values())>bound
+                         else "UNRESOLVED_ON_MENU",
+                "probe_max_differences":by_probe
+            })
+    all_separated=all(x["status"]=="SEPARABLE_ON_MENU" for x in combinations)
+    robust_probes=[probe for probe in probes
+                   if all(x["probe_max_differences"][probe]>bound for x in combinations)]
+    return {
+        "cross_parameter_grid_combinations":len(combinations),
+        "status":"SEPARABLE_FOR_ALL_GRID_COMBINATIONS" if all_separated
+                 else "UNRESOLVED_PARAMETER_COMPENSATION",
+        "robust_single_probes":robust_probes,
+        "combinations":combinations,
+        "note":"Finite P0 grid ONLY. This cannot exclude continuous parameter compensation."
+    }
+
+
 def run(folder,protocol):
     cases=json.loads((folder.parent/"cases.json").read_text(encoding="utf-8"))
     profiles=protocol["observation_profiles"]
@@ -92,36 +122,13 @@ def run(folder,protocol):
     # Cross every left/right parameter setting. A single unresolved combination
     # prevents a claim that the pair is robustly separable under the P0 grid.
     robust=[]
+    caps=protocol["parameter_policy"]["transit_capacity_per_h"]
+    probes=[q["id"] for q in protocol["interventions"]]
     for profile_name,profile in profiles.items():
         for left,right in pairs:
-            combinations=[]
-            caps=protocol["parameter_policy"]["transit_capacity_per_h"]
-            for left_cap in caps:
-                for right_cap in caps:
-                    by_probe={}
-                    for stimulus in (q["id"] for q in protocol["interventions"]):
-                        delta=compare(index[left,left_cap,stimulus],
-                                      index[right,right_cap,stimulus],profile["visible"])
-                        by_probe[stimulus]=delta["max_abs_difference"]
-                    combinations.append({
-                        "left_cap":left_cap,"right_cap":right_cap,
-                        "max_difference_over_menu":max(by_probe.values()),
-                        "status":"SEPARABLE_ON_MENU" if max(by_probe.values())>bound
-                                 else "UNRESOLVED_ON_MENU",
-                        "probe_max_differences":by_probe
-                    })
-            all_separated=all(x["status"]=="SEPARABLE_ON_MENU" for x in combinations)
-            robust_probes=[probe for probe in (q["id"] for q in protocol["interventions"])
-                           if all(x["probe_max_differences"][probe]>bound for x in combinations)]
-            robust.append({
-                "pair":[left,right],"profile":profile_name,
-                "cross_parameter_grid_combinations":len(combinations),
-                "status":"SEPARABLE_FOR_ALL_GRID_COMBINATIONS" if all_separated
-                         else "UNRESOLVED_PARAMETER_COMPENSATION",
-                "robust_single_probes":robust_probes,
-                "combinations":combinations,
-                "note":"Finite P0 parameter grid ONLY. This cannot exclude continuous parameter compensation."
-            })
+            robust.append({"pair":[left,right],"profile":profile_name,
+                           **assess_cross_parameter(index,left,right,caps,probes,
+                                                    profile["visible"],bound)})
     # Independent regression: filter must not alter any physical trace in paired variants.
     max_physical=0
     for c in protocol["parameter_policy"]["transit_capacity_per_h"]:
