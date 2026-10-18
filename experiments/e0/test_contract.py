@@ -92,6 +92,14 @@ class E0ContractTests(unittest.TestCase):
         g["links"].append(copy.deepcopy(g["links"][0]))
         self.assertIn("DUPLICATE_LINK",e0.validate_graph(g,CATALOG))
 
+    def test_rejects_disconnected_typed_material_cycle(self):
+        g=graph(2)
+        # Source→prep→dispatch→receipt looks fine, but transits form a closed
+        # disconnected cycle. Every port has legal types and degrees.
+        g["links"][-3]["to"]="receipt.arrival"  # dispatch → receipt
+        g["links"][-1]["to"]="transit0.arrival"  # transit1 → transit0
+        self.assertIn("PHYSICAL_PATH_NOT_CONNECTED",e0.validate_graph(g,CATALOG))
+
     def test_gold_not_revealed_in_description(self):
         p=copy.deepcopy(PROTOCOL)
         p["neutral_description"]="Hay dos colas y un filtro."
