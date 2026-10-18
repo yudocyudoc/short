@@ -4,7 +4,7 @@
 
 | Variable | Contrato |
 |---|---|
-| Población | 12 viñetas operativas originales, redactadas por el equipo; no son documentos independientes ni datos de empresas |
+| Población | 18 viñetas operativas originales, redactadas por el equipo; no son documentos independientes ni datos de empresas |
 | Entradas para IA y baseline | Contexto + 3 hechos con IDs F1–F3; contrato público de roles/puertos de E1; ni gold, ni mapa de mundos, ni lista de arquitecturas correctas |
 | Lo que debe separar | Evidencia física **después del despacho**; transformación de la tasa informacional; insuficiencia de observación y contradicción |
 | Lo que **NO** debe inferir | Cantidad exacta de etapas, ecuaciones, parámetros verdaderos, causalidad única, mundo oculto, equivalencia dinámica |
@@ -15,10 +15,10 @@
 | Penalizaciones | Cita inexistente, apoyo sin hecho, estructura de respuesta alterada, AST inválido, atribuir certeza topológica, no declarar incertidumbre |
 | Gold | Archivo separado del prompt (`evaluation_gold.json`); **no constituye juicio humano independiente ni oráculo**. El LLM sólo recibe texto de hechos y registro |
 | Medidas | `n`, `strict_admitted`, `valid_ast`, `strict_physical`, `strict_information`, `strict_both_evidence`, todos separados |
-| Comparación justa | Mismos 12 hechos y decisiones de referencia para ambos brazos; baseline no obtiene crédito por compilar su AST fijo como causalidad identificada |
+| Comparación justa | Mismos 18 casos y decisiones de referencia para ambos brazos; baseline no obtiene crédito por compilar su AST fijo como causalidad identificada |
 | Gate de factibilidad | Al menos una construcción AST IA válida, con justificación respaldada y sin afirmación de unicidad; informar todos los rechazos y el baseline |
 | Interpretación permitida | Demostración descriptiva acotada de capacidad I1/I2 en ejemplos de autores; NO superioridad estadística ni recuperación verdadera de mecanismos |
-| Interpretación prohibida | “La IA descubrió el modelo real”, “Llama valida/no valida toda la IA”, “El registro contiene la respuesta”, “12 variaciones son pruebas independientes de generalización” |
+| Interpretación prohibida | “La IA descubrió el modelo real”, “Llama valida/no valida toda la IA”, “El registro contiene la respuesta”, “18 variaciones son pruebas independientes de generalización” |
 
 ## Límite central
 
@@ -39,3 +39,7 @@ La puntuación de los autores no debe transformarse en prueba adversativa indepe
 ## Decisión posterior
 
 Si las respuestas muestran potencial en I1/I2, preparar comparación en las mismas condiciones con un modelo más capaz, previa autorización/acceso disponible; si Llama fracasa, reportarlo sin cancelar exploración IA. No incorporar nuevos mecanismos ni ruido para rescatar puntuación. El siguiente experimento causal E2 sólo se abrirá cuando el mundo sellado y el contraste independiente estén listos.
+
+## Enmienda preregistrada v2, antes de la primera llamada a Llama
+
+La prueba mecánica previa (sin IA) produjo **12/12 clasificaciones correctas** con la colección inicial. Este resultado reveló un techo determinado por palabras clave y un experimento incapaz de detectar ventaja semántica. Antes de ejecutar cualquier inferencia Llama se añadieron **seis viñetas adversariales I13–I18**: negación de un supuesto, reclasificación física por auditoría, evidencia positiva sin palabras clave, y conflicto entre afirmación y confirmación. Se conserva el precedente 12/12 y se congela la nueva población de 18 casos sin modificar la respuesta del modelo en función de resultados posteriores. El nuevo conjunto sigue siendo sintético, redactado por autores y no ciego externamente.
