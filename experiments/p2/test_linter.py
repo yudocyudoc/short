@@ -105,6 +105,16 @@ class P2Tests(unittest.TestCase):
         r=linter.lint(g,REG)
         self.assertIn("BAD_ADAPTER",codes(r))
 
+    def test_flow_cannot_use_stock_sensor_adapter(self):
+        g=branched()
+        g["instances"].append(n("policy","feedback-policy"))
+        # A rate cannot enter a state sensor with a reused stock adapter.
+        g["relations"].append(link("waiting.out_a","policy.observed",
+                                   "SENSE","readonly-stock-observation"))
+        result=linter.lint(g,REG)
+        self.assertIn("BAD_ADAPTER",codes(result))
+        self.assertFalse(result["executable"])
+
     def test_sense_never_transfers_material(self):
         g=branched()
         g["relations"][1]["kind"]="SENSE"
