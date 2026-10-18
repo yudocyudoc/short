@@ -1,0 +1,40 @@
+{
+  "version": "igc-v3/ia1.2",
+  "scenario_population": "Author-written Spanish operational vignettes; not independent real-world evidence and not selected from hidden Modelica worlds.",
+  "task": "I1 evidence classification and I2 structurally valid candidate hypothesis with cited facts; no unique-world identification claim.",
+  "output_schema": {
+    "case_id": "I01",
+    "physical_post_dispatch": {
+      "status": "SUPPORTED|UNRESOLVED",
+      "fact_ids": [
+        "F2"
+      ]
+    },
+    "informational_transform": {
+      "status": "SUPPORTED|UNRESOLVED",
+      "fact_ids": []
+    },
+    "architecture": {
+      "instances": "array of typed E1 AST objects",
+      "links": "array of typed E1 AST edges"
+    },
+    "unresolved": [
+      "string"
+    ],
+    "topology_claim": "HYPOTHESIS_NOT_IDENTIFIED"
+  },
+  "constraints": {
+    "temperature": 0,
+    "max_output_tokens": 2600,
+    "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "one_call_per_case": true,
+    "max_cases": 18,
+    "baseline": "lexical rules fixed before calls",
+    "backend": "E1 check_graph and render_model; no parameter re-fitting",
+    "observables": "facts only; no numeric time series or true structure",
+    "score": "strict schema+valid AST; evidence statuses per case vs author-coded rubric; anti-overclaim abstention",
+    "limitations": "18 author-written scenarios, not independently blind; amended after deterministic pretest but before any Llama call. Small correlated sample; no statistical claim.",
+    "llm_calls_planned": 18,
+    "design_amendment": "V2 BEFORE first Llama call: lexical baseline was 12/12 on original 12 vignettes; added 6 contrast/negation/indirect-language cases so the comparator could genuinely fail. Original pretest is retained in discussion."
+  }
+}
