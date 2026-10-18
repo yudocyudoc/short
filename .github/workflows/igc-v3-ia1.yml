@@ -36,7 +36,7 @@ jobs:
       - name: Compile the lexical/no-LLM baseline and freeze Llama requests
         run: |
           python experiments/ia1/run.py --prepare-only --out experiments/ia1/output/prepared
-      - name: One authorized set of twelve real Llama 3.3 70B calls
+      - name: One authorized set of eighteen real Llama 3.3 70B calls
         if: >-
           github.event_name == 'push' &&
           github.event.head_commit.message == 'run(igc): execute one-shot IA1 Llama comparison'
