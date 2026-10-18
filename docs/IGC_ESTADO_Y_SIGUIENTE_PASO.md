@@ -100,13 +100,11 @@ Tres mecanismos acoplables, sin cifras inventadas: **(A) llegadas y cola de pers
 
 **Auditar por una segunda IA el código P2 en su estado actual y preparar un contraejemplo de conservación dinámica que el IR estructural acepte, sin crear aún una política Modelica no verificada.** Habilita una capacidad concreta: distinguir una **ramificación material legítima** de clonación y de coincidencia semántica falsa, conservando estados de insuficiencia.
 
-**Costo/presupuesto:** ficha P1 de una página; cuatro casos principales y un control semántico emparejado, ningún LLM generando Modelica, cero moléculas nuevas admitidas antes del gate; reutilizar las CI E0/E1 como regresión. Revisión independiente adicional: una pasada adversativa, con objeciones localizadas y severidad. No hay aquí estimación monetaria verificada ni horas de desarrollo comprometidas.
+**Presupuesto de esta acción:** una revisión independiente del código P2 actual, sin datos de mundo oculto; al menos un caso nuevo sobre conservación/feedback; máximo una ronda de corrección y dos iteraciones documentales. Si no se encuentra evidencia reproducible, registrar `INCONCLUSIVE`, no inventar un PASS.
 
-**Puerta de salida:** revisor independiente examina el paquete P1 sin gold y propone al menos un contraejemplo propio; los requisitos quedan refinados sin fugas; los tests diseñados pueden fallar de verdad ante una regla actual demasiado estricta o demasiado laxa; se presenta al investigador una única modificación mínima de IR/linter que no rompa E0/E1. Si no aparece una nueva frontera falsable, **DETENER** sin codificar. **Revisión externa: observaciones iniciales recibidas (O1–O4); cierre formal PENDIENTE**. No hay firma adversativa ni prueba ejecutada todavía.
+**Puerta de salida:** revisión con ruta/línea, severidad y contraejemplo propio; regresiones E1/P1/P2 verdes; conservar `executable:false` hasta verificar Modelica y política real. **La revisión de diseño P1 está cerrada con reservas; la revisión de implementación P2 no está cerrada.**
 
-**Riesgos:** ampliar tipos sin semántica, confundir contrato declarativo con clase admitida, diseñar negativos tautológicos, mezclar políticas con flujos, evitar la abstención y abrir demasiado el catálogo. Mitigaciones: negativos no filtrados, procedencia, invariantes, no gold para revisora, controles de regresión.
-
-## Hallazgos recibidos de revisión externa (sin cierre de gate)
+## Hallazgos de revisión P0/P1 ya adjudicados para avanzar a pruebas
 
 | Hallazgo | Severidad propuesta | Respuesta en diseño, no veredicto experimental |
 |---|---|---|
@@ -115,6 +113,6 @@ Tres mecanismos acoplables, sin cifras inventadas: **(A) llegadas y cola de pers
 | O3: custodio y aislamiento de gold sin asignar | **Bloquea campañas con mundos ocultos** | P1 usa veredictos esperados de *contrato* visibles y conserva cualquier mecanismo verdadero reservado fuera de revisora/constructor; el investigador designará custodio antes de ejecutar experimentos con gold. |
 | O4: presupuesto temporal sin parada | **Bloquea cierre de P1** | Máximo una ronda de revisión, una respuesta por hallazgo y **dos iteraciones de ficha**; si no se cierra, `BLOCKED` y elevar al investigador. No hay plazo de horas inventado. |
 
-**Pendientes P0:** matriz de licencia/procedencia por pieza Hines/BSL/MSL (**bloquea admisión P3**, no diseño P1); revisión externa formal y adjudicación de O1–O4 (**bloquea codificar P2**); aprobación del investigador de v5.1/D1–D7. La recepción de estas objeciones no equivale a auditoría completa ni a implementación.
+**Pendientes de progresión:** licencias/procedencia por pieza Hines/BSL/MSL (**bloquea admisión P3**), revisión independiente del código P2 (**bloquea considerar P2 terminado**) y aprobación formal de v5.1/D1–D7. Las objeciones O1–O4 ya se adjudicaron para diseño P1; no certifican el código nuevo.
 
-**Decisiones pendientes de aprobación:** v5.1 rectora, decisiones D1–D7, merge o cambios materiales de PR. **Ningún merge ni modificación experimental se ejecutó** al actualizar este registro. El PR #38 sigue siendo exclusivamente documental.
+**Decisiones pendientes de aprobación:** v5.1 rectora, decisiones D1–D7 y cualquier merge. Se abrieron ramas experimentales separadas #39 y #40, **sin fusionarlas**; el PR #38 sigue siendo exclusivamente documental.
