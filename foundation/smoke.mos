@@ -1,0 +1,11 @@
+getVersion();
+loadModel(Modelica, {"4.0.0"});
+loadModel(SystemDynamics, {"2.1.2"});
+loadFile("../src/modelica/IGCMolecules.mo");
+loadFile("../src/modelica/IGCInformationMolecules.mo");
+loadFile("IGCV3FoundationSmoke.mo");
+checkModel(IGCV3FoundationSmoke.Direct);
+checkModel(IGCV3FoundationSmoke.Filtered);
+simulate(IGCV3FoundationSmoke.Direct, startTime=0, stopTime=8, numberOfIntervals=64, method="euler", outputFormat="csv", fileNamePrefix="direct");
+simulate(IGCV3FoundationSmoke.Filtered, startTime=0, stopTime=8, numberOfIntervals=64, method="euler", outputFormat="csv", fileNamePrefix="filtered");
+getErrorString();
