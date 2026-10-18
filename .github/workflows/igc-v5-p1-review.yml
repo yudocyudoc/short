@@ -1,0 +1,31 @@
+name: IGC v5.1 P1 — independent critique
+on:
+  push:
+    branches: [experiment/igc-v5-p1-limit-probes-v1]
+permissions:
+  contents: read
+jobs:
+  review:
+    if: github.event.head_commit.message == 'run(p1): independent adversarial review once'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Second AI reviewer with P1 descriptions but no expected labels or gold
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/p1/independent_review.py
+      - name: Preserve exact reviewer response and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-v5-p1-review-original
+          path: experiments/p1/audit_output/
+          retention-days: 90
+          if-no-files-found: warn
