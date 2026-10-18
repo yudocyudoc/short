@@ -44,6 +44,18 @@ class X1Tests(unittest.TestCase):
         x=toy()
         self.assertEqual(participants.matching(x,"inspect_dashboard",4),list(x))
         self.assertEqual(participants.action_for(x,participants.matching(x,"inspect_dashboard",4)),"abstain")
+    def test_cloudflare_provider_response_choices_fallback(self):
+        cloudflare={"success":True,"result":{
+            "response":None,
+            "choices":[{"message":{"content":'{"probe":null,"reason":"no","uncertainty":"unknown"}'}}]
+        }}
+        self.assertEqual(participants.extract_provider_content(cloudflare),
+                         '{"probe":null,"reason":"no","uncertainty":"unknown"}')
+        self.assertEqual(participants.extract_provider_content(
+            {"success":True,"result":{"response":"TEXT"}}),"TEXT")
+        with self.assertRaisesRegex(ValueError,"MISSING_PROVIDER_TEXT"):
+            participants.extract_provider_content({"success":True,"result":{"response":None}})
+
     def test_evaluator_truth_is_not_imported_into_participant(self):
         code=inspect.getsource(participants)
         self.assertNotIn("private_truth.json",code)
