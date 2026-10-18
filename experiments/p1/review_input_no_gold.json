@@ -1,0 +1,42 @@
+{
+  "schema": "igc/p1/adversarial_review_input-v1",
+  "origin": "Prepared by implementer; independent reviewer must invent at least one new counterexample.",
+  "question": "Is the P1 proposed test package sufficient to expose real limitations of the current E1 chain composer before implementing a network linter? Challenge construct validity, false positives and false negatives.",
+  "current_implementation": {
+    "material_topology": "E1 composer.py uses source-to-receipt material chain, one material successor per source and one incoming per receiver; no native split/merge in registered base.",
+    "information_topology": "Information path from receipt tap is a linear SIGNAL path; dynamic CONTROL mechanism is not implemented.",
+    "catalog": "AcceptedSource, BoundedQueue, DeliveryCounter, FirstOrderReportFilter; same registered molecular class for preparation/dispatch/transit with roles; declarative type and parameter bounds.",
+    "execution": "E1 backend generates Modelica for candidate chains and fixed pulse/step/ramp/high-pulse stimuli, no general network policies.",
+    "semantic_evidence": "No machine-checked support/hypothesis bindings per instance or link."
+  },
+  "sketches": [
+    {
+      "id": "Q1",
+      "description": "Customers arrive to a single waiting stock; service and walk-away are distinct possible outputs. A recorded departure count exists, but the actual abandonment policy/rate law is unspecified."
+    },
+    {
+      "id": "Q2",
+      "description": "One measured incoming customer flow is sent unchanged to both a service output and a walk-away output; no split policy or other source is declared."
+    },
+    {
+      "id": "Q3",
+      "description": "A disease-spread/adoption module with interface dimensions customers/hour is proposed as explanation for walk-away, without any interaction evidence."
+    },
+    {
+      "id": "Q4",
+      "description": "Waiting is said to decrease service or increase walk-away, with no registered policy, parameters or proven control input."
+    },
+    {
+      "id": "Q5",
+      "description": "A domain-generic reservoir/output-limit module originally used for orders is proposed for customer count when its semantic contract can conserve individual customers; a physical adapter has not been verified."
+    }
+  ],
+  "constraints": [
+    "No author/model assigned as executable graph constructor.",
+    "Distinguish preserving ability to express a hypothesis vs actual numerical execution.",
+    "No candidate's true world or numerical answer exists or is provided.",
+    "Do not invent a positive implementation capability merely because paper grammar names it.",
+    "No changes to roadmap or catalog in this review."
+  ],
+  "requested_output": "Return Spanish detailed JSON with findings array fields id,severity BLOCKS_P1|BLOCKS_P2|NON_BLOCKING,source,problem,falsifying_case,requested_fix; also at least one independent NEW counterexample outside Q1-Q5, and overall CONTINUE_P1|REPAIR_BRIEF|STOP."
+}
