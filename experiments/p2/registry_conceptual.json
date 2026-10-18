@@ -1,0 +1,157 @@
+{
+  "schema": "igc-sl/p2.0",
+  "warning": "Conceptual IR registry for tests only. NO new OpenModelica molecules admitted. This cannot certify numerical execution or causal truth.",
+  "units": [
+    "entity/hour",
+    "entity",
+    "dimensionless"
+  ],
+  "classes": {
+    "boundary-source": {
+      "kind": "boundary_source",
+      "maturity": "CONTRACT_ONLY",
+      "supported_capabilities": [
+        "EXOGENOUS_ARRIVAL"
+      ],
+      "ports": [
+        {
+          "name": "out",
+          "direction": "out",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        }
+      ]
+    },
+    "conserved-stock": {
+      "kind": "stock",
+      "maturity": "CONTRACT_ONLY",
+      "origin_domain": "orders",
+      "semantic_transfer": "GENERIC_CONSERVED_ENTITY",
+      "supported_capabilities": [
+        "WAITING_STOCK",
+        "INVENTORY_STOCK"
+      ],
+      "balance": {
+        "in": [
+          "in"
+        ],
+        "out": [
+          "out_a",
+          "out_b"
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "direction": "in",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        },
+        {
+          "name": "out_a",
+          "direction": "out",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        },
+        {
+          "name": "out_b",
+          "direction": "out",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        },
+        {
+          "name": "level",
+          "direction": "out",
+          "kind": "STOCK",
+          "entity": "$T",
+          "unit": "entity"
+        }
+      ]
+    },
+    "boundary-sink": {
+      "kind": "boundary_sink",
+      "maturity": "CONTRACT_ONLY",
+      "supported_capabilities": [
+        "CONSERVATIVE_EXIT"
+      ],
+      "ports": [
+        {
+          "name": "in",
+          "direction": "in",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        }
+      ]
+    },
+    "contact-contagion": {
+      "kind": "flow_transform",
+      "maturity": "CANDIDATE",
+      "origin_domain": "epidemiology",
+      "supported_capabilities": [
+        "INTERPERSONAL_CONTACT_TRANSMISSION"
+      ],
+      "ports": [
+        {
+          "name": "in",
+          "direction": "in",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        },
+        {
+          "name": "out",
+          "direction": "out",
+          "kind": "FLOW",
+          "entity": "$T",
+          "unit": "entity/hour"
+        }
+      ]
+    },
+    "feedback-policy": {
+      "kind": "policy",
+      "maturity": "CONTRACT_ONLY",
+      "policy_native_verified": false,
+      "supported_capabilities": [
+        "CAPACITY_ADJUSTMENT"
+      ],
+      "ports": [
+        {
+          "name": "observed",
+          "direction": "in",
+          "kind": "SIGNAL",
+          "entity": "$T",
+          "unit": "entity"
+        },
+        {
+          "name": "command",
+          "direction": "out",
+          "kind": "CONTROL",
+          "entity": "$T",
+          "unit": "entity/hour"
+        }
+      ]
+    },
+    "capacity-actuator": {
+      "kind": "actuator",
+      "maturity": "CONTRACT_ONLY",
+      "policy_native_verified": false,
+      "supported_capabilities": [
+        "CAPACITY_ADJUSTMENT"
+      ],
+      "ports": [
+        {
+          "name": "command",
+          "direction": "in",
+          "kind": "CONTROL",
+          "entity": "$T",
+          "unit": "entity/hour"
+        }
+      ]
+    }
+  }
+}
