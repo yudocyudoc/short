@@ -1,0 +1,28 @@
+name: IGC v5.1 P2 — minimal conceptual network IR
+on:
+  push:
+    branches: [experiment/igc-v5-p2-ir-linter-core-v1]
+    paths:
+      - 'experiments/p2/**'
+      - '.github/workflows/igc-v5-p2-ir.yml'
+  pull_request:
+    branches: [experiment/igc-v5-p1-limit-probes-v1]
+permissions:
+  contents: read
+jobs:
+  typed-network-ir:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Previously proven E1 regressions
+        run: python -m unittest discover -s experiments/e1 -p 'test_*.py' -v
+      - name: Previously measured P1 boundaries
+        run: python experiments/p1/probe_limits.py
+      - name: New P2 conceptual IR cases
+        run: python -m unittest discover -s experiments/p2 -p 'test_*.py' -v
