@@ -15,6 +15,20 @@ def save(p,x):
     p=Path(p);p.parent.mkdir(parents=True,exist_ok=True)
     p.write_text(json.dumps(x,indent=2,ensure_ascii=False)+"\n")
 
+def extract_provider_content(obj):
+    if obj.get("success") is False:
+        raise ValueError("PROVIDER_UNSUCCESSFUL")
+    body=obj.get("result",{})
+    raw=body.get("response") if isinstance(body,dict) else None
+    if not isinstance(raw,str) and isinstance(body,dict):
+        choices=body.get("choices",[])
+        if isinstance(choices,list) and choices:
+            message=choices[0].get("message",{})
+            raw=message.get("content") if isinstance(message,dict) else None
+    if not isinstance(raw,str):
+        raise ValueError("MISSING_PROVIDER_TEXT")
+    return raw
+
 def model_call(system,data):
     acct=os.getenv("CLOUDFLARE_ACCOUNT_ID","").strip()
     token=os.getenv("CLOUDFLARE_API_TOKEN","").strip()
@@ -29,18 +43,7 @@ def model_call(system,data):
                 headers={"Content-Type":"application/json","Authorization":"Bearer "+token})
     try:
         with urlopen(req,timeout=145) as f: obj=json.load(f)
-        body=obj.get("result",{})
-        raw=body.get("response") if isinstance(body,dict) else None
-        if not isinstance(raw,str) and isinstance(body,dict):
-            choices=body.get("choices",[])
-            if isinstance(choices,list) and choices:
-                message=choices[0].get("message",{})
-                raw=message.get("content") if isinstance(message,dict) else None
-        if obj.get("success") is False or not isinstance(raw,str):
-            result["provider_shape"]={
-                "success":obj.get("success"),
-                "result_fields":list(body) if isinstance(body,dict) else []}
-            raise ValueError("BAD_PROVIDER_REPLY")
+        raw=extract_provider_content(obj)
         result["raw"]=raw
         result["parsed"]=json.loads(raw)
     except (HTTPError,URLError,ValueError,TimeoutError,json.JSONDecodeError) as exc:
