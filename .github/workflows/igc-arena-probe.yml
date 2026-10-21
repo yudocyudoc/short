@@ -1,0 +1,46 @@
+# TEMPLATE: copy to yudocyudoc/short/.github/workflows/igc-arena-probe.yml
+# Non-billable deterministic integration probe. No Modelica or model inference.
+name: IGC ARENA deterministic contract probe
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: 'Opaque IGC job UUID issued by Cloudflare'
+        required: true
+        type: string
+      snapshot_sha256:
+        description: 'SHA-256 of visible-only immutable Cloudflare snapshot'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: igc-arena-probe-${{ inputs.job_id }}
+  cancel-in-progress: false
+jobs:
+  deterministic-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate contract snapshot and report signed result
+        env:
+          IGC_JOB_ID: ${{ inputs.job_id }}
+          IGC_SNAPSHOT_SHA256: ${{ inputs.snapshot_sha256 }}
+          IGC_SERVICE_ORIGIN: ${{ vars.IGC_SERVICE_ORIGIN }}
+          IGC_RUNNER_HMAC_SECRET: ${{ secrets.IGC_RUNNER_HMAC_SECRET }}
+        run: python tools/igc-arena-probe.py
+      - name: Preserve deterministic probe result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-probe-${{ inputs.job_id }}
+          path: output/igc-arena-probe-result.json
+          retention-days: 30
+          if-no-files-found: warn
+
