@@ -1,0 +1,104 @@
+name: EPI-04 manual heterogeneous decision triangulation
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Read-only catalog check or separately authorized experiment'
+        required: true
+        type: choice
+        options: [auth_check, infer]
+      experiment_sha:
+        description: 'Reviewed pinned EPI-04 SHA'
+        required: true
+        type: string
+      authorization:
+        description: 'NO_INFERENCE for preflight; RUN_EPI04_MAX48 for provider calls'
+        required: true
+        type: choice
+        options: [NO_INFERENCE, RUN_EPI04_MAX48]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epi04-bounded-manual
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      revision: ${{ steps.pin.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify SHA and explicit authorization
+        id: pin
+        env:
+          MODE: ${{ inputs.mode }}
+          REVISION: ${{ inputs.experiment_sha }}
+          AUTHORIZATION: ${{ inputs.authorization }}
+        run: |
+          set -euo pipefail
+          APPROVED_SHA="047911d739676b15721fdafde20faad49387c250"
+          if [[ ! "$REVISION" =~ ^[0-9a-f]{40}$ ]] || [[ "$REVISION" != "$APPROVED_SHA" ]]; then
+            echo "Refused: EPI04 SHA not approved"; exit 1
+          fi
+          if [[ "$MODE" == "auth_check" && "$AUTHORIZATION" != "NO_INFERENCE" ]]; then exit 1; fi
+          if [[ "$MODE" == "infer" && "$AUTHORIZATION" != "RUN_EPI04_MAX48" ]]; then exit 1; fi
+          if [[ "$MODE" != "auth_check" && "$MODE" != "infer" ]]; then exit 1; fi
+          git fetch --no-tags origin refs/heads/experiment/epi-04-triangulation:refs/remotes/origin/experiment/epi-04-triangulation
+          git cat-file -e "$REVISION^{commit}"
+          git merge-base --is-ancestor "$REVISION" refs/remotes/origin/experiment/epi-04-triangulation
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+          echo "Pinned EPI-04 revision validated; zero model calls."
+
+  execute:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.revision }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Deterministic oracle and full mock validation
+        run: python -m unittest discover -s experiments/decision-models-cf-v2 -p 'test_*.py' -v
+      - name: Prepare frozen provider requests
+        run: python experiments/decision-models-cf-v2/prepare.py --out experiments/decision-models-cf-v2/results
+      - name: Catalog check only — no inference
+        if: inputs.mode == 'auth_check'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/decision-models-cf-v2/preflight.py
+      - name: At most 48 authorized calls with no retries
+        if: inputs.mode == 'infer'
+        env:
+          EPI04_AUTHORIZATION: ${{ inputs.authorization }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/decision-models-cf-v2/run_cloudflare.py --out experiments/decision-models-cf-v2/results
+      - name: Validate and evaluate original outputs
+        if: always() && inputs.mode == 'infer'
+        shell: bash
+        run: |
+          if [[ -f experiments/decision-models-cf-v2/results/inference-manifest.json ]]; then
+            python experiments/decision-models-cf-v2/evaluate.py --out experiments/decision-models-cf-v2/results
+          fi
+      - name: Preserve original requests, responses, manifest and evaluation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi04-${{ inputs.mode }}-${{ github.run_id }}
+          path: experiments/decision-models-cf-v2/results/
+          if-no-files-found: warn
+          retention-days: 90
