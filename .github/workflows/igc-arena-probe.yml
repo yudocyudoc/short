@@ -1,5 +1,4 @@
-# TEMPLATE: copy to yudocyudoc/short/.github/workflows/igc-arena-probe.yml
-# Non-billable deterministic integration probe. No Modelica or model inference.
+# Deterministic integration probe only. No Modelica or model inference.
 name: IGC ARENA deterministic contract probe
 on:
   workflow_dispatch:
