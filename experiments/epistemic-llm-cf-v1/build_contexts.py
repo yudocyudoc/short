@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Build paired contexts and cross-check canonical support labels two ways."""
-import argparse, hashlib, itertools, json
+"""Build paired EPI-01 contexts and compare the pinned IGC AtmsProbe to OR/AND."""
+import argparse, hashlib, importlib.util, itertools, json
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
+PROBE_PATH=HERE/"references"/"f0_atms_probe.py"
+spec=importlib.util.spec_from_file_location("igc_f0_atms_probe",PROBE_PATH)
+probe=importlib.util.module_from_spec(spec); spec.loader.exec_module(probe)
+AtmsProbe=probe.AtmsProbe
+ATMS_SOURCE_BLOB="659e9dfe463daf4a03144c8d55622c9eeffca79a"
 
 def minimal(envs):
     envs=set(envs)
@@ -11,15 +16,16 @@ def minimal(envs):
 def canonical(labels,nodes):
     return {node:[sorted(e) for e in sorted(labels.get(node,set()),key=lambda x:(len(x),sorted(x)))] for node in sorted(nodes)}
 
-def atms_labels(case,nogoods):
-    labels={a["id"]:{frozenset({a["id"]})} for a in case["assumptions"]}
-    forbidden=[frozenset(x) for x in nogoods]
+def authentic_atms_labels(case,nogoods):
+    engine=AtmsProbe()
+    for assumption in case["assumptions"]:
+        engine.assume(assumption["id"])
     for rule in case["justifications"]:
-        choices=[labels[a] for a in rule["antecedents"]]
-        envs={frozenset().union(*combo) for combo in itertools.product(*choices)}
-        valid={env for env in envs if not any(g<=env for g in forbidden)}
-        labels.setdefault(rule["conclusion"],set()).update(valid)
-    return labels
+        engine.justify(tuple(rule["antecedents"]),rule["conclusion"])
+    for nogood in nogoods:
+        engine.add_nogood(frozenset(nogood))
+    nodes=[h["id"] for h in case["hypotheses"]]
+    return canonical(engine.labels,nodes)
 
 def or_and_closure(case,nogoods):
     labels={a["id"]:{frozenset({a["id"]})} for a in case["assumptions"]}
@@ -37,37 +43,40 @@ def or_and_closure(case,nogoods):
             if updated!=labels.get(node,set()):
                 labels[node]=updated
                 changed=True
-    return labels
-
-def labels_for_revision(case,invalidated):
-    nogoods=[[item] for item in invalidated]
     nodes=[h["id"] for h in case["hypotheses"]]
-    atms=canonical(atms_labels(case,nogoods),nodes)
-    closure=canonical(or_and_closure(case,nogoods),nodes)
-    if atms!=closure: raise ValueError("ATMS_OR_AND_CONTEXT_MISMATCH")
+    return canonical(labels,nodes)
+
+def labels_for_revision(case,nogoods):
+    atms=authentic_atms_labels(case,nogoods)
+    closure=or_and_closure(case,nogoods)
+    if atms!=closure: raise ValueError("PINNED_IGC_ATMS_OR_AND_MISMATCH")
     return atms
 
 def build(case):
     before=labels_for_revision(case,[])
     invalidated=case["revisions"][-1]["invalidates"]
-    after=labels_for_revision(case,invalidated)
-    source={"case_id":case["case_id"],"question":case["question"],"records":case["records"],
-      "claims":case["claims"],"hypotheses":case["hypotheses"],"assumptions":case["assumptions"],
+    after=labels_for_revision(case,[[item] for item in invalidated])
+    source={"case_id":case["case_id"],"synthetic":case["synthetic"],"question":case["question"],
+      "records":case["records"],"claims":case["claims"],"hypotheses":case["hypotheses"],
+      "assumptions":case["assumptions"],"justifications":case["justifications"],
       "revisions":case["revisions"],"tasks":case["tasks"],
-      "sd_discrimination_context":case["sd_discrimination_context"],"no_empirical_or_causal_claim":True}
+      "sd_discrimination_context":case["sd_discrimination_context"],
+      "no_empirical_or_causal_claim":True}
     statuses={node:("supported" if envs else "unsupported") for node,envs in after.items()}
     traces={}
     for rule in case["justifications"]:
         traces.setdefault(rule["conclusion"],[]).append({
           "justification_id":rule["id"],"antecedents":rule["antecedents"],"source_ids":rule["source_ids"],
-          "status":"invalidated" if any(set(g)<=set(rule["antecedents"]) for g in case["nogoods"]) else "survives"})
+          "status":"invalidated" if any(x in rule["antecedents"] for x in invalidated) else "survives"})
+    equivalence={"result":"EXACT_FOR_EPI01_FIXTURE","reference":"IGC_F0_AtmsProbe",
+      "reference_source_blob":ATMS_SOURCE_BLOB,"comparator":"local_OR_AND_least_fixed_point"}
     return {
       "A":{"arm":"A_documental",**source},
       "B":{"arm":"B_booleano",**source,"current_hypothesis_status":statuses},
       "C":{"arm":"C_epistemologico",**source,"logical_context":{
-        "engine_equivalence":"ATMS_AND_OR_AND_EXACT","before_review_minimal_support_environments":before,
+        "engine_equivalence":equivalence,"before_review_minimal_support_environments":before,
         "current_minimal_support_environments":after,"current_hypothesis_status":statuses,
-        "justification_trace":traces,"nogoods":case["nogoods"],
+        "justification_trace":traces,"nogoods":[[x] for x in invalidated],
         "canonical_label_semantics":"Each environment is AND; alternative environments are OR."}}
     }
 
@@ -80,8 +89,10 @@ def write_contexts(case_path,out_dir):
         hashes[arm]=hashlib.sha256(payload.encode("utf-8")).hexdigest()
     task={"common_instructions":(HERE/"prompts/common.md").read_text(encoding="utf-8"),"tasks":case["tasks"]}
     (out_dir/"tasks.json").write_text(json.dumps(task,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-    result={"case_id":case["case_id"],"status":"PREPARED_NO_INFERENCE","atms_or_and_equivalence":"PASS",
-      "context_sha256":hashes,"calls_planned":9,"calls_made":0,"empirical_or_causal_claim":False}
+    result={"case_id":case["case_id"],"status":"PREPARED_NO_INFERENCE",
+      "atms_reference":"PINNED_IGC_F0_AtmsProbe","atms_or_and_equivalence":"EXACT_FOR_EPI01_FIXTURE",
+      "atms_source_blob":ATMS_SOURCE_BLOB,"context_sha256":hashes,
+      "calls_planned":9,"calls_made":0,"empirical_or_causal_claim":False}
     (out_dir/"preparation-report.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     return result
 
