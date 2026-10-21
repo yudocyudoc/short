@@ -1,0 +1,39 @@
+name: EPI-01 design tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/epistemic-llm-cf-v1/**'
+      - '.github/workflows/epi-01-tests.yml'
+  push:
+    branches: [experiment/epi-01-epistemic-llm]
+    paths:
+      - 'experiments/epistemic-llm-cf-v1/**'
+      - '.github/workflows/epi-01-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  design-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare contexts and verify ATMS/OR-AND parity (no inference)
+        run: |
+          python experiments/epistemic-llm-cf-v1/build_contexts.py --out "$RUNNER_TEMP/epi-01-prepared"
+          python -m unittest discover -s experiments/epistemic-llm-cf-v1 -p 'test_*.py' -v
+      - name: Archive prepared contexts only
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi-01-design-no-inference
+          path: ${{ runner.temp }}/epi-01-prepared/
+          if-no-files-found: error
+          retention-days: 30

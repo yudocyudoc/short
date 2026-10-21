@@ -1,0 +1,163 @@
+{
+  "schema": "short-epi-01-case/1.0",
+  "case_id": "EPI-01",
+  "synthetic": true,
+  "question": "¿El trabajo pendiente se acumula en una sola cola o en dos etapas seriales con stocks independientes?",
+  "hypotheses": [
+    {
+      "id": "CS-01",
+      "description": "Una cola compartida antes del procesamiento."
+    },
+    {
+      "id": "CS-02",
+      "description": "Dos colas seriales: espera de admisión y trabajo en procesamiento."
+    }
+  ],
+  "records": [
+    {
+      "id": "DOC-01",
+      "kind": "operational_summary",
+      "text": "El resumen operativo describe una cola de trabajo pendiente antes de una estación de procesamiento.",
+      "status": "reported"
+    },
+    {
+      "id": "DOC-02",
+      "kind": "transfer_log",
+      "text": "El registro contiene movimientos entre una zona de admisión y una cola junto a procesamiento.",
+      "status": "reported; la auditoría posterior detecta IDs duplicados"
+    },
+    {
+      "id": "DOC-03",
+      "kind": "layout_diagram",
+      "text": "El plano vigente muestra zonas separadas para espera de admisión y trabajo en procesamiento.",
+      "status": "reported"
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL-01",
+      "text": "Existe una cola compartida previa al procesamiento.",
+      "source_ids": [
+        "DOC-01"
+      ],
+      "epistemic_status": "asserted"
+    },
+    {
+      "id": "CL-02",
+      "text": "Hay transferencias entre dos ubicaciones de espera.",
+      "source_ids": [
+        "DOC-02"
+      ],
+      "epistemic_status": "reported_but_audited"
+    },
+    {
+      "id": "CL-03",
+      "text": "El espacio operativo distingue dos zonas de espera.",
+      "source_ids": [
+        "DOC-03"
+      ],
+      "epistemic_status": "asserted"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-CS01-structure",
+      "text": "CS-01 representa adecuadamente la organización de stocks."
+    },
+    {
+      "id": "A-CS01-report",
+      "text": "DOC-01 es fiable para inferir la cola compartida."
+    },
+    {
+      "id": "A-CS02-structure",
+      "text": "CS-02 representa adecuadamente la organización de stocks."
+    },
+    {
+      "id": "A-transfer-reliable",
+      "text": "DOC-02 registra transferencias distintas y fiables."
+    },
+    {
+      "id": "A-layout-current",
+      "text": "DOC-03 refleja el diseño operativo vigente."
+    }
+  ],
+  "justifications": [
+    {
+      "id": "J-CS01-report",
+      "conclusion": "CS-01",
+      "antecedents": [
+        "A-CS01-structure",
+        "A-CS01-report"
+      ],
+      "source_ids": [
+        "DOC-01"
+      ]
+    },
+    {
+      "id": "J-CS02-transfer",
+      "conclusion": "CS-02",
+      "antecedents": [
+        "A-CS02-structure",
+        "A-transfer-reliable"
+      ],
+      "source_ids": [
+        "DOC-02"
+      ]
+    },
+    {
+      "id": "J-CS02-layout",
+      "conclusion": "CS-02",
+      "antecedents": [
+        "A-CS02-structure",
+        "A-layout-current"
+      ],
+      "source_ids": [
+        "DOC-03"
+      ]
+    }
+  ],
+  "revisions": [
+    {
+      "id": "REV-0",
+      "description": "Estado anterior a la auditoría.",
+      "invalidates": [],
+      "source_ids": []
+    },
+    {
+      "id": "REV-1",
+      "description": "Auditoría: IDs duplicados en DOC-02; deja de aceptarse como soporte independiente de dos colas.",
+      "invalidates": [
+        "A-transfer-reliable"
+      ],
+      "source_ids": [
+        "DOC-02"
+      ]
+    }
+  ],
+  "nogoods": [
+    [
+      "A-transfer-reliable"
+    ]
+  ],
+  "sd_discrimination_context": {
+    "observable": "trabajo pendiente en cada zona y entregas acumuladas",
+    "perturbation": "pulso temporal de llegada de pedidos, seguido por recuperación",
+    "candidate_observation": "conteos sincronizados de trabajo pendiente en admisión y procesamiento durante el pulso y la recuperación",
+    "caution": "no se declara que la observación identifique necesariamente una estructura"
+  },
+  "tasks": [
+    {
+      "id": "T1",
+      "question": "Después de REV-1, ¿qué hipótesis conservan soporte y por qué?"
+    },
+    {
+      "id": "T2",
+      "question": "¿Qué justificación perdió soporte, cuál sobrevivió y qué cambió frente a REV-0?"
+    },
+    {
+      "id": "T3",
+      "question": "Propón una observación durante la recuperación tras un pulso que ayude a distinguir CS-01 y CS-02. Explica qué afirmación causal o empírica aún no se justifica."
+    }
+  ],
+  "no_empirical_or_causal_claim": true
+}
