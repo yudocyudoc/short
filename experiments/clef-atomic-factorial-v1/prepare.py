@@ -41,7 +41,7 @@ def build(case,condition):
 
 def prepare(out):
     cases,gold=validate()
-    reqs=[{"id":c["id"],"condition":condition,"endpoint":MODEL,"body":build(c,condition)}
+    reqs=[{"id":c["id"],"condition":condition,"model":"CLEF","endpoint":MODEL,"body":build(c,condition)}
        for c in cases for condition in CONDITIONS]
     assert len(reqs)==MAX_CALLS
     random.Random(20261021).shuffle(reqs)
