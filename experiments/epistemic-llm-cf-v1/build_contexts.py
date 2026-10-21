@@ -15,9 +15,10 @@ def atms_labels(case,nogoods):
     labels={a["id"]:{frozenset({a["id"]})} for a in case["assumptions"]}
     forbidden=[frozenset(x) for x in nogoods]
     for rule in case["justifications"]:
-        env=frozenset().union(*(labels[a][0] for a in rule["antecedents"]))
-        if not any(g<=env for g in forbidden):
-            labels.setdefault(rule["conclusion"],set()).add(env)
+        choices=[labels[a] for a in rule["antecedents"]]
+        envs={frozenset().union(*combo) for combo in itertools.product(*choices)}
+        valid={env for env in envs if not any(g<=env for g in forbidden)}
+        labels.setdefault(rule["conclusion"],set()).update(valid)
     return labels
 
 def or_and_closure(case,nogoods):
