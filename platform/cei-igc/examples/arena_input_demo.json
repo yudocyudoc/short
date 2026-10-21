@@ -1,0 +1,101 @@
+{
+  "schema_version": "igc.arena_input.v0.1",
+  "status": "DRAFT_PENDING_EXTERNAL_GATES",
+  "case_id": "CAF-DEMO-001",
+  "snapshot": {
+    "as_known_at": "2026-10-21T12:00:00.000Z",
+    "allowed_source_refs": [
+      "src-demo-entrevista-r1",
+      "src-demo-tickets-sep"
+    ],
+    "holdout_ref": "HOLD-DEMO-001",
+    "holdout_custodian": "Evaluador externo (ficticio)",
+    "holdout_contents_exposed": false,
+    "isolation_assurance": "UNVERIFIED_LOCAL_PROTOTYPE"
+  },
+  "round": {
+    "id": "R1",
+    "rival_outputs_hidden_until_round_closed": true,
+    "simulation_budget": 12,
+    "baseline_ref": "baseline:demanda-vs-capacidad-demo"
+  },
+  "observability": [
+    {
+      "id": "ventas_hora",
+      "status": "observed",
+      "unit": "tickets/h",
+      "resolution": "1 h",
+      "measurement_error": "UNKNOWN",
+      "reporting_lag": "24 h",
+      "source_ref": "src-demo-tickets-sep"
+    },
+    {
+      "id": "cola_minutos",
+      "status": "unmeasured",
+      "unit": "min",
+      "resolution": "UNKNOWN",
+      "measurement_error": "UNKNOWN",
+      "reporting_lag": "UNKNOWN",
+      "source_ref": ""
+    }
+  ],
+  "structure_proposals": [
+    {
+      "candidate_id": "M-DEMO-A",
+      "lane": "D",
+      "proposal_ref": "draft:estructura-a",
+      "parameter_set_ref": null,
+      "validation": {
+        "g1": "NOT_RUN",
+        "g2": "NOT_RUN",
+        "g3": "NOT_RUN"
+      }
+    },
+    {
+      "candidate_id": "M-DEMO-B",
+      "lane": "S",
+      "proposal_ref": "draft:estructura-b",
+      "parameter_set_ref": null,
+      "validation": {
+        "g1": "NOT_RUN",
+        "g2": "NOT_RUN",
+        "g3": "NOT_RUN"
+      }
+    }
+  ],
+  "assessment_parameter_proposals": [
+    {
+      "proposal_id": "P-DEMO-01",
+      "kind": "parameter",
+      "target_ref": "service_rate",
+      "result_ref": "draft:parameter-proposal",
+      "provenance_ref": "DEMO-NO_INFERENCE"
+    }
+  ],
+  "evaluation_plan": {
+    "target_observable_ids": [
+      "ventas_hora",
+      "cola_minutos"
+    ],
+    "allowed_perturbations": [
+      "Simular cambio en capacidad. Sin intervención real."
+    ],
+    "horizon_date": "2026-12-01",
+    "prediction_lock_required": true,
+    "holdout_access": "EVALUATOR_ONLY",
+    "comparison_mode": "PER_CANDIDATE_NO_VOTE"
+  },
+  "intervention_authorization": "observe_only",
+  "invariant_guards": {
+    "no_gold_in_input": true,
+    "holdout_never_sent_to_builders": true,
+    "competitors_not_merged": true,
+    "modelica_result_not_truth": true
+  },
+  "provenance": {
+    "created_at": "2026-10-21T22:14:35.871Z",
+    "authoring_mode": "BROWSER_ONLY_NO_STORAGE",
+    "version": "0.1.0"
+  }
+}
+
