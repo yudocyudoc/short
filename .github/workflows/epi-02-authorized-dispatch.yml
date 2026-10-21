@@ -1,0 +1,116 @@
+name: EPI-02 manual Cloudflare dispatcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'No-inference auth check or bounded 24-call experiment'
+        required: true
+        type: choice
+        options: [auth_check, infer]
+      experiment_sha:
+        description: 'Full explicitly approved EPI-02 experiment SHA'
+        required: true
+        type: string
+      authorization:
+        description: 'Separate authorization for inference only'
+        required: true
+        type: choice
+        options: [NO_INFERENCE, RUN_EPI02_MAX24]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epi02-authorized-dispatch
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      revision: ${{ steps.verify.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate fixed SHA and allowed mode
+        id: verify
+        env:
+          MODE: ${{ inputs.mode }}
+          REVISION: ${{ inputs.experiment_sha }}
+          AUTHORIZATION: ${{ inputs.authorization }}
+        run: |
+          set -euo pipefail
+          APPROVED_SHA="dc62f04bc0498d687c963c941f348dc793fbc9a4"
+          if [[ ! "$REVISION" =~ ^[0-9a-f]{40}$ ]] || [[ "$REVISION" != "$APPROVED_SHA" ]]; then
+            echo "Only the independently reviewed EPI-02 SHA is allowed"; exit 1
+          fi
+          if [[ "$MODE" == "auth_check" && "$AUTHORIZATION" != "NO_INFERENCE" ]]; then
+            echo "Preflight must not authorize inference"; exit 1
+          fi
+          if [[ "$MODE" == "infer" && "$AUTHORIZATION" != "RUN_EPI02_MAX24" ]]; then
+            echo "Inference requires RUN_EPI02_MAX24"; exit 1
+          fi
+          if [[ "$MODE" != "auth_check" && "$MODE" != "infer" ]]; then exit 1; fi
+          git fetch --no-tags origin refs/heads/experiment/epi-02-revision-memory:refs/remotes/origin/experiment/epi-02-revision-memory
+          git cat-file -e "$REVISION^{commit}"
+          git merge-base --is-ancestor "$REVISION" refs/remotes/origin/experiment/epi-02-revision-memory
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+          echo "mode=$MODE; approved SHA verified; no provider call"
+
+  evaluate:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.revision }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify design without inference
+        run: python -m unittest discover -s experiments/epistemic-llm-cf-v2 -p 'test_*.py' -v
+      - name: Generate contexts with fixed SHA
+        run: python experiments/epistemic-llm-cf-v2/prepare.py --out experiments/epistemic-llm-cf-v2/results
+      - name: Verify Workers AI access (zero inferences)
+        if: inputs.mode == 'auth_check'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/epistemic-llm-cf-v2/scripts/check_cloudflare_preflight.py
+      - name: Execute no more than 24 calls with no retries
+        if: inputs.mode == 'infer'
+        env:
+          EPI02_AUTHORIZATION: ${{ inputs.authorization }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/epistemic-llm-cf-v2/scripts/run_cloudflare.py
+      - name: Deterministic adjudication and blind packets
+        if: always() && inputs.mode == 'infer'
+        shell: bash
+        run: |
+          if [[ -f experiments/epistemic-llm-cf-v2/results/inference-manifest.json ]]; then
+            python experiments/epistemic-llm-cf-v2/evaluate.py --results experiments/epistemic-llm-cf-v2/results
+          fi
+      - name: Preserve full audit records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi02-${{ inputs.mode }}-${{ github.run_id }}
+          path: experiments/epistemic-llm-cf-v2/results/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Publish blinded packets as separate artifact
+        if: always() && inputs.mode == 'infer'
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi02-blinded-${{ github.run_id }}
+          path: experiments/epistemic-llm-cf-v2/results/blinded/
+          if-no-files-found: warn
+          retention-days: 90
