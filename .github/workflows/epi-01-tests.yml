@@ -26,7 +26,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Prepare contexts and verify ATMS/OR-AND parity (no inference)
+      - name: Prepare contexts with pinned IGC AtmsProbe (no inference)
         run: |
           python experiments/epistemic-llm-cf-v1/build_contexts.py --out "$RUNNER_TEMP/epi-01-prepared"
           python -m unittest discover -s experiments/epistemic-llm-cf-v1 -p 'test_*.py' -v
