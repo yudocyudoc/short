@@ -1,0 +1,46 @@
+{
+  "schema": "short-epi03-numerics/1",
+  "purpose": "Clairic typed numeric outputs distinct from Clef classification",
+  "cases": [
+    {
+      "id": "NC-01",
+      "kind": "CALC",
+      "state": "Stock inicial: 12. Durante tres periodos, entradas: 5, 8, 4; salidas: 3, 6, 7. Stock final = inicial + suma(entradas) - suma(salidas)."
+    },
+    {
+      "id": "NC-02",
+      "kind": "CALC",
+      "state": "Stock inicial: 31. Entradas: 8, 2, 4; salidas: 10, 6, 3. Stock final = inicial + suma(entradas) - suma(salidas)."
+    },
+    {
+      "id": "NC-03",
+      "kind": "CALC",
+      "state": "Stock inicial: 18. Entradas: 3, 3, 9; salidas: 4, 4, 2. Stock final = inicial + suma(entradas) - suma(salidas)."
+    },
+    {
+      "id": "NC-04",
+      "kind": "CALC",
+      "state": "Stock inicial: 7. Entradas: 6, 9, 4; salidas: 1, 2, 3. Stock final = inicial + suma(entradas) - suma(salidas)."
+    },
+    {
+      "id": "NF-01",
+      "kind": "FORECAST",
+      "state": "Serie histórica de stock por periodo, orden temporal: 10, 12, 12, 13, 15, 16. Predice el stock del periodo siguiente. No tienes acceso a la observación futura."
+    },
+    {
+      "id": "NF-02",
+      "kind": "FORECAST",
+      "state": "Serie histórica de stock por periodo, orden temporal: 25, 23, 20, 18, 17, 15. Predice el stock del periodo siguiente. No tienes acceso a la observación futura."
+    },
+    {
+      "id": "NF-03",
+      "kind": "FORECAST",
+      "state": "Serie histórica de stock por periodo, orden temporal: 4, 7, 9, 11, 14, 16. Predice el stock del periodo siguiente. No tienes acceso a la observación futura."
+    },
+    {
+      "id": "NF-04",
+      "kind": "FORECAST",
+      "state": "Serie histórica de stock por periodo, orden temporal: 42, 41, 41, 40, 39, 40. Predice el stock del periodo siguiente. No tienes acceso a la observación futura."
+    }
+  ]
+}

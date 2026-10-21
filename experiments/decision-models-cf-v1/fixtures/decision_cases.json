@@ -1,0 +1,2017 @@
+{
+  "schema": "short-epi03-decisions/1",
+  "primary_design": "12 balanced cases across four answer categories, 3 each; 2 EPI-02 anchors diagnostic only",
+  "options": [
+    "BOTH",
+    "ONLY_H1",
+    "ONLY_H2",
+    "NEITHER"
+  ],
+  "cases": [
+    {
+      "id": "DC-01",
+      "kind": "balanced",
+      "scenario": "pedidos de una planta",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-01:doc1",
+          "text": "Documento sintético de pedidos de una planta: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-01:doc2",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-01:doc3",
+          "text": "Documento sintético de pedidos de una planta: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-01:doc4",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-01:doc5",
+          "text": "Documento sintético de pedidos de una planta: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-01:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-01:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-01:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-01:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-01:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-01:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-01:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-01:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-01:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-01:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-01:j:h1-primary",
+          "antecedents": [
+            "dc:dc-01:shared",
+            "dc:dc-01:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-01:doc1",
+            "dc:dc-01:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-01:j:h1-backup",
+          "antecedents": [
+            "dc:dc-01:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-01:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-01:j:h2-stage",
+          "antecedents": [
+            "dc:dc-01:shared",
+            "dc:dc-01:h2_primary"
+          ],
+          "consequent": "dc:dc-01:intermediate",
+          "source_ids": [
+            "dc:dc-01:doc1",
+            "dc:dc-01:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-01:j:h2-primary",
+          "antecedents": [
+            "dc:dc-01:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-01:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-01:j:h2-backup",
+          "antecedents": [
+            "dc:dc-01:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-01:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-01:h1_primary",
+        "dc:dc-01:h2_primary"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-01:h1_primary",
+            "dc:dc-01:h2_primary"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-02",
+      "kind": "balanced",
+      "scenario": "solicitudes de servicio",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-02:doc1",
+          "text": "Documento sintético de solicitudes de servicio: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-02:doc2",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-02:doc3",
+          "text": "Documento sintético de solicitudes de servicio: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-02:doc4",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-02:doc5",
+          "text": "Documento sintético de solicitudes de servicio: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-02:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-02:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-02:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-02:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-02:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-02:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-02:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-02:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-02:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-02:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-02:j:h1-primary",
+          "antecedents": [
+            "dc:dc-02:shared",
+            "dc:dc-02:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-02:doc1",
+            "dc:dc-02:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-02:j:h1-backup",
+          "antecedents": [
+            "dc:dc-02:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-02:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-02:j:h2-stage",
+          "antecedents": [
+            "dc:dc-02:shared",
+            "dc:dc-02:h2_primary"
+          ],
+          "consequent": "dc:dc-02:intermediate",
+          "source_ids": [
+            "dc:dc-02:doc1",
+            "dc:dc-02:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-02:j:h2-primary",
+          "antecedents": [
+            "dc:dc-02:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-02:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-02:j:h2-backup",
+          "antecedents": [
+            "dc:dc-02:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-02:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-02:h1_primary"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-02:h1_primary"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-03",
+      "kind": "balanced",
+      "scenario": "aprobaciones de expedientes",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-03:doc1",
+          "text": "Documento sintético de aprobaciones de expedientes: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-03:doc2",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-03:doc3",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-03:doc4",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-03:doc5",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-03:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-03:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-03:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-03:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-03:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-03:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-03:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-03:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-03:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-03:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-03:j:h1-primary",
+          "antecedents": [
+            "dc:dc-03:shared",
+            "dc:dc-03:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-03:doc1",
+            "dc:dc-03:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-03:j:h1-backup",
+          "antecedents": [
+            "dc:dc-03:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-03:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-03:j:h2-stage",
+          "antecedents": [
+            "dc:dc-03:shared",
+            "dc:dc-03:h2_primary"
+          ],
+          "consequent": "dc:dc-03:intermediate",
+          "source_ids": [
+            "dc:dc-03:doc1",
+            "dc:dc-03:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-03:j:h2-primary",
+          "antecedents": [
+            "dc:dc-03:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-03:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-03:j:h2-backup",
+          "antecedents": [
+            "dc:dc-03:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-03:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-03:h2_primary"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-03:h2_primary"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-04",
+      "kind": "balanced",
+      "scenario": "pedidos de una planta",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-04:doc1",
+          "text": "Documento sintético de pedidos de una planta: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-04:doc2",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-04:doc3",
+          "text": "Documento sintético de pedidos de una planta: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-04:doc4",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-04:doc5",
+          "text": "Documento sintético de pedidos de una planta: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-04:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-04:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-04:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-04:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-04:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-04:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-04:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-04:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-04:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-04:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-04:j:h1-primary",
+          "antecedents": [
+            "dc:dc-04:shared",
+            "dc:dc-04:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-04:doc1",
+            "dc:dc-04:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-04:j:h1-backup",
+          "antecedents": [
+            "dc:dc-04:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-04:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-04:j:h2-stage",
+          "antecedents": [
+            "dc:dc-04:shared",
+            "dc:dc-04:h2_primary"
+          ],
+          "consequent": "dc:dc-04:intermediate",
+          "source_ids": [
+            "dc:dc-04:doc1",
+            "dc:dc-04:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-04:j:h2-primary",
+          "antecedents": [
+            "dc:dc-04:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-04:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-04:j:h2-backup",
+          "antecedents": [
+            "dc:dc-04:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-04:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-04:h2_primary",
+        "dc:dc-04:h2_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-04:h2_primary",
+            "dc:dc-04:h2_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-05",
+      "kind": "balanced",
+      "scenario": "solicitudes de servicio",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-05:doc1",
+          "text": "Documento sintético de solicitudes de servicio: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-05:doc2",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-05:doc3",
+          "text": "Documento sintético de solicitudes de servicio: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-05:doc4",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-05:doc5",
+          "text": "Documento sintético de solicitudes de servicio: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-05:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-05:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-05:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-05:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-05:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-05:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-05:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-05:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-05:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-05:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-05:j:h1-primary",
+          "antecedents": [
+            "dc:dc-05:shared",
+            "dc:dc-05:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-05:doc1",
+            "dc:dc-05:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-05:j:h1-backup",
+          "antecedents": [
+            "dc:dc-05:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-05:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-05:j:h2-stage",
+          "antecedents": [
+            "dc:dc-05:shared",
+            "dc:dc-05:h2_primary"
+          ],
+          "consequent": "dc:dc-05:intermediate",
+          "source_ids": [
+            "dc:dc-05:doc1",
+            "dc:dc-05:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-05:j:h2-primary",
+          "antecedents": [
+            "dc:dc-05:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-05:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-05:j:h2-backup",
+          "antecedents": [
+            "dc:dc-05:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-05:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-05:shared",
+        "dc:dc-05:h2_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-05:shared",
+            "dc:dc-05:h2_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-06",
+      "kind": "balanced",
+      "scenario": "aprobaciones de expedientes",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-06:doc1",
+          "text": "Documento sintético de aprobaciones de expedientes: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-06:doc2",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-06:doc3",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-06:doc4",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-06:doc5",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-06:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-06:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-06:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-06:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-06:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-06:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-06:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-06:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-06:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-06:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-06:j:h1-primary",
+          "antecedents": [
+            "dc:dc-06:shared",
+            "dc:dc-06:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-06:doc1",
+            "dc:dc-06:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-06:j:h1-backup",
+          "antecedents": [
+            "dc:dc-06:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-06:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-06:j:h2-stage",
+          "antecedents": [
+            "dc:dc-06:shared",
+            "dc:dc-06:h2_primary"
+          ],
+          "consequent": "dc:dc-06:intermediate",
+          "source_ids": [
+            "dc:dc-06:doc1",
+            "dc:dc-06:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-06:j:h2-primary",
+          "antecedents": [
+            "dc:dc-06:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-06:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-06:j:h2-backup",
+          "antecedents": [
+            "dc:dc-06:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-06:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-06:h1_primary",
+        "dc:dc-06:h2_primary",
+        "dc:dc-06:h2_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-06:h1_primary",
+            "dc:dc-06:h2_primary",
+            "dc:dc-06:h2_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-07",
+      "kind": "balanced",
+      "scenario": "pedidos de una planta",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-07:doc1",
+          "text": "Documento sintético de pedidos de una planta: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-07:doc2",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-07:doc3",
+          "text": "Documento sintético de pedidos de una planta: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-07:doc4",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-07:doc5",
+          "text": "Documento sintético de pedidos de una planta: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-07:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-07:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-07:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-07:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-07:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-07:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-07:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-07:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-07:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-07:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-07:j:h1-primary",
+          "antecedents": [
+            "dc:dc-07:shared",
+            "dc:dc-07:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-07:doc1",
+            "dc:dc-07:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-07:j:h1-backup",
+          "antecedents": [
+            "dc:dc-07:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-07:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-07:j:h2-stage",
+          "antecedents": [
+            "dc:dc-07:shared",
+            "dc:dc-07:h2_primary"
+          ],
+          "consequent": "dc:dc-07:intermediate",
+          "source_ids": [
+            "dc:dc-07:doc1",
+            "dc:dc-07:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-07:j:h2-primary",
+          "antecedents": [
+            "dc:dc-07:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-07:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-07:j:h2-backup",
+          "antecedents": [
+            "dc:dc-07:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-07:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-07:h1_primary",
+        "dc:dc-07:h1_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-07:h1_primary",
+            "dc:dc-07:h1_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-08",
+      "kind": "balanced",
+      "scenario": "solicitudes de servicio",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-08:doc1",
+          "text": "Documento sintético de solicitudes de servicio: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-08:doc2",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-08:doc3",
+          "text": "Documento sintético de solicitudes de servicio: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-08:doc4",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-08:doc5",
+          "text": "Documento sintético de solicitudes de servicio: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-08:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-08:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-08:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-08:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-08:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-08:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-08:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-08:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-08:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-08:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-08:j:h1-primary",
+          "antecedents": [
+            "dc:dc-08:shared",
+            "dc:dc-08:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-08:doc1",
+            "dc:dc-08:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-08:j:h1-backup",
+          "antecedents": [
+            "dc:dc-08:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-08:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-08:j:h2-stage",
+          "antecedents": [
+            "dc:dc-08:shared",
+            "dc:dc-08:h2_primary"
+          ],
+          "consequent": "dc:dc-08:intermediate",
+          "source_ids": [
+            "dc:dc-08:doc1",
+            "dc:dc-08:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-08:j:h2-primary",
+          "antecedents": [
+            "dc:dc-08:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-08:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-08:j:h2-backup",
+          "antecedents": [
+            "dc:dc-08:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-08:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-08:shared",
+        "dc:dc-08:h1_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-08:shared",
+            "dc:dc-08:h1_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-09",
+      "kind": "balanced",
+      "scenario": "aprobaciones de expedientes",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-09:doc1",
+          "text": "Documento sintético de aprobaciones de expedientes: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-09:doc2",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-09:doc3",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-09:doc4",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-09:doc5",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-09:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-09:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-09:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-09:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-09:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-09:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-09:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-09:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-09:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-09:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-09:j:h1-primary",
+          "antecedents": [
+            "dc:dc-09:shared",
+            "dc:dc-09:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-09:doc1",
+            "dc:dc-09:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-09:j:h1-backup",
+          "antecedents": [
+            "dc:dc-09:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-09:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-09:j:h2-stage",
+          "antecedents": [
+            "dc:dc-09:shared",
+            "dc:dc-09:h2_primary"
+          ],
+          "consequent": "dc:dc-09:intermediate",
+          "source_ids": [
+            "dc:dc-09:doc1",
+            "dc:dc-09:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-09:j:h2-primary",
+          "antecedents": [
+            "dc:dc-09:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-09:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-09:j:h2-backup",
+          "antecedents": [
+            "dc:dc-09:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-09:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-09:h1_primary",
+        "dc:dc-09:h1_backup",
+        "dc:dc-09:h2_primary"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-09:h1_primary",
+            "dc:dc-09:h1_backup",
+            "dc:dc-09:h2_primary"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-10",
+      "kind": "balanced",
+      "scenario": "pedidos de una planta",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-10:doc1",
+          "text": "Documento sintético de pedidos de una planta: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-10:doc2",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-10:doc3",
+          "text": "Documento sintético de pedidos de una planta: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-10:doc4",
+          "text": "Documento sintético de pedidos de una planta: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-10:doc5",
+          "text": "Documento sintético de pedidos de una planta: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-10:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-10:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-10:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-10:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-10:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-10:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-10:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-10:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-10:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-10:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-10:j:h1-primary",
+          "antecedents": [
+            "dc:dc-10:shared",
+            "dc:dc-10:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-10:doc1",
+            "dc:dc-10:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-10:j:h1-backup",
+          "antecedents": [
+            "dc:dc-10:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-10:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-10:j:h2-stage",
+          "antecedents": [
+            "dc:dc-10:shared",
+            "dc:dc-10:h2_primary"
+          ],
+          "consequent": "dc:dc-10:intermediate",
+          "source_ids": [
+            "dc:dc-10:doc1",
+            "dc:dc-10:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-10:j:h2-primary",
+          "antecedents": [
+            "dc:dc-10:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-10:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-10:j:h2-backup",
+          "antecedents": [
+            "dc:dc-10:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-10:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-10:h1_primary",
+        "dc:dc-10:h1_backup",
+        "dc:dc-10:h2_primary",
+        "dc:dc-10:h2_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-10:h1_primary",
+            "dc:dc-10:h1_backup",
+            "dc:dc-10:h2_primary",
+            "dc:dc-10:h2_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-11",
+      "kind": "balanced",
+      "scenario": "solicitudes de servicio",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-11:doc1",
+          "text": "Documento sintético de solicitudes de servicio: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-11:doc2",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-11:doc3",
+          "text": "Documento sintético de solicitudes de servicio: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-11:doc4",
+          "text": "Documento sintético de solicitudes de servicio: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-11:doc5",
+          "text": "Documento sintético de solicitudes de servicio: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-11:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-11:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-11:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-11:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-11:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-11:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-11:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-11:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-11:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-11:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-11:j:h1-primary",
+          "antecedents": [
+            "dc:dc-11:shared",
+            "dc:dc-11:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-11:doc1",
+            "dc:dc-11:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-11:j:h1-backup",
+          "antecedents": [
+            "dc:dc-11:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-11:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-11:j:h2-stage",
+          "antecedents": [
+            "dc:dc-11:shared",
+            "dc:dc-11:h2_primary"
+          ],
+          "consequent": "dc:dc-11:intermediate",
+          "source_ids": [
+            "dc:dc-11:doc1",
+            "dc:dc-11:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-11:j:h2-primary",
+          "antecedents": [
+            "dc:dc-11:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-11:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-11:j:h2-backup",
+          "antecedents": [
+            "dc:dc-11:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-11:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-11:shared",
+        "dc:dc-11:h1_backup",
+        "dc:dc-11:h2_backup"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-11:shared",
+            "dc:dc-11:h1_backup",
+            "dc:dc-11:h2_backup"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-12",
+      "kind": "balanced",
+      "scenario": "aprobaciones de expedientes",
+      "question": "Tras invalidar los supuestos indicados, ¿qué hipótesis conserva al menos una ruta de soporte lógico?",
+      "hypotheses": [
+        "H1",
+        "H2"
+      ],
+      "records": [
+        {
+          "id": "dc:dc-12:doc1",
+          "text": "Documento sintético de aprobaciones de expedientes: la regla de coordinación común permanece vigente."
+        },
+        {
+          "id": "dc:dc-12:doc2",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h1."
+        },
+        {
+          "id": "dc:dc-12:doc3",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro secundario respalda h1 por una ruta independiente."
+        },
+        {
+          "id": "dc:dc-12:doc4",
+          "text": "Documento sintético de aprobaciones de expedientes: la bitácora principal respalda la alternativa h2."
+        },
+        {
+          "id": "dc:dc-12:doc5",
+          "text": "Documento sintético de aprobaciones de expedientes: el registro alternativo respalda h2 por una ruta independiente."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "dc:dc-12:shared",
+          "text": "La regla de coordinación común permanece vigente",
+          "source_ids": [
+            "dc:dc-12:doc1"
+          ]
+        },
+        {
+          "id": "dc:dc-12:h1_primary",
+          "text": "La bitácora principal respalda la alternativa H1",
+          "source_ids": [
+            "dc:dc-12:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-12:h1_backup",
+          "text": "El registro secundario respalda H1 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-12:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-12:h2_primary",
+          "text": "La bitácora principal respalda la alternativa H2",
+          "source_ids": [
+            "dc:dc-12:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-12:h2_backup",
+          "text": "El registro alternativo respalda H2 por una ruta independiente",
+          "source_ids": [
+            "dc:dc-12:doc5"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "dc:dc-12:j:h1-primary",
+          "antecedents": [
+            "dc:dc-12:shared",
+            "dc:dc-12:h1_primary"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-12:doc1",
+            "dc:dc-12:doc2"
+          ]
+        },
+        {
+          "id": "dc:dc-12:j:h1-backup",
+          "antecedents": [
+            "dc:dc-12:h1_backup"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "dc:dc-12:doc3"
+          ]
+        },
+        {
+          "id": "dc:dc-12:j:h2-stage",
+          "antecedents": [
+            "dc:dc-12:shared",
+            "dc:dc-12:h2_primary"
+          ],
+          "consequent": "dc:dc-12:intermediate",
+          "source_ids": [
+            "dc:dc-12:doc1",
+            "dc:dc-12:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-12:j:h2-primary",
+          "antecedents": [
+            "dc:dc-12:intermediate"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-12:doc4"
+          ]
+        },
+        {
+          "id": "dc:dc-12:j:h2-backup",
+          "antecedents": [
+            "dc:dc-12:h2_backup"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "dc:dc-12:doc5"
+          ]
+        }
+      ],
+      "revoked": [
+        "dc:dc-12:shared",
+        "dc:dc-12:h1_backup",
+        "dc:dc-12:h2_backup",
+        "dc:dc-12:h1_primary"
+      ],
+      "steps": [
+        {
+          "id": "ANTES",
+          "revoked": []
+        },
+        {
+          "id": "AHORA",
+          "revoked": [
+            "dc:dc-12:shared",
+            "dc:dc-12:h1_backup",
+            "dc:dc-12:h2_backup",
+            "dc:dc-12:h1_primary"
+          ]
+        }
+      ],
+      "scope": "Soporte lógico condicional, no probabilidad de verdad empírica."
+    },
+    {
+      "id": "DC-ANCHOR-1",
+      "kind": "epi02_anchor",
+      "source_case_id": "EPI02-SURVIVE",
+      "source_sha": "dc62f04bc0498d687c963c941f348dc793fbc9a4",
+      "scenario": "Re-evaluación contrafáctica EPI-02",
+      "question": "¿Existe un solo stock de pedidos pendientes o dos acumulaciones funcionales?",
+      "hypotheses": [
+        "epi02:s1:h:one",
+        "epi02:s1:h:two"
+      ],
+      "records": [
+        {
+          "id": "epi02:s1:doc:01",
+          "text": "Resumen interno: una sola cola de tickets de producción."
+        },
+        {
+          "id": "epi02:s1:doc:02",
+          "text": "Bitácora: movimientos entre recepción y procesamiento; la auditoría posterior detecta códigos duplicados."
+        },
+        {
+          "id": "epi02:s1:doc:03",
+          "text": "Plano fechado: zonas separadas de admisión y procesamiento."
+        },
+        {
+          "id": "epi02:s1:doc:04",
+          "text": "Entrevista de supervisión; posterior comprobación cuestiona el recuerdo de fechas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi02:s1:a:single-report",
+          "text": "El resumen de cola única es fiable",
+          "source_ids": [
+            "epi02:s1:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:two-zones-are-stocks",
+          "text": "Las zonas separadas representan acumulaciones funcionales distintas",
+          "source_ids": [
+            "epi02:s1:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:transfer-log",
+          "text": "Los movimientos registrados son distintos y fiables",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:layout-current",
+          "text": "El plano describe la operación vigente",
+          "source_ids": [
+            "epi02:s1:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:interview-valid",
+          "text": "La entrevista es fiable para ese periodo",
+          "source_ids": [
+            "epi02:s1:doc:04"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi02:s1:j:one-report",
+          "antecedents": [
+            "epi02:s1:a:single-report"
+          ],
+          "consequent": "epi02:s1:h:one",
+          "source_ids": [
+            "epi02:s1:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:movement",
+          "antecedents": [
+            "epi02:s1:a:transfer-log",
+            "epi02:s1:a:two-zones-are-stocks"
+          ],
+          "consequent": "epi02:s1:intermediate:transfer-path",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:two-transfer",
+          "antecedents": [
+            "epi02:s1:intermediate:transfer-path"
+          ],
+          "consequent": "epi02:s1:h:two",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:two-layout",
+          "antecedents": [
+            "epi02:s1:a:layout-current",
+            "epi02:s1:a:two-zones-are-stocks"
+          ],
+          "consequent": "epi02:s1:h:two",
+          "source_ids": [
+            "epi02:s1:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:two-interview",
+          "antecedents": [
+            "epi02:s1:a:interview-valid",
+            "epi02:s1:a:two-zones-are-stocks"
+          ],
+          "consequent": "epi02:s1:h:two",
+          "source_ids": [
+            "epi02:s1:doc:04"
+          ]
+        }
+      ],
+      "revoked": [
+        "epi02:s1:a:transfer-log",
+        "epi02:s1:a:interview-valid",
+        "epi02:s1:a:layout-current"
+      ],
+      "steps": [
+        {
+          "id": "R2",
+          "revoked": [
+            "epi02:s1:a:transfer-log",
+            "epi02:s1:a:interview-valid"
+          ]
+        },
+        {
+          "id": "CF",
+          "revoked": [
+            "epi02:s1:a:transfer-log",
+            "epi02:s1:a:interview-valid",
+            "epi02:s1:a:layout-current"
+          ]
+        }
+      ],
+      "scope": "Contrafáctico sintético: una ruta puede sobrevivir a la invalidación de otra."
+    },
+    {
+      "id": "DC-ANCHOR-2",
+      "kind": "epi02_anchor",
+      "source_case_id": "EPI02-LOSS",
+      "source_sha": "dc62f04bc0498d687c963c941f348dc793fbc9a4",
+      "scenario": "Re-evaluación contrafáctica EPI-02",
+      "question": "¿Los pedidos se administran en un pool único o a través de dos colas seriales?",
+      "hypotheses": [
+        "epi02:s2:h:one",
+        "epi02:s2:h:two"
+      ],
+      "records": [
+        {
+          "id": "epi02:s2:doc:01",
+          "text": "El informe de tickets dice que la cola de despacho es única."
+        },
+        {
+          "id": "epi02:s2:doc:02",
+          "text": "Registro automático de tránsitos: la auditoría posterior revela que intercambios entre estaciones fueron agregaciones contables."
+        },
+        {
+          "id": "epi02:s2:doc:03",
+          "text": "Análisis de retrasos atribuye dos esperas diferentes; luego se detecta un sesgo en la marca temporal."
+        },
+        {
+          "id": "epi02:s2:doc:04",
+          "text": "Registro de asignación de trabajo muestra una lista compartida de pendientes."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi02:s2:a:two-zones-are-stocks",
+          "text": "Las dos ubicaciones suponen stocks diferenciados",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:transfer-log",
+          "text": "El registro de tránsitos es válido",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:lag-study",
+          "text": "Los desfases temporales identifican dos esperas distintas",
+          "source_ids": [
+            "epi02:s2:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:unified-report",
+          "text": "El informe de cola única es fiable",
+          "source_ids": [
+            "epi02:s2:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:dispatch-log",
+          "text": "El registro de asignación representa pendientes reales",
+          "source_ids": [
+            "epi02:s2:doc:04"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi02:s2:j:two-transfer",
+          "antecedents": [
+            "epi02:s2:a:two-zones-are-stocks",
+            "epi02:s2:a:transfer-log"
+          ],
+          "consequent": "epi02:s2:h:two",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s2:j:two-lag",
+          "antecedents": [
+            "epi02:s2:a:two-zones-are-stocks",
+            "epi02:s2:a:lag-study"
+          ],
+          "consequent": "epi02:s2:h:two",
+          "source_ids": [
+            "epi02:s2:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s2:j:one-report",
+          "antecedents": [
+            "epi02:s2:a:unified-report"
+          ],
+          "consequent": "epi02:s2:h:one",
+          "source_ids": [
+            "epi02:s2:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s2:j:one-dispatch",
+          "antecedents": [
+            "epi02:s2:a:dispatch-log"
+          ],
+          "consequent": "epi02:s2:h:one",
+          "source_ids": [
+            "epi02:s2:doc:04"
+          ]
+        }
+      ],
+      "revoked": [
+        "epi02:s2:a:lag-study",
+        "epi02:s2:a:transfer-log",
+        "epi02:s2:a:unified-report"
+      ],
+      "steps": [
+        {
+          "id": "R2",
+          "revoked": [
+            "epi02:s2:a:lag-study",
+            "epi02:s2:a:transfer-log"
+          ]
+        },
+        {
+          "id": "CF",
+          "revoked": [
+            "epi02:s2:a:lag-study",
+            "epi02:s2:a:transfer-log",
+            "epi02:s2:a:unified-report"
+          ]
+        }
+      ],
+      "scope": "Contrafáctico sintético: una ruta puede sobrevivir a la invalidación de otra."
+    }
+  ]
+}
