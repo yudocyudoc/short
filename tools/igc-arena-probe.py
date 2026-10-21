@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """GitHub runner: metadata-only deterministic probe, not a CEI research inference.
 
-Install this file at tools/igc-arena-probe.py in the GitHub repository.
 Exchanges requests only with the configured Cloudflare origin.
 """
 import hashlib, hmac, json, os, pathlib, re, sys, time
