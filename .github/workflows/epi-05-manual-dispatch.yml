@@ -1,0 +1,121 @@
+name: EPI-05 manual Clef false-support diagnosis
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Read-only Clef catalog check or separately authorized inference'
+        required: true
+        type: choice
+        options: [auth_check, infer]
+      experiment_sha:
+        description: 'Pinned reviewed EPI-05 commit SHA'
+        required: true
+        type: string
+      authorization:
+        description: 'Separate authorization; inference is billable'
+        required: true
+        type: choice
+        options: [NO_INFERENCE, RUN_EPI05_MAX48]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epi05-manual
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      revision: ${{ steps.pin.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify pinned SHA and authorization mode
+        id: pin
+        env:
+          MODE: ${{ inputs.mode }}
+          AUTHORIZATION: ${{ inputs.authorization }}
+          REVISION: ${{ inputs.experiment_sha }}
+        run: |
+          set -euo pipefail
+          APPROVED_SHA="74576e3b0bde5e41f96d59be016d5b7ac6df3bf7"
+          if [[ ! "$REVISION" =~ ^[a-f0-9]{40}$ ]] || [[ "$REVISION" != "$APPROVED_SHA" ]]; then
+            echo "Invalid EPI-05 experiment commit"; exit 1
+          fi
+          if [[ "$MODE" == "auth_check" && "$AUTHORIZATION" != "NO_INFERENCE" ]]; then exit 1; fi
+          if [[ "$MODE" == "infer" && "$AUTHORIZATION" != "RUN_EPI05_MAX48" ]]; then exit 1; fi
+          if [[ "$MODE" != "auth_check" && "$MODE" != "infer" ]]; then exit 1; fi
+          git fetch --no-tags origin refs/heads/experiment/epi-05-clef-false-support:refs/remotes/origin/experiment/epi-05-clef-false-support
+          git cat-file -e "$REVISION^{commit}"
+          git merge-base --is-ancestor "$REVISION" refs/remotes/origin/experiment/epi-05-clef-false-support
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+          echo "Pinned EPI-05 revision validated; no provider calls in validation."
+
+  execute:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.revision }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run nine no-provider tests (includes 48 mocked calls)
+        run: python -m unittest discover -s experiments/clef-false-support-v1 -p 'test_*.py' -v
+      - name: Prepare frozen requests and verify independent gold
+        run: python experiments/clef-false-support-v1/prepare.py --out experiments/clef-false-support-v1/results
+      - name: Verify Clef model catalog only - ZERO inference
+        if: inputs.mode == 'auth_check'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, re
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+          account=os.environ.get('CLOUDFLARE_ACCOUNT_ID','').strip()
+          token=os.environ.get('CLOUDFLARE_API_TOKEN','').strip()
+          if not re.fullmatch(r'[a-fA-F0-9]{32}',account) or not token:
+              raise SystemExit('Missing or malformed Cloudflare credentials; no inference')
+          model='@cf/cloudflare/clef'
+          url=f'https://api.cloudflare.com/client/v4/accounts/{account}/ai/models/search?'+urlencode({'search':model})
+          with urlopen(Request(url,headers={'Authorization':'Bearer '+token,'Accept':'application/json'}),timeout=30) as f:
+              response=json.load(f)
+          if not response.get('success') or model.removeprefix('@cf/').lower() not in json.dumps(response.get('result',[])).lower():
+              raise SystemExit('Clef not listed; no inference')
+          print(json.dumps({'model':model,'model_catalog':'PASS','inference_made':False}))
+          PY
+      - name: Execute a maximum of 48 explicitly authorized Clef requests, no retries
+        if: inputs.mode == 'infer'
+        env:
+          EPI05_AUTHORIZATION: ${{ inputs.authorization }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python experiments/clef-false-support-v1/run_cloudflare.py --out experiments/clef-false-support-v1/results
+      - name: Evaluate completed or partial original outputs
+        if: always() && inputs.mode == 'infer'
+        shell: bash
+        run: |
+          if [[ -f experiments/clef-false-support-v1/results/inference-manifest.json ]]; then
+            python experiments/clef-false-support-v1/evaluate.py --out experiments/clef-false-support-v1/results
+          fi
+      - name: Preserve audit artifact (inputs, raw responses, manifest and scoring)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi05-${{ inputs.mode }}-${{ github.run_id }}
+          path: experiments/clef-false-support-v1/results/
+          if-no-files-found: warn
+          retention-days: 90
