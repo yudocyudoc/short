@@ -11,7 +11,7 @@ on:
           - auth_check
           - infer
       experiment_sha:
-        description: 'Full commit SHA on experiment/epi-01-epistemic-llm'
+        description: 'Only the approved EPI-01 commit e32f726f7ec4886ed0fe172d3b1a8786a965c19d'
         required: true
         type: string
       authorization:
@@ -42,7 +42,7 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
           fetch-depth: 0
-      - name: Validate explicit SHA and mode authorization
+      - name: Validate approved SHA and mode authorization
         id: verify
         env:
           MODE: ${{ inputs.mode }}
@@ -50,8 +50,13 @@ jobs:
           AUTHORIZATION: ${{ inputs.authorization }}
         run: |
           set -euo pipefail
+          APPROVED_EXPERIMENT_SHA="e32f726f7ec4886ed0fe172d3b1a8786a965c19d"
           if [[ ! "$EXPERIMENT_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             echo "Provide a full lowercase commit SHA."
+            exit 1
+          fi
+          if [[ "$EXPERIMENT_SHA" != "$APPROVED_EXPERIMENT_SHA" ]]; then
+            echo "Only the reviewed EPI-01 revision is permitted."
             exit 1
           fi
           if [[ "$MODE" == "infer" && "$AUTHORIZATION" != "RUN_EPI01_MAX9" ]]; then
@@ -65,18 +70,18 @@ jobs:
           git fetch --no-tags origin refs/heads/experiment/epi-01-epistemic-llm:refs/remotes/origin/experiment/epi-01-epistemic-llm
           git cat-file -e "$EXPERIMENT_SHA^{commit}"
           if ! git merge-base --is-ancestor "$EXPERIMENT_SHA" refs/remotes/origin/experiment/epi-01-epistemic-llm; then
-            echo "Selected SHA is not in the EPI-01 experiment branch history."
+            echo "Approved SHA is no longer in the EPI-01 experiment branch history."
             exit 1
           fi
           echo "experiment_sha=$EXPERIMENT_SHA" >> "$GITHUB_OUTPUT"
-          echo "mode=$MODE; selected EPI-01 revision validated; no provider call made."
+          echo "mode=$MODE; approved EPI-01 revision validated; no provider call made."
 
   run:
     needs: validate
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - name: Checkout the explicitly selected experiment revision
+      - name: Checkout the explicitly approved experiment revision
         uses: actions/checkout@v4
         with:
           ref: ${{ needs.validate.outputs.experiment_sha }}
