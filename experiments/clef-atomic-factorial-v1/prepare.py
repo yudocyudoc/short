@@ -53,7 +53,7 @@ def prepare(out):
     (out/"requests.jsonl").write_text(schedule,encoding="utf-8")
     report={
        "schema":"short-epi06-preparation/1","status":"PREPARED_NO_INFERENCE",
-       "inference_calls":0,"calls_planned":MAX_CALLS,"case_count":len(cases),
+       "inference_calls":0,"calls_made":0,"calls_planned":MAX_CALLS,"case_count":len(cases),
        "counts":{"NEITHER":8,"BOTH":4,"ONLY_H1":4,"ONLY_H2":4},
        "conditions":CONDITIONS,"model":MODEL,
        "fixture_sha256":sha(FIXTURES.read_bytes()),"gold_sha256":sha(GOLD.read_bytes()),
