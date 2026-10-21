@@ -104,5 +104,47 @@ class ExperimentTests(unittest.TestCase):
         self.assertEqual(runmod.AUTH,"RUN_EPI02_MAX24")
         self.assertEqual(runmod.MAX_CALLS,24)
 
+    def test_end_to_end_24_mock_inferences_and_blind_evaluation(self):
+        # Exercises the complete runner, manifest, file naming, scoring and blinding
+        # with fake responses. No network, secrets, model calls or actual scoring claims.
+        import io
+        with tempfile.TemporaryDirectory() as temporary:
+            out=Path(temporary)
+            prep.prepare(out)
+            attempted=[]
+            def fake_sender(request,timeout):
+                body=json.loads(request.data.decode("utf-8"))
+                prompt=json.loads(body["messages"][0]["content"])
+                self.assertNotIn("historical_note",body["messages"][0]["content"])
+                dossier=prompt["dossier_and_derived_memory"]["dossier"]
+                cid=dossier["id"]
+                task=prompt["task_id"]
+                truth=GOLD[cid]
+                revisions=("R0","R1","R2") if task=="HISTORY" else ("CF",)
+                states=[{"hypothesis_id":hid,"revision":rev,"status":value}
+                        for rev in revisions for hid,value in truth[rev].items()]
+                answer={"case_id":cid,"task_id":task,"hypothesis_states":states,
+                        "justification_assessment":[],"explanation":"Respuesta sintética simulada para prueba.",
+                        "uncertainties":[]}
+                response={"success":True,"result":{"response":json.dumps(answer),
+                          "usage":{"prompt_tokens":123,"completion_tokens":80,"neurons":2.0}}}
+                attempted.append(True)
+                return io.BytesIO(json.dumps(response).encode("utf-8"))
+            manifest=runmod.run(HERE,out,env={
+                "EPI02_AUTHORIZATION":"RUN_EPI02_MAX24",
+                "CLOUDFLARE_ACCOUNT_ID":"fake-account",
+                "CLOUDFLARE_API_TOKEN":"fake-token"
+            },sender=fake_sender)
+            self.assertEqual(manifest["calls_succeeded"],24)
+            self.assertEqual(len(attempted),24)
+            self.assertEqual(manifest["retry_policy"],"none")
+            report=ev.evaluate(out)
+            self.assertEqual(report["blind_files_created"],24)
+            self.assertEqual(len(list((out/"blinded").glob("BLIND-*.json"))),24)
+            self.assertTrue(all(x["format"]=="PURE_JSON" and x["correct"]==x["total"]
+                                for x in report["records"]))
+            self.assertEqual(sum(x["total"] for x in report["records"]),96)
+            self.assertTrue((out/"blinding-map.json").exists())
+
 if __name__=="__main__":
     unittest.main()
