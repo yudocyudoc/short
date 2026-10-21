@@ -1,0 +1,39 @@
+name: EPI-04 heterogeneous logic + deterministic numerical tests
+
+on:
+  push:
+    branches: [experiment/epi-04-triangulation]
+    paths:
+      - 'experiments/decision-models-cf-v2/**'
+      - '.github/workflows/epi-04-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/decision-models-cf-v2/**'
+      - '.github/workflows/epi-04-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-design:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Independent oracles + 48 fully mocked requests
+        run: python -m unittest discover -s experiments/decision-models-cf-v2 -p 'test_*.py' -v
+      - name: Prepare without model calls
+        run: python experiments/decision-models-cf-v2/prepare.py --out "$RUNNER_TEMP/epi04-prepared"
+      - name: Publish zero-inference preparation
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi04-prepared-no-inference
+          path: ${{ runner.temp }}/epi04-prepared/
+          retention-days: 30
+          if-no-files-found: error
