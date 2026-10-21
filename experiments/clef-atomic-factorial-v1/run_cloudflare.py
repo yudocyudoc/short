@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""EPI-06 separately authorized bounded runner: 48 Clef calls, zero retries."""
+"""EPI-06 separately authorized bounded runner: 80 Clef calls, zero retries."""
 from __future__ import annotations
 import argparse,json,os,time
 from pathlib import Path
@@ -12,7 +12,7 @@ from prepare import AUTH,CONDITIONS,MAX_CALLS,MODEL,sha,encoded
 def run(out,env=None,sender=urlopen):
     env=os.environ if env is None else env
     if env.get("EPI06_AUTHORIZATION")!=AUTH:
-        raise SystemExit("NO_INFERENCE: need explicit EPI06_AUTHORIZATION=RUN_EPI06_MAX48")
+        raise SystemExit("NO_INFERENCE: need explicit EPI06_AUTHORIZATION=RUN_EPI06_MAX80")
     account=env.get("CLOUDFLARE_ACCOUNT_ID","").strip()
     token=env.get("CLOUDFLARE_API_TOKEN","").strip()
     if not account or not token:
