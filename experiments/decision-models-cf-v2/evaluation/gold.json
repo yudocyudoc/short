@@ -1,0 +1,36 @@
+{
+  "schema": "short-epi04-gold/1",
+  "locked_before_provider": true,
+  "statuses": {
+    "HET-01": "BOTH",
+    "HET-02": "ONLY_H1",
+    "HET-03": "ONLY_H2",
+    "HET-04": "NEITHER",
+    "HET-05": "BOTH",
+    "HET-06": "ONLY_H1",
+    "HET-07": "ONLY_H2",
+    "HET-08": "NEITHER",
+    "HET-09": "BOTH",
+    "HET-10": "ONLY_H1",
+    "HET-11": "ONLY_H2",
+    "HET-12": "NEITHER",
+    "HET-13": "BOTH",
+    "HET-14": "ONLY_H1",
+    "HET-15": "ONLY_H2",
+    "HET-16": "NEITHER",
+    "HET-17": "BOTH",
+    "HET-18": "ONLY_H1",
+    "HET-19": "ONLY_H2",
+    "HET-20": "NEITHER"
+  },
+  "numerics": {
+    "MTH-01": 20,
+    "MTH-02": 53.25,
+    "MTH-03": 9.2,
+    "MTH-04": 7,
+    "MTH-05": 9,
+    "MTH-06": 3,
+    "MTH-07": 17,
+    "MTH-08": 6
+  }
+}

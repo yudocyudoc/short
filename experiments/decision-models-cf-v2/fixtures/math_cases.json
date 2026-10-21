@@ -1,0 +1,161 @@
+{
+  "schema": "short-epi04-math/1",
+  "cases": [
+    {
+      "id": "MTH-01",
+      "family": "balance",
+      "initial": "18",
+      "inflows": [
+        "4",
+        "6.5",
+        "3"
+      ],
+      "outflows": [
+        "2",
+        "1.5",
+        "8"
+      ],
+      "target": "final_stock"
+    },
+    {
+      "id": "MTH-02",
+      "family": "balance",
+      "initial": "52.25",
+      "inflows": [
+        "2.75",
+        "9",
+        "6"
+      ],
+      "outflows": [
+        "7.5",
+        "5",
+        "4.25"
+      ],
+      "target": "final_stock"
+    },
+    {
+      "id": "MTH-03",
+      "family": "balance",
+      "initial": "7.1",
+      "inflows": [
+        "0.2",
+        "4.4",
+        "1.1"
+      ],
+      "outflows": [
+        "0.3",
+        "2.5",
+        "0.8"
+      ],
+      "target": "final_stock"
+    },
+    {
+      "id": "MTH-04",
+      "family": "capacity",
+      "initial": "5",
+      "arrivals": [
+        "7",
+        "2",
+        "9"
+      ],
+      "requested_service": [
+        "6",
+        "10",
+        "8"
+      ],
+      "capacity": [
+        "4",
+        "5",
+        "7"
+      ],
+      "target": "final_backlog"
+    },
+    {
+      "id": "MTH-05",
+      "family": "capacity",
+      "initial": "0",
+      "arrivals": [
+        "11",
+        "4",
+        "13"
+      ],
+      "requested_service": [
+        "3",
+        "10",
+        "9"
+      ],
+      "capacity": [
+        "6",
+        "8",
+        "8"
+      ],
+      "target": "final_backlog"
+    },
+    {
+      "id": "MTH-06",
+      "family": "serial",
+      "a0": "12",
+      "b0": "2",
+      "arrivals_a": [
+        "5",
+        "4",
+        "2"
+      ],
+      "transfers_a_to_b": [
+        "4",
+        "6",
+        "3"
+      ],
+      "departures_b": [
+        "3",
+        "5",
+        "4"
+      ],
+      "target": "B_final"
+    },
+    {
+      "id": "MTH-07",
+      "family": "serial",
+      "a0": "15",
+      "b0": "1",
+      "arrivals_a": [
+        "2",
+        "7",
+        "8"
+      ],
+      "transfers_a_to_b": [
+        "5",
+        "4",
+        "6"
+      ],
+      "departures_b": [
+        "4",
+        "3",
+        "5"
+      ],
+      "target": "A_final"
+    },
+    {
+      "id": "MTH-08",
+      "family": "serial",
+      "a0": "20",
+      "b0": "5",
+      "arrivals_a": [
+        "0",
+        "8",
+        "2"
+      ],
+      "transfers_a_to_b": [
+        "3",
+        "4",
+        "7"
+      ],
+      "departures_b": [
+        "2",
+        "6",
+        "5"
+      ],
+      "target": "B_final"
+    }
+  ]
+}
