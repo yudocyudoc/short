@@ -45,7 +45,7 @@ jobs:
           AUTHORIZATION: ${{ inputs.authorization }}
         run: |
           set -euo pipefail
-          APPROVED_SHA="20c3323f83fa13543f58c5a975aa5d8796bae2fd"
+          APPROVED_SHA="dc62f04bc0498d687c963c941f348dc793fbc9a4"
           if [[ ! "$REVISION" =~ ^[0-9a-f]{40}$ ]] || [[ "$REVISION" != "$APPROVED_SHA" ]]; then
             echo "Only the independently reviewed EPI-02 SHA is allowed"; exit 1
           fi
