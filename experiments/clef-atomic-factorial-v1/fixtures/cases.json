@@ -1,0 +1,3380 @@
+{
+  "schema": "short-epi06-fresh-cases/1",
+  "created_for": "EPI06",
+  "cases": [
+    {
+      "id": "NX-01",
+      "scenario": "red de mantenimiento de equipos",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-01:document1",
+          "text": "Registro documental 1 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-01:document2",
+          "text": "Registro documental 2 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-01:document3",
+          "text": "Registro documental 3 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-01:document4",
+          "text": "Registro documental 4 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-01:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:g",
+          "text": "Condición primitiva g reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:h",
+          "text": "Condición primitiva h reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:i",
+          "text": "Condición primitiva i reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:j",
+          "text": "Condición primitiva j reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-01:document2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-01:rule0",
+          "antecedents": [
+            "epi06:nx-01:a",
+            "epi06:nx-01:b"
+          ],
+          "consequent": "epi06:nx-01:T1",
+          "source_ids": [
+            "epi06:nx-01:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:rule1",
+          "antecedents": [
+            "epi06:nx-01:T1",
+            "epi06:nx-01:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-01:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:rule2",
+          "antecedents": [
+            "epi06:nx-01:d",
+            "epi06:nx-01:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-01:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:rule3",
+          "antecedents": [
+            "epi06:nx-01:e",
+            "epi06:nx-01:f"
+          ],
+          "consequent": "epi06:nx-01:T2",
+          "source_ids": [
+            "epi06:nx-01:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:rule4",
+          "antecedents": [
+            "epi06:nx-01:T2",
+            "epi06:nx-01:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-01:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-01:rule5",
+          "antecedents": [
+            "epi06:nx-01:h",
+            "epi06:nx-01:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-01:document2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-01:a",
+            "epi06:nx-01:d"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-02",
+      "scenario": "red de mantenimiento de equipos",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-02:document1",
+          "text": "Registro documental 1 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-02:document2",
+          "text": "Registro documental 2 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-02:document3",
+          "text": "Registro documental 3 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-02:document4",
+          "text": "Registro documental 4 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-02:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:g",
+          "text": "Condición primitiva g reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:h",
+          "text": "Condición primitiva h reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:i",
+          "text": "Condición primitiva i reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:j",
+          "text": "Condición primitiva j reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-02:document2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-02:rule0",
+          "antecedents": [
+            "epi06:nx-02:a",
+            "epi06:nx-02:b"
+          ],
+          "consequent": "epi06:nx-02:T1",
+          "source_ids": [
+            "epi06:nx-02:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:rule1",
+          "antecedents": [
+            "epi06:nx-02:T1",
+            "epi06:nx-02:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-02:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:rule2",
+          "antecedents": [
+            "epi06:nx-02:d",
+            "epi06:nx-02:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-02:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:rule3",
+          "antecedents": [
+            "epi06:nx-02:e",
+            "epi06:nx-02:f"
+          ],
+          "consequent": "epi06:nx-02:T2",
+          "source_ids": [
+            "epi06:nx-02:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:rule4",
+          "antecedents": [
+            "epi06:nx-02:T2",
+            "epi06:nx-02:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-02:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-02:rule5",
+          "antecedents": [
+            "epi06:nx-02:h",
+            "epi06:nx-02:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-02:document2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-02:c",
+            "epi06:nx-02:i",
+            "epi06:nx-02:g",
+            "epi06:nx-02:j"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-03",
+      "scenario": "red de mantenimiento de equipos",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-03:document1",
+          "text": "Registro documental 1 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-03:document2",
+          "text": "Registro documental 2 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-03:document3",
+          "text": "Registro documental 3 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-03:document4",
+          "text": "Registro documental 4 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-03:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:g",
+          "text": "Condición primitiva g reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:h",
+          "text": "Condición primitiva h reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:i",
+          "text": "Condición primitiva i reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:j",
+          "text": "Condición primitiva j reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-03:document2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-03:rule0",
+          "antecedents": [
+            "epi06:nx-03:a",
+            "epi06:nx-03:b"
+          ],
+          "consequent": "epi06:nx-03:T1",
+          "source_ids": [
+            "epi06:nx-03:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:rule1",
+          "antecedents": [
+            "epi06:nx-03:T1",
+            "epi06:nx-03:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-03:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:rule2",
+          "antecedents": [
+            "epi06:nx-03:d",
+            "epi06:nx-03:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-03:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:rule3",
+          "antecedents": [
+            "epi06:nx-03:e",
+            "epi06:nx-03:f"
+          ],
+          "consequent": "epi06:nx-03:T2",
+          "source_ids": [
+            "epi06:nx-03:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:rule4",
+          "antecedents": [
+            "epi06:nx-03:T2",
+            "epi06:nx-03:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-03:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-03:rule5",
+          "antecedents": [
+            "epi06:nx-03:h",
+            "epi06:nx-03:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-03:document2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-04",
+      "scenario": "red de mantenimiento de equipos",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-04:document1",
+          "text": "Registro documental 1 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-04:document2",
+          "text": "Registro documental 2 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-04:document3",
+          "text": "Registro documental 3 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-04:document4",
+          "text": "Registro documental 4 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-04:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:g",
+          "text": "Condición primitiva g reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:h",
+          "text": "Condición primitiva h reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:i",
+          "text": "Condición primitiva i reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:j",
+          "text": "Condición primitiva j reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-04:document2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-04:rule0",
+          "antecedents": [
+            "epi06:nx-04:a",
+            "epi06:nx-04:b"
+          ],
+          "consequent": "epi06:nx-04:T1",
+          "source_ids": [
+            "epi06:nx-04:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:rule1",
+          "antecedents": [
+            "epi06:nx-04:T1",
+            "epi06:nx-04:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-04:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:rule2",
+          "antecedents": [
+            "epi06:nx-04:d",
+            "epi06:nx-04:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-04:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:rule3",
+          "antecedents": [
+            "epi06:nx-04:e",
+            "epi06:nx-04:f"
+          ],
+          "consequent": "epi06:nx-04:T2",
+          "source_ids": [
+            "epi06:nx-04:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:rule4",
+          "antecedents": [
+            "epi06:nx-04:T2",
+            "epi06:nx-04:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-04:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-04:rule5",
+          "antecedents": [
+            "epi06:nx-04:h",
+            "epi06:nx-04:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-04:document2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-04:a",
+            "epi06:nx-04:d",
+            "epi06:nx-04:e",
+            "epi06:nx-04:h"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-05",
+      "scenario": "red de mantenimiento de equipos",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-05:document1",
+          "text": "Registro documental 1 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-05:document2",
+          "text": "Registro documental 2 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-05:document3",
+          "text": "Registro documental 3 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-05:document4",
+          "text": "Registro documental 4 del dominio red de mantenimiento de equipos. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-05:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:g",
+          "text": "Condición primitiva g reportada en registro 3 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:h",
+          "text": "Condición primitiva h reportada en registro 4 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:i",
+          "text": "Condición primitiva i reportada en registro 1 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:j",
+          "text": "Condición primitiva j reportada en registro 2 del campo red de mantenimiento de equipos.",
+          "source_ids": [
+            "epi06:nx-05:document2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-05:rule0",
+          "antecedents": [
+            "epi06:nx-05:a",
+            "epi06:nx-05:b"
+          ],
+          "consequent": "epi06:nx-05:T1",
+          "source_ids": [
+            "epi06:nx-05:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:rule1",
+          "antecedents": [
+            "epi06:nx-05:T1",
+            "epi06:nx-05:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-05:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:rule2",
+          "antecedents": [
+            "epi06:nx-05:d",
+            "epi06:nx-05:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-05:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:rule3",
+          "antecedents": [
+            "epi06:nx-05:e",
+            "epi06:nx-05:f"
+          ],
+          "consequent": "epi06:nx-05:T2",
+          "source_ids": [
+            "epi06:nx-05:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:rule4",
+          "antecedents": [
+            "epi06:nx-05:T2",
+            "epi06:nx-05:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-05:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-05:rule5",
+          "antecedents": [
+            "epi06:nx-05:h",
+            "epi06:nx-05:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-05:document2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-05:e",
+            "epi06:nx-05:h"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-06",
+      "scenario": "cadena de autorización escolar",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-06:document1",
+          "text": "Registro documental 1 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-06:document2",
+          "text": "Registro documental 2 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-06:document3",
+          "text": "Registro documental 3 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-06:document4",
+          "text": "Registro documental 4 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-06:p",
+          "text": "Condición primitiva p reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:x",
+          "text": "Condición primitiva x reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:y",
+          "text": "Condición primitiva y reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:u",
+          "text": "Condición primitiva u reportada en registro 4 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:v",
+          "text": "Condición primitiva v reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:w",
+          "text": "Condición primitiva w reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:t",
+          "text": "Condición primitiva t reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-06:document3"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-06:rule0",
+          "antecedents": [
+            "epi06:nx-06:p",
+            "epi06:nx-06:x"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-06:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:rule1",
+          "antecedents": [
+            "epi06:nx-06:u",
+            "epi06:nx-06:v"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-06:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:rule2",
+          "antecedents": [
+            "epi06:nx-06:p",
+            "epi06:nx-06:y"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-06:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-06:rule3",
+          "antecedents": [
+            "epi06:nx-06:w",
+            "epi06:nx-06:t"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-06:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-06:x",
+            "epi06:nx-06:u",
+            "epi06:nx-06:y",
+            "epi06:nx-06:w"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-07",
+      "scenario": "cadena de autorización escolar",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-07:document1",
+          "text": "Registro documental 1 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-07:document2",
+          "text": "Registro documental 2 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-07:document3",
+          "text": "Registro documental 3 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-07:document4",
+          "text": "Registro documental 4 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-07:p",
+          "text": "Condición primitiva p reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:x",
+          "text": "Condición primitiva x reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:y",
+          "text": "Condición primitiva y reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:u",
+          "text": "Condición primitiva u reportada en registro 4 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:v",
+          "text": "Condición primitiva v reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:w",
+          "text": "Condición primitiva w reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:t",
+          "text": "Condición primitiva t reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-07:document3"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-07:rule0",
+          "antecedents": [
+            "epi06:nx-07:p",
+            "epi06:nx-07:x"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-07:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:rule1",
+          "antecedents": [
+            "epi06:nx-07:u",
+            "epi06:nx-07:v"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-07:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:rule2",
+          "antecedents": [
+            "epi06:nx-07:p",
+            "epi06:nx-07:y"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-07:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-07:rule3",
+          "antecedents": [
+            "epi06:nx-07:w",
+            "epi06:nx-07:t"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-07:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-07:y",
+            "epi06:nx-07:w"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-08",
+      "scenario": "cadena de autorización escolar",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-08:document1",
+          "text": "Registro documental 1 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-08:document2",
+          "text": "Registro documental 2 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-08:document3",
+          "text": "Registro documental 3 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-08:document4",
+          "text": "Registro documental 4 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-08:p",
+          "text": "Condición primitiva p reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:x",
+          "text": "Condición primitiva x reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:y",
+          "text": "Condición primitiva y reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:u",
+          "text": "Condición primitiva u reportada en registro 4 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:v",
+          "text": "Condición primitiva v reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:w",
+          "text": "Condición primitiva w reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:t",
+          "text": "Condición primitiva t reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-08:document3"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-08:rule0",
+          "antecedents": [
+            "epi06:nx-08:p",
+            "epi06:nx-08:x"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-08:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:rule1",
+          "antecedents": [
+            "epi06:nx-08:u",
+            "epi06:nx-08:v"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-08:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:rule2",
+          "antecedents": [
+            "epi06:nx-08:p",
+            "epi06:nx-08:y"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-08:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-08:rule3",
+          "antecedents": [
+            "epi06:nx-08:w",
+            "epi06:nx-08:t"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-08:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-08:p",
+            "epi06:nx-08:v",
+            "epi06:nx-08:t"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-09",
+      "scenario": "cadena de autorización escolar",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-09:document1",
+          "text": "Registro documental 1 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-09:document2",
+          "text": "Registro documental 2 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-09:document3",
+          "text": "Registro documental 3 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-09:document4",
+          "text": "Registro documental 4 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-09:p",
+          "text": "Condición primitiva p reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:x",
+          "text": "Condición primitiva x reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:y",
+          "text": "Condición primitiva y reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:u",
+          "text": "Condición primitiva u reportada en registro 4 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:v",
+          "text": "Condición primitiva v reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:w",
+          "text": "Condición primitiva w reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:t",
+          "text": "Condición primitiva t reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-09:document3"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-09:rule0",
+          "antecedents": [
+            "epi06:nx-09:p",
+            "epi06:nx-09:x"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-09:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:rule1",
+          "antecedents": [
+            "epi06:nx-09:u",
+            "epi06:nx-09:v"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-09:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:rule2",
+          "antecedents": [
+            "epi06:nx-09:p",
+            "epi06:nx-09:y"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-09:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-09:rule3",
+          "antecedents": [
+            "epi06:nx-09:w",
+            "epi06:nx-09:t"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-09:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-10",
+      "scenario": "cadena de autorización escolar",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-10:document1",
+          "text": "Registro documental 1 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-10:document2",
+          "text": "Registro documental 2 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-10:document3",
+          "text": "Registro documental 3 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-10:document4",
+          "text": "Registro documental 4 del dominio cadena de autorización escolar. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-10:p",
+          "text": "Condición primitiva p reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:x",
+          "text": "Condición primitiva x reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:y",
+          "text": "Condición primitiva y reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:u",
+          "text": "Condición primitiva u reportada en registro 4 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:v",
+          "text": "Condición primitiva v reportada en registro 1 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:w",
+          "text": "Condición primitiva w reportada en registro 2 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:t",
+          "text": "Condición primitiva t reportada en registro 3 del campo cadena de autorización escolar.",
+          "source_ids": [
+            "epi06:nx-10:document3"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-10:rule0",
+          "antecedents": [
+            "epi06:nx-10:p",
+            "epi06:nx-10:x"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-10:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:rule1",
+          "antecedents": [
+            "epi06:nx-10:u",
+            "epi06:nx-10:v"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-10:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:rule2",
+          "antecedents": [
+            "epi06:nx-10:p",
+            "epi06:nx-10:y"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-10:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-10:rule3",
+          "antecedents": [
+            "epi06:nx-10:w",
+            "epi06:nx-10:t"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-10:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-10:x",
+            "epi06:nx-10:u"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-11",
+      "scenario": "informe de licitaciones con documentos incompatibles",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-11:document1",
+          "text": "Registro documental 1 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-11:document2",
+          "text": "Registro documental 2 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-11:document3",
+          "text": "Registro documental 3 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-11:document4",
+          "text": "Registro documental 4 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-11:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-11:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-11:rule0",
+          "antecedents": [
+            "epi06:nx-11:a",
+            "epi06:nx-11:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-11:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:rule1",
+          "antecedents": [
+            "epi06:nx-11:c",
+            "epi06:nx-11:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-11:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:rule2",
+          "antecedents": [
+            "epi06:nx-11:d",
+            "epi06:nx-11:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-11:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-11:rule3",
+          "antecedents": [
+            "epi06:nx-11:f",
+            "epi06:nx-11:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-11:document4"
+          ]
+        }
+      ],
+      "nogoods": [
+        [
+          "epi06:nx-11:a",
+          "epi06:nx-11:d"
+        ],
+        [
+          "epi06:nx-11:c",
+          "epi06:nx-11:f"
+        ],
+        [
+          "epi06:nx-11:b",
+          "epi06:nx-11:j"
+        ]
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-11:d",
+            "epi06:nx-11:f"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-12",
+      "scenario": "informe de licitaciones con documentos incompatibles",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-12:document1",
+          "text": "Registro documental 1 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-12:document2",
+          "text": "Registro documental 2 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-12:document3",
+          "text": "Registro documental 3 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-12:document4",
+          "text": "Registro documental 4 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-12:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-12:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-12:rule0",
+          "antecedents": [
+            "epi06:nx-12:a",
+            "epi06:nx-12:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-12:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:rule1",
+          "antecedents": [
+            "epi06:nx-12:c",
+            "epi06:nx-12:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-12:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:rule2",
+          "antecedents": [
+            "epi06:nx-12:d",
+            "epi06:nx-12:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-12:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-12:rule3",
+          "antecedents": [
+            "epi06:nx-12:f",
+            "epi06:nx-12:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-12:document4"
+          ]
+        }
+      ],
+      "nogoods": [
+        [
+          "epi06:nx-12:a",
+          "epi06:nx-12:d"
+        ],
+        [
+          "epi06:nx-12:c",
+          "epi06:nx-12:f"
+        ],
+        [
+          "epi06:nx-12:b",
+          "epi06:nx-12:j"
+        ]
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-13",
+      "scenario": "informe de licitaciones con documentos incompatibles",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-13:document1",
+          "text": "Registro documental 1 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-13:document2",
+          "text": "Registro documental 2 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-13:document3",
+          "text": "Registro documental 3 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-13:document4",
+          "text": "Registro documental 4 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-13:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-13:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-13:rule0",
+          "antecedents": [
+            "epi06:nx-13:a",
+            "epi06:nx-13:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-13:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:rule1",
+          "antecedents": [
+            "epi06:nx-13:c",
+            "epi06:nx-13:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-13:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:rule2",
+          "antecedents": [
+            "epi06:nx-13:d",
+            "epi06:nx-13:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-13:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-13:rule3",
+          "antecedents": [
+            "epi06:nx-13:f",
+            "epi06:nx-13:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-13:document4"
+          ]
+        }
+      ],
+      "nogoods": [
+        [
+          "epi06:nx-13:a",
+          "epi06:nx-13:d"
+        ],
+        [
+          "epi06:nx-13:c",
+          "epi06:nx-13:f"
+        ],
+        [
+          "epi06:nx-13:b",
+          "epi06:nx-13:j"
+        ]
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-13:a",
+            "epi06:nx-13:c",
+            "epi06:nx-13:d",
+            "epi06:nx-13:f"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-14",
+      "scenario": "informe de licitaciones con documentos incompatibles",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-14:document1",
+          "text": "Registro documental 1 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-14:document2",
+          "text": "Registro documental 2 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-14:document3",
+          "text": "Registro documental 3 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-14:document4",
+          "text": "Registro documental 4 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-14:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-14:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-14:rule0",
+          "antecedents": [
+            "epi06:nx-14:a",
+            "epi06:nx-14:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-14:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:rule1",
+          "antecedents": [
+            "epi06:nx-14:c",
+            "epi06:nx-14:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-14:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:rule2",
+          "antecedents": [
+            "epi06:nx-14:d",
+            "epi06:nx-14:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-14:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-14:rule3",
+          "antecedents": [
+            "epi06:nx-14:f",
+            "epi06:nx-14:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-14:document4"
+          ]
+        }
+      ],
+      "nogoods": [
+        [
+          "epi06:nx-14:a",
+          "epi06:nx-14:d"
+        ],
+        [
+          "epi06:nx-14:c",
+          "epi06:nx-14:f"
+        ],
+        [
+          "epi06:nx-14:b",
+          "epi06:nx-14:j"
+        ]
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-14:a",
+            "epi06:nx-14:c"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-15",
+      "scenario": "informe de licitaciones con documentos incompatibles",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-15:document1",
+          "text": "Registro documental 1 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-15:document2",
+          "text": "Registro documental 2 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-15:document3",
+          "text": "Registro documental 3 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-15:document4",
+          "text": "Registro documental 4 del dominio informe de licitaciones con documentos incompatibles. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-15:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo informe de licitaciones con documentos incompatibles.",
+          "source_ids": [
+            "epi06:nx-15:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-15:rule0",
+          "antecedents": [
+            "epi06:nx-15:a",
+            "epi06:nx-15:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-15:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:rule1",
+          "antecedents": [
+            "epi06:nx-15:c",
+            "epi06:nx-15:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-15:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:rule2",
+          "antecedents": [
+            "epi06:nx-15:d",
+            "epi06:nx-15:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-15:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-15:rule3",
+          "antecedents": [
+            "epi06:nx-15:f",
+            "epi06:nx-15:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-15:document4"
+          ]
+        }
+      ],
+      "nogoods": [
+        [
+          "epi06:nx-15:a",
+          "epi06:nx-15:d"
+        ],
+        [
+          "epi06:nx-15:c",
+          "epi06:nx-15:f"
+        ],
+        [
+          "epi06:nx-15:b",
+          "epi06:nx-15:j"
+        ]
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-15:b",
+            "epi06:nx-15:i",
+            "epi06:nx-15:e",
+            "epi06:nx-15:j"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-16",
+      "scenario": "permisos revocados y restaurados de un sistema logístico",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-16:document1",
+          "text": "Registro documental 1 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-16:document2",
+          "text": "Registro documental 2 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-16:document3",
+          "text": "Registro documental 3 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-16:document4",
+          "text": "Registro documental 4 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-16:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-16:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-16:rule0",
+          "antecedents": [
+            "epi06:nx-16:a",
+            "epi06:nx-16:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-16:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:rule1",
+          "antecedents": [
+            "epi06:nx-16:c",
+            "epi06:nx-16:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-16:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:rule2",
+          "antecedents": [
+            "epi06:nx-16:d",
+            "epi06:nx-16:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-16:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-16:rule3",
+          "antecedents": [
+            "epi06:nx-16:f",
+            "epi06:nx-16:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-16:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-16:a",
+            "epi06:nx-16:c",
+            "epi06:nx-16:d",
+            "epi06:nx-16:f"
+          ],
+          "type": "retraction"
+        },
+        {
+          "id": "R2",
+          "revoked": [
+            "epi06:nx-16:b",
+            "epi06:nx-16:i",
+            "epi06:nx-16:e",
+            "epi06:nx-16:j"
+          ],
+          "restored": [
+            "epi06:nx-16:a",
+            "epi06:nx-16:c",
+            "epi06:nx-16:d",
+            "epi06:nx-16:f"
+          ],
+          "newly_revoked": [
+            "epi06:nx-16:b",
+            "epi06:nx-16:i",
+            "epi06:nx-16:e",
+            "epi06:nx-16:j"
+          ],
+          "type": "restoration"
+        }
+      ],
+      "target_revision": "R2",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-17",
+      "scenario": "permisos revocados y restaurados de un sistema logístico",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-17:document1",
+          "text": "Registro documental 1 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-17:document2",
+          "text": "Registro documental 2 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-17:document3",
+          "text": "Registro documental 3 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-17:document4",
+          "text": "Registro documental 4 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-17:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-17:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-17:rule0",
+          "antecedents": [
+            "epi06:nx-17:a",
+            "epi06:nx-17:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-17:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:rule1",
+          "antecedents": [
+            "epi06:nx-17:c",
+            "epi06:nx-17:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-17:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:rule2",
+          "antecedents": [
+            "epi06:nx-17:d",
+            "epi06:nx-17:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-17:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-17:rule3",
+          "antecedents": [
+            "epi06:nx-17:f",
+            "epi06:nx-17:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-17:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-17:a",
+            "epi06:nx-17:c",
+            "epi06:nx-17:d",
+            "epi06:nx-17:f"
+          ],
+          "type": "retraction"
+        },
+        {
+          "id": "R2",
+          "revoked": [
+            "epi06:nx-17:a",
+            "epi06:nx-17:c"
+          ],
+          "restored": [
+            "epi06:nx-17:d",
+            "epi06:nx-17:f"
+          ],
+          "newly_revoked": [],
+          "type": "restoration"
+        }
+      ],
+      "target_revision": "R2",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-18",
+      "scenario": "permisos revocados y restaurados de un sistema logístico",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-18:document1",
+          "text": "Registro documental 1 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-18:document2",
+          "text": "Registro documental 2 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-18:document3",
+          "text": "Registro documental 3 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-18:document4",
+          "text": "Registro documental 4 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-18:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-18:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-18:rule0",
+          "antecedents": [
+            "epi06:nx-18:a",
+            "epi06:nx-18:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-18:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:rule1",
+          "antecedents": [
+            "epi06:nx-18:c",
+            "epi06:nx-18:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-18:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:rule2",
+          "antecedents": [
+            "epi06:nx-18:d",
+            "epi06:nx-18:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-18:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-18:rule3",
+          "antecedents": [
+            "epi06:nx-18:f",
+            "epi06:nx-18:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-18:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-18:a",
+            "epi06:nx-18:c",
+            "epi06:nx-18:d",
+            "epi06:nx-18:f"
+          ],
+          "type": "retraction"
+        },
+        {
+          "id": "R2",
+          "revoked": [
+            "epi06:nx-18:d",
+            "epi06:nx-18:f"
+          ],
+          "restored": [
+            "epi06:nx-18:a",
+            "epi06:nx-18:c"
+          ],
+          "newly_revoked": [],
+          "type": "restoration"
+        }
+      ],
+      "target_revision": "R2",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-19",
+      "scenario": "permisos revocados y restaurados de un sistema logístico",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-19:document1",
+          "text": "Registro documental 1 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-19:document2",
+          "text": "Registro documental 2 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-19:document3",
+          "text": "Registro documental 3 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-19:document4",
+          "text": "Registro documental 4 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-19:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-19:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-19:rule0",
+          "antecedents": [
+            "epi06:nx-19:a",
+            "epi06:nx-19:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-19:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:rule1",
+          "antecedents": [
+            "epi06:nx-19:c",
+            "epi06:nx-19:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-19:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:rule2",
+          "antecedents": [
+            "epi06:nx-19:d",
+            "epi06:nx-19:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-19:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-19:rule3",
+          "antecedents": [
+            "epi06:nx-19:f",
+            "epi06:nx-19:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-19:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-19:a",
+            "epi06:nx-19:c",
+            "epi06:nx-19:d",
+            "epi06:nx-19:f"
+          ],
+          "type": "retraction"
+        },
+        {
+          "id": "R2",
+          "revoked": [
+            "epi06:nx-19:a",
+            "epi06:nx-19:c",
+            "epi06:nx-19:d",
+            "epi06:nx-19:f"
+          ],
+          "restored": [],
+          "newly_revoked": [],
+          "type": "restoration"
+        }
+      ],
+      "target_revision": "R2",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    },
+    {
+      "id": "NX-20",
+      "scenario": "permisos revocados y restaurados de un sistema logístico",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Hipótesis candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Hipótesis candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi06:nx-20:document1",
+          "text": "Registro documental 1 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-20:document2",
+          "text": "Registro documental 2 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-20:document3",
+          "text": "Registro documental 3 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        },
+        {
+          "id": "epi06:nx-20:document4",
+          "text": "Registro documental 4 del dominio permisos revocados y restaurados de un sistema logístico. Evidencia para las reglas de procedencia asociadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi06:nx-20:a",
+          "text": "Condición primitiva a reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:b",
+          "text": "Condición primitiva b reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:c",
+          "text": "Condición primitiva c reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:d",
+          "text": "Condición primitiva d reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document4"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:e",
+          "text": "Condición primitiva e reportada en registro 1 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:f",
+          "text": "Condición primitiva f reportada en registro 2 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:i",
+          "text": "Condición primitiva i reportada en registro 3 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:j",
+          "text": "Condición primitiva j reportada en registro 4 del campo permisos revocados y restaurados de un sistema logístico.",
+          "source_ids": [
+            "epi06:nx-20:document4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi06:nx-20:rule0",
+          "antecedents": [
+            "epi06:nx-20:a",
+            "epi06:nx-20:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-20:document1"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:rule1",
+          "antecedents": [
+            "epi06:nx-20:c",
+            "epi06:nx-20:i"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi06:nx-20:document2"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:rule2",
+          "antecedents": [
+            "epi06:nx-20:d",
+            "epi06:nx-20:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-20:document3"
+          ]
+        },
+        {
+          "id": "epi06:nx-20:rule3",
+          "antecedents": [
+            "epi06:nx-20:f",
+            "epi06:nx-20:j"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi06:nx-20:document4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi06:nx-20:a",
+            "epi06:nx-20:c",
+            "epi06:nx-20:d",
+            "epi06:nx-20:f"
+          ],
+          "type": "retraction"
+        },
+        {
+          "id": "R2",
+          "revoked": [],
+          "restored": [
+            "epi06:nx-20:a",
+            "epi06:nx-20:c",
+            "epi06:nx-20:d",
+            "epi06:nx-20:f"
+          ],
+          "newly_revoked": [],
+          "type": "restoration"
+        }
+      ],
+      "target_revision": "R2",
+      "task": "Evaluar soporte deductivo individual de H1 y H2 bajo reglas AND/OR y revisión final. No evaluar si son verdaderas en la realidad."
+    }
+  ]
+}
