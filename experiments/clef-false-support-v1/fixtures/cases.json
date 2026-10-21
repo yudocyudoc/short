@@ -1,0 +1,1307 @@
+{
+  "schema": "short-epi05-diagnostic-cases/1",
+  "source_commit": "047911d739676b15721fdafde20faad49387c250",
+  "source_file_blob": "c47f4728c6abba21948485c95f6d5a73bc5649b4",
+  "source_gold_blob": "a580c181a65e935f1e048535b6513b3396249eab",
+  "question": "False support under revoked assumptions",
+  "strata": {
+    "NEITHER": [
+      "HET-04",
+      "HET-08",
+      "HET-12",
+      "HET-16",
+      "HET-20"
+    ],
+    "controls": [
+      "HET-05",
+      "HET-06",
+      "HET-07"
+    ]
+  },
+  "cases": [
+    {
+      "id": "HET-04",
+      "motif": "branching",
+      "scenario": "mantenimiento de redes eléctricas",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-04:doc1",
+          "text": "Registro fuente 1 del campo de mantenimiento de redes eléctricas, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-04:doc2",
+          "text": "Registro fuente 2 del campo de mantenimiento de redes eléctricas, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-04:doc3",
+          "text": "Registro fuente 3 del campo de mantenimiento de redes eléctricas, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-04:doc4",
+          "text": "Registro fuente 4 del campo de mantenimiento de redes eléctricas, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-04:p",
+          "text": "Supuesto independiente p, sustentado por el registro de mantenimiento de redes eléctricas 1.",
+          "source_ids": [
+            "epi04:het-04:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-04:q",
+          "text": "Supuesto independiente q, sustentado por el registro de mantenimiento de redes eléctricas 2.",
+          "source_ids": [
+            "epi04:het-04:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-04:r",
+          "text": "Supuesto independiente r, sustentado por el registro de mantenimiento de redes eléctricas 3.",
+          "source_ids": [
+            "epi04:het-04:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-04:s",
+          "text": "Supuesto independiente s, sustentado por el registro de mantenimiento de redes eléctricas 4.",
+          "source_ids": [
+            "epi04:het-04:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-04:t",
+          "text": "Supuesto independiente t, sustentado por el registro de mantenimiento de redes eléctricas 5.",
+          "source_ids": [
+            "epi04:het-04:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-04:u",
+          "text": "Supuesto independiente u, sustentado por el registro de mantenimiento de redes eléctricas 6.",
+          "source_ids": [
+            "epi04:het-04:doc2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-04:rule1",
+          "antecedents": [
+            "epi04:het-04:p",
+            "epi04:het-04:q"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-04:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-04:rule2",
+          "antecedents": [
+            "epi04:het-04:r"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-04:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-04:rule3",
+          "antecedents": [
+            "epi04:het-04:s",
+            "epi04:het-04:t"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-04:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-04:rule4",
+          "antecedents": [
+            "epi04:het-04:u"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-04:doc4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-04:p",
+            "epi04:het-04:r",
+            "epi04:het-04:s",
+            "epi04:het-04:u"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-05",
+      "motif": "chain",
+      "scenario": "distribución de insumos sanitarios",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-05:doc1",
+          "text": "Registro fuente 1 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-05:doc2",
+          "text": "Registro fuente 2 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-05:doc3",
+          "text": "Registro fuente 3 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-05:doc4",
+          "text": "Registro fuente 4 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-05:a",
+          "text": "Supuesto independiente a, sustentado por el registro de distribución de insumos sanitarios 1.",
+          "source_ids": [
+            "epi04:het-05:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-05:b",
+          "text": "Supuesto independiente b, sustentado por el registro de distribución de insumos sanitarios 2.",
+          "source_ids": [
+            "epi04:het-05:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-05:c",
+          "text": "Supuesto independiente c, sustentado por el registro de distribución de insumos sanitarios 3.",
+          "source_ids": [
+            "epi04:het-05:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-05:d",
+          "text": "Supuesto independiente d, sustentado por el registro de distribución de insumos sanitarios 4.",
+          "source_ids": [
+            "epi04:het-05:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-05:e",
+          "text": "Supuesto independiente e, sustentado por el registro de distribución de insumos sanitarios 5.",
+          "source_ids": [
+            "epi04:het-05:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-05:f",
+          "text": "Supuesto independiente f, sustentado por el registro de distribución de insumos sanitarios 6.",
+          "source_ids": [
+            "epi04:het-05:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-05:g",
+          "text": "Supuesto independiente g, sustentado por el registro de distribución de insumos sanitarios 7.",
+          "source_ids": [
+            "epi04:het-05:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-05:h",
+          "text": "Supuesto independiente h, sustentado por el registro de distribución de insumos sanitarios 8.",
+          "source_ids": [
+            "epi04:het-05:doc4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-05:rule1",
+          "antecedents": [
+            "epi04:het-05:a",
+            "epi04:het-05:b"
+          ],
+          "consequent": "epi04:het-05:X1",
+          "source_ids": [
+            "epi04:het-05:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-05:rule2",
+          "antecedents": [
+            "epi04:het-05:X1",
+            "epi04:het-05:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-05:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-05:rule3",
+          "antecedents": [
+            "epi04:het-05:d"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-05:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-05:rule4",
+          "antecedents": [
+            "epi04:het-05:e",
+            "epi04:het-05:f"
+          ],
+          "consequent": "epi04:het-05:X2",
+          "source_ids": [
+            "epi04:het-05:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-05:rule5",
+          "antecedents": [
+            "epi04:het-05:X2",
+            "epi04:het-05:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-05:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-05:rule6",
+          "antecedents": [
+            "epi04:het-05:h"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-05:doc2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-06",
+      "motif": "chain",
+      "scenario": "distribución de insumos sanitarios",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-06:doc1",
+          "text": "Registro fuente 1 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-06:doc2",
+          "text": "Registro fuente 2 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-06:doc3",
+          "text": "Registro fuente 3 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-06:doc4",
+          "text": "Registro fuente 4 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-06:a",
+          "text": "Supuesto independiente a, sustentado por el registro de distribución de insumos sanitarios 1.",
+          "source_ids": [
+            "epi04:het-06:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-06:b",
+          "text": "Supuesto independiente b, sustentado por el registro de distribución de insumos sanitarios 2.",
+          "source_ids": [
+            "epi04:het-06:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-06:c",
+          "text": "Supuesto independiente c, sustentado por el registro de distribución de insumos sanitarios 3.",
+          "source_ids": [
+            "epi04:het-06:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-06:d",
+          "text": "Supuesto independiente d, sustentado por el registro de distribución de insumos sanitarios 4.",
+          "source_ids": [
+            "epi04:het-06:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-06:e",
+          "text": "Supuesto independiente e, sustentado por el registro de distribución de insumos sanitarios 5.",
+          "source_ids": [
+            "epi04:het-06:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-06:f",
+          "text": "Supuesto independiente f, sustentado por el registro de distribución de insumos sanitarios 6.",
+          "source_ids": [
+            "epi04:het-06:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-06:g",
+          "text": "Supuesto independiente g, sustentado por el registro de distribución de insumos sanitarios 7.",
+          "source_ids": [
+            "epi04:het-06:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-06:h",
+          "text": "Supuesto independiente h, sustentado por el registro de distribución de insumos sanitarios 8.",
+          "source_ids": [
+            "epi04:het-06:doc4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-06:rule1",
+          "antecedents": [
+            "epi04:het-06:a",
+            "epi04:het-06:b"
+          ],
+          "consequent": "epi04:het-06:X1",
+          "source_ids": [
+            "epi04:het-06:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-06:rule2",
+          "antecedents": [
+            "epi04:het-06:X1",
+            "epi04:het-06:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-06:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-06:rule3",
+          "antecedents": [
+            "epi04:het-06:d"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-06:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-06:rule4",
+          "antecedents": [
+            "epi04:het-06:e",
+            "epi04:het-06:f"
+          ],
+          "consequent": "epi04:het-06:X2",
+          "source_ids": [
+            "epi04:het-06:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-06:rule5",
+          "antecedents": [
+            "epi04:het-06:X2",
+            "epi04:het-06:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-06:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-06:rule6",
+          "antecedents": [
+            "epi04:het-06:h"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-06:doc2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-06:e",
+            "epi04:het-06:h"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-07",
+      "motif": "chain",
+      "scenario": "distribución de insumos sanitarios",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-07:doc1",
+          "text": "Registro fuente 1 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-07:doc2",
+          "text": "Registro fuente 2 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-07:doc3",
+          "text": "Registro fuente 3 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-07:doc4",
+          "text": "Registro fuente 4 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-07:a",
+          "text": "Supuesto independiente a, sustentado por el registro de distribución de insumos sanitarios 1.",
+          "source_ids": [
+            "epi04:het-07:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-07:b",
+          "text": "Supuesto independiente b, sustentado por el registro de distribución de insumos sanitarios 2.",
+          "source_ids": [
+            "epi04:het-07:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-07:c",
+          "text": "Supuesto independiente c, sustentado por el registro de distribución de insumos sanitarios 3.",
+          "source_ids": [
+            "epi04:het-07:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-07:d",
+          "text": "Supuesto independiente d, sustentado por el registro de distribución de insumos sanitarios 4.",
+          "source_ids": [
+            "epi04:het-07:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-07:e",
+          "text": "Supuesto independiente e, sustentado por el registro de distribución de insumos sanitarios 5.",
+          "source_ids": [
+            "epi04:het-07:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-07:f",
+          "text": "Supuesto independiente f, sustentado por el registro de distribución de insumos sanitarios 6.",
+          "source_ids": [
+            "epi04:het-07:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-07:g",
+          "text": "Supuesto independiente g, sustentado por el registro de distribución de insumos sanitarios 7.",
+          "source_ids": [
+            "epi04:het-07:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-07:h",
+          "text": "Supuesto independiente h, sustentado por el registro de distribución de insumos sanitarios 8.",
+          "source_ids": [
+            "epi04:het-07:doc4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-07:rule1",
+          "antecedents": [
+            "epi04:het-07:a",
+            "epi04:het-07:b"
+          ],
+          "consequent": "epi04:het-07:X1",
+          "source_ids": [
+            "epi04:het-07:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-07:rule2",
+          "antecedents": [
+            "epi04:het-07:X1",
+            "epi04:het-07:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-07:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-07:rule3",
+          "antecedents": [
+            "epi04:het-07:d"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-07:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-07:rule4",
+          "antecedents": [
+            "epi04:het-07:e",
+            "epi04:het-07:f"
+          ],
+          "consequent": "epi04:het-07:X2",
+          "source_ids": [
+            "epi04:het-07:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-07:rule5",
+          "antecedents": [
+            "epi04:het-07:X2",
+            "epi04:het-07:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-07:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-07:rule6",
+          "antecedents": [
+            "epi04:het-07:h"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-07:doc2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-07:a",
+            "epi04:het-07:d"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-08",
+      "motif": "chain",
+      "scenario": "distribución de insumos sanitarios",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-08:doc1",
+          "text": "Registro fuente 1 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-08:doc2",
+          "text": "Registro fuente 2 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-08:doc3",
+          "text": "Registro fuente 3 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-08:doc4",
+          "text": "Registro fuente 4 del campo de distribución de insumos sanitarios, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-08:a",
+          "text": "Supuesto independiente a, sustentado por el registro de distribución de insumos sanitarios 1.",
+          "source_ids": [
+            "epi04:het-08:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-08:b",
+          "text": "Supuesto independiente b, sustentado por el registro de distribución de insumos sanitarios 2.",
+          "source_ids": [
+            "epi04:het-08:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-08:c",
+          "text": "Supuesto independiente c, sustentado por el registro de distribución de insumos sanitarios 3.",
+          "source_ids": [
+            "epi04:het-08:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-08:d",
+          "text": "Supuesto independiente d, sustentado por el registro de distribución de insumos sanitarios 4.",
+          "source_ids": [
+            "epi04:het-08:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-08:e",
+          "text": "Supuesto independiente e, sustentado por el registro de distribución de insumos sanitarios 5.",
+          "source_ids": [
+            "epi04:het-08:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-08:f",
+          "text": "Supuesto independiente f, sustentado por el registro de distribución de insumos sanitarios 6.",
+          "source_ids": [
+            "epi04:het-08:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-08:g",
+          "text": "Supuesto independiente g, sustentado por el registro de distribución de insumos sanitarios 7.",
+          "source_ids": [
+            "epi04:het-08:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-08:h",
+          "text": "Supuesto independiente h, sustentado por el registro de distribución de insumos sanitarios 8.",
+          "source_ids": [
+            "epi04:het-08:doc4"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-08:rule1",
+          "antecedents": [
+            "epi04:het-08:a",
+            "epi04:het-08:b"
+          ],
+          "consequent": "epi04:het-08:X1",
+          "source_ids": [
+            "epi04:het-08:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-08:rule2",
+          "antecedents": [
+            "epi04:het-08:X1",
+            "epi04:het-08:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-08:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-08:rule3",
+          "antecedents": [
+            "epi04:het-08:d"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-08:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-08:rule4",
+          "antecedents": [
+            "epi04:het-08:e",
+            "epi04:het-08:f"
+          ],
+          "consequent": "epi04:het-08:X2",
+          "source_ids": [
+            "epi04:het-08:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-08:rule5",
+          "antecedents": [
+            "epi04:het-08:X2",
+            "epi04:het-08:g"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-08:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-08:rule6",
+          "antecedents": [
+            "epi04:het-08:h"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-08:doc2"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-08:a",
+            "epi04:het-08:d",
+            "epi04:het-08:e",
+            "epi04:het-08:h"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-12",
+      "motif": "shared",
+      "scenario": "trámites de una escuela",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-12:doc1",
+          "text": "Registro fuente 1 del campo de trámites de una escuela, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-12:doc2",
+          "text": "Registro fuente 2 del campo de trámites de una escuela, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-12:doc3",
+          "text": "Registro fuente 3 del campo de trámites de una escuela, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-12:doc4",
+          "text": "Registro fuente 4 del campo de trámites de una escuela, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-12:base",
+          "text": "Supuesto independiente base, sustentado por el registro de trámites de una escuela 1.",
+          "source_ids": [
+            "epi04:het-12:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-12:x",
+          "text": "Supuesto independiente x, sustentado por el registro de trámites de una escuela 2.",
+          "source_ids": [
+            "epi04:het-12:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-12:y",
+          "text": "Supuesto independiente y, sustentado por el registro de trámites de una escuela 3.",
+          "source_ids": [
+            "epi04:het-12:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-12:z",
+          "text": "Supuesto independiente z, sustentado por el registro de trámites de una escuela 4.",
+          "source_ids": [
+            "epi04:het-12:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-12:w",
+          "text": "Supuesto independiente w, sustentado por el registro de trámites de una escuela 5.",
+          "source_ids": [
+            "epi04:het-12:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-12:q",
+          "text": "Supuesto independiente q, sustentado por el registro de trámites de una escuela 6.",
+          "source_ids": [
+            "epi04:het-12:doc2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-12:rule1",
+          "antecedents": [
+            "epi04:het-12:base",
+            "epi04:het-12:x"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-12:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-12:rule2",
+          "antecedents": [
+            "epi04:het-12:z",
+            "epi04:het-12:w"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-12:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-12:rule3",
+          "antecedents": [
+            "epi04:het-12:base",
+            "epi04:het-12:y"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-12:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-12:rule4",
+          "antecedents": [
+            "epi04:het-12:q"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-12:doc4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-12:x",
+            "epi04:het-12:z",
+            "epi04:het-12:y",
+            "epi04:het-12:q"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-16",
+      "motif": "nogoods",
+      "scenario": "adjudicaciones con evidencias incompatibles",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-16:doc1",
+          "text": "Registro fuente 1 del campo de adjudicaciones con evidencias incompatibles, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-16:doc2",
+          "text": "Registro fuente 2 del campo de adjudicaciones con evidencias incompatibles, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-16:doc3",
+          "text": "Registro fuente 3 del campo de adjudicaciones con evidencias incompatibles, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-16:doc4",
+          "text": "Registro fuente 4 del campo de adjudicaciones con evidencias incompatibles, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-16:a",
+          "text": "Supuesto independiente a, sustentado por el registro de adjudicaciones con evidencias incompatibles 1.",
+          "source_ids": [
+            "epi04:het-16:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-16:b",
+          "text": "Supuesto independiente b, sustentado por el registro de adjudicaciones con evidencias incompatibles 2.",
+          "source_ids": [
+            "epi04:het-16:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-16:c",
+          "text": "Supuesto independiente c, sustentado por el registro de adjudicaciones con evidencias incompatibles 3.",
+          "source_ids": [
+            "epi04:het-16:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-16:d",
+          "text": "Supuesto independiente d, sustentado por el registro de adjudicaciones con evidencias incompatibles 4.",
+          "source_ids": [
+            "epi04:het-16:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-16:e",
+          "text": "Supuesto independiente e, sustentado por el registro de adjudicaciones con evidencias incompatibles 5.",
+          "source_ids": [
+            "epi04:het-16:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-16:f",
+          "text": "Supuesto independiente f, sustentado por el registro de adjudicaciones con evidencias incompatibles 6.",
+          "source_ids": [
+            "epi04:het-16:doc2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-16:rule1",
+          "antecedents": [
+            "epi04:het-16:a",
+            "epi04:het-16:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-16:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-16:rule2",
+          "antecedents": [
+            "epi04:het-16:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-16:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-16:rule3",
+          "antecedents": [
+            "epi04:het-16:d",
+            "epi04:het-16:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-16:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-16:rule4",
+          "antecedents": [
+            "epi04:het-16:f"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-16:doc4"
+          ]
+        }
+      ],
+      "nogoods": [
+        [
+          "epi04:het-16:a",
+          "epi04:het-16:d"
+        ],
+        [
+          "epi04:het-16:c",
+          "epi04:het-16:f"
+        ]
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-16:a",
+            "epi04:het-16:c",
+            "epi04:het-16:d",
+            "epi04:het-16:f"
+          ],
+          "type": "retraction"
+        }
+      ],
+      "target_revision": "R1",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    },
+    {
+      "id": "HET-20",
+      "motif": "restoration",
+      "scenario": "autorizaciones logísticas con retractación y restauración",
+      "hypotheses": [
+        {
+          "id": "H1",
+          "description": "Estructura candidata H1"
+        },
+        {
+          "id": "H2",
+          "description": "Estructura candidata H2"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "epi04:het-20:doc1",
+          "text": "Registro fuente 1 del campo de autorizaciones logísticas con retractación y restauración, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-20:doc2",
+          "text": "Registro fuente 2 del campo de autorizaciones logísticas con retractación y restauración, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-20:doc3",
+          "text": "Registro fuente 3 del campo de autorizaciones logísticas con retractación y restauración, para las justificaciones especificadas."
+        },
+        {
+          "id": "epi04:het-20:doc4",
+          "text": "Registro fuente 4 del campo de autorizaciones logísticas con retractación y restauración, para las justificaciones especificadas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi04:het-20:a",
+          "text": "Supuesto independiente a, sustentado por el registro de autorizaciones logísticas con retractación y restauración 1.",
+          "source_ids": [
+            "epi04:het-20:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-20:b",
+          "text": "Supuesto independiente b, sustentado por el registro de autorizaciones logísticas con retractación y restauración 2.",
+          "source_ids": [
+            "epi04:het-20:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-20:c",
+          "text": "Supuesto independiente c, sustentado por el registro de autorizaciones logísticas con retractación y restauración 3.",
+          "source_ids": [
+            "epi04:het-20:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-20:d",
+          "text": "Supuesto independiente d, sustentado por el registro de autorizaciones logísticas con retractación y restauración 4.",
+          "source_ids": [
+            "epi04:het-20:doc4"
+          ]
+        },
+        {
+          "id": "epi04:het-20:e",
+          "text": "Supuesto independiente e, sustentado por el registro de autorizaciones logísticas con retractación y restauración 5.",
+          "source_ids": [
+            "epi04:het-20:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-20:f",
+          "text": "Supuesto independiente f, sustentado por el registro de autorizaciones logísticas con retractación y restauración 6.",
+          "source_ids": [
+            "epi04:het-20:doc2"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi04:het-20:rule1",
+          "antecedents": [
+            "epi04:het-20:a",
+            "epi04:het-20:b"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-20:doc1"
+          ]
+        },
+        {
+          "id": "epi04:het-20:rule2",
+          "antecedents": [
+            "epi04:het-20:c"
+          ],
+          "consequent": "H1",
+          "source_ids": [
+            "epi04:het-20:doc2"
+          ]
+        },
+        {
+          "id": "epi04:het-20:rule3",
+          "antecedents": [
+            "epi04:het-20:d",
+            "epi04:het-20:e"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-20:doc3"
+          ]
+        },
+        {
+          "id": "epi04:het-20:rule4",
+          "antecedents": [
+            "epi04:het-20:f"
+          ],
+          "consequent": "H2",
+          "source_ids": [
+            "epi04:het-20:doc4"
+          ]
+        }
+      ],
+      "nogoods": [],
+      "revisions": [
+        {
+          "id": "R0",
+          "revoked": [],
+          "type": "baseline"
+        },
+        {
+          "id": "R1",
+          "revoked": [
+            "epi04:het-20:a",
+            "epi04:het-20:c",
+            "epi04:het-20:d",
+            "epi04:het-20:f"
+          ],
+          "type": "retraction"
+        },
+        {
+          "id": "R2",
+          "revoked": [
+            "epi04:het-20:a",
+            "epi04:het-20:c",
+            "epi04:het-20:d",
+            "epi04:het-20:f"
+          ],
+          "restored": [],
+          "type": "restoration"
+        }
+      ],
+      "target_revision": "R2",
+      "task": "Determina para H1 y H2 POR SEPARADO si existe al menos un entorno de supuestos vigente y consistente que soporte cada hipótesis. BOTH NO exige que las dos hipótesis puedan ser verdaderas simultáneamente. Una invalidación de R1 puede restaurarse en R2. Responde el estado del último corte."
+    }
+  ]
+}

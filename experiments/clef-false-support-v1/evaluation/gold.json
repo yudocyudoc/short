@@ -1,0 +1,15 @@
+{
+  "schema": "short-epi05-gold/1",
+  "locked_before_provider": true,
+  "source_commit": "047911d739676b15721fdafde20faad49387c250",
+  "statuses": {
+    "HET-04": "NEITHER",
+    "HET-05": "BOTH",
+    "HET-06": "ONLY_H1",
+    "HET-07": "ONLY_H2",
+    "HET-08": "NEITHER",
+    "HET-12": "NEITHER",
+    "HET-16": "NEITHER",
+    "HET-20": "NEITHER"
+  }
+}
