@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/igc/contracts/arena_output.v0.1.schema.json",
+  "title": "IGC ARENA execution / adjudication result v0.1 (proposed)",
+  "description": "Only a server-side evaluator may produce this after independent validation, simulation and appropriate release of a holdout.",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "case_id", "round_id", "status", "candidate_results", "comparison", "proposed_next_tests", "audit"],
+  "properties": {
+    "schema_version": {"const": "igc.arena_output.v0.1"},
+    "case_id": {"type": "string"}, "round_id": {"type": "string"},
+    "status": {"enum": ["NOT_RUN", "PARTIAL", "COMPLETE", "INCONCLUSIVE"]},
+    "candidate_results": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["candidate_id", "origin_lane", "gates", "simulations", "prediction_lock_ref", "empirical_status"], "properties": {
+      "candidate_id": {"type": "string"}, "origin_lane": {"enum": ["D", "S"]},
+      "gates": {"type": "object", "additionalProperties": false, "required": ["g1_formal", "g2_execution", "g3_development_fit"], "properties": {"g1_formal": {"$ref": "#/$defs/gate"}, "g2_execution": {"$ref": "#/$defs/gate"}, "g3_development_fit": {"$ref": "#/$defs/gate"}}},
+      "simulations": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["run_ref", "parameter_set_ref", "observable_trajectory_refs"], "properties": {"run_ref": {"type": "string"}, "parameter_set_ref": {"type": "string"}, "observable_trajectory_refs": {"type": "array", "items": {"type": "string"}}}}},
+      "prediction_lock_ref": {"type": ["string", "null"]},
+      "empirical_status": {"enum": ["NOT_TESTED", "COMPATIBLE_WITH_HELDOUT", "REFUTED_BY_OBSERVATION", "NOT_DISCRIMINATED", "NOT_IDENTIFIABLE", "INSUFFICIENT_OBSERVATION"]}
+    }}},
+    "comparison": {"type": "object", "additionalProperties": false, "required": ["equivalence_classes", "discriminating_observables", "conclusion", "rival_outputs_not_voted"], "properties": {
+      "equivalence_classes": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
+      "discriminating_observables": {"type": "array", "items": {"type": "string"}},
+      "conclusion": {"enum": ["NOT_RUN", "DISCRIMINATING", "NO_DISCRIMINATION", "INCONCLUSIVE"]},
+      "rival_outputs_not_voted": {"const": true}
+    }},
+    "proposed_next_tests": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["question", "observable_ids", "authorized_intervention_required", "estimated_cost_status"], "properties": {
+      "question": {"type": "string"}, "observable_ids": {"type": "array", "items": {"type": "string"}},
+      "authorized_intervention_required": {"type": "boolean"},
+      "estimated_cost_status": {"enum": ["UNKNOWN", "ESTIMATED", "MEASURED"]}
+    }}},
+    "audit": {"type": "object", "additionalProperties": false, "required": ["input_hash", "snapshot_ref", "holdout_release_ref", "evaluated_at", "notes"], "properties": {
+      "input_hash": {"type": ["string", "null"]}, "snapshot_ref": {"type": ["string", "null"]},
+      "holdout_release_ref": {"type": ["string", "null"]}, "evaluated_at": {"type": ["string", "null"], "format": "date-time"},
+      "notes": {"type": "string"}
+    }}
+  },
+  "$defs": {"gate": {"type": "object", "additionalProperties": false, "required": ["status", "reason_code"], "properties": {"status": {"enum": ["NOT_RUN", "PASS", "FAIL", "INCONCLUSIVE"]}, "reason_code": {"type": ["string", "null"]}}}}
+}
+
