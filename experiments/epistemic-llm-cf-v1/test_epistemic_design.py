@@ -3,6 +3,8 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location("epi_build",HERE/"build_contexts.py")
 builder=importlib.util.module_from_spec(spec); spec.loader.exec_module(builder)
+run_spec=importlib.util.spec_from_file_location("epi_runner",HERE/"scripts/run_cloudflare.py")
+runner=importlib.util.module_from_spec(run_spec); run_spec.loader.exec_module(runner)
 CASE=json.loads((HERE/"case.json").read_text(encoding="utf-8"))
 
 class Epi01DesignTests(unittest.TestCase):
@@ -34,4 +36,15 @@ class Epi01DesignTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             report=builder.write_contexts(HERE/"case.json",Path(d))
             self.assertEqual((report["calls_made"],report["calls_planned"]),(0,9))
+    def test_inference_requires_explicit_authorization_before_network(self):
+        attempted=[]
+        def sender(*args,**kwargs):
+            attempted.append(True)
+            raise AssertionError("network must not be called")
+        with tempfile.TemporaryDirectory() as d:
+            with self.assertRaises(SystemExit):
+                runner.run(HERE,Path(d),env={"CLOUDFLARE_ACCOUNT_ID":"x","CLOUDFLARE_API_TOKEN":"y"},request_sender=sender)
+        self.assertEqual(attempted,[])
+        self.assertEqual(runner.MAX_CALLS,9)
+        self.assertEqual(runner.AUTH,"RUN_EPI01_MAX9")
 if __name__=="__main__": unittest.main()
