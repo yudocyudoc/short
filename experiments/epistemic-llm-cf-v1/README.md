@@ -10,7 +10,7 @@ Con el mismo expediente y las mismas tareas, ¿ayuda al modelo recibir estados b
 - **B — Booleano:** todo A + estado actual soportado/no soportado.
 - **C — Epistemológico:** todo A + entornos mínimos antes/después de la revisión, derivación de nogoods y estado calculado de cada justificación.
 
-Los tres brazos comparten las mismas fuentes, afirmaciones y reglas declarativas. La diferencia experimental está en la información derivada que se añade en B y C. La sugerencia de observación discriminante no aparece en el expediente.
+Los tres brazos comparten las mismas fuentes, afirmaciones, supuestos, justificaciones y tareas. La diferencia está en la información derivada que se añade en B y C. La sugerencia de observación discriminante no aparece en el expediente.
 
 ## Referencia lógica
 
@@ -18,18 +18,18 @@ La preparación usa una copia byte a byte del prototipo `AtmsProbe` de IGC, junt
 
 - Fuente: `yudocyudoc/IGC/scripts/f0_atms_probe.py`
 - Git blob SHA-1: `659e9dfe463daf4a03144c8d55622c9eeffca79a`
-- Referencia de rama: `fm-12-13-atms-llm-ablation`
-- Semántica comparada: entornos mínimos de soporte de CS-01 y CS-02, antes y después de REV-1.
+- Rama de origen: `fm-12-13-atms-llm-ablation`
+- Alcance: etiquetas mínimas de CS-01 y CS-02 antes y después de REV-1.
 
 ## Ejecución
 
-Los PRs/pushes ejecutan sólo preparación y pruebas sin secretos. El workflow manual del experimento acepta `auth_check` (consulta sin inferencia) o `infer` (requiere `RUN_EPI01_MAX9`, hasta nueve llamadas y sin reintentos). La rúbrica nunca se carga en los prompts.
+Los PRs/pushes ejecutan sólo preparación y pruebas sin secretos. El dispatcher de [PR #42](https://github.com/yudocyudoc/short/pull/42) acepta `auth_check` (consulta sin inferencia) o `infer` (requiere `RUN_EPI01_MAX9`). Exige el SHA completo de una revisión de la rama experimental y hace checkout de ese SHA exacto. El ejecutor limita el piloto a nueve llamadas, secuenciales y sin reintentos. La rúbrica nunca se carga en los prompts.
 
-El workflow de inferencia no está en `main`, por lo que Actions no puede despacharlo desde la rama por defecto mientras PR #41 siga abierto. Un dispatcher independiente en una rama/PR separado permitirá seleccionar un SHA explícito de la rama experimental; no fusionará EPI-01.
+El PR #41 permanece separado y en borrador. El dispatcher sólo podrá lanzarse desde Actions cuando el cambio del PR #42 llegue a `main`; no fusiona EPI-01 ni activa automáticamente una inferencia.
 
 ## Límites
 
-Piloto sintético y exploratorio: no prueba superioridad estadística, no evalúa ATMS frente a OR/AND como motores, ni valida causalidad o una organización real. El dictamen lógico se limita a esta fixture y a la versión exacta del prototipo referenciado.
+Piloto sintético y exploratorio: no prueba superioridad estadística, no evalúa ATMS frente a OR/AND como motores, ni valida causalidad o una organización real. La equivalencia lógica reportada es sólo para esta fixture y la copia exacta del prototipo referenciado.
 
 ## Procedencia de Cloudflare
 
