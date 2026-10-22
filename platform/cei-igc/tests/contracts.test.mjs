@@ -38,8 +38,10 @@ class MockDB {
     if(sql.includes("status='DISPATCH_ERROR'")){
       const [error,updated,id]=vals;Object.assign(db.jobs.get(id),{status:'DISPATCH_ERROR',error,updated_at:updated});return {meta:{changes:1}};
     }
-    if(sql.includes("status='QUEUED'")){
-      const [rid,url,updated,id]=vals;Object.assign(db.jobs.get(id),{status:'QUEUED',github_run_id:rid,github_url:url,updated_at:updated});return {meta:{changes:1}};
+    if(sql.includes("THEN 'QUEUED'")){
+      const [rid,url,updated,id]=vals,r=db.jobs.get(id);
+      if(!r)return {meta:{changes:0}};
+      Object.assign(r,{status:r.status==='DISPATCHING'?'QUEUED':r.status,github_run_id:rid,github_url:url,updated_at:updated});return {meta:{changes:1}};
     }
     if(sql.includes('SET status=?,result_key=?')){
       const [status,result,updated,id]=vals;Object.assign(db.jobs.get(id),{status,result_key:result,updated_at:updated});return {meta:{changes:1}};
@@ -115,6 +117,32 @@ test('Cloudflare D1+R2+GitHub dispatch+signed callback lifecycle with no AI',asy
   r=await rpc(app,callback,e);assert.equal(r.status,200);
   r=await rpc(app,req('/api/runs/'+job),e);assert.equal(r.data.status,'COMPLETE');
   r=await rpc(app,req('/api/runs/'+job+'/result'),e);assert.equal(r.data.inference_calls,0);
+});
+
+test('A fast signed callback is not overwritten by the dispatch response',async()=>{
+  const e=env();let app;
+  const githubFetch=async(url,options)=>{
+    const dispatch=JSON.parse(options.body),{job_id,snapshot_sha256}=dispatch.inputs;
+    const timestamp=String(Math.floor(Date.now()/1000));
+    const result={schema_version:'igc.arena_probe.v0.2',job_id,snapshot_sha256,status:'PASS',modelica_executed:false,inference_calls:0,gates:{g1:'NOT_RUN',g2:'NOT_RUN',g3:'NOT_RUN'},probe_only:true,observable_count:2,issues:[]};
+    const resultPath='/api/runner/jobs/'+job_id+'/result',resultRaw=JSON.stringify(result);
+    const signature=await signRunnerRequest(mockSecret,timestamp,'POST',resultPath,resultRaw);
+    const callback=new Request('https://local.test'+resultPath,{method:'POST',body:resultRaw,headers:{'X-IGC-Timestamp':timestamp,'X-IGC-Signature':signature}});
+    const callbackResponse=await app(callback,e);
+    assert.equal(callbackResponse.status,200);
+    return new Response(JSON.stringify({workflow_run_id:558211,run_url:'https://github.com/yudocyudoc/short/actions/runs/558211'}),{status:200,headers:{'Content-Type':'application/json'}});
+  };
+  app=createApi({authorize:async()=>({sub:'investigator-02'}),requestFn:githubFetch});
+  let r=await rpc(app,req('/api/cases','POST',{intake:template,arena:proposal}),e);
+  assert.equal(r.status,201);
+  r=await rpc(app,req('/api/cases/CAF-DEMO-001/runs','POST',{kind:'DETERMINISTIC_PROBE'}),e);
+  assert.equal(r.status,202);
+  assert.equal(r.data.status,'COMPLETE');
+  assert.equal(r.data.github_url,'https://github.com/yudocyudoc/short/actions/runs/558211');
+  const job=e.IGC_DB.jobs.get(r.data.job_id);
+  assert.equal(job.status,'COMPLETE');
+  assert.equal(job.result_key,'jobs/'+r.data.job_id+'/result.json');
+  assert.equal(job.github_run_id,558211);
 });
 
 test('Case ownership isolates API records',async()=>{

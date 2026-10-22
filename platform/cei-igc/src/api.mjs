@@ -141,9 +141,10 @@ export function createApi({authorize,requestFn=fetch}={}){
               await env.IGC_DB.prepare('UPDATE arena_jobs SET status=\'DISPATCH_ERROR\',error=?,updated_at=? WHERE job_id=?').bind(String(err.message).slice(0,240),now(),job_id).run();
               return json({job_id,status:'DISPATCH_ERROR',error:'GitHub no aceptó el workflow; revisa la configuración en el servidor'},502);
             }
-            await env.IGC_DB.prepare('UPDATE arena_jobs SET status=\'QUEUED\',github_run_id=?,github_url=?,updated_at=? WHERE job_id=?')
+            await env.IGC_DB.prepare("UPDATE arena_jobs SET status=CASE WHEN status='DISPATCHING' THEN 'QUEUED' ELSE status END,github_run_id=?,github_url=?,updated_at=? WHERE job_id=?")
                 .bind(next.github_run_id,next.github_url,now(),job_id).run();
-            return json({job_id,status:'QUEUED',github_url:next.github_url,snapshot_sha256},202);
+            const dispatched=await findJob(env.IGC_DB,job_id);
+            return json({job_id,status:dispatched.status,github_url:dispatched.github_url,snapshot_sha256},202);
           }
         }
       }
