@@ -150,7 +150,7 @@ test('A fast signed callback is not overwritten by the dispatch response',async(
   assert.equal(job.github_run_id,558211);
 });
 
-test('GitHub auth check is read-only and does not expose credentials',async()=>{
+test('GitHub auth check is read-only and accepts PAT or installation-token semantics',async()=>{
   const e=env(),calls=[];
   const githubFetch=async(url,options)=>{
     calls.push({url,method:options.method||'GET',headers:options.headers,body:options.body});
@@ -161,7 +161,7 @@ test('GitHub auth check is read-only and does not expose credentials',async()=>{
   assert.equal(r.status,200);
   assert.deepEqual(r.data,{authenticated:true,workflow_accessible:true});
   assert.deepEqual(calls.map(x=>[x.method,x.url]),[
-    ['GET','https://api.github.com/user'],
+    ['GET','https://api.github.com/repos/yudocyudoc/short'],
     ['GET','https://api.github.com/repos/yudocyudoc/short/actions/workflows/igc-arena-probe.yml'],
   ]);
   assert.equal(calls.every(x=>x.body===undefined),true);
@@ -190,12 +190,31 @@ test('GitHub authentication diagnostic distinguishes 401, 403, 404, and 422 safe
     }});
     const r=await rpc(app,req('/api/github/auth-check'),e);
     assert.equal(r.status,502);
-    assert.match(r.data.error,new RegExp(`GitHub authentication check HTTP ${status}`));
+    assert.match(r.data.error,new RegExp(`GitHub repository access check HTTP ${status}`));
     assert.ok(r.data.error.includes(diagnostic));
     assert.equal(calls.length,1);
-    assert.equal(calls[0].url,'https://api.github.com/user');
+    assert.equal(calls[0].url,'https://api.github.com/repos/yudocyudoc/short');
     assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
     assert.equal(JSON.stringify(r.data).includes('mock private detail'),false);
+  }
+});
+
+test('GitHub auth check separates repository success from workflow permission failures',async()=>{
+  for(const status of [401,403,404,422]){
+    const e=env(),calls=[];
+    const app=createApi({authorize:async()=>({sub:'investigator-06'}),requestFn:async(url,options)=>{
+      calls.push({url,method:options.method||'GET'});
+      return calls.length===1?new Response('{}',{status:200}):new Response('sensitive detail',{status});
+    }});
+    const r=await rpc(app,req('/api/github/auth-check'),e);
+    assert.equal(r.status,502);
+    assert.ok(r.data.error.includes(`workflow access check HTTP ${status}`));
+    assert.deepEqual(calls.map(x=>x.url),[
+      'https://api.github.com/repos/yudocyudoc/short',
+      'https://api.github.com/repos/yudocyudoc/short/actions/workflows/igc-arena-probe.yml'
+    ]);
+    assert.equal(JSON.stringify(r.data).includes('sensitive detail'),false);
+    assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
   }
 });
 
