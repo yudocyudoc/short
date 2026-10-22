@@ -1,0 +1,30 @@
+{
+  "schema": "short-epi03-gold/1",
+  "locked_before_provider": true,
+  "classification": {
+    "DC-01": "BOTH",
+    "DC-02": "BOTH",
+    "DC-03": "BOTH",
+    "DC-04": "ONLY_H1",
+    "DC-05": "ONLY_H1",
+    "DC-06": "ONLY_H1",
+    "DC-07": "ONLY_H2",
+    "DC-08": "ONLY_H2",
+    "DC-09": "ONLY_H2",
+    "DC-10": "NEITHER",
+    "DC-11": "NEITHER",
+    "DC-12": "NEITHER",
+    "DC-ANCHOR-1": "ONLY_H1",
+    "DC-ANCHOR-2": "ONLY_H1"
+  },
+  "numerics": {
+    "NC-01": 13,
+    "NC-02": 26,
+    "NC-03": 23,
+    "NC-04": 20,
+    "NF-01": 17,
+    "NF-02": 14,
+    "NF-03": 18,
+    "NF-04": 39
+  }
+}
