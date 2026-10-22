@@ -22,21 +22,41 @@ function githubConfig(env){
   assert(env.GITHUB_TOKEN?.length>10,'Secreto GITHUB_TOKEN no configurado',503);
   return {repo,workflow,ref};
 }
+function githubHttpError(status,operation){
+  const diagnosis={
+    401:'GITHUB_TOKEN invÃ¡lido, caducado o rechazado por GitHub',
+    403:'GitHub autenticÃ³ la solicitud, pero denegÃ³ el permiso o aplicÃ³ una restricciÃ³n/rate limit',
+    404:'Endpoint no encontrado o recurso, repositorio o workflow no visible para este token',
+    422:'GitHub rechazÃ³ la solicitud por validaciÃ³n; revisa workflow_dispatch, ref e inputs',
+  }[status]||`respuesta HTTP ${status}`;
+  return new InputError(`GitHub ${operation} HTTP ${status}: ${diagnosis}`,502);
+}
+const githubHeaders=token=>({'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2026-03-10','User-Agent':'IGC-Arena-Worker'});
 async function githubDispatch(env,job,requestFn){
   const {repo,workflow,ref}=githubConfig(env);
   const url=`https://api.github.com/repos/${repo}/actions/workflows/${workflow}/dispatches`;
-  const response=await requestFn(url,{method:'POST',headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+env.GITHUB_TOKEN,'X-GitHub-Api-Version':'2026-03-10','User-Agent':'IGC-Arena-Worker','Content-Type':'application/json'},body:JSON.stringify({ref,return_run_details:true,inputs:{job_id:job.job_id,snapshot_sha256:job.snapshot_sha256}})});
-  if(!response.ok)throw new InputError(`GitHub dispatch HTTP ${response.status}`,502);
+  const response=await requestFn(url,{method:'POST',headers:{...githubHeaders(env.GITHUB_TOKEN),'Content-Type':'application/json'},body:JSON.stringify({ref,inputs:{job_id:job.job_id,snapshot_sha256:job.snapshot_sha256}})});
+  if(!response.ok)throw githubHttpError(response.status,'dispatch');
   let meta={};
   if(response.status!==204){try{meta=await response.json();}catch{ /* older GitHub response supported */ }}
   const github_run_id=meta.workflow_run_id||meta.run_id||meta.id||null;
   const github_url=meta.run_url||meta.html_url||(github_run_id?`https://github.com/${repo}/actions/runs/${github_run_id}`:null);
   return {github_run_id,github_url};
 }
+async function checkGithubAuth(env,requestFn){
+  const {repo,workflow}=githubConfig(env);
+  // GET /user requires a valid user token and has no workflow side effects.
+  const auth=await requestFn('https://api.github.com/user',{headers:githubHeaders(env.GITHUB_TOKEN)});
+  if(!auth.ok)throw githubHttpError(auth.status,'authentication check');
+  // Confirm the token can also read this repository's configured workflow.
+  const target=await requestFn(`https://api.github.com/repos/${repo}/actions/workflows/${workflow}`,{headers:githubHeaders(env.GITHUB_TOKEN)});
+  if(!target.ok)throw githubHttpError(target.status,'workflow access check');
+  return {authenticated:true,workflow_accessible:true};
+}
 async function refreshGithubStatus(env,db,job,requestFn){
   if(!job.github_run_id || ['COMPLETE','ERROR','DISPATCH_ERROR'].includes(job.status))return job;
   const {repo}=githubConfig(env);
-  const response=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${job.github_run_id}`,{headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+env.GITHUB_TOKEN,'User-Agent':'IGC-Arena-Worker'}});
+  const response=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${job.github_run_id}`,{headers:githubHeaders(env.GITHUB_TOKEN)});
   if(!response.ok)return job;
   const meta=await response.json();
   const next=meta.status==='completed'?(meta.conclusion==='success'?'COMPLETE':'ERROR'):meta.status==='in_progress'?'RUNNING':'QUEUED';
@@ -84,6 +104,7 @@ export function createApi({authorize,requestFn=fetch}={}){
         throw new InputError('Método runner no permitido',405);
       }
       const user=await authorize(req,env);
+      if(path==='/api/github/auth-check'&&method==='GET')return json(await checkGithubAuth(env,requestFn));
       if(path==='/api/me'&&method==='GET')return json({authenticated:true,subject:user.sub,email:user.email||null});
       assert(env.IGC_DB&&env.IGC_ARTIFACTS,'Faltan bindings D1 o R2',503);
       if(path==='/api/cases'&&method==='GET'){

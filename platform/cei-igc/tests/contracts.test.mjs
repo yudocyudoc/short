@@ -101,8 +101,13 @@ test('Cloudflare D1+R2+GitHub dispatch+signed callback lifecycle with no AI',asy
   assert.equal(r.status,400);assert.equal(calls.length,0);
   r=await rpc(app,req('/api/cases/CAF-DEMO-001/runs','POST',{kind:'DETERMINISTIC_PROBE'}),e);
   assert.equal(r.status,202); assert.equal(calls.length,1);
-  assert.equal(JSON.parse(calls[0].body).return_run_details,true);
+  const dispatchBody=JSON.parse(calls[0].body);
+  assert.deepEqual(Object.keys(dispatchBody).sort(),['inputs','ref']);
+  assert.equal(dispatchBody.ref,'main');
+  assert.equal(calls[0].body.includes('return_run_details'),false);
   const job=r.data.job_id;
+  assert.equal(e.IGC_DB.jobs.get(job).github_run_id,558210);
+  assert.equal(e.IGC_DB.jobs.get(job).github_url,'https://github.com/yudocyudoc/short/actions/runs/558210');
   const ts=String(Math.floor(Date.now()/1000));
   const path='/api/runner/jobs/'+job+'/snapshot';
   let signed=await signRunnerRequest(mockSecret,ts,'GET',path,'');
@@ -143,6 +148,70 @@ test('A fast signed callback is not overwritten by the dispatch response',async(
   assert.equal(job.status,'COMPLETE');
   assert.equal(job.result_key,'jobs/'+r.data.job_id+'/result.json');
   assert.equal(job.github_run_id,558211);
+});
+
+test('GitHub auth check is read-only and does not expose credentials',async()=>{
+  const e=env(),calls=[];
+  const githubFetch=async(url,options)=>{
+    calls.push({url,method:options.method||'GET',headers:options.headers,body:options.body});
+    return new Response(JSON.stringify({ok:true}),{status:200,headers:{'Content-Type':'application/json'}});
+  };
+  const app=createApi({authorize:async()=>({sub:'investigator-03'}),requestFn:githubFetch});
+  const r=await rpc(app,req('/api/github/auth-check'),e);
+  assert.equal(r.status,200);
+  assert.deepEqual(r.data,{authenticated:true,workflow_accessible:true});
+  assert.deepEqual(calls.map(x=>[x.method,x.url]),[
+    ['GET','https://api.github.com/user'],
+    ['GET','https://api.github.com/repos/yudocyudoc/short/actions/workflows/igc-arena-probe.yml'],
+  ]);
+  assert.equal(calls.every(x=>x.body===undefined),true);
+  assert.equal(calls[0].headers.Authorization,'Bearer '+e.GITHUB_TOKEN);
+  assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
+});
+
+test('GitHub authentication diagnostic distinguishes 401, 403, 404, and 422 safely',async()=>{
+  for(const [status,diagnostic] of [
+    [401,'invÃ¡lido, caducado o rechazado'],
+    [403,'denegÃ³ el permiso'],
+    [404,'no encontrado o recurso'],
+    [422,'rechazÃ³ la solicitud por validaciÃ³n'],
+  ]){
+    const e=env(),calls=[];
+    const app=createApi({authorize:async()=>({sub:'investigator-04'}),requestFn:async(url,options)=>{
+      calls.push({url,method:options.method||'GET'});
+      return new Response(JSON.stringify({message:'mock private detail'}),{status});
+    }});
+    const r=await rpc(app,req('/api/github/auth-check'),e);
+    assert.equal(r.status,502);
+    assert.match(r.data.error,new RegExp(`GitHub authentication check HTTP ${status}`));
+    assert.ok(r.data.error.includes(diagnostic));
+    assert.equal(calls.length,1);
+    assert.equal(calls[0].url,'https://api.github.com/user');
+    assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
+    assert.equal(JSON.stringify(r.data).includes('mock private detail'),false);
+  }
+});
+
+test('Dispatch failure preserves GitHub status diagnosis without response details',async()=>{
+  for(const [status,diagnostic] of [
+    [401,'GITHUB_TOKEN invÃ¡lido'],
+    [403,'denegÃ³ el permiso'],
+    [404,'no encontrado o recurso'],
+    [422,'workflow_dispatch, ref e inputs'],
+  ]){
+    const e=env();
+    const app=createApi({authorize:async()=>({sub:'investigator-05'}),requestFn:async()=>
+      new Response(JSON.stringify({message:'mock private GitHub response'}),{status})});
+    await rpc(app,req('/api/cases','POST',{intake:template,arena:proposal}),e);
+    const r=await rpc(app,req('/api/cases/CAF-DEMO-001/runs','POST',{kind:'DETERMINISTIC_PROBE'}),e);
+    assert.equal(r.status,502);
+    const job=[...e.IGC_DB.jobs.values()][0];
+    assert.equal(job.status,'DISPATCH_ERROR');
+    assert.ok(job.error.includes(`GitHub dispatch HTTP ${status}`));
+    assert.ok(job.error.includes(diagnostic));
+    assert.equal(job.error.includes('mock private GitHub response'),false);
+    assert.equal(job.error.includes(e.GITHUB_TOKEN),false);
+  }
 });
 
 test('Case ownership isolates API records',async()=>{

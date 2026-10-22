@@ -41,7 +41,7 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 - Añade el secreto GitHub Actions `IGC_RUNNER_HMAC_SECRET` idéntico al de Cloudflare.
 - Añade la variable GitHub Actions `IGC_SERVICE_ORIGIN=https://<host-exacto-de-tu-worker>`.
 - Revisa este PR y CI antes de integrarlo. La integración no estará activa en `main` hasta el merge; el workflow seguirá siendo manual.
-- La API de GitHub admite `return_run_details`, que devuelve URL e identificador de ejecución. El Worker guarda ambos cuando están disponibles; si no, mantiene el UUID y espera el callback firmado.
+- El Worker no envía `return_run_details` en el cuerpo del dispatch. Conserva la lectura de `workflow_run_id` y URL si la respuesta de GitHub las incluye; si no, mantiene el UUID del job y espera el callback firmado.
 
 ### Prueba local
 
@@ -53,6 +53,7 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 |---|---|---|
 | `GET /api/health` | pública, sin datos | Estado de servicio |
 | `GET /api/me` | JWT Access válido | Identidad verificada |
+| `GET /api/github/auth-check` | Access, investigador autenticado | Comprueba token y lectura del workflow con solicitudes GitHub GET; no inicia ejecuciones ni devuelve credenciales |
 | `GET /api/cases` | Access, por propietario | Lista de casos |
 | `POST /api/cases` | Access | Crea borrador |
 | `GET/PUT /api/cases/:id` | Access, por propietario | Leer/actualizar con versionado optimista |
