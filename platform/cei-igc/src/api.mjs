@@ -45,11 +45,12 @@ async function githubDispatch(env,job,requestFn){
 }
 async function checkGithubAuth(env,requestFn){
   const {repo,workflow}=githubConfig(env);
-  // GET /user requires a valid user token and has no workflow side effects.
-  const auth=await requestFn('https://api.github.com/user',{headers:githubHeaders(env.GITHUB_TOKEN)});
-  if(!auth.ok)throw githubHttpError(auth.status,'authentication check');
-  // Confirm the token can also read this repository's configured workflow.
-  const target=await requestFn(`https://api.github.com/repos/${repo}/actions/workflows/${workflow}`,{headers:githubHeaders(env.GITHUB_TOKEN)});
+  // Repository metadata works with fine-grained PATs and GitHub App installation tokens.
+  // A repository 404 may also mean missing visibility, not necessarily nonexistence.
+  const auth=await requestFn(`https://api.github.com/repos/${repo}`,{method:'GET',headers:githubHeaders(env.GITHUB_TOKEN)});
+  if(!auth.ok)throw githubHttpError(auth.status,'repository access check');
+  // Confirm read access to the configured workflow; this does not test Actions:write.
+  const target=await requestFn(`https://api.github.com/repos/${repo}/actions/workflows/${workflow}`,{method:'GET',headers:githubHeaders(env.GITHUB_TOKEN)});
   if(!target.ok)throw githubHttpError(target.status,'workflow access check');
   return {authenticated:true,workflow_accessible:true};
 }
