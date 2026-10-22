@@ -6,6 +6,7 @@ The GitHub runner sends two independent forms of authentication to the Workbench
 2. The existing timestamped HMAC authenticates each runner request to the Worker. The snapshot SHA-256 remains checked before the runner evaluates or reports a result.
 
 The Access credentials do not replace the HMAC or the immutable snapshot hash.
+The runner rejects HTTP redirects for both snapshot reads and callbacks, so it does not forward the Access service-token headers to a redirected origin.
 
 ## GitHub Actions secrets
 

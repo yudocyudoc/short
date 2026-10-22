@@ -91,6 +91,38 @@ class AccessRunnerRequestTests(unittest.TestCase):
             },
         )
 
+    def test_redirects_are_rejected_without_requesting_another_origin(self):
+        config = valid_config()
+        other_origin = 'https://attacker.example/steal'
+
+        for method, suffix in (('GET', 'snapshot'), ('POST', 'result')):
+            for code in (301, 302, 303, 307, 308):
+                with self.subTest(method=method, status=code):
+                    requests = []
+
+                    class FakeOpener:
+                        def open(self, request, timeout):
+                            requests.append(request.full_url)
+                            # Simulate the opener handling the first 3xx. The
+                            # rejecting handler must raise before a follow-up.
+                            redirect = probe_runner.RejectHTTPRedirects()
+                            redirect.redirect_request(
+                                request, None, code, 'redirect',
+                                {'Location': other_origin}, other_origin,
+                            )
+
+                    def fake_build_opener(handler):
+                        self.assertIs(handler, probe_runner.RejectHTTPRedirects)
+                        return FakeOpener()
+
+                    with patch.object(probe_runner, 'build_opener', side_effect=fake_build_opener):
+                        with self.assertRaisesRegex(probe_runner.RedirectRejected, f'HTTP redirect {code} rejected'):
+                            probe_runner.signed_request(
+                                method, suffix, b'{}' if method == 'POST' else b'', config=config,
+                            )
+
+                    self.assertEqual(requests, [config['origin'] + '/api/runner/jobs/' + config['job_id'] + '/' + suffix])
+
 
 if __name__ == '__main__':
     unittest.main()

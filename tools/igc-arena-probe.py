@@ -4,7 +4,20 @@
 Exchanges requests only with the configured Cloudflare origin.
 """
 import hashlib, hmac, json, os, pathlib, re, sys, time
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+
+class RedirectRejected(Exception):
+    """A remote endpoint attempted to redirect a credential-bearing request."""
+
+
+class RejectHTTPRedirects(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise RedirectRejected(f'HTTP redirect {code} rejected')
+
+
+def open_without_redirects(req, timeout=35):
+    return build_opener(RejectHTTPRedirects).open(req, timeout=timeout)
 
 def load_config(environ=os.environ):
     config = {
@@ -28,7 +41,7 @@ def load_config(environ=os.environ):
     return config
 
 
-def signed_request(method, suffix, payload=b'', *, config, open_url=urlopen):
+def signed_request(method, suffix, payload=b'', *, config, open_url=None):
     # Domain fixed in GitHub repository variable; never from dispatch input.
     ts = str(int(time.time()))
     path = '/api/runner/jobs/' + config['job_id'] + '/' + suffix
@@ -44,7 +57,9 @@ def signed_request(method, suffix, payload=b'', *, config, open_url=urlopen):
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
                   })
-    with open_url(req, timeout=35) as res:
+    # Never follow redirects: the request includes a Cloudflare Access secret.
+    opener = open_url or open_without_redirects
+    with opener(req, timeout=35) as res:
         return res.read()
 
 
