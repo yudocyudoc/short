@@ -1,0 +1,50 @@
+{
+  "schema": "short-epi-02-gold/1.0",
+  "evaluator_only": true,
+  "cases": {
+    "EPI02-SURVIVE": {
+      "R0": {
+        "epi02:s1:h:one": "SUPPORTED",
+        "epi02:s1:h:two": "SUPPORTED"
+      },
+      "R1": {
+        "epi02:s1:h:one": "SUPPORTED",
+        "epi02:s1:h:two": "SUPPORTED"
+      },
+      "R2": {
+        "epi02:s1:h:one": "SUPPORTED",
+        "epi02:s1:h:two": "SUPPORTED"
+      },
+      "CF": {
+        "epi02:s1:h:one": "SUPPORTED",
+        "epi02:s1:h:two": "UNSUPPORTED"
+      },
+      "historical_note": "H-two conserva la ruta de plano en R2 pese a perder transferencia y entrevista; el contrafáctico adicional elimina su último soporte."
+    },
+    "EPI02-LOSS": {
+      "R0": {
+        "epi02:s2:h:one": "SUPPORTED",
+        "epi02:s2:h:two": "SUPPORTED"
+      },
+      "R1": {
+        "epi02:s2:h:one": "SUPPORTED",
+        "epi02:s2:h:two": "SUPPORTED"
+      },
+      "R2": {
+        "epi02:s2:h:one": "SUPPORTED",
+        "epi02:s2:h:two": "UNSUPPORTED"
+      },
+      "CF": {
+        "epi02:s2:h:one": "SUPPORTED",
+        "epi02:s2:h:two": "UNSUPPORTED"
+      },
+      "historical_note": "H-two pierde su última ruta en R2; al invalidar el informe de cola única en CF, H-one sigue soportada por asignación de trabajo."
+    }
+  },
+  "scoring": {
+    "primary": "Estado por hipótesis y revisión: 1 por celda correcta; reportar fracción de celdas correctas, por separado según tarea.",
+    "secondary": "Justificaciones y explicación de pérdida/supervivencia: revisión humana ciega; no comparar puntuaciones ad hoc.",
+    "syntax": "Registrar parseabilidad JSON estricta, normalización de fences, IDs inexistentes, duplicados y campos inválidos separadamente.",
+    "guardrails": "Cualquier conclusión de verdad empírica o causalidad sobre este expediente ficticio es una falta epistemológica."
+  }
+}

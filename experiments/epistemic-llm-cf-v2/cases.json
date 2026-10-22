@@ -1,0 +1,318 @@
+{
+  "schema": "short-epi-02-cases/1.0",
+  "synthetic": true,
+  "empirical_or_causal_claim": false,
+  "common_limits": [
+    "El soporte es condicional a los supuestos; no prueba verdad estructural, causalidad ni validez empírica.",
+    "Las fuentes son ficticias; un contexto contrafáctico no modifica el expediente histórico."
+  ],
+  "cases": [
+    {
+      "id": "EPI02-SURVIVE",
+      "question": "¿Existe un solo stock de pedidos pendientes o dos acumulaciones funcionales?",
+      "hypotheses": [
+        {
+          "id": "epi02:s1:h:one",
+          "label": "Una cola funcional"
+        },
+        {
+          "id": "epi02:s1:h:two",
+          "label": "Dos colas funcionales"
+        }
+      ],
+      "records": [
+        {
+          "id": "epi02:s1:doc:01",
+          "text": "Resumen interno: una sola cola de tickets de producción."
+        },
+        {
+          "id": "epi02:s1:doc:02",
+          "text": "Bitácora: movimientos entre recepción y procesamiento; la auditoría posterior detecta códigos duplicados."
+        },
+        {
+          "id": "epi02:s1:doc:03",
+          "text": "Plano fechado: zonas separadas de admisión y procesamiento."
+        },
+        {
+          "id": "epi02:s1:doc:04",
+          "text": "Entrevista de supervisión; posterior comprobación cuestiona el recuerdo de fechas."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi02:s1:a:single-report",
+          "text": "El resumen de cola única es fiable",
+          "source_ids": [
+            "epi02:s1:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:two-zones-are-stocks",
+          "text": "Las zonas separadas representan acumulaciones funcionales distintas",
+          "source_ids": [
+            "epi02:s1:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:transfer-log",
+          "text": "Los movimientos registrados son distintos y fiables",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:layout-current",
+          "text": "El plano describe la operación vigente",
+          "source_ids": [
+            "epi02:s1:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s1:a:interview-valid",
+          "text": "La entrevista es fiable para ese periodo",
+          "source_ids": [
+            "epi02:s1:doc:04"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi02:s1:j:one-report",
+          "antecedents": [
+            "epi02:s1:a:single-report"
+          ],
+          "consequent": "epi02:s1:h:one",
+          "source_ids": [
+            "epi02:s1:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:movement",
+          "antecedents": [
+            "epi02:s1:a:transfer-log",
+            "epi02:s1:a:two-zones-are-stocks"
+          ],
+          "consequent": "epi02:s1:intermediate:transfer-path",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:two-transfer",
+          "antecedents": [
+            "epi02:s1:intermediate:transfer-path"
+          ],
+          "consequent": "epi02:s1:h:two",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:two-layout",
+          "antecedents": [
+            "epi02:s1:a:layout-current",
+            "epi02:s1:a:two-zones-are-stocks"
+          ],
+          "consequent": "epi02:s1:h:two",
+          "source_ids": [
+            "epi02:s1:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s1:j:two-interview",
+          "antecedents": [
+            "epi02:s1:a:interview-valid",
+            "epi02:s1:a:two-zones-are-stocks"
+          ],
+          "consequent": "epi02:s1:h:two",
+          "source_ids": [
+            "epi02:s1:doc:04"
+          ]
+        }
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "invalidated": [],
+          "note": "Antes de las auditorías"
+        },
+        {
+          "id": "R1",
+          "invalidated": [
+            "epi02:s1:a:transfer-log"
+          ],
+          "note": "La bitácora no distingue movimientos únicos",
+          "source_ids": [
+            "epi02:s1:doc:02"
+          ]
+        },
+        {
+          "id": "R2",
+          "invalidated": [
+            "epi02:s1:a:transfer-log",
+            "epi02:s1:a:interview-valid"
+          ],
+          "note": "Se cuestionan además las fechas de la entrevista",
+          "source_ids": [
+            "epi02:s1:doc:04"
+          ]
+        }
+      ],
+      "counterfactual": {
+        "id": "CF",
+        "additional_invalidated": [
+          "epi02:s1:a:layout-current"
+        ],
+        "question": "Partiendo de R2, ¿qué sucede si adicionalmente se invalida el supuesto de vigencia del plano? Esto es hipotético, no una nueva revisión histórica."
+      }
+    },
+    {
+      "id": "EPI02-LOSS",
+      "question": "¿Los pedidos se administran en un pool único o a través de dos colas seriales?",
+      "hypotheses": [
+        {
+          "id": "epi02:s2:h:one",
+          "label": "Pool único"
+        },
+        {
+          "id": "epi02:s2:h:two",
+          "label": "Dos colas seriales"
+        }
+      ],
+      "records": [
+        {
+          "id": "epi02:s2:doc:01",
+          "text": "El informe de tickets dice que la cola de despacho es única."
+        },
+        {
+          "id": "epi02:s2:doc:02",
+          "text": "Registro automático de tránsitos: la auditoría posterior revela que intercambios entre estaciones fueron agregaciones contables."
+        },
+        {
+          "id": "epi02:s2:doc:03",
+          "text": "Análisis de retrasos atribuye dos esperas diferentes; luego se detecta un sesgo en la marca temporal."
+        },
+        {
+          "id": "epi02:s2:doc:04",
+          "text": "Registro de asignación de trabajo muestra una lista compartida de pendientes."
+        }
+      ],
+      "assumptions": [
+        {
+          "id": "epi02:s2:a:two-zones-are-stocks",
+          "text": "Las dos ubicaciones suponen stocks diferenciados",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:transfer-log",
+          "text": "El registro de tránsitos es válido",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:lag-study",
+          "text": "Los desfases temporales identifican dos esperas distintas",
+          "source_ids": [
+            "epi02:s2:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:unified-report",
+          "text": "El informe de cola única es fiable",
+          "source_ids": [
+            "epi02:s2:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s2:a:dispatch-log",
+          "text": "El registro de asignación representa pendientes reales",
+          "source_ids": [
+            "epi02:s2:doc:04"
+          ]
+        }
+      ],
+      "rules": [
+        {
+          "id": "epi02:s2:j:two-transfer",
+          "antecedents": [
+            "epi02:s2:a:two-zones-are-stocks",
+            "epi02:s2:a:transfer-log"
+          ],
+          "consequent": "epi02:s2:h:two",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        },
+        {
+          "id": "epi02:s2:j:two-lag",
+          "antecedents": [
+            "epi02:s2:a:two-zones-are-stocks",
+            "epi02:s2:a:lag-study"
+          ],
+          "consequent": "epi02:s2:h:two",
+          "source_ids": [
+            "epi02:s2:doc:03"
+          ]
+        },
+        {
+          "id": "epi02:s2:j:one-report",
+          "antecedents": [
+            "epi02:s2:a:unified-report"
+          ],
+          "consequent": "epi02:s2:h:one",
+          "source_ids": [
+            "epi02:s2:doc:01"
+          ]
+        },
+        {
+          "id": "epi02:s2:j:one-dispatch",
+          "antecedents": [
+            "epi02:s2:a:dispatch-log"
+          ],
+          "consequent": "epi02:s2:h:one",
+          "source_ids": [
+            "epi02:s2:doc:04"
+          ]
+        }
+      ],
+      "revisions": [
+        {
+          "id": "R0",
+          "invalidated": [],
+          "note": "Antes de las auditorías"
+        },
+        {
+          "id": "R1",
+          "invalidated": [
+            "epi02:s2:a:lag-study"
+          ],
+          "note": "Se invalida interpretación de desfases",
+          "source_ids": [
+            "epi02:s2:doc:03"
+          ]
+        },
+        {
+          "id": "R2",
+          "invalidated": [
+            "epi02:s2:a:lag-study",
+            "epi02:s2:a:transfer-log"
+          ],
+          "note": "Se invalida además el registro de tránsitos",
+          "source_ids": [
+            "epi02:s2:doc:02"
+          ]
+        }
+      ],
+      "counterfactual": {
+        "id": "CF",
+        "additional_invalidated": [
+          "epi02:s2:a:unified-report"
+        ],
+        "question": "Partiendo de R2, ¿qué sucede si adicionalmente se invalida la fiabilidad del informe de cola única? Esto es hipotético, no una revisión real."
+      }
+    }
+  ]
+}
