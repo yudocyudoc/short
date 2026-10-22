@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {validateDraft,validatePreflightReady,sha256} from '../src/domain.mjs';
+import {InputError,validateDraft,validatePreflightReady,sha256} from '../src/domain.mjs';
 import {signRunnerRequest,verifyRunnerRequest} from '../src/security.mjs';
 import {createApi} from '../src/api.mjs';
 
@@ -167,6 +167,13 @@ test('GitHub auth check is read-only and does not expose credentials',async()=>{
   assert.equal(calls.every(x=>x.body===undefined),true);
   assert.equal(calls[0].headers.Authorization,'Bearer '+e.GITHUB_TOKEN);
   assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
+
+  let externalCalls=0;
+  const unauthenticatedApp=createApi({authorize:async()=>{throw new InputError('Requiere autenticación de Cloudflare Access',401);},requestFn:async()=>{externalCalls++;}});
+  const denied=await rpc(unauthenticatedApp,req('/api/github/auth-check'),e);
+  assert.equal(denied.status,401);
+  assert.equal(denied.data.error,'Requiere autenticación de Cloudflare Access');
+  assert.equal(externalCalls,0);
 });
 
 test('GitHub authentication diagnostic distinguishes 401, 403, 404, and 422 safely',async()=>{
