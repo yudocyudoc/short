@@ -163,9 +163,9 @@ test('A fast signed callback is not overwritten by the dispatch response',async(
 
 test('Completed GitHub run imports only its signed, matching result artifact',async()=>{
   const e=env(),jobId='234911ff-aaaa-4111-8999-bbbbbbbbbbbb';
-  e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:`jobs/${jobId}/snapshot.json`,snapshot_sha256:'a'.repeat(64),case_version:1,status:'QUEUED',github_run_id:'558212.0',github_url:'https://github.com/yudocyudoc/short/actions/runs/558212',result_key:null,error:null});
+  e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:`jobs/${jobId}/snapshot.json`,snapshot_sha256:'a'.repeat(64),case_version:1,status:'ERROR',github_run_id:'558212.0',github_url:'https://github.com/yudocyudoc/short/actions/runs/558212',result_key:null,error:'Could not verify GitHub result artifact'});
   const result={schema_version:'igc.arena_probe.v0.2',job_id:jobId,snapshot_sha256:'a'.repeat(64),status:'PASS',modelica_executed:false,inference_calls:0,gates:{g1:'NOT_RUN',g2:'NOT_RUN',g3:'NOT_RUN'},probe_only:true,observable_count:2,issues:[]};
-  const result_json=JSON.stringify(result),result_sha256=await sha256(result_json),message=`IGC-ARENA-ARTIFACT-V1\\n${jobId}\\n${'a'.repeat(64)}\\n${result_sha256}`;
+  const result_json=JSON.stringify(result),result_sha256=await sha256(result_json),message=['IGC-ARENA-ARTIFACT-V1',jobId,'a'.repeat(64),result_sha256].join('\n');
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(mockSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
   const sig=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(message)));
   const signature='v1='+[...sig].map(x=>x.toString(16).padStart(2,'0')).join('');

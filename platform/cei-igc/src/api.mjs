@@ -60,7 +60,7 @@ const githubRunId=value=>{
 };
 async function refreshGithubStatus(env,db,job,requestFn){
   const runId=githubRunId(job.github_run_id);
-  if(!runId || ['COMPLETE','ERROR','DISPATCH_ERROR'].includes(job.status))return job;
+  if(!runId || ['COMPLETE','DISPATCH_ERROR'].includes(job.status) || (job.status==='ERROR'&&job.result_key))return job;
   const {repo}=githubConfig(env);
   const response=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${runId}`,{headers:githubHeaders(env.GITHUB_TOKEN)});
   if(!response.ok)return job;
@@ -131,7 +131,7 @@ async function verifyArtifactSignature(secret,job,manifest){
   assert(manifest&&manifest.schema_version==='igc.arena_probe_artifact.v1'&&typeof manifest.result_json==='string','Invalid result manifest',502);
   const digest=await sha256(manifest.result_json);
   assert(manifest.result_sha256===digest,'Artifact result hash mismatch',502);
-  const message=`IGC-ARENA-ARTIFACT-V1\\n${job.job_id}\\n${job.snapshot_sha256}\\n${digest}`;
+  const message=['IGC-ARENA-ARTIFACT-V1',job.job_id,job.snapshot_sha256,digest].join('\n');
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['verify']);
   const signature=manifest.signature||'';
   assert(/^v1=[a-f0-9]{64}$/.test(signature),'Invalid artifact HMAC signature',502);
@@ -172,7 +172,7 @@ async function importGithubArtifact(env,job,requestFn){
   await env.IGC_ARTIFACTS.put(key,verified.raw,{httpMetadata:{contentType:'application/json'}});
   const status=verified.result.status==='PASS'?'COMPLETE':'ERROR';
   const error=status==='ERROR'?verified.result.issues.join('; ').slice(0,500)||'Deterministic probe reported FAIL':null;
-  await env.IGC_DB.prepare('UPDATE arena_jobs SET status=?,result_key=?,error=?,updated_at=? WHERE job_id=? AND result_key IS NULL AND status NOT IN (\'COMPLETE\',\'ERROR\',\'DISPATCH_ERROR\')').bind(status,key,error,now(),job.job_id).run();
+  await env.IGC_DB.prepare('UPDATE arena_jobs SET status=?,result_key=?,error=?,updated_at=? WHERE job_id=? AND result_key IS NULL AND status NOT IN (\'COMPLETE\',\'DISPATCH_ERROR\')').bind(status,key,error,now(),job.job_id).run();
   return true;
 }
 
