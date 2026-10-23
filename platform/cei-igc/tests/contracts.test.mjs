@@ -80,7 +80,7 @@ test('V0.1 contract preserved and gold/holdout forbidden',()=>{
   const b=clone(template);b.evidence.holdout.future_observation_data={value:8};
   assert.throws(()=>validateDraft(b),/reserva/);
   const c=clone(proposal);c.structure_proposals[0].validation.g2='PASS';
-  assert.throws(()=>validateDraft(template,c),/G1â€“G3/);
+  assert.throws(()=>validateDraft(template,c),/G1–G3/);
 });
 
 test('Authenticated machine callback requires valid request-bound HMAC',async()=>{
@@ -165,7 +165,7 @@ test('Completed GitHub run imports only its signed, matching result artifact',as
   const e=env(),jobId='234911ff-aaaa-4111-8999-bbbbbbbbbbbb';
   e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:`jobs/${jobId}/snapshot.json`,snapshot_sha256:'a'.repeat(64),case_version:1,status:'QUEUED',github_run_id:558212,github_url:'https://github.com/yudocyudoc/short/actions/runs/558212',result_key:null,error:null});
   const result={schema_version:'igc.arena_probe.v0.2',job_id:jobId,snapshot_sha256:'a'.repeat(64),status:'PASS',modelica_executed:false,inference_calls:0,gates:{g1:'NOT_RUN',g2:'NOT_RUN',g3:'NOT_RUN'},probe_only:true,observable_count:2,issues:[]};
-  const result_json=JSON.stringify(result),result_sha256=await sha256(result_json),message=`IGC-ARENA-ARTIFACT-V1\n${jobId}\n${'a'.repeat(64)}\n${result_sha256}`;
+  const result_json=JSON.stringify(result),result_sha256=await sha256(result_json),message=`IGC-ARENA-ARTIFACT-V1\\n${jobId}\\n${'a'.repeat(64)}\\n${result_sha256}`;
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(mockSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
   const sig=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(message)));
   const signature='v1='+[...sig].map(x=>x.toString(16).padStart(2,'0')).join('');
@@ -218,19 +218,19 @@ test('GitHub auth check is read-only and accepts PAT or installation-token seman
   assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
 
   let externalCalls=0;
-  const unauthenticatedApp=createApi({authorize:async()=>{throw new InputError('Requiere autenticaciÃ³n de Cloudflare Access',401);},requestFn:async()=>{externalCalls++;}});
+  const unauthenticatedApp=createApi({authorize:async()=>{throw new InputError('Requiere autenticación de Cloudflare Access',401);},requestFn:async()=>{externalCalls++;}});
   const denied=await rpc(unauthenticatedApp,req('/api/github/auth-check'),e);
   assert.equal(denied.status,401);
-  assert.equal(denied.data.error,'Requiere autenticaciÃ³n de Cloudflare Access');
+  assert.equal(denied.data.error,'Requiere autenticación de Cloudflare Access');
   assert.equal(externalCalls,0);
 });
 
 test('GitHub authentication diagnostic distinguishes 401, 403, 404, and 422 safely',async()=>{
   for(const [status,diagnostic] of [
-    [401,'invÃƒÂ¡lido, caducado o rechazado'],
-    [403,'denegÃƒÂ³ el permiso'],
+    [401,'invÃ¡lido, caducado o rechazado'],
+    [403,'denegÃ³ el permiso'],
     [404,'no encontrado o recurso'],
-    [422,'rechazÃƒÂ³ la solicitud por validaciÃƒÂ³n'],
+    [422,'rechazÃ³ la solicitud por validaciÃ³n'],
   ]){
     const e=env(),calls=[];
     const app=createApi({authorize:async()=>({sub:'investigator-04'}),requestFn:async(url,options)=>{
@@ -269,8 +269,8 @@ test('GitHub auth check separates repository success from workflow permission fa
 
 test('Dispatch failure preserves GitHub status diagnosis without response details',async()=>{
   for(const [status,diagnostic] of [
-    [401,'GITHUB_TOKEN invÃƒÂ¡lido'],
-    [403,'denegÃƒÂ³ el permiso'],
+    [401,'GITHUB_TOKEN invÃ¡lido'],
+    [403,'denegÃ³ el permiso'],
     [404,'no encontrado o recurso'],
     [422,'workflow_dispatch, ref e inputs'],
   ]){
@@ -298,5 +298,4 @@ test('Case ownership isolates API records',async()=>{
  assert.equal(r.status,404);
  const ls=await rpc(app,req('/api/cases'),e);assert.equal(ls.data.items.length,0);
 });
-
 
