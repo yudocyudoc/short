@@ -25,8 +25,6 @@ def load_config(environ=os.environ):
         'snapshot_sha256': environ.get('IGC_SNAPSHOT_SHA256', ''),
         'origin': environ.get('IGC_SERVICE_ORIGIN', '').strip().rstrip('/'),
         'hmac_secret': environ.get('IGC_RUNNER_HMAC_SECRET', ''),
-        'access_client_id': environ.get('CF_ACCESS_CLIENT_ID', '').strip(),
-        'access_client_secret': environ.get('CF_ACCESS_CLIENT_SECRET', ''),
     }
     if not re.fullmatch(r'[0-9a-f-]{36}', config['job_id']):
         raise ValueError('Invalid opaque job ID')
@@ -36,8 +34,6 @@ def load_config(environ=os.environ):
         raise ValueError('Invalid service origin')
     if len(config['hmac_secret']) < 24:
         raise ValueError('Runner HMAC secret missing or too short')
-    if not config['access_client_id'] or not config['access_client_secret']:
-        raise ValueError('Cloudflare Access service token credentials are required')
     return config
 
 
@@ -52,12 +48,10 @@ def signed_request(method, suffix, payload=b'', *, config, open_url=None):
                   method=method, headers={
                       'X-IGC-Timestamp': ts,
                       'X-IGC-Signature': 'v1=' + signature,
-                      'CF-Access-Client-Id': config['access_client_id'],
-                      'CF-Access-Client-Secret': config['access_client_secret'],
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
                   })
-    # Never follow redirects: the request includes a Cloudflare Access secret.
+    # Never follow redirects, so signed requests stay on the configured origin.
     opener = open_url or open_without_redirects
     with opener(req, timeout=35) as res:
         return res.read()

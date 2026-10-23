@@ -18,13 +18,11 @@ def valid_config():
         'snapshot_sha256': 'a' * 64,
         'origin': 'https://workbench.example.workers.dev',
         'hmac_secret': 'h' * 32,
-        'access_client_id': 'runner-token.access',
-        'access_client_secret': 'c' * 48,
     }
 
 
-class AccessRunnerRequestTests(unittest.TestCase):
-    def test_signed_get_includes_access_headers_and_existing_hmac(self):
+class HMACRunnerRequestTests(unittest.TestCase):
+    def test_signed_get_includes_existing_hmac_without_access_headers(self):
         config = valid_config()
         response = type('Response', (), {
             '__enter__': lambda self: self,
@@ -48,13 +46,13 @@ class AccessRunnerRequestTests(unittest.TestCase):
             f"1800000000\nGET\n{path}\n{hashlib.sha256(b'').hexdigest()}".encode(),
             hashlib.sha256,
         ).hexdigest()
-        self.assertEqual(request.get_header('Cf-access-client-id'), config['access_client_id'])
-        self.assertEqual(request.get_header('Cf-access-client-secret'), config['access_client_secret'])
+        self.assertIsNone(request.get_header('Cf-access-client-id'))
+        self.assertIsNone(request.get_header('Cf-access-client-secret'))
         self.assertEqual(request.get_header('X-igc-signature'), 'v1=' + expected)
         self.assertEqual(request.get_method(), 'GET')
         self.assertEqual(captured['timeout'], 35)
 
-    def test_signed_post_keeps_body_hash_and_access_headers(self):
+    def test_signed_post_keeps_body_hash_without_access_headers(self):
         config = valid_config()
         body = b'{"status":"PASS"}'
         captured = {}
@@ -69,25 +67,23 @@ class AccessRunnerRequestTests(unittest.TestCase):
 
         probe_runner.signed_request('POST', 'result', body, config=config, open_url=fake_open)
         request = captured['request']
-        self.assertEqual(request.get_header('Cf-access-client-id'), config['access_client_id'])
-        self.assertEqual(request.get_header('Cf-access-client-secret'), config['access_client_secret'])
+        self.assertIsNone(request.get_header('Cf-access-client-id'))
+        self.assertIsNone(request.get_header('Cf-access-client-secret'))
         self.assertEqual(request.data, body)
         self.assertEqual(request.get_method(), 'POST')
 
-    def test_missing_access_credential_is_rejected(self):
+    def test_missing_hmac_credential_is_rejected(self):
         config = valid_config()
-        config['access_client_secret'] = ''
+        config['hmac_secret'] = ''
         self.assertRaisesRegex(
             ValueError,
-            'Cloudflare Access service token credentials are required',
+            'Runner HMAC secret missing or too short',
             probe_runner.load_config,
             {
                 'IGC_JOB_ID': config['job_id'],
                 'IGC_SNAPSHOT_SHA256': config['snapshot_sha256'],
                 'IGC_SERVICE_ORIGIN': config['origin'],
                 'IGC_RUNNER_HMAC_SECRET': config['hmac_secret'],
-                'CF_ACCESS_CLIENT_ID': config['access_client_id'],
-                'CF_ACCESS_CLIENT_SECRET': config['access_client_secret'],
             },
         )
 

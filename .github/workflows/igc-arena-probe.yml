@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Test runner authentication headers and signatures
+      - name: Test runner signatures and redirect handling
         run: python -m unittest tools.test_igc_arena_probe -v
       - name: Validate contract snapshot and report signed result
         env:
@@ -35,8 +35,6 @@ jobs:
           IGC_SNAPSHOT_SHA256: ${{ inputs.snapshot_sha256 }}
           IGC_SERVICE_ORIGIN: ${{ vars.IGC_SERVICE_ORIGIN }}
           IGC_RUNNER_HMAC_SECRET: ${{ secrets.IGC_RUNNER_HMAC_SECRET }}
-          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
-          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: python tools/igc-arena-probe.py
       - name: Preserve deterministic probe result
         if: always()

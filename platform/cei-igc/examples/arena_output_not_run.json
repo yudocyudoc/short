@@ -1,0 +1,22 @@
+{
+  "schema_version": "igc.arena_output.v0.1",
+  "case_id": "CAF-DEMO-001",
+  "round_id": "R1",
+  "status": "NOT_RUN",
+  "candidate_results": [],
+  "comparison": {
+    "equivalence_classes": [],
+    "discriminating_observables": [],
+    "conclusion": "NOT_RUN",
+    "rival_outputs_not_voted": true
+  },
+  "proposed_next_tests": [],
+  "audit": {
+    "input_hash": null,
+    "snapshot_ref": null,
+    "holdout_release_ref": null,
+    "evaluated_at": null,
+    "notes": "Output schema example only. No simulation, inference or adjudication occurred."
+  }
+}
+

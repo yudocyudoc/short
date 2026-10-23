@@ -1,0 +1,17 @@
+{
+  "name": "cei-igc-workbench-v02",
+  "main": "./src/index.mjs",
+  "compatibility_date": "2026-10-21",
+  "preview_urls": false,
+  "assets": {"directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*"]},
+  "d1_databases": [
+    {"binding": "IGC_DB", "database_name": "cei-igc-lab-v02", "database_id": "9ed4c350-44c6-4fd9-9386-cd1922e4d6e4", "migrations_dir": "migrations"}
+  ],
+  "r2_buckets": [{"binding": "IGC_ARTIFACTS", "bucket_name": "cei-igc-lab-v02"}],
+  "vars": {
+    "GITHUB_REPO": "yudocyudoc/short",
+    "GITHUB_WORKFLOW": "igc-arena-probe.yml",
+    "GITHUB_REF": "main"
+  }
+}
+

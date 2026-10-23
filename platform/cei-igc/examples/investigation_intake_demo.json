@@ -1,0 +1,62 @@
+{
+  "schema_version": "igc.investigation_intake.v0.1",
+  "case_id": "CAF-DEMO-001",
+  "status": "DRAFT",
+  "inquiry": {
+    "system_name": "Cafetería ficticia — piloto",
+    "problem_statement": "El propietario quiere comprender por qué las ventas parecen estables pese a que percibe mayor afluencia.",
+    "research_question": "¿Las ventas están limitadas por demanda o por capacidad de atención?",
+    "actor": "Propietario",
+    "researcher_role": "observer",
+    "declared_purpose": "Aumentar ventas sin deteriorar la experiencia",
+    "perceived_field": {
+      "description": "La dirección sospecha que el producto atrae visitas, pero no se ha verificado la explicación.",
+      "captured_before_reconstruction": "DECLARED_BY_OPERATOR_NOT_VERIFIED"
+    },
+    "system_boundary": "Llegadas, colas, capacidad de atención y ventas. Competencia externa solo como hipótesis.",
+    "horizon_date": "2026-12-01",
+    "intervention_authorization": "observe_only"
+  },
+  "observability": [
+    {
+      "id": "ventas_hora",
+      "status": "observed",
+      "unit": "tickets/h",
+      "resolution": "1 h",
+      "measurement_error": "UNKNOWN",
+      "reporting_lag": "24 h",
+      "source_ref": "src-demo-tickets-sep"
+    },
+    {
+      "id": "cola_minutos",
+      "status": "unmeasured",
+      "unit": "min",
+      "resolution": "UNKNOWN",
+      "measurement_error": "UNKNOWN",
+      "reporting_lag": "UNKNOWN",
+      "source_ref": ""
+    }
+  ],
+  "evidence": {
+    "as_known_at": "2026-10-21T12:00:00.000Z",
+    "visible_source_refs": [
+      "src-demo-entrevista-r1",
+      "src-demo-tickets-sep"
+    ],
+    "extraction_mode": "human",
+    "confidentiality": "Ficción metodológica: no se han agregado datos reales.",
+    "holdout": {
+      "reference": "HOLD-DEMO-001",
+      "custodian": "Evaluador externo (ficticio)",
+      "test_type": "future_observation",
+      "contents_included": false,
+      "server_isolation_verified": false
+    }
+  },
+  "provenance": {
+    "created_at": "2026-10-21T22:14:35.871Z",
+    "authoring_mode": "BROWSER_ONLY_NO_STORAGE",
+    "version": "0.1.0"
+  }
+}
+

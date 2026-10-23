@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/igc/contracts/arena_input.v0.1.schema.json",
+  "title": "IGC ARENA input draft v0.1",
+  "description": "Typed references, not raw documents or leaked holdout values. The UI cannot certify any gate.",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "status", "case_id", "snapshot", "round", "observability", "structure_proposals", "assessment_parameter_proposals", "evaluation_plan", "intervention_authorization", "invariant_guards", "provenance"],
+  "properties": {
+    "schema_version": {"const": "igc.arena_input.v0.1"},
+    "status": {"const": "DRAFT_PENDING_EXTERNAL_GATES"},
+    "case_id": {"type": "string"},
+    "snapshot": {"type": "object", "additionalProperties": false, "required": ["as_known_at", "allowed_source_refs", "holdout_ref", "holdout_custodian", "holdout_contents_exposed", "isolation_assurance"], "properties": {
+      "as_known_at": {"type": ["string", "null"], "format": "date-time"},
+      "allowed_source_refs": {"type": "array", "items": {"type": "string"}},
+      "holdout_ref": {"type": ["string", "null"]}, "holdout_custodian": {"type": ["string", "null"]},
+      "holdout_contents_exposed": {"const": false},
+      "isolation_assurance": {"const": "UNVERIFIED_LOCAL_PROTOTYPE"}
+    }},
+    "round": {"type": "object", "additionalProperties": false, "required": ["id", "rival_outputs_hidden_until_round_closed", "simulation_budget", "baseline_ref"], "properties": {
+      "id": {"type": "string"}, "rival_outputs_hidden_until_round_closed": {"const": true}, "simulation_budget": {"type": "integer", "minimum": 1, "maximum": 1000}, "baseline_ref": {"type": ["string", "null"]}
+    }},
+    "observability": {"type": "array", "items": {"$ref": "investigation_intake.schema.json#/$defs/observable"}},
+    "structure_proposals": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["candidate_id", "lane", "proposal_ref", "parameter_set_ref", "validation"], "properties": {
+      "candidate_id": {"type": "string"}, "lane": {"enum": ["D", "S"]}, "proposal_ref": {"type": "string"}, "parameter_set_ref": {"type": ["string", "null"]},
+      "validation": {"type": "object", "additionalProperties": false, "required": ["g1", "g2", "g3"], "properties": {
+        "g1": {"const": "NOT_RUN"}, "g2": {"const": "NOT_RUN"}, "g3": {"const": "NOT_RUN"}
+      }}
+    }}},
+    "assessment_parameter_proposals": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["proposal_id", "kind", "target_ref", "result_ref", "provenance_ref"], "properties": {
+      "proposal_id": {"type": "string"}, "kind": {"enum": ["assessment", "parameter", "deterministic_estimate"]}, "target_ref": {"type": "string"}, "result_ref": {"type": "string"}, "provenance_ref": {"type": "string"}
+    }}},
+    "evaluation_plan": {"type": "object", "additionalProperties": false, "required": ["target_observable_ids", "allowed_perturbations", "horizon_date", "prediction_lock_required", "holdout_access", "comparison_mode"], "properties": {
+      "target_observable_ids": {"type": "array", "items": {"type": "string"}},
+      "allowed_perturbations": {"type": "array", "items": {"type": "string"}},
+      "horizon_date": {"type": "string"}, "prediction_lock_required": {"type": "boolean"},
+      "holdout_access": {"const": "EVALUATOR_ONLY"}, "comparison_mode": {"const": "PER_CANDIDATE_NO_VOTE"}
+    }},
+    "intervention_authorization": {"enum": ["observe_only", "simulate_only", "intervene_with_approval", "intervene_authorized"]},
+    "invariant_guards": {"type": "object", "additionalProperties": false, "required": ["no_gold_in_input", "holdout_never_sent_to_builders", "competitors_not_merged", "modelica_result_not_truth"], "properties": {
+      "no_gold_in_input": {"const": true}, "holdout_never_sent_to_builders": {"const": true},
+      "competitors_not_merged": {"const": true}, "modelica_result_not_truth": {"const": true}
+    }},
+    "provenance": {"$ref": "investigation_intake.schema.json#/$defs/provenance"}
+  }
+}
+

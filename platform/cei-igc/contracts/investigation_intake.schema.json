@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/igc/contracts/investigation_intake.v0.1.schema.json",
+  "title": "IGC investigation intake v0.1",
+  "description": "Contract E0-E2, no evidentiary facts asserted by the user interface.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "status", "inquiry", "observability", "evidence", "provenance"],
+  "properties": {
+    "schema_version": {"const": "igc.investigation_intake.v0.1"},
+    "case_id": {"type": "string", "maxLength": 64},
+    "status": {"const": "DRAFT"},
+    "inquiry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["system_name", "problem_statement", "research_question", "actor", "researcher_role", "declared_purpose", "perceived_field", "system_boundary", "horizon_date", "intervention_authorization"],
+      "properties": {
+        "system_name": {"type": "string"}, "problem_statement": {"type": "string"}, "research_question": {"type": "string"},
+        "actor": {"type": "string"},
+        "researcher_role": {"enum": ["observer", "decision_maker", "facilitator"]},
+        "declared_purpose": {"type": "string"},
+        "perceived_field": {"type": "object", "additionalProperties": false, "required": ["description", "captured_before_reconstruction"], "properties": {"description": {"type": "string"}, "captured_before_reconstruction": {"enum": ["PENDING", "DECLARED_BY_OPERATOR_NOT_VERIFIED"]}}},
+        "system_boundary": {"type": "string"}, "horizon_date": {"type": "string"},
+        "intervention_authorization": {"enum": ["observe_only", "simulate_only", "intervene_with_approval", "intervene_authorized"]}
+      }
+    },
+    "observability": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/observable"}},
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["as_known_at", "visible_source_refs", "extraction_mode", "confidentiality", "holdout"],
+      "properties": {
+        "as_known_at": {"type": ["string", "null"], "format": "date-time"},
+        "visible_source_refs": {"type": "array", "items": {"type": "string"}},
+        "extraction_mode": {"enum": ["human", "llm_assisted", "mixed", "unknown"]},
+        "confidentiality": {"type": "string"},
+        "holdout": {"$ref": "#/$defs/holdout"}
+      }
+    },
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "observable": {"type": "object", "additionalProperties": false, "required": ["id", "status", "unit", "resolution", "measurement_error", "reporting_lag", "source_ref"], "properties": {
+      "id": {"type": "string"}, "status": {"enum": ["observed", "proxy", "latent", "unmeasured"]},
+      "unit": {"type": "string"}, "resolution": {"type": "string"},
+      "measurement_error": {"type": "string"}, "reporting_lag": {"type": "string"}, "source_ref": {"type": "string"}
+    }},
+    "holdout": {"type": "object", "additionalProperties": false, "required": ["reference", "custodian", "test_type", "contents_included", "server_isolation_verified"], "properties": {
+      "reference": {"type": ["string", "null"]}, "custodian": {"type": ["string", "null"]},
+      "test_type": {"enum": ["future_observation", "intervention_outcome", "hidden_world", "none"]},
+      "contents_included": {"const": false}, "server_isolation_verified": {"const": false}
+    }},
+    "provenance": {"type": "object", "additionalProperties": false, "required": ["created_at", "authoring_mode", "version"], "properties": {
+      "created_at": {"type": "string", "format": "date-time"},
+      "authoring_mode": {"const": "BROWSER_ONLY_NO_STORAGE"}, "version": {"const": "0.1.0"}
+    }}
+  }
+}
+
