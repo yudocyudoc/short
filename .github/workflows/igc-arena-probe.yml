@@ -27,6 +27,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Test runner signatures and redirect handling
+        run: python -m unittest tools.test_igc_arena_probe -v
       - name: Validate contract snapshot and report signed result
         env:
           IGC_JOB_ID: ${{ inputs.job_id }}
