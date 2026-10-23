@@ -1,5 +1,4 @@
 import {InputError,assert,sha256,validateDraft,validatePreflightReady,publicCase,publicRun,casePattern} from './domain.mjs';
-import {verifyRunnerRequest} from './security.mjs';
 
 function json(value,status=200){return new Response(JSON.stringify(value),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});}
 async function readBody(req,max=250000){
@@ -182,36 +181,6 @@ export function createApi({authorize,requestFn=fetch}={}){
     const url=new URL(req.url),path=url.pathname,method=req.method.toUpperCase();
     try{
       if(path==='/api/health'&&method==='GET')return json({service:'cei-igc-workbench',version:'0.2.0',safe_mode:'DRAFTS_AND_DETERMINISTIC_PROBE_ONLY',authorization:'Cloudflare Access JWT',storage:'D1 + R2'});
-      if(path.startsWith('/api/runner/')){
-        // Authenticating machine-to-machine requests without an Access user token.
-        const m=path.match(/^\/api\/runner\/jobs\/([0-9a-f-]{36})\/(snapshot|result)$/);
-        assert(m,'Runner path inválido',404);
-        const payload=method==='POST'?await req.text():'';
-        await verifyRunnerRequest(req,env,payload);
-        const job=await findJob(env.IGC_DB,m[1]);assert(job,'Trabajo desconocido',404);
-        if(m[2]==='snapshot'&&method==='GET'){
-          const source=await env.IGC_ARTIFACTS.get(job.snapshot_key);
-          assert(source,'Snapshot no encontrado',404);
-          return new Response(source.body,{headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-IGC-Snapshot-Sha256':job.snapshot_sha256}});
-        }
-        if(m[2]==='result'&&method==='POST'){
-          assert(payload.length<=100000,'Resultado demasiado grande',413);
-          let result;try{result=JSON.parse(payload);}catch{throw new InputError('Resultado no es JSON');}
-          assert(result.schema_version==='igc.arena_probe.v0.2','Contrato de resultado inválido');
-          assert(result.job_id===job.job_id&&result.snapshot_sha256===job.snapshot_sha256,'Resultado no corresponde a snapshot');
-          assert(['PASS','FAIL'].includes(result.status)&&result.modelica_executed===false&&result.inference_calls===0,'El probe no puede declarar simulaciones ni IA');
-          assert(result.probe_only===true && Number.isInteger(result.observable_count) && result.observable_count>=0 && result.observable_count<=100,'Contrato de sonda inválido');
-          assert(Array.isArray(result.issues)&&result.issues.length<=100&&result.issues.every(x=>typeof x==='string'&&x.length<=300),'Lista de incidencias inválida');
-          assert(Object.keys(result).every(k=>['schema_version','job_id','snapshot_sha256','status','modelica_executed','inference_calls','gates','probe_only','observable_count','issues'].includes(k)),'Resultado contiene campos no admitidos');
-          assert(result.gates?.g1==='NOT_RUN'&&result.gates?.g2==='NOT_RUN'&&result.gates?.g3==='NOT_RUN','El probe no aprueba gates');
-          assert(!['COMPLETE','ERROR','DISPATCH_ERROR'].includes(job.status),'Trabajo ya finalizado',409);
-          const key=`jobs/${job.job_id}/result.json`;
-          await env.IGC_ARTIFACTS.put(key,payload,{httpMetadata:{contentType:'application/json'}});
-          await env.IGC_DB.prepare('UPDATE arena_jobs SET status=?,result_key=?,updated_at=? WHERE job_id=?').bind(result.status==='PASS'?'COMPLETE':'ERROR',key,now(),job.job_id).run();
-          return json({accepted:true,status:result.status});
-        }
-        throw new InputError('Método runner no permitido',405);
-      }
       const user=await authorize(req,env);
       if(path==='/api/github/auth-check'&&method==='GET')return json(await checkGithubAuth(env,requestFn));
       if(path==='/api/me'&&method==='GET')return json({authenticated:true,subject:user.sub,email:user.email||null});

@@ -16,8 +16,10 @@ flowchart LR
   W --> D["D1: casos versionados y jobs"]
   W --> R["R2: snapshot visible y resultado"]
   W --> GH["GitHub workflow_dispatch: job_id + hash"]
-  GH -->|"HMAC GET, solo metadatos permitidos"| W
-  GH -->|"HMAC POST resultado"| W
+  GH -->|"HMAC GET, solo metadatos permitidos"| RW["Worker runner independiente"]
+  GH -->|"HMAC POST resultado"| RW
+  RW --> D
+  RW --> R
   W --> UI
 ```
 
@@ -29,17 +31,17 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 2. Crea D1: `npx wrangler d1 create cei-igc-lab-v02`. Copia el `database_id` a `wrangler.jsonc`.
 3. Crea R2: `npx wrangler r2 bucket create cei-igc-lab-v02` (o usa un bucket existente y cambia su binding).
 4. Migra: `npm run db:migrate:local`; para remoto, después de revisar el esquema: `npm run db:migrate:remote`.
-5. La aplicación **Cloudflare Zero Trust > Access > Applications** protege las rutas humanas del Worker. Mantén la política de investigador y el path override existente para `/api/runner/*`. Configura `ACCESS_TEAM_DOMAIN` y `ACCESS_AUD` como secretos de Wrangler; el Worker **verifica criptográficamente JWT, firma, issuer y audience**.
+5. La aplicación **Cloudflare Zero Trust > Access > Applications** protege todo el Workbench y sus rutas humanas. Mantén la política de investigador y sus secretos `ACCESS_TEAM_DOMAIN` y `ACCESS_AUD`; el Worker verifica criptográficamente JWT, firma, issuer y audience. El Worker runner independiente no usa Cloudflare Service Auth.
 6. Crea un token **GitHub App** (ideal, rotación de installation tokens) o token de alcance mínimo **Actions: write** para el repo `yudocyudoc/short`. En Cloudflare: `npx wrangler secret put GITHUB_TOKEN`.
-7. Define una cadena aleatoria robusta (al menos 24 caracteres, preferiblemente 32 bytes aleatorios) como `IGC_RUNNER_HMAC_SECRET`: `npx wrangler secret put IGC_RUNNER_HMAC_SECRET`. **La misma cadena** debe configurarse como secreto de GitHub Actions; no la guardes en `wrangler.jsonc`.
+7. Conserva la cadena existente `IGC_RUNNER_HMAC_SECRET` en el Workbench y GitHub Actions y configura el mismo valor existente como secreto del Worker runner con Wrangler. No generes un valor nuevo ni lo guardes en `wrangler.jsonc`.
 8. Revisa `GITHUB_REPO`, `GITHUB_REF`, `GITHUB_WORKFLOW` y deja este último fijo a `igc-arena-probe.yml`.
-9. El Worker ya está desplegado; este PR no ejecuta `npm run deploy` ni modifica Cloudflare.
+9. Despliega `platform/cei-igc-runner-v02/wrangler.jsonc` como `cei-igc-runner-v02`. Conecta únicamente los bindings D1 y R2 existentes y carga el secreto HMAC existente. Valida el runner antes de desplegar cambios del Workbench.
 
 ### Configuración en GitHub
 
 - Este PR instala el workflow en `.github/workflows/igc-arena-probe.yml` y el runner en `tools/igc-arena-probe.py`. Se conservan las copias de `github/` como plantillas fuente.
 - Añade el secreto GitHub Actions `IGC_RUNNER_HMAC_SECRET` idéntico al de Cloudflare.
-- Añade la variable GitHub Actions `IGC_SERVICE_ORIGIN=https://<host-exacto-de-tu-worker>`.
+- Configura la variable de repositorio `IGC_SERVICE_ORIGIN=https://cei-igc-runner-v02.oulipo.workers.dev`.
 - Revisa este PR y CI antes de integrarlo. La integración no estará activa en `main` hasta el merge; el workflow seguirá siendo manual.
 - El Worker no envía `return_run_details` en el cuerpo del dispatch. Conserva la lectura de `workflow_run_id` y URL si la respuesta de GitHub las incluye; si no, mantiene el UUID del job y espera el callback firmado.
 
@@ -61,8 +63,8 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 | `GET /api/cases/:id/runs` | Access | Lista de ejecuciones |
 | `GET /api/runs/:id` | Access | Estado y URL GitHub, polling opcional |
 | `GET /api/runs/:id/result` | Access | Resultado verificado, desde R2 |
-| `GET /api/runner/jobs/:id/snapshot` | HMAC compartida | Snapshot con hash, sin holdout |
-| `POST /api/runner/jobs/:id/result` | HMAC compartida | Callback resultante, sin ejecutar modelos |
+| `GET /api/runner/jobs/:id/snapshot` en `cei-igc-runner-v02` | HMAC compartida | Snapshot con hash, sin holdout |
+| `POST /api/runner/jobs/:id/result` en `cei-igc-runner-v02` | HMAC compartida | Callback resultante, sin ejecutar modelos |
 
 ## Fronteras metodológicas y de seguridad
 
@@ -71,7 +73,7 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 3. No se permite enviar gold, contenidos de holdout o salidas que declaren G1/G2/G3 aprobadas. Tampoco se aceptan workflows arbitrarios desde el navegador.
 4. Cada job fija un snapshot inmutable con SHA-256. El runner lo recupera y devuelve un resultado autenticado por HMAC-SHA256 con vigencia de cinco minutos. El resultado queda en R2 y en D1 únicamente se registra su referencia y estado.
 5. Ninguna de las tres vías (D, P, SD-AI) está conectada aún: la sonda no califica ni modela investigación. **Un PASS técnico del probe no equivale a validez metodológica ni capacidad de explicación sistémica**.
-6. En Cloudflare, solo `/api/runner/*` queda accesible sin inicio de sesión mediante el path override de la aplicación Access. El Worker exige HMAC con tiempo y hash en ambas rutas del runner. Las demás rutas de la aplicación siguen protegidas por Access; el runner no envía tokens Service Auth.
+6. El Workbench permanece protegido por Cloudflare Access. El host separado `cei-igc-runner-v02.oulipo.workers.dev` expone únicamente las dos rutas del runner, protegidas por HMAC temporal ligado a método, ruta y hash del cuerpo. El runner no usa Cloudflare Service Auth; no se configura un bypass en el Workbench.
 7. Está prohibido indexar fuentes reservadas en Vectorize o meterlas en prompts/snapshots de las vías. Falta construir custodia real antes de permitir reservas sensibles.
 8. D1 y R2 se conectan solo al Worker; las credenciales GitHub y HMAC son **secrets**, nunca variables frontend. GitHub Actions consume minutos/recursos y se mantuvo en modo no pagado de modelos; un futuro modo de IA requerirá autorización independiente.
 

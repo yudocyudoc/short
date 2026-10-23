@@ -1,26 +1,49 @@
-# Cloudflare Access for the IGC Arena runner
+# CEI–IGC v0.2: runner independiente
 
-The Workbench uses Cloudflare Access for human-facing routes. The Worker Access application has a path override that leaves only `/api/runner/*` reachable without an Access login, so GitHub Actions can call the runner API directly.
+`cei-igc-workbench-v02` mantiene Cloudflare Access y todas sus rutas de usuario. El ejecutor GitHub usa el Worker independiente `cei-igc-runner-v02`; el Workbench ya no ofrece rutas `/api/runner/*` en el código fuente.
 
-Those endpoints still require the timestamped HMAC signature. The Worker validates the signature, method, path, request-body SHA-256, and timestamp before processing the snapshot or callback. The runner also verifies the immutable snapshot SHA-256. These checks are independent of Cloudflare Access.
+El Worker runner solo acepta:
 
-## GitHub Actions configuration
+- `GET /api/runner/jobs/:id/snapshot`
+- `POST /api/runner/jobs/:id/result`
 
-The workflow needs:
+Ambas rutas verifican la firma HMAC temporal con método, path y SHA-256 del body antes de consultar D1 o R2. El snapshot conserva su hash y `job_id`. El callback conserva la validación del contrato y los estados terminales. R2 usa escritura condicional de creación única; callbacks repetidos reciben HTTP 409 y no sustituyen el resultado.
 
-- Repository variable `IGC_SERVICE_ORIGIN`, set to the Workbench Worker origin.
-- Repository secret `IGC_RUNNER_HMAC_SECRET`, matching the Worker's HMAC secret.
+El runner no tiene rutas de administración, formularios ni consultas generales, y no usa Cloudflare Access Service Auth. No se modifica la política `Allow` del investigador ni la protección del Workbench. No se crea un secreto nuevo: `IGC_RUNNER_HMAC_SECRET` del runner debe tener el mismo valor existente que usan el Workbench y GitHub Actions.
 
-The runner does not need `CF_ACCESS_CLIENT_ID` or `CF_ACCESS_CLIENT_SECRET`. The workflow must not send Cloudflare Access service-token headers to the public runner path.
+## Bindings y despliegue
 
-The workflow uploads `igc-arena-probe-artifact.json` even when the callback step fails. The authenticated Workbench polls the completed run, retrieves only the artifact named for its `job_id`, and imports it after checking the workflow run, snapshot hash, result hash, and a separate HMAC signature. The Worker's `GITHUB_TOKEN` therefore needs read access to Actions artifacts (`Actions: read` for a fine-grained token). The download redirect is fetched without the GitHub Authorization header. The existing signed callback remains available as the fast path.
+El archivo `platform/cei-igc-runner-v02/wrangler.jsonc` conecta el Worker nuevo solo con el D1 `cei-igc-lab-v02` y el bucket R2 `cei-igc-lab-v02`. El secreto se administra fuera del archivo de configuración.
 
-## Cloudflare configuration
+Desde `platform/cei-igc`, con Wrangler autenticado:
 
-Keep the researcher `Allow` policy and the Access application protecting the Workbench. The only exception is the existing path override for `/api/runner/*`. Do not add a hostname-wide bypass or change the researcher policy.
+```powershell
+npx wrangler deploy --config ..\cei-igc-runner-v02\wrangler.jsonc --keep-vars
+npx wrangler secret put IGC_RUNNER_HMAC_SECRET --config ..\cei-igc-runner-v02\wrangler.jsonc
+```
 
-## Scope
+Al introducir el valor, usa la fuente segura del HMAC existente. Wrangler no permite leer de vuelta el valor guardado en el Workbench, así que no se puede copiar automáticamente desde ese Worker. No lo pegues en el repositorio, el workflow ni el chat.
 
-This lowers friction for GitHub Actions by removing the separate Cloudflare service-token requirement. The runner API is reachable at the edge, while HMAC remains required inside the Worker. All other Workbench routes remain behind Cloudflare Access.
+Configura la variable del repositorio `yudocyudoc/short`:
 
-References: [Protect a Worker with Access](https://developers.cloudflare.com/workers/configuration/cloudflare-access/), [Cloudflare Access policies](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/).
+```text
+IGC_SERVICE_ORIGIN=https://cei-igc-runner-v02.oulipo.workers.dev
+```
+
+El workflow sigue usando `IGC_RUNNER_HMAC_SECRET` como secreto de Actions y no envía cabeceras Cloudflare Service Auth.
+
+## Comprobaciones y única sonda
+
+Antes de lanzar una sonda:
+
+1. Enviar un `GET` sin firma a una ruta snapshot con UUID y comprobar HTTP 401 sin contenido del snapshot.
+2. Enviar una firma HMAC inválida y comprobar que no se devuelven datos.
+3. Si aparece HTTP 403, detenerse: no rotar tokens ni cambiar políticas. Revisar protección global de Workers y reglas de borde.
+4. Con ambas comprobaciones aprobadas, lanzar exactamente una sonda sintética `CAF-DEMO-001` desde el Workbench autenticado.
+5. Verificar el resultado firmado en el artefacto de GitHub, el estado y `result_key` en D1, el objeto correspondiente en R2 y el resultado mostrado en Workbench.
+
+No habilitar IA ni Modelica durante esta prueba.
+
+## Reversión
+
+Para volver al recorrido anterior, restaura `IGC_SERVICE_ORIGIN` a `https://cei-igc-workbench-v02.oulipo.workers.dev` y revierte los commits de esta rama. Si el runner nuevo ya se desplegó, conserva el Worker mientras se revisan jobs pendientes; después se puede revertir a su versión previa con Wrangler o eliminar únicamente `cei-igc-runner-v02`. No reviertas ni despliegues cambios sobre ramas EPI-01 a EPI-06.

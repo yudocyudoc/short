@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {InputError,validateDraft,validatePreflightReady,sha256} from '../src/domain.mjs';
 import {signRunnerRequest,verifyRunnerRequest} from '../src/security.mjs';
 import {createApi} from '../src/api.mjs';
+import {createRunnerApi} from '../../cei-igc-runner-v02/src/index.mjs';
 
 const root=new URL('../',import.meta.url);
 const template=JSON.parse(fs.readFileSync(new URL('../examples/investigation_intake_demo.json',import.meta.url)));
@@ -65,7 +66,10 @@ class MockDB {
 }
 class MockR2 {
   constructor(){this.map=new Map();}
-  async put(key,value){this.map.set(key,typeof value==='string'?value:JSON.stringify(value));}
+  async put(key,value,options={}){
+    if(options.onlyIf?.get('If-None-Match')==='*'&&this.map.has(key))return null;
+    this.map.set(key,typeof value==='string'?value:JSON.stringify(value));return {key};
+  }
   async get(key){const s=this.map.get(key);return s==null?null:{body:new Blob([s]).stream()};}
 }
 const env=()=>({IGC_DB:new MockDB(),IGC_ARTIFACTS:new MockR2(),IGC_RUNNER_HMAC_SECRET:mockSecret,GITHUB_TOKEN:'NOT_REAL_GH_TOKEN',GITHUB_REPO:'yudocyudoc/short',GITHUB_WORKFLOW:'igc-arena-probe.yml',GITHUB_REF:'main'});
@@ -95,7 +99,7 @@ test('Authenticated machine callback requires valid request-bound HMAC',async()=
 });
 
 test('Cloudflare D1+R2+GitHub dispatch+signed callback lifecycle with no AI',async()=>{
-  const e=env(),calls=[];
+  const e=env(),calls=[],runner=createRunnerApi();
   const githubFetch=async(url,options)=>{
     calls.push({url,body:options.body});
     return new Response(JSON.stringify({workflow_run_id:558210,run_url:'https://github.com/yudocyudoc/short/actions/runs/558210'}),{status:200,headers:{'Content-Type':'application/json'}});
@@ -123,20 +127,22 @@ test('Cloudflare D1+R2+GitHub dispatch+signed callback lifecycle with no AI',asy
   const path='/api/runner/jobs/'+job+'/snapshot';
   let signed=await signRunnerRequest(mockSecret,ts,'GET',path,'');
   const snapshotReq=new Request('https://local.test'+path,{headers:{'X-IGC-Timestamp':ts,'X-IGC-Signature':signed}});
-  const snapshotResponse=await app(snapshotReq,e);assert.equal(snapshotResponse.status,200);
+  const snapshotResponse=await runner(snapshotReq,e);assert.equal(snapshotResponse.status,200);
   const raw=await snapshotResponse.text();assert.equal(await sha256(raw),r.data.snapshot_sha256);
   const snap=JSON.parse(raw);assert.equal(snap.data_class,'VISIBLE_METADATA_ONLY');assert.equal(snap.holdout_contents_included,false);
   const result={schema_version:'igc.arena_probe.v0.2',job_id:job,snapshot_sha256:r.data.snapshot_sha256,status:'PASS',modelica_executed:false,inference_calls:0,gates:{g1:'NOT_RUN',g2:'NOT_RUN',g3:'NOT_RUN'},probe_only:true,observable_count:2,issues:[]};
   const resultPath='/api/runner/jobs/'+job+'/result',resultRaw=JSON.stringify(result);
   signed=await signRunnerRequest(mockSecret,ts,'POST',resultPath,resultRaw);
   const callback=new Request('https://local.test'+resultPath,{method:'POST',body:resultRaw,headers:{'X-IGC-Timestamp':ts,'X-IGC-Signature':signed}});
-  r=await rpc(app,callback,e);assert.equal(r.status,200);
+  r=await rpc(runner,callback,e);assert.equal(r.status,200);
+  const duplicate=new Request('https://local.test'+resultPath,{method:'POST',body:resultRaw,headers:{'X-IGC-Timestamp':ts,'X-IGC-Signature':signed}});
+  r=await rpc(runner,duplicate,e);assert.equal(r.status,409);
   r=await rpc(app,req('/api/runs/'+job),e);assert.equal(r.data.status,'COMPLETE');
   r=await rpc(app,req('/api/runs/'+job+'/result'),e);assert.equal(r.data.inference_calls,0);
 });
 
 test('A fast signed callback is not overwritten by the dispatch response',async()=>{
-  const e=env();let app;
+  const e=env(),runner=createRunnerApi();let app;
   const githubFetch=async(url,options)=>{
     const dispatch=JSON.parse(options.body),{job_id,snapshot_sha256}=dispatch.inputs;
     const timestamp=String(Math.floor(Date.now()/1000));
@@ -144,7 +150,7 @@ test('A fast signed callback is not overwritten by the dispatch response',async(
     const resultPath='/api/runner/jobs/'+job_id+'/result',resultRaw=JSON.stringify(result);
     const signature=await signRunnerRequest(mockSecret,timestamp,'POST',resultPath,resultRaw);
     const callback=new Request('https://local.test'+resultPath,{method:'POST',body:resultRaw,headers:{'X-IGC-Timestamp':timestamp,'X-IGC-Signature':signature}});
-    const callbackResponse=await app(callback,e);
+    const callbackResponse=await runner(callback,e);
     assert.equal(callbackResponse.status,200);
     return new Response(JSON.stringify({workflow_run_id:558211,run_url:'https://github.com/yudocyudoc/short/actions/runs/558211'}),{status:200,headers:{'Content-Type':'application/json'}});
   };
