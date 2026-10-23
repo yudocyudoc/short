@@ -1,6 +1,6 @@
 # CEI–IGC · Mesa full-stack Cloudflare + ejecutor GitHub v0.2
 
-**Implementación inicial local, no desplegada.** Frontend HTML/CSS/JS reutilizado del contrato v0.1 y backend Worker con autenticación Cloudflare Access, D1, R2 y un dispatcher GitHub limitado a **sonda determinista sin llamadas a IA ni Modelica**.
+**Worker v0.2 activo en Cloudflare.** Este PR incorpora el código fuente, contratos, frontend y workflow al repositorio. El Worker no se vuelve a desplegar al fusionar. El ejecutor solo admite una **sonda determinista sin llamadas a IA ni Modelica**.
 
 ## División de responsabilidades
 
@@ -29,11 +29,11 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 2. Crea D1: `npx wrangler d1 create cei-igc-lab-v02`. Copia el `database_id` a `wrangler.jsonc`.
 3. Crea R2: `npx wrangler r2 bucket create cei-igc-lab-v02` (o usa un bucket existente y cambia su binding).
 4. Migra: `npm run db:migrate:local`; para remoto, después de revisar el esquema: `npm run db:migrate:remote`.
-5. Crea una aplicación **Cloudflare Zero Trust > Access > Applications** que proteja el hostname del Worker. Autoriza solo tu identidad. Configura `ACCESS_TEAM_DOMAIN` y `ACCESS_AUD` en `wrangler.jsonc` con valores reales. El Worker **verifica criptográficamente JWT, firma, issuer y audience**; nunca confía únicamente en un header.
+5. La aplicación **Cloudflare Zero Trust > Access > Applications** protege las rutas humanas del Worker. Mantén la política de investigador y el path override existente para `/api/runner/*`. Configura `ACCESS_TEAM_DOMAIN` y `ACCESS_AUD` como secretos de Wrangler; el Worker **verifica criptográficamente JWT, firma, issuer y audience**.
 6. Crea un token **GitHub App** (ideal, rotación de installation tokens) o token de alcance mínimo **Actions: write** para el repo `yudocyudoc/short`. En Cloudflare: `npx wrangler secret put GITHUB_TOKEN`.
 7. Define una cadena aleatoria robusta (al menos 24 caracteres, preferiblemente 32 bytes aleatorios) como `IGC_RUNNER_HMAC_SECRET`: `npx wrangler secret put IGC_RUNNER_HMAC_SECRET`. **La misma cadena** debe configurarse como secreto de GitHub Actions; no la guardes en `wrangler.jsonc`.
 8. Revisa `GITHUB_REPO`, `GITHUB_REF`, `GITHUB_WORKFLOW` y deja este último fijo a `igc-arena-probe.yml`.
-9. Tras pruebas y autorización explícita, `npm run deploy` publica frontend y backend juntos. **No se ha ejecutado este despliegue.**
+9. El Worker ya está desplegado; este PR no ejecuta `npm run deploy` ni modifica Cloudflare.
 
 ### Configuración en GitHub
 
@@ -71,7 +71,7 @@ Necesitas cuenta Cloudflare con **Workers, D1, R2 y Cloudflare Access** habilita
 3. No se permite enviar gold, contenidos de holdout o salidas que declaren G1/G2/G3 aprobadas. Tampoco se aceptan workflows arbitrarios desde el navegador.
 4. Cada job fija un snapshot inmutable con SHA-256. El runner lo recupera y devuelve un resultado autenticado por HMAC-SHA256 con vigencia de cinco minutos. El resultado queda en R2 y en D1 únicamente se registra su referencia y estado.
 5. Ninguna de las tres vías (D, P, SD-AI) está conectada aún: la sonda no califica ni modela investigación. **Un PASS técnico del probe no equivale a validez metodológica ni capacidad de explicación sistémica**.
-6. El Worker no usa Access para los callbacks del runner: esa frontera usa HMAC con tiempo/hash y endpoint específico. Si Access también protege `/api/runner/*`, debe configurarse en Cloudflare una política de servicio separada para el runner, o permitir el camino con control HMAC del Worker, sin exponer otras rutas. No basta con abrir el acceso sin validar la firma.
+6. En Cloudflare, solo `/api/runner/*` queda accesible sin inicio de sesión mediante el path override de la aplicación Access. El Worker exige HMAC con tiempo y hash en ambas rutas del runner. Las demás rutas de la aplicación siguen protegidas por Access; el runner no envía tokens Service Auth.
 7. Está prohibido indexar fuentes reservadas en Vectorize o meterlas en prompts/snapshots de las vías. Falta construir custodia real antes de permitir reservas sensibles.
 8. D1 y R2 se conectan solo al Worker; las credenciales GitHub y HMAC son **secrets**, nunca variables frontend. GitHub Actions consume minutos/recursos y se mantuvo en modo no pagado de modelos; un futuro modo de IA requerirá autorización independiente.
 
