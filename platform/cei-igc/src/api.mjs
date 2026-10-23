@@ -54,13 +54,18 @@ async function checkGithubAuth(env,requestFn){
   if(!target.ok)throw githubHttpError(target.status,'workflow access check');
   return {authenticated:true,workflow_accessible:true};
 }
+const githubRunId=value=>{
+  const id=Number(value);
+  return Number.isSafeInteger(id)&&id>0?id:null;
+};
 async function refreshGithubStatus(env,db,job,requestFn){
-  if(!job.github_run_id || ['COMPLETE','ERROR','DISPATCH_ERROR'].includes(job.status))return job;
+  const runId=githubRunId(job.github_run_id);
+  if(!runId || ['COMPLETE','ERROR','DISPATCH_ERROR'].includes(job.status))return job;
   const {repo}=githubConfig(env);
-  const response=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${job.github_run_id}`,{headers:githubHeaders(env.GITHUB_TOKEN)});
+  const response=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${runId}`,{headers:githubHeaders(env.GITHUB_TOKEN)});
   if(!response.ok)return job;
   const meta=await response.json();
-  if(meta.id!==job.github_run_id || meta.path!==`.github/workflows/${env.GITHUB_WORKFLOW}` || meta.event!=='workflow_dispatch' || meta.head_branch!==env.GITHUB_REF)return job;
+  if(githubRunId(meta.id)!==runId || meta.path!==`.github/workflows/${env.GITHUB_WORKFLOW}` || meta.event!=='workflow_dispatch' || meta.head_branch!==env.GITHUB_REF)return job;
   if(meta.status==='completed'&&!job.result_key){
     try{
       const imported=await importGithubArtifact(env,job,requestFn);
@@ -146,10 +151,12 @@ function validateProbeResult(result,job){
   assert(result.gates?.g1==='NOT_RUN'&&result.gates?.g2==='NOT_RUN'&&result.gates?.g3==='NOT_RUN','Probe cannot pass gates');
 }
 async function importGithubArtifact(env,job,requestFn){
+  const runId=githubRunId(job.github_run_id);
+  assert(runId,'Invalid GitHub workflow run ID',502);
   const {repo}=githubConfig(env),headers=githubHeaders(env.GITHUB_TOKEN);
-  const list=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${job.github_run_id}/artifacts`,{headers});
+  const list=await requestFn(`https://api.github.com/repos/${repo}/actions/runs/${runId}/artifacts`,{headers});
   if(!list.ok)return false;
-  const data=await list.json(),artifact=(data.artifacts||[]).find(x=>x.name===artifactName(job)&&!x.expired&&x.workflow_run?.id===job.github_run_id);
+  const data=await list.json(),artifact=(data.artifacts||[]).find(x=>x.name===artifactName(job)&&!x.expired&&githubRunId(x.workflow_run?.id)===runId);
   if(!artifact)return false;
   assert(Number.isInteger(artifact.size_in_bytes)&&artifact.size_in_bytes>0&&artifact.size_in_bytes<=1000000,'Unexpected artifact size',413);
   const archive=await requestFn(`https://api.github.com/repos/${repo}/actions/artifacts/${artifact.id}/zip`,{headers,redirect:'manual'});

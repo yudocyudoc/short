@@ -163,7 +163,7 @@ test('A fast signed callback is not overwritten by the dispatch response',async(
 
 test('Completed GitHub run imports only its signed, matching result artifact',async()=>{
   const e=env(),jobId='234911ff-aaaa-4111-8999-bbbbbbbbbbbb';
-  e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:`jobs/${jobId}/snapshot.json`,snapshot_sha256:'a'.repeat(64),case_version:1,status:'QUEUED',github_run_id:558212,github_url:'https://github.com/yudocyudoc/short/actions/runs/558212',result_key:null,error:null});
+  e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:`jobs/${jobId}/snapshot.json`,snapshot_sha256:'a'.repeat(64),case_version:1,status:'QUEUED',github_run_id:'558212.0',github_url:'https://github.com/yudocyudoc/short/actions/runs/558212',result_key:null,error:null});
   const result={schema_version:'igc.arena_probe.v0.2',job_id:jobId,snapshot_sha256:'a'.repeat(64),status:'PASS',modelica_executed:false,inference_calls:0,gates:{g1:'NOT_RUN',g2:'NOT_RUN',g3:'NOT_RUN'},probe_only:true,observable_count:2,issues:[]};
   const result_json=JSON.stringify(result),result_sha256=await sha256(result_json),message=`IGC-ARENA-ARTIFACT-V1\\n${jobId}\\n${'a'.repeat(64)}\\n${result_sha256}`;
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(mockSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
@@ -182,6 +182,8 @@ test('Completed GitHub run imports only its signed, matching result artifact',as
   const app=createApi({authorize:async()=>({sub:'investigator-01'}),requestFn});
   const r=await rpc(app,req(`/api/runs/${jobId}?refresh=github`),e);
   assert.equal(r.data.status,'COMPLETE',JSON.stringify(calls.map(x=>x.url)));assert.equal(r.data.result_available,true);
+  assert.equal(calls[0].url.endsWith('/actions/runs/558212'),true);
+  assert.equal(calls[1].url.endsWith('/actions/runs/558212/artifacts'),true);
   assert.equal(calls[3].options.headers,undefined);
   const saved=await rpc(app,req(`/api/runs/${jobId}/result`),e);
   assert.equal(saved.data.job_id,jobId);assert.equal(saved.data.status,'PASS');
