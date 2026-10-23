@@ -10,6 +10,15 @@ const template=JSON.parse(fs.readFileSync(new URL('../examples/investigation_int
 const proposal=JSON.parse(fs.readFileSync(new URL('../examples/arena_input_demo.json',import.meta.url)));
 const clone=x=>JSON.parse(JSON.stringify(x));
 const mockSecret='NOT_REAL_TEST_SECRET_32CHARS_LONG_2026';
+async function zipArtifact(filename,content,method=0){
+  const enc=new TextEncoder(),name=enc.encode(filename),data=enc.encode(content);
+  const packed=method===8?new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer()):data;
+  const local=new Uint8Array(30+name.length+packed.length),lv=new DataView(local.buffer);
+  lv.setUint32(0,0x04034b50,true);lv.setUint16(4,20,true);lv.setUint16(8,method,true);lv.setUint32(18,packed.length,true);lv.setUint32(22,data.length,true);lv.setUint16(26,name.length,true);local.set(name,30);local.set(packed,30+name.length);
+  const central=new Uint8Array(46+name.length),cv=new DataView(central.buffer);cv.setUint32(0,0x02014b50,true);cv.setUint16(4,20,true);cv.setUint16(6,20,true);cv.setUint16(10,method,true);cv.setUint32(20,packed.length,true);cv.setUint32(24,data.length,true);cv.setUint16(28,name.length,true);central.set(name,46);
+  const end=new Uint8Array(22),ev=new DataView(end.buffer);ev.setUint32(0,0x06054b50,true);ev.setUint16(8,1,true);ev.setUint16(10,1,true);ev.setUint32(12,central.length,true);ev.setUint32(16,local.length,true);
+  const zip=new Uint8Array(local.length+central.length+end.length);zip.set(local);zip.set(central,local.length);zip.set(end,local.length+central.length);return zip;
+}
 class MockDB {
   constructor(){this.cases=new Map();this.jobs=new Map();}
   prepare(sql){let vals=[];const db=this;return {bind(...x){vals=x;return this;},async first(){
@@ -44,7 +53,9 @@ class MockDB {
       Object.assign(r,{status:r.status==='DISPATCHING'?'QUEUED':r.status,github_run_id:rid,github_url:url,updated_at:updated});return {meta:{changes:1}};
     }
     if(sql.includes('SET status=?,result_key=?')){
-      const [status,result,updated,id]=vals;Object.assign(db.jobs.get(id),{status,result_key:result,updated_at:updated});return {meta:{changes:1}};
+      if(sql.includes('error=?,updated_at=?')){const [status,result,error,updated,id]=vals;Object.assign(db.jobs.get(id),{status,result_key:result,error,updated_at:updated});}
+      else{const [status,result,updated,id]=vals;Object.assign(db.jobs.get(id),{status,result_key:result,updated_at:updated});}
+      return {meta:{changes:1}};
     }
     if(sql.includes('SET status=?,error=?')){
       const [status,error,updated,id]=vals;Object.assign(db.jobs.get(id),{status,error,updated_at:updated});return {meta:{changes:1}};
@@ -69,7 +80,7 @@ test('V0.1 contract preserved and gold/holdout forbidden',()=>{
   const b=clone(template);b.evidence.holdout.future_observation_data={value:8};
   assert.throws(()=>validateDraft(b),/reserva/);
   const c=clone(proposal);c.structure_proposals[0].validation.g2='PASS';
-  assert.throws(()=>validateDraft(template,c),/G1–G3/);
+  assert.throws(()=>validateDraft(template,c),/G1â€“G3/);
 });
 
 test('Authenticated machine callback requires valid request-bound HMAC',async()=>{
@@ -150,6 +161,44 @@ test('A fast signed callback is not overwritten by the dispatch response',async(
   assert.equal(job.github_run_id,558211);
 });
 
+test('Completed GitHub run imports only its signed, matching result artifact',async()=>{
+  const e=env(),jobId='234911ff-aaaa-4111-8999-bbbbbbbbbbbb';
+  e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:`jobs/${jobId}/snapshot.json`,snapshot_sha256:'a'.repeat(64),case_version:1,status:'QUEUED',github_run_id:558212,github_url:'https://github.com/yudocyudoc/short/actions/runs/558212',result_key:null,error:null});
+  const result={schema_version:'igc.arena_probe.v0.2',job_id:jobId,snapshot_sha256:'a'.repeat(64),status:'PASS',modelica_executed:false,inference_calls:0,gates:{g1:'NOT_RUN',g2:'NOT_RUN',g3:'NOT_RUN'},probe_only:true,observable_count:2,issues:[]};
+  const result_json=JSON.stringify(result),result_sha256=await sha256(result_json),message=`IGC-ARENA-ARTIFACT-V1\n${jobId}\n${'a'.repeat(64)}\n${result_sha256}`;
+  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(mockSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const sig=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(message)));
+  const signature='v1='+[...sig].map(x=>x.toString(16).padStart(2,'0')).join('');
+  const manifest=JSON.stringify({schema_version:'igc.arena_probe_artifact.v1',result_json,result_sha256,signature});
+  const archive=await zipArtifact('igc-arena-probe-artifact.json',manifest,8),calls=[];
+  const requestFn=async(url,options={})=>{
+    calls.push({url,options});
+    if(url.endsWith('/actions/runs/558212'))return new Response(JSON.stringify({id:558212,path:'.github/workflows/igc-arena-probe.yml',event:'workflow_dispatch',head_branch:'main',status:'completed',conclusion:'failure'}));
+    if(url.endsWith('/actions/runs/558212/artifacts'))return new Response(JSON.stringify({artifacts:[{id:987,name:`igc-probe-${jobId}`,expired:false,size_in_bytes:archive.length,workflow_run:{id:558212}}]}));
+    if(url.endsWith('/actions/artifacts/987/zip'))return new Response(null,{status:302,headers:{Location:'https://productionresultssa.blob.core.windows.net/archive/signed'}});
+    if(url==='https://productionresultssa.blob.core.windows.net/archive/signed')return new Response(archive);
+    throw new Error('Unexpected GitHub request '+url);
+  };
+  const app=createApi({authorize:async()=>({sub:'investigator-01'}),requestFn});
+  const r=await rpc(app,req(`/api/runs/${jobId}?refresh=github`),e);
+  assert.equal(r.data.status,'COMPLETE',JSON.stringify(calls.map(x=>x.url)));assert.equal(r.data.result_available,true);
+  assert.equal(calls[3].options.headers,undefined);
+  const saved=await rpc(app,req(`/api/runs/${jobId}/result`),e);
+  assert.equal(saved.data.job_id,jobId);assert.equal(saved.data.status,'PASS');
+});
+
+test('Artifact import rejects mismatched workflow run before downloading artifacts',async()=>{
+  const e=env(),jobId='234911ff-aaaa-4111-8999-bbbbbbbbbbbb';
+  e.IGC_DB.jobs.set(jobId,{job_id:jobId,case_id:'CAF-DEMO-001',owner_sub:'investigator-01',snapshot_key:'snapshot',snapshot_sha256:'a'.repeat(64),case_version:1,status:'QUEUED',github_run_id:558213,result_key:null});
+  let artifactListRequested=false;
+  const app=createApi({authorize:async()=>({sub:'investigator-01'}),requestFn:async url=>{
+    if(url.endsWith('/actions/runs/558213'))return new Response(JSON.stringify({id:558214,path:'.github/workflows/igc-arena-probe.yml',event:'workflow_dispatch',head_branch:'main',status:'completed',conclusion:'success'}));
+    artifactListRequested=true;throw new Error('Should not request artifacts for a mismatched run');
+  }});
+  const r=await rpc(app,req(`/api/runs/${jobId}?refresh=github`),e);
+  assert.equal(r.data.status,'QUEUED');assert.equal(artifactListRequested,false);assert.equal(r.data.result_available,false);
+});
+
 test('GitHub auth check is read-only and accepts PAT or installation-token semantics',async()=>{
   const e=env(),calls=[];
   const githubFetch=async(url,options)=>{
@@ -169,19 +218,19 @@ test('GitHub auth check is read-only and accepts PAT or installation-token seman
   assert.equal(JSON.stringify(r.data).includes(e.GITHUB_TOKEN),false);
 
   let externalCalls=0;
-  const unauthenticatedApp=createApi({authorize:async()=>{throw new InputError('Requiere autenticación de Cloudflare Access',401);},requestFn:async()=>{externalCalls++;}});
+  const unauthenticatedApp=createApi({authorize:async()=>{throw new InputError('Requiere autenticaciÃ³n de Cloudflare Access',401);},requestFn:async()=>{externalCalls++;}});
   const denied=await rpc(unauthenticatedApp,req('/api/github/auth-check'),e);
   assert.equal(denied.status,401);
-  assert.equal(denied.data.error,'Requiere autenticación de Cloudflare Access');
+  assert.equal(denied.data.error,'Requiere autenticaciÃ³n de Cloudflare Access');
   assert.equal(externalCalls,0);
 });
 
 test('GitHub authentication diagnostic distinguishes 401, 403, 404, and 422 safely',async()=>{
   for(const [status,diagnostic] of [
-    [401,'invÃ¡lido, caducado o rechazado'],
-    [403,'denegÃ³ el permiso'],
+    [401,'invÃƒÂ¡lido, caducado o rechazado'],
+    [403,'denegÃƒÂ³ el permiso'],
     [404,'no encontrado o recurso'],
-    [422,'rechazÃ³ la solicitud por validaciÃ³n'],
+    [422,'rechazÃƒÂ³ la solicitud por validaciÃƒÂ³n'],
   ]){
     const e=env(),calls=[];
     const app=createApi({authorize:async()=>({sub:'investigator-04'}),requestFn:async(url,options)=>{
@@ -220,8 +269,8 @@ test('GitHub auth check separates repository success from workflow permission fa
 
 test('Dispatch failure preserves GitHub status diagnosis without response details',async()=>{
   for(const [status,diagnostic] of [
-    [401,'GITHUB_TOKEN invÃ¡lido'],
-    [403,'denegÃ³ el permiso'],
+    [401,'GITHUB_TOKEN invÃƒÂ¡lido'],
+    [403,'denegÃƒÂ³ el permiso'],
     [404,'no encontrado o recurso'],
     [422,'workflow_dispatch, ref e inputs'],
   ]){
@@ -249,4 +298,5 @@ test('Case ownership isolates API records',async()=>{
  assert.equal(r.status,404);
  const ls=await rpc(app,req('/api/cases'),e);assert.equal(ls.data.items.length,0);
 });
+
 

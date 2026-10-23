@@ -13,6 +13,8 @@ The workflow needs:
 
 The runner does not need `CF_ACCESS_CLIENT_ID` or `CF_ACCESS_CLIENT_SECRET`. The workflow must not send Cloudflare Access service-token headers to the public runner path.
 
+The workflow uploads `igc-arena-probe-artifact.json` even when the callback step fails. The authenticated Workbench polls the completed run, retrieves only the artifact named for its `job_id`, and imports it after checking the workflow run, snapshot hash, result hash, and a separate HMAC signature. The Worker's `GITHUB_TOKEN` therefore needs read access to Actions artifacts (`Actions: read` for a fine-grained token). The download redirect is fetched without the GitHub Authorization header. The existing signed callback remains available as the fast path.
+
 ## Cloudflare configuration
 
 Keep the researcher `Allow` policy and the Access application protecting the Workbench. The only exception is the existing path override for `/api/runner/*`. Do not add a hostname-wide bypass or change the researcher policy.

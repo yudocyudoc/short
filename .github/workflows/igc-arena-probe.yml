@@ -41,7 +41,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: igc-probe-${{ inputs.job_id }}
-          path: output/igc-arena-probe-result.json
+          path: |
+            output/igc-arena-probe-result.json
+            output/igc-arena-probe-artifact.json
           retention-days: 30
           if-no-files-found: warn
 

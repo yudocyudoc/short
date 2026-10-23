@@ -73,6 +73,18 @@ def probe(data, job_id):
     if len({x.get('id') for x in obs if isinstance(x,dict)}) != len(obs):issues.append('repeated observable IDs')
     return issues, len(obs)
 
+def signed_artifact_manifest(result, config):
+    result_json = json.dumps(result, sort_keys=True, ensure_ascii=False, separators=(',', ':'))
+    digest = hashlib.sha256(result_json.encode('utf-8')).hexdigest()
+    message = f"IGC-ARENA-ARTIFACT-V1\n{config['job_id']}\n{config['snapshot_sha256']}\n{digest}".encode('utf-8')
+    signature = hmac.new(config['hmac_secret'].encode('utf-8'), message, hashlib.sha256).hexdigest()
+    return {
+        'schema_version': 'igc.arena_probe_artifact.v1',
+        'result_json': result_json,
+        'result_sha256': digest,
+        'signature': 'v1=' + signature,
+    }
+
 def run(config):
     result={
       'schema_version':'igc.arena_probe.v0.2', 'job_id':config['job_id'],'snapshot_sha256':config['snapshot_sha256'],
@@ -96,6 +108,8 @@ def run(config):
     path.parent.mkdir(parents=True,exist_ok=True)
     raw_result=(json.dumps(result,sort_keys=True,ensure_ascii=False,separators=(',',':'))+'\n').encode()
     path.write_bytes(raw_result)
+    manifest_path=pathlib.Path('output/igc-arena-probe-artifact.json')
+    manifest_path.write_text(json.dumps(signed_artifact_manifest(result,config),sort_keys=True,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     try:
         signed_request('POST','result',raw_result,config=config)
     except Exception as exc:

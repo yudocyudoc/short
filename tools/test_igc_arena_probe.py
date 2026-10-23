@@ -22,6 +22,21 @@ def valid_config():
 
 
 class HMACRunnerRequestTests(unittest.TestCase):
+    def test_artifact_manifest_binds_job_snapshot_and_result_hash(self):
+        config = valid_config()
+        result = {'job_id': config['job_id'], 'snapshot_sha256': config['snapshot_sha256'], 'status': 'PASS'}
+        manifest = probe_runner.signed_artifact_manifest(result, config)
+        encoded = manifest['result_json'].encode('utf-8')
+        digest = hashlib.sha256(encoded).hexdigest()
+        expected = hmac.new(
+            config['hmac_secret'].encode(),
+            f"IGC-ARENA-ARTIFACT-V1\n{config['job_id']}\n{config['snapshot_sha256']}\n{digest}".encode(),
+            hashlib.sha256,
+        ).hexdigest()
+        self.assertEqual(manifest['schema_version'], 'igc.arena_probe_artifact.v1')
+        self.assertEqual(manifest['result_sha256'], digest)
+        self.assertEqual(manifest['signature'], 'v1=' + expected)
+
     def test_signed_get_includes_existing_hmac_without_access_headers(self):
         config = valid_config()
         response = type('Response', (), {
