@@ -1,0 +1,10 @@
+{
+ "schema_version":"cei.arena.v0.1",
+ "case_id":"CAF-DEMO-001",
+ "question":"¿Qué limita las ventas de una cafetería donde el dueño no atiende y cree que las visitas se deben al pan?",
+ "agent":{"controls":["personal","horarios","oferta"],"influences":["reseñas","recomendaciones"],"observes":["flujo peatonal","competencia"]},
+ "evidence":[
+  {"id":"E1","kind":"HIPOTESIS","source":"relato del dueño ficticio","as_known_at":"2026-10-01","value":"Me dicen que vienen por el pan"},
+  {"id":"E2","kind":"DESCONOCIDO","source":"inventario inicial del caso ficticio","as_known_at":"2026-10-01","value":"No hay mediciones de entradas, espera ni abandonos"}
+ ]
+}
