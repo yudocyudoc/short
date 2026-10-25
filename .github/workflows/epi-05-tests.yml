@@ -1,0 +1,39 @@
+name: EPI-05 diagnosis Clef false-support offline tests
+
+on:
+  push:
+    branches: [experiment/epi-05-clef-false-support]
+    paths:
+      - 'experiments/clef-false-support-v1/**'
+      - '.github/workflows/epi-05-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/clef-false-support-v1/**'
+      - '.github/workflows/epi-05-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  design-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate gold and 48 fully mocked Clef calls
+        run: python -m unittest discover -s experiments/clef-false-support-v1 -p 'test_*.py' -v
+      - name: Freeze 48 comparison requests without inference
+        run: python experiments/clef-false-support-v1/prepare.py --out "$RUNNER_TEMP/epi05-prepared"
+      - name: Archive request manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi05-prepared-zero-inference
+          path: ${{ runner.temp }}/epi05-prepared/
+          retention-days: 30
+          if-no-files-found: error
