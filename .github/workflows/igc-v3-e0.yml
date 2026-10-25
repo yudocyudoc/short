@@ -1,0 +1,73 @@
+name: IGC v3 E0 — contracts and evaluator-only numerical matrix
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/e0/**'
+      - 'src/modelica/**'
+      - '.github/workflows/igc-v3-e0.yml'
+
+concurrency:
+  group: igc-v3-e0-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  contract-and-reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate prospective contract and known-source integrities
+        run: |
+          python experiments/e0/check_contract.py --check
+          python -m unittest discover -s experiments/e0 -p 'test_*.py' -v
+          python -m unittest discover -s experiments/e0/evaluator -p 'test_*.py' -v
+      - name: Expand finite PUBLIC evaluator controls (never gold worlds)
+        run: |
+          python experiments/e0/evaluator/make_batch.py
+          test -f experiments/e0/evaluator/generated/run.mos
+          test -f experiments/e0/evaluator/generated/cases.json
+      - name: Install pinned numerical runtime
+        run: |
+          docker pull openmodelica/openmodelica:v1.26.5-minimal
+          mkdir -p "$RUNNER_TEMP/e0home" "$RUNNER_TEMP/e0libs"
+          git clone --quiet --depth 1 --branch v4.0.0 https://github.com/modelica/ModelicaStandardLibrary.git "$RUNNER_TEMP/e0libs/msl"
+          git clone --quiet --depth 1 --branch v2.1.2 https://github.com/modelica-3rdparty/SystemDynamics.git "$RUNNER_TEMP/e0libs/systemdynamics"
+      - name: Run real OpenModelica references (6 structures x 2 cap regimes x 4 probes)
+        working-directory: experiments/e0/evaluator
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo/experiments/e0/evaluator \
+            -v "$RUNNER_TEMP/e0home:/omhome" -e HOME=/omhome \
+            -v "$RUNNER_TEMP/e0libs:/thirdparty:ro" \
+            -e OPENMODELICALIBRARY=/thirdparty/msl:/thirdparty/systemdynamics \
+            openmodelica/openmodelica:v1.26.5-minimal omc generated/run.mos | tee generated/omc.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=Path("generated")
+          cases=json.loads((d/"cases.json").read_text())
+          missing=[x["name"] for x in cases if not (d/"results"/(x["name"]+"_res.csv")).is_file()]
+          if missing:raise SystemExit("MISSING_OPENMODELICA_CSV:"+str(missing))
+          print("E0_NATIVE_SIMULATION_FILES",len(cases))
+          PY
+          python separability.py --csv-dir generated/results --out generated/matrix.json
+      - name: Publish E0 evaluator-only diagnostic (never truth or inference)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: igc-v3-e0-numeric-reference
+          path: |
+            experiments/e0/evaluator/generated/matrix.json
+            experiments/e0/evaluator/generated/cases.json
+            experiments/e0/evaluator/generated/omc.log
+          retention-days: 90
+          if-no-files-found: warn
