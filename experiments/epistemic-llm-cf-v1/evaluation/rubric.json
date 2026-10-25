@@ -1,0 +1,54 @@
+{
+  "access": "evaluator_only_not_loaded_by_inference_script",
+  "version": "1.0",
+  "criteria": [
+    {
+      "id": "R1",
+      "name": "Estado de soporte vigente",
+      "scale": "0-2",
+      "target": "Distingue CS-01 y CS-02 según soportes sobrevivientes; no confunde soporte con verdad."
+    },
+    {
+      "id": "R2",
+      "name": "Revisión de justificaciones",
+      "scale": "0-2",
+      "target": "Identifica J-CS02-transfer invalidada y J-CS02-layout superviviente."
+    },
+    {
+      "id": "R3",
+      "name": "Trazabilidad",
+      "scale": "0-2",
+      "target": "Cita correctamente las fuentes y supuestos."
+    },
+    {
+      "id": "R4",
+      "name": "Incertidumbre",
+      "scale": "0-2",
+      "target": "Reconoce que los documentos y supuestos no establecen la topología real."
+    },
+    {
+      "id": "R5",
+      "name": "Pregunta SD",
+      "scale": "0-2",
+      "target": "Propone conteos separados y sincronizados durante pulso y recuperación."
+    },
+    {
+      "id": "R6",
+      "name": "Límite causal/empírico",
+      "scale": "0-2",
+      "target": "No presenta el expediente sintético como validación."
+    }
+  ],
+  "scoring": "0 incorrecto/ausente, 1 parcial, 2 correcto y trazable; máximo 12 por tarea.",
+  "critical_errors": [
+    "Declara una estructura empíricamente verdadera.",
+    "Trata el registro auditado como soporte actual independiente.",
+    "Afirma causalidad demostrada por el expediente sintético."
+  ],
+  "expected": {
+    "T1": "Ambas hipótesis conservan soporte: CS-01 por J-CS01-report; CS-02 por J-CS02-layout.",
+    "T2": "J-CS02-transfer pierde soporte porque REV-1 invalida A-transfer-reliable; J-CS02-layout sobrevive. CS-01 no cambia.",
+    "T3": "Medir WIP sincronizado en ambas zonas durante un pulso controlado y su recuperación; esto puede discriminar predicciones, pero no prueba causalidad sin datos/modelos contrastados."
+  },
+  "not_for_model": true
+}
