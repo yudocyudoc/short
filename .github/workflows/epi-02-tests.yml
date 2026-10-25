@@ -1,0 +1,39 @@
+name: EPI-02 design-only and deterministic validation
+
+on:
+  push:
+    branches: [experiment/epi-02-revision-memory]
+    paths:
+      - 'experiments/epistemic-llm-cf-v2/**'
+      - '.github/workflows/epi-02-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/epistemic-llm-cf-v2/**'
+      - '.github/workflows/epi-02-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-and-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run no-inference EPI-02 design tests
+        run: python -m unittest discover -s experiments/epistemic-llm-cf-v2 -p 'test_*.py' -v
+      - name: Generate paired contexts, no secrets and no provider
+        run: python experiments/epistemic-llm-cf-v2/prepare.py --out "$RUNNER_TEMP/epi02-contexts"
+      - name: Save reproducible contexts
+        uses: actions/upload-artifact@v4
+        with:
+          name: epi02-preparation-no-inference
+          path: ${{ runner.temp }}/epi02-contexts/
+          if-no-files-found: error
+          retention-days: 30
