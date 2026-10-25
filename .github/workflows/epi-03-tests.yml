@@ -1,0 +1,38 @@
+name: EPI-03 decision and extraction design tests
+
+on:
+  push:
+    branches: [experiment/epi-03-clef-clairic]
+    paths:
+      - 'experiments/decision-models-cf-v1/**'
+      - '.github/workflows/epi-03-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/decision-models-cf-v1/**'
+      - '.github/workflows/epi-03-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-no-provider:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: EPI-03 eight no-network unit tests
+        run: python -m unittest discover -s experiments/decision-models-cf-v1 -p 'test_*.py' -v
+      - name: Freeze paired provider requests without secrets
+        run: python experiments/decision-models-cf-v1/prepare.py --out "$RUNNER_TEMP/epi03-prepared"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: epi03-prepared-zero-inference
+          path: ${{ runner.temp }}/epi03-prepared/
+          if-no-files-found: error
+          retention-days: 30
