@@ -1,0 +1,49 @@
+name: IGC NW2 GLM-5.3 single diagnostic (Short secrets)
+
+on:
+  workflow_dispatch:
+    inputs:
+      authorization:
+        description: 'Choose RUN only to authorize one billable Cloudflare inference request; no retries.'
+        required: true
+        type: choice
+        options: [NO_INFERENCE, RUN_GLM53_NW2_ONCE]
+        default: NO_INFERENCE
+
+permissions:
+  contents: read
+
+concurrency:
+  group: short-igc-nw2-glm53-diagnostic
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    if: ${{ github.repository == 'yudocyudoc/short' && github.ref == 'refs/heads/main' && github.run_attempt == 1 && inputs.authorization == 'RUN_GLM53_NW2_ONCE' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout reviewed Short main (not a PR or fork)
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+
+      - name: Validate IGC frozen prompt and parser without provider calls
+        run: |
+          python3 -m py_compile experiments/igc-glm53-nw2/run_probe.py
+          python3 -m unittest discover -s experiments/igc-glm53-nw2 -p test_probe.py -v
+
+      - name: Make ONE GLM-5.3 call, no retries and no reserve
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python3 experiments/igc-glm53-nw2/run_probe.py
+
+      - name: Archive result even on missing credentials, 429 or malformed JSON
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: igc-nw2-glm53-config-diagnostic
+          path: output/igc-glm53-nw2/
+          retention-days: 30
+          if-no-files-found: warn
