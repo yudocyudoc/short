@@ -1,0 +1,28 @@
+{
+  "schema": "short-epi06-gold/1",
+  "locked_before_provider": true,
+  "case_class": {
+    "NX-01": "ONLY_H2",
+    "NX-02": "NEITHER",
+    "NX-03": "BOTH",
+    "NX-04": "NEITHER",
+    "NX-05": "ONLY_H1",
+    "NX-06": "NEITHER",
+    "NX-07": "ONLY_H1",
+    "NX-08": "NEITHER",
+    "NX-09": "BOTH",
+    "NX-10": "ONLY_H2",
+    "NX-11": "ONLY_H1",
+    "NX-12": "BOTH",
+    "NX-13": "NEITHER",
+    "NX-14": "ONLY_H2",
+    "NX-15": "NEITHER",
+    "NX-16": "NEITHER",
+    "NX-17": "ONLY_H2",
+    "NX-18": "ONLY_H1",
+    "NX-19": "NEITHER",
+    "NX-20": "BOTH"
+  },
+  "design": "4 graph families times 5 variants, with two independent NEITHER per family",
+  "source_exp": "EPI05-RESULTS 39661269713"
+}
